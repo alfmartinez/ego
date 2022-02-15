@@ -1,4 +1,4 @@
-module alfmartinez.org/ego
+module ego
 
 go 1.17
 

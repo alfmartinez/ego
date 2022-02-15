@@ -1,19 +1,21 @@
 package main
 
 import (
+	"ego/configuration"
+	"ego/game"
 	"errors"
 	"os"
 
 	"gopkg.in/yaml.v2"
 )
 
-func Launch(filename string) (*Game, error) {
+func Launch(filename string) (*game.Game, error) {
 	dat, err := os.ReadFile("configuration/" + filename)
 	if err != nil {
 		return nil, errors.New("launch.configuration.missing")
 	}
 
-	var configuration Configuration
+	var configuration configuration.Configuration
 
 	if string(dat) == "" {
 		return nil, errors.New("launch.configuration.empty")
@@ -29,7 +31,7 @@ func Launch(filename string) (*Game, error) {
 		return nil, errors.New("launch.configuration.version.missing")
 	}
 
-	game := generateGame(configuration)
+	game := game.GenerateGame(configuration)
 
 	return game, nil
 }

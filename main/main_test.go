@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -55,6 +54,5 @@ func TestLaunchShouldReturnTrueIfConfigurationFileFoundAndParsedWithBasic(t *tes
 	if error != nil {
 		t.Errorf("Launch should return no error code for missing, got %s", error.Error())
 	}
-	fmt.Printf("Game %+v", result)
 
 }
