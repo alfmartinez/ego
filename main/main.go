@@ -26,6 +26,10 @@ func Launch(filename string) (bool, error) {
 		return false, err // errors.New("launch.configuration.parsing")
 	}
 
+	if configuration.ModelVersion == "" {
+		return false, errors.New("launch.configuration.version.missing")
+	}
+
 	log.Printf("Parsed file version %v", configuration.ModelVersion)
 
 	return true, nil

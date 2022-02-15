@@ -18,7 +18,17 @@ func TestLaunchShouldReturnFalseIfConfigurationFileIsEmpty(t *testing.T) {
 	if result != false {
 		t.Errorf("Launch should return false if configuration file does not exist : %s", error.Error())
 	}
-	if error.Error() != "launch.configuration.modelVersion.missing" {
+	if error.Error() != "launch.configuration.empty" {
+		t.Errorf("Launch should return error code for empty, got %s", error.Error())
+	}
+}
+
+func TestLaunchShouldReturnFalseIfNoVersionIsGiving(t *testing.T) {
+	result, error := Launch("noversion.yml")
+	if result != false {
+		t.Errorf("Launch should return false if configuration file does not exist : %s", error.Error())
+	}
+	if error.Error() != "launch.configuration.version.missing" {
 		t.Errorf("Launch should return error code for empty, got %s", error.Error())
 	}
 }
