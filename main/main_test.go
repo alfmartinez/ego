@@ -1,10 +1,13 @@
 package main
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestLaunchShouldReturnFalseIfConfigurationFileNotFound(t *testing.T) {
 	result, error := Launch("missing.yml")
-	if result != false {
+	if result != nil {
 		t.Errorf("Launch should return false if configuration file does not exist")
 	}
 	if error.Error() != "launch.configuration.missing" {
@@ -15,7 +18,7 @@ func TestLaunchShouldReturnFalseIfConfigurationFileNotFound(t *testing.T) {
 
 func TestLaunchShouldReturnFalseIfConfigurationFileIsEmpty(t *testing.T) {
 	result, error := Launch("empty.yml")
-	if result != false {
+	if result != nil {
 		t.Errorf("Launch should return false if configuration file does not exist : %s", error.Error())
 	}
 	if error.Error() != "launch.configuration.empty" {
@@ -25,7 +28,7 @@ func TestLaunchShouldReturnFalseIfConfigurationFileIsEmpty(t *testing.T) {
 
 func TestLaunchShouldReturnFalseIfNoVersionIsGiving(t *testing.T) {
 	result, error := Launch("noversion.yml")
-	if result != false {
+	if result != nil {
 		t.Errorf("Launch should return false if configuration file does not exist : %s", error.Error())
 	}
 	if error.Error() != "launch.configuration.version.missing" {
@@ -35,11 +38,23 @@ func TestLaunchShouldReturnFalseIfNoVersionIsGiving(t *testing.T) {
 
 func TestLaunchShouldReturnTrueIfConfigurationFileFoundAndParsed(t *testing.T) {
 	result, error := Launch("simple.yml")
-	if result != true {
+	if result == nil {
 		t.Errorf("Launch should return true if configuration file parsed : %s", error.Error())
 	}
 	if error != nil {
 		t.Errorf("Launch should return no error code for missing, got %s", error.Error())
 	}
+
+}
+
+func TestLaunchShouldReturnTrueIfConfigurationFileFoundAndParsedWithBasic(t *testing.T) {
+	result, error := Launch("basic.yml")
+	if result == nil {
+		t.Errorf("Launch should return true if configuration file parsed : %s", error.Error())
+	}
+	if error != nil {
+		t.Errorf("Launch should return no error code for missing, got %s", error.Error())
+	}
+	fmt.Printf("Game %+v", result)
 
 }

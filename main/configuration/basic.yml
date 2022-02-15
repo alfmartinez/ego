@@ -1,0 +1,37 @@
+modelVersion: v0
+templates: 
+  - name: Human
+    behaviours: 
+      - wait
+      - sleep
+      - eat
+  - name: Animal
+    behaviours:
+      - sleep
+      - eat
+      - bark
+  - name: Warrior
+    behaviours:
+      - attack
+      - defend
+      - guard
+  - name: Wizard
+    behaviours:
+      - cast
+      - shield
+      - guess
+mobs: 
+  - name: Arthur
+    age: 14
+    templates: 
+      - Human
+      - Warrior
+  - name: Bob
+    age: 25
+    templates: 
+      - Human
+      - Wizard
+  - name: Charlie
+    age: 33
+    templates: 
+      - Animal
