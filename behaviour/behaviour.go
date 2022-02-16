@@ -25,50 +25,6 @@ func (b *behaviour) decrementDuration() int {
 	return b.data.duration
 }
 
-// IDLE
-type idle struct {
-	behaviour
-}
-
-func (behaviour *idle) GetName() string {
-	return behaviour.Name
-}
-
-func (behaviour *idle) Evaluate() string {
-	return "wait"
-}
-
-type wait struct {
-	behaviour
-}
-
-func (behaviour *wait) GetName() string {
-	return behaviour.Name
-}
-
-func (behaviour *wait) Evaluate() string {
-	if behaviour.behaviour.data.duration == 0 {
-		behaviour.SetDuration(1)
-	} else {
-		if behaviour.decrementDuration() == 0 {
-			return "idle"
-		}
-	}
-	return "wait"
-}
-
-type sleep struct {
-	behaviour
-}
-
-func (behaviour *sleep) GetName() string {
-	return behaviour.Name
-}
-
-func (behaviour *sleep) Evaluate() string {
-	return "idle"
-}
-
 type notimplemented struct {
 	behaviour
 }
