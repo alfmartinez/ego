@@ -9,7 +9,7 @@ type idleState struct {
 }
 
 func (s *idleState) Enter() {
-
+	log.Print("Entering Idle State")
 }
 
 func (s *idleState) Update(a Actor, g terrain.Grid) State {
