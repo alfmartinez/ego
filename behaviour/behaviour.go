@@ -6,23 +6,35 @@ import (
 
 type Behaviour interface {
 	GetName() string
-	Evaluate() string
+	Evaluate()
+	IsOver() bool
+	Reset()
+	Next() string
 }
 
 type behaviour struct {
 	Name string
 	data struct {
 		duration int
+		timerOn  bool
 	}
 }
 
-func (b *behaviour) SetDuration(duration int) {
+func (b *behaviour) startTimer(duration int) {
 	b.data.duration = duration
+	b.data.timerOn = true
 }
 
-func (b *behaviour) decrementDuration() int {
+func (b *behaviour) decrementTimer() {
 	b.data.duration--
-	return b.data.duration
+}
+
+func (b *behaviour) isTimerOver() bool {
+	return b.data.duration == 0
+}
+
+func (b *behaviour) isTimerRunning() bool {
+	return b.data.timerOn
 }
 
 type notimplemented struct {
@@ -33,7 +45,15 @@ func (behaviour *notimplemented) GetName() string {
 	return behaviour.Name
 }
 
-func (behaviour *notimplemented) Evaluate() string {
+func (behaviour *notimplemented) Evaluate() {}
+
+func (behaviour *notimplemented) Reset() {}
+
+func (behaviour *notimplemented) IsOver() bool {
+	return false
+}
+
+func (behaviour *notimplemented) Next() string {
 	return "idle"
 }
 

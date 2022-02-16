@@ -8,13 +8,22 @@ func (behaviour *wait) GetName() string {
 	return behaviour.Name
 }
 
-func (behaviour *wait) Evaluate() string {
-	if behaviour.behaviour.data.duration == 0 {
-		behaviour.SetDuration(1)
+func (behaviour *wait) Evaluate() {
+	if behaviour.isTimerRunning() {
+		behaviour.decrementTimer()
 	} else {
-		if behaviour.decrementDuration() == 0 {
-			return "idle"
-		}
+		behaviour.startTimer(1)
 	}
-	return "wait"
+}
+
+func (behaviour *wait) IsOver() bool {
+	return behaviour.isTimerOver()
+}
+
+func (behaviour *wait) Reset() {
+	behaviour.data.timerOn = false
+}
+
+func (behaviour *wait) Next() string {
+	return "idle"
 }

@@ -21,7 +21,13 @@ func (mob *Mob) Init() {
 }
 
 func (mob *Mob) Tick() {
-	mob.Status = mob.behaviours[mob.Status].Evaluate()
+	behaviour := mob.behaviours[mob.Status]
+	behaviour.Evaluate()
+	if behaviour.IsOver() {
+		behaviour.Reset()
+		mob.Status = behaviour.Next()
+	}
+
 }
 
 func (mob *Mob) addBehaviour(behaviour behaviour.Behaviour) {
