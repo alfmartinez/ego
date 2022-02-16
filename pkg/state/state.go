@@ -9,6 +9,7 @@ type Actor interface {
 	Position() utils.Position
 	HasFullyExplored(utils.Position) bool
 	FindTileToExplore(g terrain.Grid) *terrain.Tile
+	ExecuteCommand(command string, options ...interface{})
 }
 
 type State interface {

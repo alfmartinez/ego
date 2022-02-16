@@ -27,5 +27,7 @@ func (s *exploreState) Update(a Actor, g terrain.Grid) State {
 		return CreateState("idle")
 	}
 
+	a.ExecuteCommand("explore", a.Position())
+
 	return nil
 }
