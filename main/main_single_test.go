@@ -25,11 +25,11 @@ func TestLaunchSingle(t *testing.T) {
 		t.Errorf("Character should wait after second tick, was %s", game.Mobs[0].Status)
 	}
 	game.Tick()
-	if game.Mobs[0].Status != "idle" {
+	if game.Mobs[0].Status != "sleep" {
 		t.Errorf("Character should wait after third tick, was %s", game.Mobs[0].Status)
 	}
 	game.Tick()
-	if game.Mobs[0].Status != "wait" {
+	if game.Mobs[0].Status != "sleep" {
 		t.Errorf("Character should wait after fourth tick, was %s", game.Mobs[0].Status)
 	}
 }

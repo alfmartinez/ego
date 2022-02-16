@@ -25,6 +25,11 @@ func (b *behaviour) startTimer(duration int) {
 	b.data.timerOn = true
 }
 
+func (b *behaviour) resetTimer() {
+	b.data.duration = 0
+	b.data.timerOn = false
+}
+
 func (b *behaviour) decrementTimer() {
 	b.data.duration--
 }
@@ -35,26 +40,6 @@ func (b *behaviour) isTimerOver() bool {
 
 func (b *behaviour) isTimerRunning() bool {
 	return b.data.timerOn
-}
-
-type notimplemented struct {
-	behaviour
-}
-
-func (behaviour *notimplemented) GetName() string {
-	return behaviour.Name
-}
-
-func (behaviour *notimplemented) Evaluate() {}
-
-func (behaviour *notimplemented) Reset() {}
-
-func (behaviour *notimplemented) IsOver() bool {
-	return false
-}
-
-func (behaviour *notimplemented) Next() string {
-	return "idle"
 }
 
 var behaviours map[string]func(s string) Behaviour

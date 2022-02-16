@@ -21,9 +21,9 @@ func (behaviour *wait) IsOver() bool {
 }
 
 func (behaviour *wait) Reset() {
-	behaviour.data.timerOn = false
+	behaviour.resetTimer()
 }
 
 func (behaviour *wait) Next() string {
-	return "idle"
+	return "sleep"
 }
