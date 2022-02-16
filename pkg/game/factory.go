@@ -1,19 +1,21 @@
-package main
+package game
 
 import (
-	"ego/configuration"
-	"ego/game"
+	"ego/pkg/configuration"
 	"errors"
+	"log"
 	"os"
 
 	"gopkg.in/yaml.v2"
 )
 
-func Launch(filename string) (*game.Game, error) {
-	dat, err := os.ReadFile("configuration/" + filename)
+func CreateGame(filename string) (*Game, error) {
+	dat, err := os.ReadFile("assets/configuration/" + filename)
 	if err != nil {
-		return nil, errors.New("launch.configuration.missing")
+		return nil, err
 	}
+
+	log.Print("Read configuration file")
 
 	var configuration configuration.Configuration
 
@@ -24,14 +26,14 @@ func Launch(filename string) (*game.Game, error) {
 	err = yaml.Unmarshal(dat, &configuration)
 
 	if err != nil {
-		return nil, err // errors.New("launch.configuration.parsing")
+		return nil, err
 	}
 
 	if configuration.ModelVersion == "" {
 		return nil, errors.New("launch.configuration.version.missing")
 	}
 
-	game := game.GenerateGame(configuration)
-
+	game := generateGame(configuration)
+	log.Print("Game created")
 	return game, nil
 }

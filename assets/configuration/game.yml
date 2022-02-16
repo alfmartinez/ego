@@ -1,0 +1,10 @@
+modelVersion: v0
+grid: 
+  x: 10
+  y: 10
+mobs: 
+  - name: Arthur
+    position: 
+      x: 5
+      y: 5
+
