@@ -1,0 +1,14 @@
+modelVersion: v0
+templates: 
+  - name: Human
+    behaviours: 
+      - idle
+      - sleep
+      - wait
+mobs: 
+  - name: Arthur
+    age: 14
+    templates: 
+      - Human
+
+

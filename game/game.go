@@ -6,7 +6,7 @@ import (
 )
 
 type Game struct {
-	Mobs []mob.Mob
+	Mobs []*mob.Mob
 }
 
 func GenerateGame(config configuration.Configuration) *Game {
@@ -16,16 +16,28 @@ func GenerateGame(config configuration.Configuration) *Game {
 		templates[x.Name] = mob.NewTemplate(x)
 	}
 
-	var mobs []mob.Mob
+	var mobs []*mob.Mob
 	for _, x := range config.Mobs {
 		mob := mob.New(x)
 		for _, template := range x.Templates {
 			templates[template].Apply(mob)
 		}
-		mobs = append(mobs, *mob)
+		mobs = append(mobs, mob)
 	}
 
-	game := &Game{mobs}
+	game := &Game{Mobs: mobs}
 
 	return game
+}
+
+func (game *Game) Init() {
+	for _, x := range game.Mobs {
+		x.Init()
+	}
+}
+
+func (game *Game) Tick() {
+	for _, x := range game.Mobs {
+		x.Tick()
+	}
 }
