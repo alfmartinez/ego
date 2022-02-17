@@ -13,6 +13,5 @@ func (s idleState) Enter() {
 }
 
 func (s idleState) Update(a *StateMachine, g terrain.Grid) State {
-	log.Print("Idle state")
 	return CreateState("explore")
 }

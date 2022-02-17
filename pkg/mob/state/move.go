@@ -2,10 +2,13 @@ package state
 
 import (
 	"ego/pkg/terrain"
+	"ego/pkg/utils"
 	"log"
 )
 
 type moveState struct {
+	position utils.Position
+	next     string
 }
 
 func (s moveState) Enter() {

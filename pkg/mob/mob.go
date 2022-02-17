@@ -8,9 +8,9 @@ import (
 )
 
 type Mob struct {
-	MobData
-	memory.Memory
-	state.StateMachine
+	*MobData
+	*memory.Memory
+	*state.StateMachine
 }
 
 func New(config configuration.Mob) *Mob {
@@ -19,9 +19,11 @@ func New(config configuration.Mob) *Mob {
 		X: config.Position.X,
 		Y: config.Position.Y,
 	}
-	mobData := MobData{name, position}
-	stateMachine := state.CreateStateMachine()
+
+	mobData := CreateMobData(name, position)
 	memory := memory.CreateMemory()
+	stateMachine := state.CreateStateMachine(memory)
+
 	return &Mob{
 		mobData,
 		memory,

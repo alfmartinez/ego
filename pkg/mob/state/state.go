@@ -2,6 +2,8 @@ package state
 
 import (
 	"ego/pkg/terrain"
+	"ego/pkg/utils"
+	"log"
 )
 
 type State interface {
@@ -18,7 +20,12 @@ func CreateState(name string, data ...interface{}) State {
 			return &exploreState{}
 		},
 		"move": func() State {
-			return &moveState{}
+			args := data[0].(struct {
+				Position utils.Position
+				Next     string
+			})
+			log.Printf("%+v", args)
+			return &moveState{args.Position, args.Next}
 		},
 	}
 

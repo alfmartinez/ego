@@ -20,15 +20,16 @@ type Memory struct {
 	places map[utils.Position]*PlaceMemory
 }
 
-func CreateMemory() Memory {
+func CreateMemory() *Memory {
 	places := make(map[utils.Position]*PlaceMemory)
-	return Memory{places}
+	return &Memory{places}
 }
 
-func (m *Memory) ExplorePlace(position utils.Position) {
+func (m *Memory) ExplorePlace(position utils.Position) bool {
 	if place, ok := m.places[position]; ok {
 		place.Explore()
 	} else {
 		m.places[position] = &PlaceMemory{explored: 1}
 	}
+	return m.places[position].IsExplored()
 }

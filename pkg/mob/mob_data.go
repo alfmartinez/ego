@@ -7,6 +7,10 @@ type MobData struct {
 	position utils.Position
 }
 
+func CreateMobData(name string, position utils.Position) *MobData {
+	return &MobData{name, position}
+}
+
 func (m MobData) Name() string {
 	return m.name
 }

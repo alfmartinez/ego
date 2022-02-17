@@ -1,16 +1,18 @@
 package state
 
 import (
+	"ego/pkg/mob/memory"
 	"ego/pkg/terrain"
 )
 
 type StateMachine struct {
+	memory  *memory.Memory
 	current State
 	next    State
 }
 
-func CreateStateMachine() StateMachine {
-	return StateMachine{}
+func CreateStateMachine(memory *memory.Memory) *StateMachine {
+	return &StateMachine{memory: memory}
 }
 
 func (m *StateMachine) Update(grid terrain.Grid) {
@@ -24,4 +26,8 @@ func (m *StateMachine) Update(grid terrain.Grid) {
 	} else {
 		m.next = m.current.Update(m, grid)
 	}
+}
+
+func (m *StateMachine) Memory() *memory.Memory {
+	return m.memory
 }
