@@ -54,8 +54,8 @@ func (game *Game) render() {
 }
 
 func (game *Game) Start() {
-	//go game.Loop()
-	game.Renderer.Start()
+	go game.Loop()
+	defer game.Renderer.Start()
 }
 
 func (game *Game) Loop() {

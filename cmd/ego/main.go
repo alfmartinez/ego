@@ -9,5 +9,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	game.Loop()
+
+	game.Start()
 }
