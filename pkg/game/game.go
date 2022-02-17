@@ -3,18 +3,20 @@ package game
 import (
 	"ego/pkg/configuration"
 	"ego/pkg/mob"
+	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 	"log"
 )
 
 type Game struct {
-	Objects []GameObject
-	Grid    terrain.Grid
+	Objects  []GameObject
+	Terrain  terrain.Terrain
+	Renderer renderer.Renderer
 }
 
 type GameObject interface {
-	Update(grid terrain.Grid)
-	Render()
+	Update(terrain.Terrain)
+	Render(renderer.Renderer)
 }
 
 func generateGame(config configuration.Configuration) *Game {
@@ -25,20 +27,25 @@ func generateGame(config configuration.Configuration) *Game {
 		mobs = append(mobs, object)
 	}
 
-	game := &Game{Objects: mobs}
+	renderer := renderer.CreateRenderer("null")
+
+	game := &Game{
+		Objects:  mobs,
+		Renderer: renderer,
+	}
 
 	return game
 }
 
 func (game *Game) update() {
 	for _, x := range game.Objects {
-		x.Update(game.Grid)
+		x.Update(game.Terrain)
 	}
 }
 
 func (game *Game) render() {
 	for _, x := range game.Objects {
-		x.Render()
+		x.Render(game.Renderer)
 	}
 }
 

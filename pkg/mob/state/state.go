@@ -1,6 +1,7 @@
 package state
 
 import (
+	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 	"ego/pkg/utils"
 	"log"
@@ -8,7 +9,8 @@ import (
 
 type State interface {
 	Enter()
-	Update(m *StateMachine, g terrain.Grid) State
+	Update(*StateMachine, terrain.Terrain) State
+	Render(renderer.Renderer, renderer.Renderable)
 }
 
 func CreateState(name string, data ...interface{}) State {

@@ -2,13 +2,14 @@ package mob
 
 import (
 	"ego/pkg/configuration"
+	"ego/pkg/mob/data"
 	"ego/pkg/mob/memory"
 	"ego/pkg/mob/state"
 	"ego/pkg/utils"
 )
 
 type Mob struct {
-	*MobData
+	*data.Data
 	*memory.Memory
 	*state.StateMachine
 }
@@ -20,7 +21,7 @@ func New(config configuration.Mob) *Mob {
 		Y: config.Position.Y,
 	}
 
-	mobData := CreateMobData(name, position)
+	mobData := data.CreateMobData(name, position)
 	memory := memory.CreateMemory()
 	stateMachine := state.CreateStateMachine(memory)
 
@@ -29,16 +30,4 @@ func New(config configuration.Mob) *Mob {
 		memory,
 		stateMachine,
 	}
-}
-
-func (mob *Mob) GetName() string {
-	return mob.name
-}
-
-func (m *Mob) Position() utils.Position {
-	return m.position
-}
-
-func (mob *Mob) Render() {
-
 }

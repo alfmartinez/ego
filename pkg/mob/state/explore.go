@@ -1,6 +1,7 @@
 package state
 
 import (
+	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 	"ego/pkg/utils"
 	"log"
@@ -14,7 +15,8 @@ func (s *exploreState) Enter() {
 	log.Print("Entering Explore State")
 }
 
-func (s exploreState) Update(a *StateMachine, g terrain.Grid) State {
+func (s exploreState) Update(a *StateMachine, g terrain.Terrain) State {
+	log.Print("Doing exploring")
 	m := a.Memory()
 	done := m.ExplorePlace(s.position)
 
@@ -29,4 +31,8 @@ func (s exploreState) Update(a *StateMachine, g terrain.Grid) State {
 	}
 
 	return nil
+}
+
+func (s exploreState) Render(r renderer.Renderer, m renderer.Renderable) {
+	r.Render(m)
 }
