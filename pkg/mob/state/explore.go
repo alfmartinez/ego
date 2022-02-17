@@ -32,6 +32,8 @@ func (s exploreState) Update(a *StateMachine, g terrain.Terrain) State {
 				Position: nextTile,
 				Next:     "explore",
 			})
+		} else {
+			return CreateState("idle")
 		}
 
 	}

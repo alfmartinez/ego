@@ -28,10 +28,13 @@ func generateGame(config configuration.Configuration) *Game {
 		mobs = append(mobs, object)
 	}
 
+	terrain := terrain.CreateGrid(config.Grid.X, config.Grid.Y)
+
 	renderer := renderer.CreateRenderer("log")
 
 	game := &Game{
 		Objects:  mobs,
+		Terrain:  terrain,
 		Renderer: renderer,
 	}
 

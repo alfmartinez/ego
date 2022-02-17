@@ -4,25 +4,19 @@ import (
 	"ego/pkg/utils"
 )
 
-type PlaceMemory struct {
-	explored int
-}
-
-func (m *PlaceMemory) IsExplored() bool {
-	return m.explored >= 10
-}
-
-func (m *PlaceMemory) Explore() {
-	m.explored += 1
-}
-
 type Memory struct {
-	places map[utils.Position]*PlaceMemory
+	places    map[utils.Position]*PlaceMemory
+	interests []utils.Position
 }
 
 func CreateMemory() *Memory {
 	places := make(map[utils.Position]*PlaceMemory)
-	return &Memory{places}
+	var interests []utils.Position
+	return &Memory{places, interests}
+}
+
+func (m *Memory) UpdateInterests(position utils.Position, validate func(utils.Position) bool) {
+	m.interests = position.Surrounding(5, validate)
 }
 
 func (m *Memory) ExplorePlace(position utils.Position) bool {
@@ -35,5 +29,11 @@ func (m *Memory) ExplorePlace(position utils.Position) bool {
 }
 
 func (m *Memory) SearchNextPositionToExplore() (utils.Position, bool) {
-	return utils.Position{X: 0, Y: 0}, true
+	for _, pos := range m.interests {
+		if place, ok := m.places[pos]; !(ok && place.IsExplored()) {
+			return pos, true
+		}
+	}
+
+	return utils.Position{X: 0, Y: 0}, false
 }
