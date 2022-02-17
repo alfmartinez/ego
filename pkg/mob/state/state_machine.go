@@ -3,6 +3,7 @@ package state
 import (
 	"ego/pkg/mob/data"
 	"ego/pkg/mob/memory"
+	"ego/pkg/mob/movement"
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 )
@@ -10,14 +11,16 @@ import (
 type StateMachine struct {
 	*memory.Memory
 	*data.Data
+	*movement.Movement
 	current State
 	next    State
 }
 
-func CreateStateMachine(memory *memory.Memory, data *data.Data) *StateMachine {
+func CreateStateMachine(memory *memory.Memory, data *data.Data, movement *movement.Movement) *StateMachine {
 	return &StateMachine{
 		memory,
 		data,
+		movement,
 		nil,
 		nil,
 	}
