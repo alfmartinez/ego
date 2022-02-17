@@ -6,7 +6,6 @@ import (
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 	"log"
-	"time"
 )
 
 type Game struct {
@@ -56,6 +55,5 @@ func (game *Game) Loop() {
 	for doLoop {
 		game.update()
 		game.render()
-		time.Sleep(500 * time.Millisecond)
 	}
 }
