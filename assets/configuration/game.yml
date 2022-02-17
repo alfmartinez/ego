@@ -1,4 +1,5 @@
 modelVersion: v0
+renderer: fyne
 grid: 
   x: 10
   y: 10

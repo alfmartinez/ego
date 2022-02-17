@@ -30,7 +30,7 @@ func generateGame(config configuration.Configuration) *Game {
 
 	terrain := terrain.CreateGrid(config.Grid.X, config.Grid.Y)
 
-	renderer := renderer.CreateRenderer("log")
+	renderer := renderer.CreateRenderer(config.Renderer)
 
 	game := &Game{
 		Objects:  mobs,

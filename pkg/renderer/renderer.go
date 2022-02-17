@@ -20,6 +20,9 @@ func CreateRenderer(name string) Renderer {
 		"log": func() Renderer {
 			return &LogRenderer{}
 		},
+		"fyne": func() Renderer {
+			return &FyneRenderer{}
+		},
 	}
 	return renderers[name]()
 }

@@ -14,4 +14,5 @@ type Configuration struct {
 	ModelVersion string   `yaml:"modelVersion"`
 	Grid         Position `yaml:"grid"`
 	Mobs         []Mob
+	Renderer     string `yaml:"renderer"`
 }

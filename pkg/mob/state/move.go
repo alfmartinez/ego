@@ -4,7 +4,6 @@ import (
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 	"ego/pkg/utils"
-	"log"
 )
 
 type moveState struct {
@@ -17,7 +16,6 @@ func (s moveState) Label() string {
 }
 
 func (s moveState) Enter() {
-	log.Print("Entering Moving State")
 }
 
 func (s moveState) Update(a *StateMachine, g terrain.Terrain) State {
