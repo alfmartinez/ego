@@ -45,7 +45,7 @@ func (game *Game) render() {
 func (game *Game) Loop() {
 	log.Print("Starting game loop")
 	doLoop := true
-	turns := 120
+	turns := 128
 	for doLoop {
 		game.update()
 		game.render()

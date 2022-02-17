@@ -8,10 +8,10 @@ import (
 type moveState struct {
 }
 
-func (s *moveState) Enter() {
+func (s moveState) Enter() {
 	log.Print("Entering Idle State")
 }
 
-func (s *moveState) Update(a Actor, g terrain.Grid) State {
+func (s moveState) Update(a *StateMachine, g terrain.Grid) State {
 	return nil
 }

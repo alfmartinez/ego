@@ -1,4 +1,4 @@
-package mob
+package memory
 
 import (
 	"ego/pkg/utils"
@@ -20,9 +20,9 @@ type Memory struct {
 	places map[utils.Position]*PlaceMemory
 }
 
-func CreateMemory() *Memory {
+func CreateMemory() Memory {
 	places := make(map[utils.Position]*PlaceMemory)
-	return &Memory{places}
+	return Memory{places}
 }
 
 func (m *Memory) ExplorePlace(position utils.Position) {
