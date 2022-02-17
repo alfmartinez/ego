@@ -11,7 +11,9 @@ type Renderable interface {
 type Renderer interface {
 	Init()
 	Render(Renderable)
+	IsAsync() bool
 	Start()
+	Refresh()
 }
 
 func CreateRenderer(name string) Renderer {

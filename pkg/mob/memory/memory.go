@@ -2,6 +2,7 @@ package memory
 
 import (
 	"ego/pkg/utils"
+	"sort"
 )
 
 type Memory struct {
@@ -16,7 +17,7 @@ func CreateMemory() *Memory {
 }
 
 func (m *Memory) UpdateInterests(position utils.Position, validate func(utils.Position) bool) {
-	m.interests = position.Surrounding(5, validate)
+	m.interests = position.Surrounding(3, validate)
 }
 
 func (m *Memory) ExplorePlace(position utils.Position) bool {
@@ -28,7 +29,19 @@ func (m *Memory) ExplorePlace(position utils.Position) bool {
 	return m.places[position].IsExplored()
 }
 
-func (m *Memory) SearchNextPositionToExplore() (utils.Position, bool) {
+func (m *Memory) SearchNextPositionToExplore(position utils.Position) (utils.Position, bool) {
+	sort.Slice(m.interests, func(i, j int) bool {
+		first := m.interests[i]
+		second := m.interests[j]
+		if place, ok := m.places[second]; !(ok && place.IsExplored()) {
+			return true
+		}
+		if place, ok := m.places[first]; !(ok && place.IsExplored()) {
+			return false
+		}
+		return position.DistanceTo(first) < position.DistanceTo(second)
+	})
+
 	for _, pos := range m.interests {
 		if place, ok := m.places[pos]; !(ok && place.IsExplored()) {
 			return pos, true

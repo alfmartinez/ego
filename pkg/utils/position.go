@@ -1,5 +1,7 @@
 package utils
 
+import "math"
+
 type Position struct {
 	X int
 	Y int
@@ -12,6 +14,12 @@ func (p *Position) Relative(dx int, dy int) Position {
 	}
 }
 
+func (p *Position) DistanceTo(t Position) float64 {
+	v := p.Diff(t)
+	x, y := float64(v.X), float64(v.Y)
+	return math.Sqrt(x*x + y*y)
+}
+
 func (p *Position) Add(a Position) Position {
 	return Position{
 		p.X + a.X,
@@ -21,6 +29,13 @@ func (p *Position) Add(a Position) Position {
 
 func (p *Position) IsZero() bool {
 	return (p.X == 0) && (p.Y == 0)
+}
+
+func (p *Position) Diff(t Position) Position {
+	return Position{
+		X: t.X - p.X,
+		Y: t.Y - p.Y,
+	}
 }
 
 func (p *Position) UnitTowards(t *Position) Position {

@@ -51,16 +51,27 @@ func (game *Game) render() {
 	for _, x := range game.Objects {
 		x.Render(game.Renderer)
 	}
+	game.Renderer.Refresh()
 }
 
 func (game *Game) Start() {
-	go game.Loop()
-	defer game.Renderer.Start()
+	if game.Renderer.IsAsync() {
+		go game.Loop()
+		defer game.Renderer.Start()
+	} else {
+		game.Loop()
+	}
+
 }
 
+const (
+	UPDATE_RATE = 10000
+	RENDER_RATE = 10000
+)
+
 func (game *Game) Loop() {
-	updateTicker := time.NewTicker(time.Second / 6)
-	renderTicker := time.NewTicker(time.Second / 6)
+	updateTicker := time.NewTicker(time.Second / UPDATE_RATE)
+	renderTicker := time.NewTicker(time.Second / RENDER_RATE)
 	for {
 		select {
 		case <-updateTicker.C:

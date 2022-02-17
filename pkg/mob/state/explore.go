@@ -22,7 +22,7 @@ func (s exploreState) Update(a *StateMachine, g terrain.Terrain) State {
 	done := a.ExplorePlace(position)
 
 	if done {
-		nextTile, found := a.SearchNextPositionToExplore()
+		nextTile, found := a.SearchNextPositionToExplore(position)
 		if found {
 			return CreateState("move", struct {
 				Position utils.Position
