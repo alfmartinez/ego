@@ -5,7 +5,6 @@ import (
 	"ego/pkg/mob"
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
-	"log"
 	"time"
 )
 
@@ -31,6 +30,7 @@ func generateGame(config configuration.Configuration) *Game {
 	terrain := terrain.CreateGrid(config.Grid.X, config.Grid.Y)
 
 	renderer := renderer.CreateRenderer(config.Renderer)
+	renderer.Init()
 
 	game := &Game{
 		Objects:  mobs,
@@ -53,12 +53,20 @@ func (game *Game) render() {
 	}
 }
 
+func (game *Game) Start() {
+	//go game.Loop()
+	game.Renderer.Start()
+}
+
 func (game *Game) Loop() {
-	log.Print("Starting game loop")
-	doLoop := true
-	for doLoop {
-		game.update()
-		game.render()
-		time.Sleep(100 * time.Millisecond)
+	updateTicker := time.NewTicker(time.Second / 6)
+	renderTicker := time.NewTicker(time.Second / 6)
+	for {
+		select {
+		case <-updateTicker.C:
+			game.update()
+		case <-renderTicker.C:
+			game.render()
+		}
 	}
 }

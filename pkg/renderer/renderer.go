@@ -9,7 +9,9 @@ type Renderable interface {
 }
 
 type Renderer interface {
+	Init()
 	Render(Renderable)
+	Start()
 }
 
 func CreateRenderer(name string) Renderer {
