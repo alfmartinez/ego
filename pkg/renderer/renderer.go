@@ -16,9 +16,6 @@ type Renderer interface {
 
 func CreateRenderer(name string) Renderer {
 	renderers := map[string]func() Renderer{
-		"null": func() Renderer {
-			return &NullRenderer{}
-		},
 		"log": func() Renderer {
 			return &LogRenderer{}
 		},
