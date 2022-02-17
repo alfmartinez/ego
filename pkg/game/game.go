@@ -6,6 +6,7 @@ import (
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 	"log"
+	"time"
 )
 
 type Game struct {
@@ -27,7 +28,7 @@ func generateGame(config configuration.Configuration) *Game {
 		mobs = append(mobs, object)
 	}
 
-	renderer := renderer.CreateRenderer("null")
+	renderer := renderer.CreateRenderer("log")
 
 	game := &Game{
 		Objects:  mobs,
@@ -52,11 +53,9 @@ func (game *Game) render() {
 func (game *Game) Loop() {
 	log.Print("Starting game loop")
 	doLoop := true
-	turns := 128
 	for doLoop {
 		game.update()
 		game.render()
-		turns--
-		doLoop = turns > 0
+		time.Sleep(500 * time.Millisecond)
 	}
 }

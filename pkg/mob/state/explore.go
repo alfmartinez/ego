@@ -8,7 +8,10 @@ import (
 )
 
 type exploreState struct {
-	position utils.Position
+}
+
+func (s exploreState) Label() string {
+	return "explore"
 }
 
 func (s *exploreState) Enter() {
@@ -16,16 +19,15 @@ func (s *exploreState) Enter() {
 }
 
 func (s exploreState) Update(a *StateMachine, g terrain.Terrain) State {
-	log.Print("Doing exploring")
-	m := a.Memory()
-	done := m.ExplorePlace(s.position)
+	position := a.Position()
+	done := a.ExplorePlace(position)
 
 	if done {
 		return CreateState("move", struct {
 			Position utils.Position
 			Next     string
 		}{
-			Position: s.position.Relative(1, 0),
+			Position: position.Relative(1, 0),
 			Next:     "explore",
 		})
 	}

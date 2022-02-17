@@ -9,6 +9,10 @@ import (
 type idleState struct {
 }
 
+func (s idleState) Label() string {
+	return "idle"
+}
+
 func (s idleState) Enter() {
 	log.Print("Entering Idle State")
 }

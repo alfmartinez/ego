@@ -18,3 +18,7 @@ func (m Data) Name() string {
 func (m Data) Position() utils.Position {
 	return m.position
 }
+
+func (m Data) MoveTowards(destination utils.Position) bool {
+	return false
+}

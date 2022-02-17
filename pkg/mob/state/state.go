@@ -4,10 +4,10 @@ import (
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 	"ego/pkg/utils"
-	"log"
 )
 
 type State interface {
+	Label() string
 	Enter()
 	Update(*StateMachine, terrain.Terrain) State
 	Render(renderer.Renderer, renderer.Renderable)
@@ -26,7 +26,6 @@ func CreateState(name string, data ...interface{}) State {
 				Position utils.Position
 				Next     string
 			})
-			log.Printf("%+v", args)
 			return &moveState{args.Position, args.Next}
 		},
 	}

@@ -12,11 +12,19 @@ type moveState struct {
 	next     string
 }
 
+func (s moveState) Label() string {
+	return "move"
+}
+
 func (s moveState) Enter() {
-	log.Print("Entering Idle State")
+	log.Print("Entering Moving State")
 }
 
 func (s moveState) Update(a *StateMachine, g terrain.Terrain) State {
+	done := a.MoveTowards(s.position)
+	if done {
+		return CreateState(s.next)
+	}
 	return nil
 }
 

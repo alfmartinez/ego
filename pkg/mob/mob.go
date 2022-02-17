@@ -9,8 +9,6 @@ import (
 )
 
 type Mob struct {
-	*data.Data
-	*memory.Memory
 	*state.StateMachine
 }
 
@@ -23,11 +21,7 @@ func New(config configuration.Mob) *Mob {
 
 	mobData := data.CreateMobData(name, position)
 	memory := memory.CreateMemory()
-	stateMachine := state.CreateStateMachine(memory)
+	stateMachine := state.CreateStateMachine(memory, mobData)
 
-	return &Mob{
-		mobData,
-		memory,
-		stateMachine,
-	}
+	return &Mob{stateMachine}
 }
