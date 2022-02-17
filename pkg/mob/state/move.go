@@ -13,7 +13,7 @@ type moveState struct {
 }
 
 func (s moveState) Label() string {
-	return "move"
+	return "moving"
 }
 
 func (s moveState) Enter() {

@@ -10,7 +10,7 @@ type idleState struct {
 }
 
 func (s idleState) Label() string {
-	return "idle"
+	return "preparing"
 }
 
 func (s idleState) Enter() {

@@ -11,7 +11,7 @@ type exploreState struct {
 }
 
 func (s exploreState) Label() string {
-	return "explore"
+	return "exploring"
 }
 
 func (s *exploreState) Enter() {
@@ -23,13 +23,17 @@ func (s exploreState) Update(a *StateMachine, g terrain.Terrain) State {
 	done := a.ExplorePlace(position)
 
 	if done {
-		return CreateState("move", struct {
-			Position utils.Position
-			Next     string
-		}{
-			Position: position.Relative(1, 0),
-			Next:     "explore",
-		})
+		nextTile, found := a.SearchNextPositionToExplore()
+		if found {
+			return CreateState("move", struct {
+				Position utils.Position
+				Next     string
+			}{
+				Position: nextTile,
+				Next:     "explore",
+			})
+		}
+
 	}
 
 	return nil

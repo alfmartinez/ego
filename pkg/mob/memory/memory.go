@@ -33,3 +33,7 @@ func (m *Memory) ExplorePlace(position utils.Position) bool {
 	}
 	return m.places[position].IsExplored()
 }
+
+func (m *Memory) SearchNextPositionToExplore() (utils.Position, bool) {
+	return utils.Position{X: 0, Y: 0}, true
+}
