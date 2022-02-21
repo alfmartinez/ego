@@ -68,8 +68,8 @@ func (game *Game) Start() {
 }
 
 const (
-	UPDATE_RATE = 10000
-	RENDER_RATE = 10000
+	UPDATE_RATE = 1
+	RENDER_RATE = 60
 )
 
 func (game *Game) Loop() {

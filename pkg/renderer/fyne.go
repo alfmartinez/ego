@@ -30,6 +30,7 @@ func (r *FyneRenderer) Init() {
 	}
 	app.SetIcon(icon)
 	r.window = app.NewWindow("Ego")
+	r.display.Init()
 }
 
 func (r *FyneRenderer) Start(exit chan bool) {

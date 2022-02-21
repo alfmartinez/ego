@@ -6,6 +6,7 @@ import (
 )
 
 type Display interface {
+	Init()
 	Render() image.Image
 	AddObject(renderable.Renderable)
 }
