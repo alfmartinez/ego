@@ -1,6 +1,7 @@
 package state
 
 import (
+	"ego/pkg/renderable"
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 	"ego/pkg/utils"
@@ -10,7 +11,7 @@ type State interface {
 	Label() string
 	Enter()
 	Update(*StateMachine, terrain.Terrain) State
-	Render(renderer.Renderer, renderer.Renderable)
+	Render(renderer.Renderer, renderable.Renderable)
 }
 
 func CreateState(name string, data ...interface{}) State {

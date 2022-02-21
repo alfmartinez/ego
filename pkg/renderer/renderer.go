@@ -3,18 +3,12 @@ package renderer
 import (
 	"ego/pkg/configuration"
 	"ego/pkg/display"
-	"ego/pkg/utils"
+	"ego/pkg/renderable"
 )
-
-type Renderable interface {
-	Position() utils.Position
-	Name() string
-	Doing() string
-}
 
 type Renderer interface {
 	Init()
-	Render(Renderable)
+	Render(renderable.Renderable)
 	IsAsync() bool
 	Start(chan bool)
 	Refresh()

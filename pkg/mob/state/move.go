@@ -1,6 +1,7 @@
 package state
 
 import (
+	"ego/pkg/renderable"
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 	"ego/pkg/utils"
@@ -26,6 +27,6 @@ func (s moveState) Update(a *StateMachine, g terrain.Terrain) State {
 	return nil
 }
 
-func (s moveState) Render(r renderer.Renderer, m renderer.Renderable) {
+func (s moveState) Render(r renderer.Renderer, m renderable.Renderable) {
 	r.Render(m)
 }

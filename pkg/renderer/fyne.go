@@ -2,6 +2,7 @@ package renderer
 
 import (
 	"ego/pkg/display"
+	"ego/pkg/renderable"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -40,8 +41,8 @@ func (r *FyneRenderer) Start(exit chan bool) {
 	r.window.ShowAndRun()
 }
 
-func (r *FyneRenderer) Render(s Renderable) {
-
+func (r *FyneRenderer) Render(s renderable.Renderable) {
+	r.display.AddObject(s)
 }
 
 func (r *FyneRenderer) Refresh() {

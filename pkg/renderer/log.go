@@ -1,6 +1,9 @@
 package renderer
 
-import "log"
+import (
+	"ego/pkg/renderable"
+	"log"
+)
 
 type LogRenderer struct {
 }
@@ -20,6 +23,6 @@ func (r *LogRenderer) Start(exit chan bool) {
 func (r *LogRenderer) Refresh() {
 }
 
-func (r *LogRenderer) Render(s Renderable) {
+func (r *LogRenderer) Render(s renderable.Renderable) {
 	log.Printf("- %s %s at %+v", s.Name(), s.Doing(), s.Position())
 }
