@@ -12,16 +12,22 @@ type rts struct {
 }
 
 func (d *rts) Init() {
-	m := image.NewRGBA(image.Rect(0, 0, 450, 450))
-	blue := color.RGBA{0, 0, 255, 255}
-	draw.Draw(m, m.Bounds(), &image.Uniform{blue}, image.Point{0, 0}, draw.Src)
-	d.buffer = m
+	d.buffer = createBlankBuffer(450, 450)
 }
 
 func (d *rts) Render() image.Image {
-	return d.buffer
+	buffer := d.buffer
+	d.buffer = createBlankBuffer(450, 450)
+	return buffer
 }
 
 func (d *rts) AddObject(s renderable.Renderable) {
 
+}
+
+func createBlankBuffer(w, h int) image.Image {
+	m := image.NewRGBA(image.Rect(0, 0, w, h))
+	blue := color.RGBA{0, 0, 255, 255}
+	draw.Draw(m, m.Bounds(), &image.Uniform{blue}, image.Point{0, 0}, draw.Src)
+	return m
 }
