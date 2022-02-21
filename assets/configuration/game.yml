@@ -1,5 +1,7 @@
 modelVersion: v0
-renderer: fyne
+renderer: 
+  type: fyne
+  display: rts
 grid: 
   x: 100
   y: 100

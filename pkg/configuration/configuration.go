@@ -10,9 +10,14 @@ type Mob struct {
 	Position Position `yaml:"position"`
 }
 
+type Renderer struct {
+	Type    string `yaml:"type"`
+	Display string `yaml:"display"`
+}
+
 type Configuration struct {
 	ModelVersion string   `yaml:"modelVersion"`
 	Grid         Position `yaml:"grid"`
 	Mobs         []Mob
-	Renderer     string `yaml:"renderer"`
+	Renderer     Renderer `yaml:"renderer"`
 }

@@ -13,7 +13,7 @@ func (r *LogRenderer) Init() {
 
 }
 
-func (r *LogRenderer) Start() {
+func (r *LogRenderer) Start(exit chan bool) {
 
 }
 

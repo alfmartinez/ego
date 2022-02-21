@@ -5,6 +5,7 @@ import (
 	"ego/pkg/mob"
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
+	"log"
 	"time"
 )
 
@@ -12,6 +13,7 @@ type Game struct {
 	Objects  []GameObject
 	Terrain  terrain.Terrain
 	Renderer renderer.Renderer
+	exitLoop chan bool
 }
 
 type GameObject interface {
@@ -36,6 +38,7 @@ func generateGame(config configuration.Configuration) *Game {
 		Objects:  mobs,
 		Terrain:  terrain,
 		Renderer: renderer,
+		exitLoop: make(chan bool),
 	}
 
 	return game
@@ -57,7 +60,7 @@ func (game *Game) render() {
 func (game *Game) Start() {
 	if game.Renderer.IsAsync() {
 		go game.Loop()
-		defer game.Renderer.Start()
+		defer game.Renderer.Start(game.exitLoop)
 	} else {
 		game.Loop()
 	}
@@ -70,14 +73,20 @@ const (
 )
 
 func (game *Game) Loop() {
+	log.Print("Start game loop")
 	updateTicker := time.NewTicker(time.Second / UPDATE_RATE)
 	renderTicker := time.NewTicker(time.Second / RENDER_RATE)
-	for {
+	loop := true
+	for loop {
 		select {
+		case <-game.exitLoop:
+			loop = false
+			break
 		case <-updateTicker.C:
 			game.update()
 		case <-renderTicker.C:
 			game.render()
 		}
 	}
+	log.Print("End game loop")
 }

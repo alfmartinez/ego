@@ -1,6 +1,10 @@
 package renderer
 
-import "ego/pkg/utils"
+import (
+	"ego/pkg/configuration"
+	"ego/pkg/display"
+	"ego/pkg/utils"
+)
 
 type Renderable interface {
 	Position() utils.Position
@@ -12,18 +16,20 @@ type Renderer interface {
 	Init()
 	Render(Renderable)
 	IsAsync() bool
-	Start()
+	Start(chan bool)
 	Refresh()
 }
 
-func CreateRenderer(name string) Renderer {
-	renderers := map[string]func() Renderer{
-		"log": func() Renderer {
+func CreateRenderer(config configuration.Renderer) Renderer {
+	name := config.Type
+	renderers := map[string]func(configuration.Renderer) Renderer{
+		"log": func(config configuration.Renderer) Renderer {
 			return &LogRenderer{}
 		},
-		"fyne": func() Renderer {
-			return &FyneRenderer{}
+		"fyne": func(config configuration.Renderer) Renderer {
+			display := display.CreateDisplay(config.Display)
+			return &FyneRenderer{display: display}
 		},
 	}
-	return renderers[name]()
+	return renderers[name](config)
 }
