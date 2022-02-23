@@ -1,13 +1,17 @@
 package data
 
-type Data struct {
+type Data interface {
+	Name() string
+}
+
+type data struct {
 	name string
 }
 
-func CreateMobData(name string) *Data {
-	return &Data{name}
+func CreateMobData(name string) Data {
+	return &data{name}
 }
 
-func (m Data) Name() string {
+func (m data) Name() string {
 	return m.name
 }

@@ -18,7 +18,7 @@ func (s *exploreState) Enter() {
 
 }
 
-func (s exploreState) Update(a *StateMachine, g terrain.Terrain) State {
+func (s exploreState) Update(a StateMachine, g terrain.Terrain) State {
 	position := a.Position()
 	done := a.ExplorePlace(position)
 

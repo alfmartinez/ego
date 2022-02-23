@@ -5,28 +5,40 @@ import (
 	"ego/pkg/mob/memory"
 	"ego/pkg/mob/movement"
 	"ego/pkg/renderer"
+	"ego/pkg/sprite"
 	"ego/pkg/terrain"
 )
 
-type StateMachine struct {
-	*memory.Memory
-	*data.Data
-	*movement.Movement
+type StateMachine interface {
+	memory.Memory
+	data.Data
+	movement.Movement
+	Update(terrain.Terrain)
+	Render(renderer.Renderer)
+	Doing() string
+}
+
+type stateMachine struct {
+	memory.Memory
+	data.Data
+	movement.Movement
+	sprite.Sprite
 	current State
 	next    State
 }
 
-func CreateStateMachine(memory *memory.Memory, data *data.Data, movement *movement.Movement) *StateMachine {
-	return &StateMachine{
+func CreateStateMachine(memory memory.Memory, data data.Data, movement movement.Movement, sprite sprite.Sprite) StateMachine {
+	return &stateMachine{
 		memory,
 		data,
 		movement,
+		sprite,
 		nil,
 		nil,
 	}
 }
 
-func (m *StateMachine) Update(grid terrain.Terrain) {
+func (m *stateMachine) Update(grid terrain.Terrain) {
 	if m.next != nil {
 		m.current = m.next
 		m.next = nil
@@ -39,12 +51,12 @@ func (m *StateMachine) Update(grid terrain.Terrain) {
 	}
 }
 
-func (m *StateMachine) Render(r renderer.Renderer) {
+func (m *stateMachine) Render(r renderer.Renderer) {
 	if m.current != nil {
 		m.current.Render(r, m)
 	}
 }
 
-func (m *StateMachine) Doing() string {
+func (m *stateMachine) Doing() string {
 	return m.current.Label()
 }

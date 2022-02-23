@@ -68,8 +68,8 @@ func (game *Game) Start() {
 }
 
 const (
-	UPDATE_RATE = 1
-	RENDER_RATE = 60
+	UPDATE_RATE = 100
+	RENDER_RATE = 10
 )
 
 func (game *Game) Loop() {
@@ -84,8 +84,9 @@ func (game *Game) Loop() {
 			break
 		case <-updateTicker.C:
 			game.update()
-		case <-renderTicker.C:
 			game.render()
+		case <-renderTicker.C:
+			//game.render()
 		}
 	}
 	log.Print("End game loop")

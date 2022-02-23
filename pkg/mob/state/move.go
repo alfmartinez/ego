@@ -19,7 +19,7 @@ func (s moveState) Label() string {
 func (s moveState) Enter() {
 }
 
-func (s moveState) Update(a *StateMachine, g terrain.Terrain) State {
+func (s moveState) Update(a StateMachine, g terrain.Terrain) State {
 	done := a.MoveTowards(s.position)
 	if done {
 		return CreateState(s.next)

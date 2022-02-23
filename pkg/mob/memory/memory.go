@@ -5,22 +5,28 @@ import (
 	"sort"
 )
 
-type Memory struct {
+type Memory interface {
+	UpdateInterests(utils.Position, func(utils.Position) bool)
+	ExplorePlace(utils.Position) bool
+	SearchNextPositionToExplore(utils.Position) (utils.Position, bool)
+}
+
+type memory struct {
 	places    map[utils.Position]*PlaceMemory
 	interests []utils.Position
 }
 
-func CreateMemory() *Memory {
+func CreateMemory() Memory {
 	places := make(map[utils.Position]*PlaceMemory)
 	var interests []utils.Position
-	return &Memory{places, interests}
+	return &memory{places, interests}
 }
 
-func (m *Memory) UpdateInterests(position utils.Position, validate func(utils.Position) bool) {
+func (m *memory) UpdateInterests(position utils.Position, validate func(utils.Position) bool) {
 	m.interests = position.Surrounding(3, validate)
 }
 
-func (m *Memory) ExplorePlace(position utils.Position) bool {
+func (m *memory) ExplorePlace(position utils.Position) bool {
 	if place, ok := m.places[position]; ok {
 		place.Explore()
 	} else {
@@ -29,7 +35,7 @@ func (m *Memory) ExplorePlace(position utils.Position) bool {
 	return m.places[position].IsExplored()
 }
 
-func (m *Memory) SearchNextPositionToExplore(position utils.Position) (utils.Position, bool) {
+func (m *memory) SearchNextPositionToExplore(position utils.Position) (utils.Position, bool) {
 	sort.Slice(m.interests, func(i, j int) bool {
 		first := m.interests[i]
 		second := m.interests[j]

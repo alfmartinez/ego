@@ -6,11 +6,12 @@ import (
 	"ego/pkg/mob/memory"
 	"ego/pkg/mob/movement"
 	"ego/pkg/mob/state"
+	"ego/pkg/sprite"
 	"ego/pkg/utils"
 )
 
 type Mob struct {
-	*state.StateMachine
+	state.StateMachine
 }
 
 func New(config configuration.Mob) *Mob {
@@ -23,7 +24,8 @@ func New(config configuration.Mob) *Mob {
 	mobData := data.CreateMobData(name)
 	movement := movement.CreateMovement(position)
 	memory := memory.CreateMemory()
-	stateMachine := state.CreateStateMachine(memory, mobData, movement)
+	sprite := sprite.CreateSprite(config.Sprite)
+	stateMachine := state.CreateStateMachine(memory, mobData, movement, sprite)
 
 	return &Mob{stateMachine}
 }

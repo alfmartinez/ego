@@ -6,4 +6,5 @@ type Renderable interface {
 	Position() utils.Position
 	Name() string
 	Doing() string
+	Path() string
 }

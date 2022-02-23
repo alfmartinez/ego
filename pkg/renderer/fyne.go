@@ -30,12 +30,14 @@ func (r *FyneRenderer) Init() {
 	}
 	app.SetIcon(icon)
 	r.window = app.NewWindow("Ego")
+	r.window.SetPadded(false)
 	r.display.Init()
 }
 
 func (r *FyneRenderer) Start(exit chan bool) {
 	//r.window.SetFullScreen(true)
-	r.window.Resize(fyne.NewSize(450, 450))
+	size := r.display.GetSize()
+	r.window.Resize(fyne.NewSize(float32(size.Width), float32(size.Height)))
 	r.window.SetOnClosed(func() {
 		exit <- true
 	})

@@ -4,19 +4,24 @@ import (
 	"ego/pkg/utils"
 )
 
-type Movement struct {
+type Movement interface {
+	Position() utils.Position
+	MoveTowards(utils.Position) bool
+}
+
+type movement struct {
 	position utils.Position
 }
 
-func CreateMovement(position utils.Position) *Movement {
-	return &Movement{position: position}
+func CreateMovement(position utils.Position) Movement {
+	return &movement{position: position}
 }
 
-func (m *Movement) Position() utils.Position {
+func (m *movement) Position() utils.Position {
 	return m.position
 }
 
-func (m *Movement) MoveTowards(destination utils.Position) bool {
+func (m *movement) MoveTowards(destination utils.Position) bool {
 	unit := m.position.UnitTowards(&destination)
 	if unit.IsZero() {
 		return true

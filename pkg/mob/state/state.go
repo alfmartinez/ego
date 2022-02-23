@@ -10,7 +10,7 @@ import (
 type State interface {
 	Label() string
 	Enter()
-	Update(*StateMachine, terrain.Terrain) State
+	Update(StateMachine, terrain.Terrain) State
 	Render(renderer.Renderer, renderable.Renderable)
 }
 
