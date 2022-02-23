@@ -5,12 +5,14 @@ import (
 	"ego/pkg/mob/memory"
 	"ego/pkg/mob/motivator"
 	"ego/pkg/mob/movement"
+	"ego/pkg/renderable"
 	"ego/pkg/renderer"
 	"ego/pkg/sprite"
 	"ego/pkg/terrain"
 )
 
 type StateMachine interface {
+	renderable.Renderable
 	memory.Memory
 	data.Data
 	movement.Movement

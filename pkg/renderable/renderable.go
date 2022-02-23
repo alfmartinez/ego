@@ -7,4 +7,6 @@ type Renderable interface {
 	Name() string
 	Doing() string
 	Path() string
+	Size() uint
+	Multiplicator() int
 }

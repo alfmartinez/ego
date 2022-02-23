@@ -2,6 +2,8 @@ package sprite
 
 type Sprite interface {
 	Path() string
+	Size() uint
+	Multiplicator() int
 }
 
 type sprite struct {
@@ -14,4 +16,12 @@ func CreateSprite(path string) Sprite {
 
 func (s *sprite) Path() string {
 	return s.path
+}
+
+func (s *sprite) Size() uint {
+	return 32
+}
+
+func (s *sprite) Multiplicator() int {
+	return 1
 }

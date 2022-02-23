@@ -5,7 +5,6 @@ import (
 	"ego/pkg/renderable"
 	"ego/pkg/sprite/loader"
 	"image"
-	"log"
 )
 
 type Display interface {
@@ -22,7 +21,6 @@ type CropableImage interface {
 
 func CreateDisplay(config configuration.Display) Display {
 	name := config.Type
-	log.Printf("Config Display %+v", config)
 	displays := map[string]func(configuration.Display) Display{
 		"rts": func(config configuration.Display) Display {
 			loader := loader.CreateSpriteLoader("on_demand")

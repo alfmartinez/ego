@@ -51,6 +51,7 @@ func (game *Game) update() {
 }
 
 func (game *Game) render() {
+	game.Terrain.Render(game.Renderer)
 	for _, x := range game.Objects {
 		x.Render(game.Renderer)
 	}
