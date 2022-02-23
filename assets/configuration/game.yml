@@ -10,21 +10,21 @@ renderer:
       width: 1920
       height: 1080
 grid: 
-  x: 1920
-  y: 1080
+  x: 192
+  y: 108
 mobs: 
   - name: Arthur
     sprite: mario.png
     position: 
-      x: 0
-      y: 0
+      x: 96
+      y: 54
   - name: Bob
     sprite: frida.png
     position: 
-      x: 300
-      y: 300
+      x: 48
+      y: 54
   - name: Charlie
     sprite: maracas.png
     position: 
-      x: 400
-      y: 400
+      x: 144
+      y: 54

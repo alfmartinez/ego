@@ -31,7 +31,7 @@ func (d *rts) GetSize() configuration.Size {
 
 func (d *rts) Render() image.Image {
 	buffer := d.buffer
-	//d.buffer = createBlankBuffer(450, 450)
+	d.buffer = createBlankBuffer(450, 450)
 
 	if p, ok := buffer.(CropableImage); ok {
 		vpLimit := d.vpOrigin.Add(image.Point{d.config.ViewPort.Width, d.config.ViewPort.Height})
@@ -45,11 +45,11 @@ func (d *rts) Render() image.Image {
 
 func (d *rts) AddObject(s renderable.Renderable) {
 	origSrc := d.loader.GetSprite(s.Path())
-	src := resize.Resize(32, 0, origSrc, resize.Lanczos2)
-	destRect := src.Bounds()
+	src := resize.Resize(96, 0, origSrc, resize.Lanczos2)
 	pos := image.Point{s.Position().X, s.Position().Y}
-	srcPoint := pos.Mul(50)
-	draw.Draw(d.buffer, destRect, src, srcPoint, draw.Over)
+	srcPoint := pos.Mul(1)
+	r := image.Rectangle{srcPoint, srcPoint.Add(src.Bounds().Size())}
+	draw.Draw(d.buffer, r, src, d.buffer.Bounds().Min, draw.Over)
 }
 
 func createBlankBuffer(w, h int) draw.Image {
