@@ -45,7 +45,7 @@ func (d *rts) Render() image.Image {
 
 func (d *rts) AddObject(s renderable.Renderable) {
 	origSrc := d.loader.GetSprite(s.Path())
-	src := resize.Resize(96, 0, origSrc, resize.Lanczos2)
+	src := resize.Resize(32, 0, origSrc, resize.Lanczos2)
 	pos := image.Point{s.Position().X, s.Position().Y}
 	srcPoint := pos.Mul(1)
 	r := image.Rectangle{srcPoint, srcPoint.Add(src.Bounds().Size())}

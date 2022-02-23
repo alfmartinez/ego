@@ -83,8 +83,9 @@ func (game *Game) Loop() {
 			loop = false
 		case <-updateTicker.C:
 			game.update()
-		case <-renderTicker.C:
 			game.render()
+		case <-renderTicker.C:
+			//game.render()
 		}
 	}
 	log.Print("End game loop")
