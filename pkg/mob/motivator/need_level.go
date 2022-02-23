@@ -33,6 +33,7 @@ func (n *needLevel) Update() {
 	}
 }
 
+// Decide & Fix successive application of motivator providers
 func (n *needLevel) Provide(increment int, duration int) {
 	n.increment = increment
 	n.duration = duration

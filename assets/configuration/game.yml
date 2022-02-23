@@ -18,13 +18,52 @@ mobs:
     position: 
       x: 96
       y: 54
+    needs: 
+      - name: social
+        priority: 2
+        value: 100
+      - name: curiosity
+        priority: 2
+        value: 100
+      - name: rest
+        priority: 1
+        value: 100
+      - name: health
+        priority: 0
+        value: 10
   - name: Bob
     sprite: frida.png
     position: 
       x: 48
       y: 54
+    needs: 
+      - name: social
+        priority: 2
+        value: 100
+      - name: curiosity
+        priority: 2
+        value: 100
+      - name: rest
+        priority: 1
+        value: 10
+      - name: health
+        priority: 0
+        value: 100
   - name: Charlie
     sprite: maracas.png
     position: 
       x: 144
       y: 54
+    needs: 
+      - name: social
+        priority: 2
+        value: 50
+      - name: curiosity
+        priority: 2
+        value: 10
+      - name: rest
+        priority: 1
+        value: 100
+      - name: health
+        priority: 0
+        value: 100

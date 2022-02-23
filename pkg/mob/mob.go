@@ -27,6 +27,9 @@ func New(config configuration.Mob) *Mob {
 	memory := memory.CreateMemory()
 	sprite := sprite.CreateSprite(config.Sprite)
 	needs := motivator.CreateNeedsCollection()
+	for _, need := range config.Needs {
+		needs.AddNeed(motivator.CreateNeed(need.Type, need.Priority), need.Level)
+	}
 	stateMachine := state.CreateStateMachine(memory, mobData, movement, sprite, needs)
 
 	return &Mob{stateMachine}

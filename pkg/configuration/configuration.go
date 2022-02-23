@@ -14,6 +14,7 @@ type Mob struct {
 	Name     string   `yaml:"name"`
 	Position Position `yaml:"position"`
 	Sprite   string   `yaml:"sprite"`
+	Needs    []Need
 }
 
 type Renderer struct {
@@ -25,6 +26,12 @@ type Display struct {
 	Type     string `yaml:"type"`
 	Size     Size   `yaml:"size"`
 	ViewPort Size   `yaml:"viewport"`
+}
+
+type Need struct {
+	Type     string `yaml:"name"`
+	Priority int    `yaml:"priority"`
+	Level    int    `yaml:"level"`
 }
 
 type Configuration struct {
