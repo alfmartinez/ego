@@ -18,6 +18,7 @@ func (s idleState) Enter() {
 }
 
 func (s idleState) Update(a StateMachine, g terrain.Terrain) State {
+
 	a.UpdateInterests(a.Position(), func(pos utils.Position) bool {
 		return g.GetTile(pos) != nil
 	})

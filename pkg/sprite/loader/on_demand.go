@@ -2,7 +2,6 @@ package loader
 
 import (
 	"image"
-	"log"
 )
 
 type onDemandLoader struct {
@@ -11,7 +10,6 @@ type onDemandLoader struct {
 }
 
 func (l *onDemandLoader) GetSprite(name string) image.Image {
-	log.Printf("Loader %+v", l.sheets)
 	src, ok := l.sheets[name]
 	if !ok {
 		src = loadSpriteSheet(l.folder + name)

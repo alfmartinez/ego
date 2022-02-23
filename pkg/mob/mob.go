@@ -4,6 +4,7 @@ import (
 	"ego/pkg/configuration"
 	"ego/pkg/mob/data"
 	"ego/pkg/mob/memory"
+	"ego/pkg/mob/motivator"
 	"ego/pkg/mob/movement"
 	"ego/pkg/mob/state"
 	"ego/pkg/sprite"
@@ -25,7 +26,8 @@ func New(config configuration.Mob) *Mob {
 	movement := movement.CreateMovement(position)
 	memory := memory.CreateMemory()
 	sprite := sprite.CreateSprite(config.Sprite)
-	stateMachine := state.CreateStateMachine(memory, mobData, movement, sprite)
+	needs := motivator.CreateNeedsCollection()
+	stateMachine := state.CreateStateMachine(memory, mobData, movement, sprite, needs)
 
 	return &Mob{stateMachine}
 }
