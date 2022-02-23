@@ -14,6 +14,7 @@ type StateMachine interface {
 	memory.Memory
 	data.Data
 	movement.Movement
+	motivator.NeedsCollection
 	Update(terrain.Terrain)
 	Render(renderer.Renderer)
 	Doing() string

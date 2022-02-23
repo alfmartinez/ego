@@ -1,6 +1,9 @@
 package motivator
 
 type NeedLevel interface {
+	Name() string
+	Priority() int
+	Value() int
 	Update()
 	Provide(increment int, duration int)
 }
@@ -14,6 +17,18 @@ type needLevel struct {
 
 func CreateNeedLevel(need Need, value int) NeedLevel {
 	return &needLevel{need, value, 0, 0}
+}
+
+func (n *needLevel) Name() string {
+	return n.need.Name()
+}
+
+func (n *needLevel) Priority() int {
+	return n.need.Priority()
+}
+
+func (n *needLevel) Value() int {
+	return n.value
 }
 
 func (n *needLevel) Update() {

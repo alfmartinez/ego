@@ -24,7 +24,7 @@ mobs:
         value: 100
       - name: curiosity
         priority: 2
-        value: 100
+        value: 20
       - name: rest
         priority: 1
         value: 100
