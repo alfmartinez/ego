@@ -2,6 +2,9 @@ package loader
 
 import (
 	"image"
+	"strconv"
+
+	"github.com/nfnt/resize"
 )
 
 type onDemandLoader struct {
@@ -9,11 +12,18 @@ type onDemandLoader struct {
 	sheets map[string]image.Image
 }
 
-func (l *onDemandLoader) GetSprite(name string) image.Image {
-	src, ok := l.sheets[name]
+func (l *onDemandLoader) GetSprite(name string, size uint) image.Image {
+	key := name + "_" + strconv.Itoa(int(size))
+	src, ok := l.sheets[key]
 	if !ok {
-		src = loadSpriteSheet(l.folder + name)
-		l.sheets[name] = src
+		src, ok := l.sheets[name]
+		if !ok {
+			src = loadSpriteSheet(l.folder + name)
+			l.sheets[name] = src
+		}
+		resized := resize.Resize(size, 0, src, resize.Lanczos2)
+		l.sheets[key] = resized
+		return resized
 	}
 	return src
 }

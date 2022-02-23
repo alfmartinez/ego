@@ -7,7 +7,7 @@ import (
 )
 
 type Loader interface {
-	GetSprite(string) image.Image
+	GetSprite(string, uint) image.Image
 }
 
 func CreateSpriteLoader(name string) Loader {

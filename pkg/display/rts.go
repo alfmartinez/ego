@@ -4,13 +4,12 @@ import (
 	"ego/pkg/configuration"
 	"ego/pkg/renderable"
 	"ego/pkg/sprite/loader"
+	"errors"
 	"image"
 	"image/color"
 	"image/draw"
 
 	_ "image/png"
-
-	"github.com/nfnt/resize"
 )
 
 type rts struct {
@@ -44,10 +43,12 @@ func (d *rts) Render() image.Image {
 }
 
 func (d *rts) AddObject(s renderable.Renderable) {
-	origSrc := d.loader.GetSprite(s.Path())
-	src := resize.Resize(s.Size(), 0, origSrc, resize.Lanczos2)
+	src := d.loader.GetSprite(s.Path(), s.Size())
 	pos := image.Point{s.Position().X, s.Position().Y}
 	srcPoint := pos.Mul(s.Multiplicator())
+	if src == nil {
+		panic(errors.New("Sprite not found " + s.Path()))
+	}
 	r := image.Rectangle{srcPoint, srcPoint.Add(src.Bounds().Size())}
 	draw.Draw(d.buffer, r, src, d.buffer.Bounds().Min, draw.Over)
 }
