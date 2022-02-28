@@ -26,5 +26,20 @@ func (m *movement) Position() image.Point {
 }
 
 func (m *movement) MoveTowards(destination Positionnable) bool {
-	return false
+	v := destination.Position().Sub(m.Position())
+	dp := image.Pt(0, 0)
+	switch {
+	case v.X > 0:
+		dp.X++
+	case v.Y < 0:
+		dp.X--
+	}
+	switch {
+	case v.Y > 0:
+		dp.Y++
+	case v.Y < 0:
+		dp.Y--
+	}
+
+	return dp.Eq(image.Point{})
 }

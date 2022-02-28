@@ -44,7 +44,7 @@ func (d *rts) Render() image.Image {
 
 func (d *rts) AddObject(s renderable.Renderable) {
 	src := d.loader.GetSprite(s.Path(), s.Size())
-	pos := image.Point{s.Position().X, s.Position().Y}
+	pos := s.Position()
 	srcPoint := pos.Mul(s.Multiplicator())
 	if src == nil {
 		panic(errors.New("Sprite not found " + s.Path()))
