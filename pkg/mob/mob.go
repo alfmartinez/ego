@@ -8,7 +8,7 @@ import (
 	"ego/pkg/mob/movement"
 	"ego/pkg/mob/state"
 	"ego/pkg/sprite"
-	"ego/pkg/utils"
+	"image"
 )
 
 type Mob struct {
@@ -17,10 +17,7 @@ type Mob struct {
 
 func New(config configuration.Mob) *Mob {
 	name := config.Name
-	position := utils.Position{
-		X: config.Position.X,
-		Y: config.Position.Y,
-	}
+	position := image.Pt(config.Position.X, config.Position.Y)
 
 	mobData := data.CreateMobData(name)
 	movement := movement.CreateMovement(position)

@@ -20,7 +20,7 @@ func (s *moveState) Enter() {
 }
 
 func (s *moveState) Update(a StateMachine, g terrain.Terrain) State {
-	done := a.MoveTowards(s.destination.Position())
+	done := a.MoveTowards(s.destination)
 	if done {
 		return CreateState(s.next)
 	}

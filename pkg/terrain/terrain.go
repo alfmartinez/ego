@@ -2,10 +2,10 @@ package terrain
 
 import (
 	"ego/pkg/renderer"
-	"ego/pkg/utils"
+	"image"
 )
 
 type Terrain interface {
-	GetTile(utils.Position) Tile
+	GetTile(image.Point) Tile
 	Render(renderer.Renderer)
 }

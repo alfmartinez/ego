@@ -1,37 +1,30 @@
 package movement
 
 import (
-	"ego/pkg/utils"
+	"image"
 )
 
 type Positionnable interface {
-	Position() utils.Position
+	Position() image.Point
 }
 
 type Movement interface {
 	Positionnable
-	MoveTowards(utils.Position) bool
+	MoveTowards(Positionnable) bool
 }
 
 type movement struct {
-	position utils.Position
+	position image.Point
 }
 
-func CreateMovement(position utils.Position) Movement {
+func CreateMovement(position image.Point) Movement {
 	return &movement{position: position}
 }
 
-func (m *movement) Position() utils.Position {
+func (m *movement) Position() image.Point {
 	return m.position
 }
 
-func (m *movement) MoveTowards(destination utils.Position) bool {
-	unit := m.position.UnitTowards(&destination)
-	if unit.IsZero() {
-		return true
-	}
-
-	newPosition := m.position.Add(unit)
-	m.position = newPosition
+func (m *movement) MoveTowards(destination Positionnable) bool {
 	return false
 }

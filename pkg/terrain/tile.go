@@ -1,24 +1,26 @@
 package terrain
 
 import (
+	"ego/pkg/mob/movement"
 	"ego/pkg/renderable"
-	"ego/pkg/utils"
+	"image"
 )
 
 type Tile interface {
+	movement.Positionnable
 	renderable.Renderable
 }
 
 type tile struct {
 	TileType
-	position utils.Position
+	position image.Point
 }
 
-func CreateTile(position utils.Position, tileType TileType) Tile {
+func CreateTile(position image.Point, tileType TileType) Tile {
 	return &tile{tileType, position}
 }
 
-func (t *tile) Position() utils.Position {
+func (t *tile) Position() image.Point {
 	return t.position
 }
 

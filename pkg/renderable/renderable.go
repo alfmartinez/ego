@@ -1,9 +1,9 @@
 package renderable
 
-import "ego/pkg/utils"
+import "image"
 
 type Renderable interface {
-	Position() utils.Position
+	Position() image.Point
 	Name() string
 	Doing() string
 	Path() string

@@ -2,19 +2,19 @@ package terrain
 
 import (
 	"ego/pkg/renderer"
-	"ego/pkg/utils"
+	"image"
 )
 
 type grid struct {
-	tiles map[utils.Position]Tile
+	tiles map[image.Point]Tile
 }
 
 func CreateGrid(width int, height int) Terrain {
-	tiles := make(map[utils.Position]Tile)
+	tiles := make(map[image.Point]Tile)
 	tileType := CreateTileType("plain")
 	for y := 0; y < height; y++ {
 		for x := 0; x < width; x++ {
-			position := utils.Position{X: x, Y: y}
+			position := image.Pt(x, y)
 			tiles[position] = CreateTile(position, tileType)
 		}
 	}
@@ -22,7 +22,7 @@ func CreateGrid(width int, height int) Terrain {
 
 }
 
-func (g *grid) GetTile(position utils.Position) Tile {
+func (g *grid) GetTile(position image.Point) Tile {
 	return g.tiles[position]
 }
 
