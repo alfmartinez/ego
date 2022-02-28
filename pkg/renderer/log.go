@@ -24,5 +24,7 @@ func (r *LogRenderer) Refresh() {
 }
 
 func (r *LogRenderer) Render(s renderable.Renderable) {
-	log.Printf("- %s %s at %+v", s.Name(), s.Doing(), s.Position())
+	if s.Name() != "" {
+		log.Printf("- %s %s at %+v", s.Name(), s.Doing(), s.Position())
+	}
 }

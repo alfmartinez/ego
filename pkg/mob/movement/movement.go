@@ -30,16 +30,17 @@ func (m *movement) MoveTowards(destination Positionnable) bool {
 	dp := image.Pt(0, 0)
 	switch {
 	case v.X > 0:
-		dp.X++
-	case v.Y < 0:
-		dp.X--
+		dp.X = 1
+	case v.X < 0:
+		dp.X = -1
 	}
 	switch {
 	case v.Y > 0:
-		dp.Y++
+		dp.Y = 1
 	case v.Y < 0:
-		dp.Y--
+		dp.Y = -1
 	}
+	m.position = m.position.Add(dp)
 
 	return dp.Eq(image.Point{})
 }
