@@ -4,32 +4,34 @@ import (
 	"ego/pkg/renderable"
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
-	"ego/pkg/utils"
 )
 
 type idleState struct {
 }
 
-func (s idleState) Label() string {
+func (s *idleState) Label() string {
 	return "preparing"
 }
 
-func (s idleState) Enter() {
+func (s *idleState) Enter() {
 }
 
-func (s idleState) Update(a StateMachine, g terrain.Terrain) State {
+func (s *idleState) Update(a StateMachine, g terrain.Terrain) State {
 	topNeed := a.TopNeed()
 	switch topNeed {
 	case "curiosity":
-		a.UpdateInterests(a.Position(), func(pos utils.Position) bool {
-			return g.GetTile(pos) != nil
-		})
 		return CreateState("explore")
+	case "social":
+		return CreateState("interact")
+	case "rest":
+		return CreateState("rest")
+	case "health":
+		return CreateState("heal")
 	}
 	return nil
 
 }
 
-func (s idleState) Render(r renderer.Renderer, m renderable.Renderable) {
+func (s *idleState) Render(r renderer.Renderer, m renderable.Renderable) {
 	r.Render(m)
 }

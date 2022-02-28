@@ -1,6 +1,8 @@
 package utils
 
-import "math"
+import (
+	"math"
+)
 
 type Position struct {
 	X int
@@ -59,20 +61,4 @@ func sign(value int) int {
 		x = 0
 	}
 	return x
-}
-
-func (p *Position) Surrounding(distance int, validate func(Position) bool) []Position {
-	var values []Position
-	for x := -distance; x <= distance; x++ {
-		for y := -distance; y <= distance; y++ {
-			pos := Position{
-				X: p.X + x,
-				Y: p.Y + y,
-			}
-			if validate(pos) {
-				values = append(values, pos)
-			}
-		}
-	}
-	return values
 }

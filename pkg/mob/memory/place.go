@@ -1,13 +1,22 @@
 package memory
 
-type PlaceMemory struct {
+type PlaceMemory interface {
+	IsExplored() bool
+	Explore()
+}
+
+type placeMemory struct {
 	explored int
 }
 
-func (m *PlaceMemory) IsExplored() bool {
+func CreatePlaceMemory() PlaceMemory {
+	return &placeMemory{explored: 0}
+}
+
+func (m *placeMemory) IsExplored() bool {
 	return m.explored >= 10
 }
 
-func (m *PlaceMemory) Explore() {
+func (m *placeMemory) Explore() {
 	m.explored += 1
 }

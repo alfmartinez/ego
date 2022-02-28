@@ -1,10 +1,10 @@
 package state
 
 import (
+	"ego/pkg/mob/movement"
 	"ego/pkg/renderable"
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
-	"ego/pkg/utils"
 )
 
 type State interface {
@@ -24,10 +24,19 @@ func CreateState(name string, data ...interface{}) State {
 		},
 		"move": func() State {
 			args := data[0].(struct {
-				Position utils.Position
-				Next     string
+				Destination movement.Positionnable
+				Next        string
 			})
-			return &moveState{args.Position, args.Next}
+			return &moveState{args.Destination, args.Next}
+		},
+		"heal": func() State {
+			return &healState{}
+		},
+		"rest": func() State {
+			return &restState{}
+		},
+		"interact": func() State {
+			return &interactState{}
 		},
 	}
 

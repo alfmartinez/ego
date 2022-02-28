@@ -6,7 +6,7 @@ type NeedsCollection interface {
 	AddNeed(Need, int)
 	UpdateNeeds()
 	TopNeed() string
-	Provide(Need, int)
+	Provide(Need, int, int)
 }
 
 type needsCollection struct {
@@ -59,6 +59,6 @@ func (c *needsCollection) TopNeed() string {
 	return values[0].name
 }
 
-func (c *needsCollection) Provide(need Need, value int) {
-
+func (c *needsCollection) Provide(need Need, value int, duration int) {
+	c.needs[need.Name()].Provide(value, duration)
 }

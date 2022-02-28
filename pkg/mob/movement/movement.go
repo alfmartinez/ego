@@ -4,8 +4,12 @@ import (
 	"ego/pkg/utils"
 )
 
-type Movement interface {
+type Positionnable interface {
 	Position() utils.Position
+}
+
+type Movement interface {
+	Positionnable
 	MoveTowards(utils.Position) bool
 }
 

@@ -16,8 +16,8 @@ mobs:
   - name: Arthur
     sprite: mario.png
     position: 
-      x: 96
-      y: 54
+      x: 960
+      y: 540
     needs: 
       - name: social
         priority: 2
@@ -34,8 +34,8 @@ mobs:
   - name: Bob
     sprite: frida.png
     position: 
-      x: 48
-      y: 54
+      x: 480
+      y: 540
     needs: 
       - name: social
         priority: 2
@@ -52,8 +52,8 @@ mobs:
   - name: Charlie
     sprite: maracas.png
     position: 
-      x: 144
-      y: 54
+      x: 1440
+      y: 540
     needs: 
       - name: social
         priority: 2
