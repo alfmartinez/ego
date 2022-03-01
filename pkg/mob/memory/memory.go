@@ -35,7 +35,16 @@ func (m *memory) AddInterests(interests []movement.Positionnable) {
 func (m *memory) GetNextInterest() movement.Positionnable {
 	a := m.interests
 	var i movement.Positionnable
-	i, m.interests = a[0], a[1:]
+	if len(m.interests) == 0 {
+		return nil
+	}
+	if len(m.interests) > 1 {
+		i, m.interests = a[0], a[1:]
+	} else {
+		i = a[0]
+		m.interests = nil
+	}
+
 	return i
 
 }

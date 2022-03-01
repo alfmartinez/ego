@@ -10,13 +10,17 @@ type grid struct {
 	tiles map[image.Point]Tile
 }
 
+const (
+	tileSize = 100
+)
+
 func CreateGrid(width int, height int) Terrain {
 	tiles := make(map[image.Point]Tile)
 	tileType := CreateTileType("plain")
 	for y := 0; y < height; y++ {
 		for x := 0; x < width; x++ {
 			position := image.Pt(x, y)
-			tiles[position] = CreateTile(position, tileType)
+			tiles[position] = CreateTile(position, tileType, tileSize)
 		}
 	}
 
@@ -26,11 +30,11 @@ func CreateGrid(width int, height int) Terrain {
 		{-1, 1}, {0, 1}, {1, 1},
 	}
 
-	for _, t := range tiles {
+	for pos, t := range tiles {
 		surrounding := make([]Tile, 0)
 		for _, around := range surrounds {
 			dP := image.Pt(around.dx, around.dy)
-			pos := t.Position().Add(dP)
+			pos := pos.Add(dP)
 			if tile, ok := tiles[pos]; ok {
 				surrounding = append(surrounding, tile)
 			}
@@ -43,7 +47,7 @@ func CreateGrid(width int, height int) Terrain {
 }
 
 func (g *grid) GetTile(pos movement.Positionnable) Tile {
-	return g.tiles[pos.Position()]
+	return g.tiles[pos.Position().Div(tileSize)]
 }
 
 func (g *grid) Render(r renderer.Renderer) {

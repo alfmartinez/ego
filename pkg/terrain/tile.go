@@ -15,13 +15,24 @@ type Tile interface {
 
 type tile struct {
 	TileType
-	movement.Location
+	rect        image.Rectangle
+	size        int
 	surrounding []Tile
 }
 
-func CreateTile(coord image.Point, tileType TileType) Tile {
+func CreateTile(coord image.Point, tileType TileType, tileSize int) Tile {
 	surrounding := make([]Tile, 0)
-	return &tile{tileType, movement.Loc(coord), surrounding}
+	rect := image.Rect(0, 0, tileSize, tileSize)
+	rect = rect.Add(coord.Mul(tileSize))
+	return &tile{tileType, rect, tileSize, surrounding}
+}
+
+func (t *tile) IsAt(pos movement.Positionnable) bool {
+	return pos.Position().In(t.rect)
+}
+
+func (t *tile) Position() image.Point {
+	return t.rect.Min
 }
 
 func (t *tile) Surrounding() []Tile {
@@ -40,14 +51,6 @@ func (t *tile) Name() string {
 	return ""
 }
 
-func (t *tile) Path() string {
-	return "mario.png"
-}
-
 func (t *tile) Size() uint {
-	return 100
-}
-
-func (t *tile) Multiplicator() int {
-	return 100
+	return uint(t.size)
 }

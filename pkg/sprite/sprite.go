@@ -3,7 +3,6 @@ package sprite
 type Sprite interface {
 	Path() string
 	Size() uint
-	Multiplicator() int
 }
 
 type sprite struct {
@@ -19,9 +18,5 @@ func (s *sprite) Path() string {
 }
 
 func (s *sprite) Size() uint {
-	return 100
-}
-
-func (s *sprite) Multiplicator() int {
-	return 1
+	return 50
 }

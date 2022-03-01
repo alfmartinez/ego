@@ -8,5 +8,4 @@ type Renderable interface {
 	Doing() string
 	Path() string
 	Size() uint
-	Multiplicator() int
 }
