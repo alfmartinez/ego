@@ -3,7 +3,6 @@ package display
 import (
 	"ego/pkg/configuration"
 	"ego/pkg/renderable"
-	"ego/pkg/sprite/loader"
 	"image"
 )
 
@@ -19,17 +18,13 @@ type CropableImage interface {
 	SubImage(image.Rectangle) image.Image
 }
 
+var displayFactories = make(map[string]func(configuration.Display) Display)
+
+func RegisterDisplay(name string, f func(configuration.Display) Display) {
+	displayFactories[name] = f
+}
+
 func CreateDisplay(config configuration.Display) Display {
 	name := config.Type
-	displays := map[string]func(configuration.Display) Display{
-		"rts": func(config configuration.Display) Display {
-			loader := loader.CreateSpriteLoader("on_demand")
-			return &rts{
-				loader: loader,
-				config: config,
-			}
-		},
-	}
-
-	return displays[name](config)
+	return displayFactories[name](config)
 }

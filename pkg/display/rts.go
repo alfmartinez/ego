@@ -12,6 +12,16 @@ import (
 	_ "image/png"
 )
 
+func init() {
+	RegisterDisplay("rts", func(config configuration.Display) Display {
+		loader := loader.CreateSpriteLoader("on_demand")
+		return &rts{
+			loader: loader,
+			config: config,
+		}
+	})
+}
+
 type rts struct {
 	loader   loader.Loader
 	buffer   draw.Image
