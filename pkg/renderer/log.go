@@ -1,9 +1,16 @@
 package renderer
 
 import (
+	"ego/pkg/configuration"
 	"ego/pkg/renderable"
 	"log"
 )
+
+func init() {
+	RegisterRendererFactory("log", func(config configuration.Renderer) Renderer {
+		return &LogRenderer{}
+	})
+}
 
 type LogRenderer struct {
 }

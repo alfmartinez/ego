@@ -1,6 +1,7 @@
 package renderer
 
 import (
+	"ego/pkg/configuration"
 	"ego/pkg/display"
 	"ego/pkg/renderable"
 
@@ -9,20 +10,27 @@ import (
 	"fyne.io/fyne/v2/canvas"
 )
 
+func init() {
+	RegisterRendererFactory("fyne", func(config configuration.Renderer) Renderer {
+		display := display.CreateDisplay(config.Display)
+		return &fyneRenderer{display: display}
+	})
+}
+
 const (
 	cellSize = 4
 )
 
-type FyneRenderer struct {
+type fyneRenderer struct {
 	display display.Display
 	window  fyne.Window
 }
 
-func (r *FyneRenderer) IsAsync() bool {
+func (r *fyneRenderer) IsAsync() bool {
 	return true
 }
 
-func (r *FyneRenderer) Init() {
+func (r *fyneRenderer) Init() {
 	app := app.New()
 	icon, err := fyne.LoadResourceFromPath("Icon.png")
 	if err != nil {
@@ -34,7 +42,7 @@ func (r *FyneRenderer) Init() {
 	r.display.Init()
 }
 
-func (r *FyneRenderer) Start(exit chan bool) {
+func (r *fyneRenderer) Start(exit chan bool) {
 	//r.window.SetFullScreen(true)
 	size := r.display.GetSize()
 	r.window.Resize(fyne.NewSize(float32(size.Width), float32(size.Height)))
@@ -44,11 +52,11 @@ func (r *FyneRenderer) Start(exit chan bool) {
 	r.window.ShowAndRun()
 }
 
-func (r *FyneRenderer) Render(s renderable.Renderable) {
+func (r *fyneRenderer) Render(s renderable.Renderable) {
 	r.display.AddObject(s)
 }
 
-func (r *FyneRenderer) Refresh() {
+func (r *fyneRenderer) Refresh() {
 	image := canvas.NewImageFromImage(r.display.Render())
 	r.window.Canvas().SetContent(image)
 	r.window.Content().Refresh()
