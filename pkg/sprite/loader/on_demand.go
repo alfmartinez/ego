@@ -7,6 +7,14 @@ import (
 	"github.com/nfnt/resize"
 )
 
+func init() {
+	RegisterLoader("on_demand", func() Loader {
+		folder := "assets/sprites/"
+		sheets := make(map[string]image.Image)
+		return &onDemandLoader{folder, sheets}
+	})
+}
+
 type onDemandLoader struct {
 	folder string
 	sheets map[string]image.Image

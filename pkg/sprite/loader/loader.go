@@ -10,16 +10,14 @@ type Loader interface {
 	GetSprite(string, uint) image.Image
 }
 
-func CreateSpriteLoader(name string) Loader {
-	loaders := map[string]func() Loader{
-		"on_demand": func() Loader {
-			folder := "assets/sprites/"
-			sheets := make(map[string]image.Image)
-			return &onDemandLoader{folder, sheets}
-		},
-	}
+var loaderFactories = make(map[string]func() Loader)
 
-	return loaders[name]()
+func RegisterLoader(name string, f func() Loader) {
+	loaderFactories[name] = f
+}
+
+func CreateSpriteLoader(name string) Loader {
+	return loaderFactories[name]()
 }
 
 func loadSpriteSheet(path string) image.Image {
