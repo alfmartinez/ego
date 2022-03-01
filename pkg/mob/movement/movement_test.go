@@ -7,11 +7,7 @@ import (
 )
 
 func TestCreateMovementReturnsMovement(t *testing.T) {
-	actual := CreateMovement(image.Pt(1, 10))
-	i, ok := actual.(Movement)
-	if !ok {
-		t.Errorf("should return object implementing movement")
-	}
+	i := CreateMovement(image.Pt(1, 10))
 
 	if i.Position().X != 1 {
 		t.Errorf("should be initialized with X value")

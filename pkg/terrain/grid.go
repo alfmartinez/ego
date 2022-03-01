@@ -1,6 +1,7 @@
 package terrain
 
 import (
+	"ego/pkg/mob/movement"
 	"ego/pkg/renderer"
 	"image"
 )
@@ -18,16 +19,60 @@ func CreateGrid(width int, height int) Terrain {
 			tiles[position] = CreateTile(position, tileType)
 		}
 	}
+
+	surrounds := []struct{ dx, dy int }{
+		{-1, -1}, {0, -1}, {1, -1},
+		{-1, 0}, {1, 0},
+		{-1, 1}, {0, 1}, {1, 1},
+	}
+
+	for _, t := range tiles {
+		surrounding := make([]Tile, 0)
+		for _, around := range surrounds {
+			dP := image.Pt(around.dx, around.dy)
+			pos := t.Position().Add(dP)
+			if tile, ok := tiles[pos]; ok {
+				surrounding = append(surrounding, tile)
+			}
+		}
+		t.AddSurrounding(surrounding)
+	}
+
 	return &grid{tiles}
 
 }
 
-func (g *grid) GetTile(position image.Point) Tile {
-	return g.tiles[position]
+func (g *grid) GetTile(pos movement.Positionnable) Tile {
+	return g.tiles[pos.Position()]
 }
 
 func (g *grid) Render(r renderer.Renderer) {
 	for _, tile := range g.tiles {
 		r.Render(tile)
 	}
+}
+
+func (g *grid) SearchAround(a movement.Positionnable, r int, validate func(t Tile) bool) []movement.Positionnable {
+	tile := g.GetTile(a)
+	current := tile.Surrounding()
+	found := make(map[movement.Positionnable]movement.Positionnable)
+	for r > 0 {
+		var next []Tile
+		for _, t := range current {
+			_, ok := found[t]
+			if validate(t) && !ok {
+				found[t] = t
+				next = append(next, t.Surrounding()...)
+			}
+		}
+		r--
+		current = next
+	}
+
+	results := make([]movement.Positionnable, 0, len(found))
+	for _, f := range found {
+		results = append(results, f)
+	}
+
+	return results
 }

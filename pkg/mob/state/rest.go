@@ -6,6 +6,12 @@ import (
 	"ego/pkg/terrain"
 )
 
+func init() {
+	RegisterStateFactory("rest", func(data []interface{}) State {
+		return &restState{}
+	})
+}
+
 type restState struct {
 }
 

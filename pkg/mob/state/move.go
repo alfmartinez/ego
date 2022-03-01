@@ -7,6 +7,16 @@ import (
 	"ego/pkg/terrain"
 )
 
+func init() {
+	RegisterStateFactory("move", func(data []interface{}) State {
+		args := data[0].(struct {
+			Destination movement.Positionnable
+			Next        string
+		})
+		return &moveState{args.Destination, args.Next}
+	})
+}
+
 type moveState struct {
 	destination movement.Positionnable
 	next        string

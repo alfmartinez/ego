@@ -1,11 +1,16 @@
 package state
 
 import (
-	"ego/pkg/mob/movement"
 	"ego/pkg/renderable"
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 )
+
+func init() {
+	RegisterStateFactory("interact", func(data []interface{}) State {
+		return &interactState{}
+	})
+}
 
 type interactState struct {
 }
@@ -19,13 +24,7 @@ func (s *interactState) Enter() {
 }
 
 func (s *interactState) Update(a StateMachine, g terrain.Terrain) State {
-	return CreateState("move", struct {
-		Destination movement.Positionnable
-		Next        string
-	}{
-		Destination: movement.CreateDummy(640, 480),
-		Next:        "explore",
-	})
+	return nil
 }
 
 func (s *interactState) Render(r renderer.Renderer, m renderable.Renderable) {

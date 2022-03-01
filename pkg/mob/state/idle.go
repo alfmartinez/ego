@@ -6,6 +6,12 @@ import (
 	"ego/pkg/terrain"
 )
 
+func init() {
+	RegisterStateFactory("idle", func(data []interface{}) State {
+		return &idleState{}
+	})
+}
+
 type idleState struct {
 }
 

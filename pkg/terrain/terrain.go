@@ -1,11 +1,12 @@
 package terrain
 
 import (
+	"ego/pkg/mob/movement"
 	"ego/pkg/renderer"
-	"image"
 )
 
 type Terrain interface {
-	GetTile(image.Point) Tile
+	GetTile(movement.Positionnable) Tile
 	Render(renderer.Renderer)
+	SearchAround(movement.Positionnable, int, func(Tile) bool) []movement.Positionnable
 }
