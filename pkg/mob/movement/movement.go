@@ -6,23 +6,41 @@ import (
 
 type Positionnable interface {
 	Position() image.Point
+	IsAt(Positionnable) bool
+}
+
+type Moveable interface {
+	MoveTowards(Positionnable) bool
 }
 
 type Movement interface {
 	Positionnable
-	MoveTowards(Positionnable) bool
+	Moveable
 }
 
-type movement struct {
+type Location struct {
 	position image.Point
 }
 
-func CreateMovement(position image.Point) Movement {
-	return &movement{position: position}
+func Loc(pt image.Point) Location {
+	return Location{pt}
 }
 
-func (m *movement) Position() image.Point {
+func (m *Location) Position() image.Point {
 	return m.position
+}
+
+func (m *Location) IsAt(pos Positionnable) bool {
+	return m.position.Eq(pos.Position())
+}
+
+type movement struct {
+	Location
+}
+
+func CreateMovement(coord image.Point) Movement {
+	position := Location{coord}
+	return &movement{position}
 }
 
 func (m *movement) MoveTowards(destination Positionnable) bool {

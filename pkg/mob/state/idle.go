@@ -24,6 +24,7 @@ func (s *idleState) Enter() {
 
 func (s *idleState) Update(a StateMachine, g terrain.Terrain) State {
 	topNeed := a.TopNeed()
+	topNeed = "curiosity"
 	switch topNeed {
 	case "curiosity":
 		return CreateState("explore")

@@ -15,17 +15,13 @@ type Tile interface {
 
 type tile struct {
 	TileType
-	position    image.Point
+	movement.Location
 	surrounding []Tile
 }
 
-func CreateTile(position image.Point, tileType TileType) Tile {
+func CreateTile(coord image.Point, tileType TileType) Tile {
 	surrounding := make([]Tile, 0)
-	return &tile{tileType, position, surrounding}
-}
-
-func (t *tile) Position() image.Point {
-	return t.position
+	return &tile{tileType, movement.Loc(coord), surrounding}
 }
 
 func (t *tile) Surrounding() []Tile {
