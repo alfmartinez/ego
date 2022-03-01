@@ -19,7 +19,7 @@ func (s *sprite) Path() string {
 }
 
 func (s *sprite) Size() uint {
-	return 32
+	return 100
 }
 
 func (s *sprite) Multiplicator() int {

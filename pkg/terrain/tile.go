@@ -45,9 +45,9 @@ func (t *tile) Path() string {
 }
 
 func (t *tile) Size() uint {
-	return 10
+	return 100
 }
 
 func (t *tile) Multiplicator() int {
-	return 10
+	return 100
 }
