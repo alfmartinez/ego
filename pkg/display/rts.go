@@ -34,9 +34,9 @@ func (d *rts) Init() {
 	d.vpOrigin = image.Point{0, 0}
 }
 
-func (d *rts) GetSize() configuration.Size {
-	return d.config.ViewPort
-}
+//func (d *rts) GetSize() configuration.Size {
+//	return d.config.ViewPort
+//}
 
 func (d *rts) Render() image.Image {
 	buffer := d.buffer
@@ -46,7 +46,7 @@ func (d *rts) Render() image.Image {
 		vpLimit := d.vpOrigin.Add(image.Point{d.config.ViewPort.Width, d.config.ViewPort.Height})
 		cropRect := image.Rectangle{d.vpOrigin, vpLimit}
 		cropImg := p.SubImage(cropRect)
-		return cropImg
+		buffer = cropImg.(draw.Image)
 	}
 
 	return buffer

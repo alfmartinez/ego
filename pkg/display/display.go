@@ -10,7 +10,7 @@ type Display interface {
 	Init()
 	Render() image.Image
 	AddObject(renderable.Renderable)
-	GetSize() configuration.Size
+	//	GetSize() configuration.Size
 }
 
 type CropableImage interface {
