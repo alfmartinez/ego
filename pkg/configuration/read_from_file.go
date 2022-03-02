@@ -24,13 +24,5 @@ func ReadConfigurationFromFile(filename string) (Configuration, error) {
 
 	err = yaml.Unmarshal(dat, &config)
 
-	if err != nil {
-		return Configuration{}, err
-	}
-
-	if config.ModelVersion == "" {
-		return Configuration{}, errors.New("launch.configuration.version.missing")
-	}
-
-	return config, nil
+	return config, err
 }
