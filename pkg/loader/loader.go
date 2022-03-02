@@ -1,10 +1,14 @@
 package loader
 
 import (
+	"embed"
+	_ "embed"
 	"image"
 	_ "image/png"
-	"os"
 )
+
+//go:embed sprites/*
+var content embed.FS
 
 type Loader interface {
 	GetSprite(string, uint) image.Image
@@ -21,7 +25,7 @@ func CreateSpriteLoader(name string) Loader {
 }
 
 func loadSpriteSheet(path string) image.Image {
-	f, err := os.Open(path)
+	f, err := content.Open("sprites/" + path)
 	if err != nil {
 		panic(err)
 	}

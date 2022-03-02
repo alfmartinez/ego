@@ -9,14 +9,12 @@ import (
 
 func init() {
 	RegisterLoader("on_demand", func() Loader {
-		folder := "assets/sprites/"
 		sheets := make(map[string]image.Image)
-		return &onDemandLoader{folder, sheets}
+		return &onDemandLoader{sheets}
 	})
 }
 
 type onDemandLoader struct {
-	folder string
 	sheets map[string]image.Image
 }
 
@@ -26,7 +24,7 @@ func (l *onDemandLoader) GetSprite(name string, size uint) image.Image {
 	if !ok {
 		src, ok := l.sheets[name]
 		if !ok {
-			src = loadSpriteSheet(l.folder + name)
+			src = loadSpriteSheet(name)
 			l.sheets[name] = src
 		}
 		resized := resize.Resize(size, 0, src, resize.Lanczos2)
