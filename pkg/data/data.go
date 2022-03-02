@@ -8,7 +8,7 @@ type data struct {
 	name string
 }
 
-func CreateMobData(name string) Data {
+func CreateData(name string) Data {
 	return &data{name}
 }
 

@@ -19,7 +19,7 @@ func CreateMob(config configuration.Mob) GameObject {
 	name := config.Name
 	position := image.Pt(config.Position.X, config.Position.Y)
 
-	mobData := data.CreateMobData(name)
+	mobData := data.CreateData(name)
 	mvmnt := movement.CreateMovement(position)
 	memory := memory.CreateMemory()
 	sprite := sprite.CreateSprite(config.Sprite)
