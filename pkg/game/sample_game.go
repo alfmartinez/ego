@@ -7,7 +7,16 @@ import (
 	"time"
 )
 
-type SampleGame struct {
+func CreateSampleGame(mobs []GameObject, t terrain.Terrain, r renderer.Renderer) Game {
+	return &sampleGame{
+		Objects:  mobs,
+		Terrain:  t,
+		Renderer: r,
+		ExitLoop: make(chan bool),
+	}
+}
+
+type sampleGame struct {
 	Objects  []GameObject
 	Terrain  terrain.Terrain
 	Renderer renderer.Renderer
@@ -19,13 +28,13 @@ const (
 	RENDER_RATE = 30
 )
 
-func (game *SampleGame) update() {
+func (game *sampleGame) update() {
 	for _, x := range game.Objects {
 		x.Update(game.Terrain)
 	}
 }
 
-func (game *SampleGame) render() {
+func (game *sampleGame) render() {
 	game.Terrain.Render(game.Renderer)
 	for _, x := range game.Objects {
 		x.Render(game.Renderer)
@@ -33,7 +42,7 @@ func (game *SampleGame) render() {
 	game.Renderer.Refresh()
 }
 
-func (game *SampleGame) Start() {
+func (game *sampleGame) Start() {
 	if game.Renderer.IsAsync() {
 		go game.loop()
 		defer game.Renderer.Start(game.ExitLoop)
@@ -43,7 +52,7 @@ func (game *SampleGame) Start() {
 
 }
 
-func (game *SampleGame) loop() {
+func (game *sampleGame) loop() {
 	log.Print("Start game loop")
 	updateTicker := time.NewTicker(time.Second / UPDATE_RATE)
 	renderTicker := time.NewTicker(time.Second / RENDER_RATE)
@@ -54,9 +63,8 @@ func (game *SampleGame) loop() {
 			loop = false
 		case <-updateTicker.C:
 			game.update()
-			game.render()
 		case <-renderTicker.C:
-			//game.render()
+			game.render()
 		}
 	}
 	log.Print("End game loop")

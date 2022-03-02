@@ -20,7 +20,7 @@ func TestCreateMovementReturnsMovement(t *testing.T) {
 
 func TestMoveTowardsReturnsTrueIfDestinationReached(t *testing.T) {
 	m := CreateMovement(image.Pt(10, 10))
-	d := CreateDummy(10, 10)
+	d := Loc(image.Pt(10, 10))
 
 	reached := m.MoveTowards(d)
 	if !reached {
@@ -44,7 +44,7 @@ func TestMoveTowardsReturnsFalseIfDestinationNotReached(t *testing.T) {
 		testName := fmt.Sprintf("Move from %+s towards %+s", tt.orig, tt.destination)
 		t.Run(testName, func(t *testing.T) {
 			m := CreateMovement(tt.orig)
-			d := CreateDummy(tt.destination.X, tt.destination.Y)
+			d := Loc(tt.destination)
 
 			reached := m.MoveTowards(d)
 

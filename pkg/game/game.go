@@ -34,17 +34,12 @@ func generateGame(config configuration.Configuration) Game {
 		mobs = append(mobs, object)
 	}
 
-	terrain := terrain.CreateGrid(config.Grid.X, config.Grid.Y)
+	t := terrain.CreateGrid(config.Grid.X, config.Grid.Y)
 
-	renderer := renderer.CreateRenderer(config.Renderer)
-	renderer.Init()
+	r := renderer.CreateRenderer(config.Renderer)
+	r.Init()
 
-	game := &SampleGame{
-		Objects:  mobs,
-		Terrain:  terrain,
-		Renderer: renderer,
-		ExitLoop: make(chan bool),
-	}
+	game := CreateSampleGame(mobs, t, r)
 
 	return game
 }

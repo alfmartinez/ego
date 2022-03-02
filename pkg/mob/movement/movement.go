@@ -18,28 +18,12 @@ type Movement interface {
 	Moveable
 }
 
-type Location struct {
-	position image.Point
-}
-
-func Loc(pt image.Point) Location {
-	return Location{pt}
-}
-
-func (m *Location) Position() image.Point {
-	return m.position
-}
-
-func (m *Location) IsAt(pos Positionnable) bool {
-	return m.position.Eq(pos.Position())
-}
-
 type movement struct {
-	Location
+	location
 }
 
 func CreateMovement(coord image.Point) Movement {
-	position := Location{coord}
+	position := location{coord}
 	return &movement{position}
 }
 
