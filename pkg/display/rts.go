@@ -34,9 +34,9 @@ func (d *rts) Init() {
 	d.vpOrigin = image.Point{0, 0}
 }
 
-//func (d *rts) GetSize() configuration.Size {
-//	return d.config.ViewPort
-//}
+func (d *rts) GetSize() configuration.Size {
+	return d.config.ViewPort
+}
 
 func (d *rts) Render() image.Image {
 	buffer := d.buffer

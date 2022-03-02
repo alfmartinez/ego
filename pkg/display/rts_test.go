@@ -33,6 +33,23 @@ func TestCreateDisplayCanBuildRts(t *testing.T) {
 		t.Errorf("Create Display for rts should return rts")
 	}
 }
+
+func TestGetSizeReturnsViewport(t *testing.T) {
+	sut := &rts{
+		loader: &FakeLoader{},
+		config: configuration.Display{
+			Size:     configuration.Size{Width: 10, Height: 10},
+			ViewPort: configuration.Size{Width: 5, Height: 5},
+		}}
+	sut.Init()
+	size := sut.GetSize()
+	expectedSize := configuration.Size{Width: 5, Height: 5}
+	if size != expectedSize {
+		t.Errorf("Expected size %+v, got %+v", expectedSize, size)
+	}
+
+}
+
 func TestRenderReturnsBlankImageSameViewPort(t *testing.T) {
 	sut := &rts{
 		loader: &FakeLoader{},
