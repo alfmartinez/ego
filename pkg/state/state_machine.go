@@ -17,9 +17,9 @@ type StateMachine interface {
 	data.Data
 	movement.Movement
 	motivator.NeedsCollection
-	Update(terrain.Terrain)
-	Render(renderer.Renderer)
-	Doing() string
+	renderable.Renderable
+	Render(r renderer.Renderer)
+	Update(grid terrain.Terrain)
 }
 
 type stateMachine struct {

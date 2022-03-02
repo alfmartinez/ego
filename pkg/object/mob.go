@@ -27,7 +27,7 @@ func CreateMob(config configuration.Mob) GameObject {
 	for _, need := range config.Needs {
 		needs.AddNeed(motivator.CreateNeed(need.Type, need.Priority), need.Level)
 	}
-	stateMachine := state.CreateStateMachine(memory, mobData, mvmnt, sprite, needs)
+	sm := state.CreateStateMachine(memory, mobData, mvmnt, sprite, needs)
 
-	return stateMachine
+	return sm
 }
