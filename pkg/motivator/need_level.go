@@ -1,30 +1,21 @@
 package motivator
 
 type NeedLevel interface {
-	Name() string
-	Priority() int
+	Need
 	Value() int
 	Update()
-	Provide(increment int, duration int)
+	AddIncrement(LevelIncrement)
 }
 
 type needLevel struct {
-	need      Need
-	value     int
-	increment int
-	duration  int
+	Need
+	value      int
+	increments []LevelIncrement
 }
 
 func CreateNeedLevel(need Need, value int) NeedLevel {
-	return &needLevel{need, value, 0, 0}
-}
-
-func (n *needLevel) Name() string {
-	return n.need.Name()
-}
-
-func (n *needLevel) Priority() int {
-	return n.need.Priority()
+	increments := make([]LevelIncrement, 0)
+	return &needLevel{need, value, increments}
 }
 
 func (n *needLevel) Value() int {
@@ -32,13 +23,12 @@ func (n *needLevel) Value() int {
 }
 
 func (n *needLevel) Update() {
-	if n.duration > 0 {
-		n.value += n.increment
-		n.duration--
-	} else {
-		n.value--
-	}
+	n.applyIncrements()
+	n.removeExpiredIncrements()
+	n.enforceBoundaries()
+}
 
+func (n *needLevel) enforceBoundaries() {
 	switch {
 	case n.value > 100:
 		n.value = 100
@@ -48,8 +38,22 @@ func (n *needLevel) Update() {
 	}
 }
 
-// Decide & Fix successive application of motivator providers
-func (n *needLevel) Provide(increment int, duration int) {
-	n.increment = increment
-	n.duration = duration
+func (n *needLevel) applyIncrements() {
+	for _, inc := range n.increments {
+		n.value += inc.Apply()
+	}
+}
+
+func (n *needLevel) removeExpiredIncrements() {
+	var remains = make([]LevelIncrement, 0)
+	for _, inc := range n.increments {
+		if !inc.IsOver() {
+			remains = append(remains, inc)
+		}
+	}
+	n.increments = remains
+}
+
+func (n *needLevel) AddIncrement(increment LevelIncrement) {
+	n.increments = append(n.increments, increment)
 }

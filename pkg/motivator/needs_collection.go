@@ -60,5 +60,6 @@ func (c *needsCollection) TopNeed() string {
 }
 
 func (c *needsCollection) Provide(need Need, value int, duration int) {
-	c.needs[need.Name()].Provide(value, duration)
+	increment := CreateLevelIncrement(value, duration)
+	c.needs[need.Name()].AddIncrement(increment)
 }
