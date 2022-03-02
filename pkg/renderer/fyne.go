@@ -4,11 +4,15 @@ import (
 	"ego/pkg/configuration"
 	"ego/pkg/display"
 	"ego/pkg/renderable"
+	_ "embed"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/canvas"
 )
+
+//go:embed data/Icon.png
+var icon []byte
 
 func init() {
 	RegisterRendererFactory("fyne", func(config configuration.Renderer) Renderer {
@@ -16,10 +20,6 @@ func init() {
 		return &fyneRenderer{display: display}
 	})
 }
-
-const (
-	cellSize = 4
-)
 
 type fyneRenderer struct {
 	display display.Display
@@ -32,11 +32,11 @@ func (r *fyneRenderer) IsAsync() bool {
 
 func (r *fyneRenderer) Init() {
 	app := app.New()
-	icon, err := fyne.LoadResourceFromPath("Icon.png")
-	if err != nil {
-		panic(err)
+	var iconRes = &fyne.StaticResource{
+		StaticName:    "Icon.png",
+		StaticContent: icon,
 	}
-	app.SetIcon(icon)
+	app.SetIcon(iconRes)
 	r.window = app.NewWindow("Ego")
 	r.window.SetPadded(false)
 	r.display.Init()

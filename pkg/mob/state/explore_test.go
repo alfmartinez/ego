@@ -14,6 +14,6 @@ func TestExploreLabelReturnsExploring(t *testing.T) {
 // If machine has no existing interests, add surrounding tiles which have not been explored
 // If machine has existing interests, move to closest one
 func TestExploreUpdateExploresExistingInterests(t *testing.T) {
-	s := CreateState("explore")
+	CreateState("explore")
 
 }

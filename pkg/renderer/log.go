@@ -24,7 +24,7 @@ func (r *LogRenderer) Init() {
 }
 
 func (r *LogRenderer) Start(exit chan bool) {
-
+	//<-exit
 }
 
 func (r *LogRenderer) Refresh() {

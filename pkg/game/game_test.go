@@ -5,6 +5,7 @@ import "testing"
 type fakeGame struct{}
 
 func (f *fakeGame) Start() {}
+func (f *fakeGame) Stop()  {}
 
 func TestCreateGameUsesRegisterFactory(t *testing.T) {
 	RegisterGameFactory("test", func() (Game, error) {
@@ -17,5 +18,12 @@ func TestCreateGameUsesRegisterFactory(t *testing.T) {
 	_, ok := game.(*fakeGame)
 	if !ok {
 		t.Errorf("CreateGame should have returned FakeGame")
+	}
+}
+
+func TestCreateGameFromFile(t *testing.T) {
+	_, err := CreateGame("file")
+	if err != nil {
+		t.Errorf("Create game should return game without error, got %+v", err)
 	}
 }

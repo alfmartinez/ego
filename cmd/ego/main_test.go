@@ -18,6 +18,8 @@ func (f *fakeGame) Start() {
 	f.launched = true
 }
 
+func (f *fakeGame) Stop() {}
+
 func TestMainCreatesGameAndLaunchesIt(t *testing.T) {
 	mockGame := &fakeGame{false}
 	gameFactory := fakeGameFactory(func() (game.Game, error) {
