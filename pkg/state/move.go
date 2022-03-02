@@ -17,6 +17,10 @@ func init() {
 	})
 }
 
+type Mover interface {
+	movement.Movement
+}
+
 type moveState struct {
 	destination movement.Positionnable
 	next        string
@@ -29,7 +33,8 @@ func (s *moveState) Label() string {
 func (s *moveState) Enter() {
 }
 
-func (s *moveState) Update(a StateMachine, g terrain.Terrain) State {
+func (s *moveState) Update(sm interface{}, g terrain.Terrain) State {
+	a := sm.(Mover)
 	done := a.MoveTowards(s.destination)
 	if done {
 		return CreateState(s.next)

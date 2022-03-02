@@ -1,6 +1,7 @@
 package state
 
 import (
+	"ego/pkg/memory"
 	"ego/pkg/movement"
 	"ego/pkg/renderable"
 	"ego/pkg/renderer"
@@ -11,6 +12,11 @@ func init() {
 	RegisterStateFactory("explore", func(data []interface{}) State {
 		return &exploreState{}
 	})
+}
+
+type Explorer interface {
+	memory.Memory
+	movement.Positionnable
 }
 
 type exploreState struct {
@@ -25,7 +31,8 @@ func (s *exploreState) Enter() {
 
 }
 
-func (s *exploreState) Update(a StateMachine, g terrain.Terrain) State {
+func (s *exploreState) Update(sm interface{}, g terrain.Terrain) State {
+	a, _ := sm.(Explorer)
 	if s.exploring == nil {
 		if !a.HasInterests() {
 			interests := g.SearchAround(a, 3, func(t terrain.Tile) bool {
@@ -47,6 +54,7 @@ func (s *exploreState) Update(a StateMachine, g terrain.Terrain) State {
 			}{Destination: s.exploring, Next: "explore"})
 		}
 	}
+
 	return nil
 
 }

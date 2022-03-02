@@ -14,10 +14,10 @@ type fakeMob struct {
 	Updated  bool
 }
 
-func (f *fakeMob) Render(r renderer.Renderer) {
+func (f *fakeMob) Render(self interface{}, r renderer.Renderer) {
 	f.Rendered = true
 }
-func (f *fakeMob) Update(t terrain.Terrain) {
+func (f *fakeMob) Update(self interface{}, t terrain.Terrain) {
 	f.Updated = true
 }
 

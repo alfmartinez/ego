@@ -62,14 +62,14 @@ func (game *sampleGame) loop() {
 
 func (game *sampleGame) update() {
 	for _, x := range game.Objects {
-		x.Update(game.Terrain)
+		x.Update(x, game.Terrain)
 	}
 }
 
 func (game *sampleGame) render() {
 	game.Terrain.Render(game.Renderer)
 	for _, x := range game.Objects {
-		x.Render(game.Renderer)
+		x.Render(x, game.Renderer)
 	}
 	game.Renderer.Refresh()
 }

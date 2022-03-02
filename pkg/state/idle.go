@@ -1,6 +1,7 @@
 package state
 
 import (
+	"ego/pkg/motivator"
 	"ego/pkg/renderable"
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
@@ -10,6 +11,10 @@ func init() {
 	RegisterStateFactory("idle", func(data []interface{}) State {
 		return &idleState{}
 	})
+}
+
+type Idler interface {
+	motivator.NeedsCollection
 }
 
 type idleState struct {
@@ -22,9 +27,9 @@ func (s *idleState) Label() string {
 func (s *idleState) Enter() {
 }
 
-func (s *idleState) Update(a StateMachine, g terrain.Terrain) State {
+func (s *idleState) Update(sm interface{}, g terrain.Terrain) State {
+	a := sm.(Idler)
 	topNeed := a.TopNeed()
-	topNeed = "curiosity"
 	switch topNeed {
 	case "curiosity":
 		return CreateState("explore")

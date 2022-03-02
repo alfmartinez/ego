@@ -7,8 +7,8 @@ import (
 )
 
 type GameObject interface {
-	Update(terrain.Terrain)
-	Render(renderer.Renderer)
+	Update(interface{}, terrain.Terrain)
+	Render(interface{}, renderer.Renderer)
 }
 
 var objectFactories = make(map[string]func(configuration.Mob) GameObject)

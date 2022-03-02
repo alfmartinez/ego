@@ -23,7 +23,7 @@ func (s *healState) Enter() {
 
 }
 
-func (s *healState) Update(a StateMachine, g terrain.Terrain) State {
+func (s *healState) Update(a interface{}, g terrain.Terrain) State {
 	return nil
 }
 

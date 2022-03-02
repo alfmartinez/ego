@@ -23,7 +23,7 @@ func (s *restState) Enter() {
 
 }
 
-func (s *restState) Update(a StateMachine, g terrain.Terrain) State {
+func (s *restState) Update(a interface{}, g terrain.Terrain) State {
 	return nil
 }
 
