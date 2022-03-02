@@ -2,8 +2,8 @@ package display
 
 import (
 	"ego/pkg/configuration"
+	"ego/pkg/loader"
 	"ego/pkg/renderable"
-	"ego/pkg/sprite/loader"
 	"errors"
 	"image"
 	"image/color"

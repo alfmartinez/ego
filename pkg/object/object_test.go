@@ -2,7 +2,7 @@ package object
 
 import (
 	"ego/pkg/configuration"
-	"ego/pkg/object/state"
+	"ego/pkg/state"
 	"testing"
 )
 

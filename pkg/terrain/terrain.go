@@ -1,7 +1,7 @@
 package terrain
 
 import (
-	"ego/pkg/object/movement"
+	"ego/pkg/movement"
 	"ego/pkg/renderer"
 )
 

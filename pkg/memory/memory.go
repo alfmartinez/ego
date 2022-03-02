@@ -1,7 +1,7 @@
 package memory
 
 import (
-	"ego/pkg/object/movement"
+	"ego/pkg/movement"
 	"image"
 )
 
