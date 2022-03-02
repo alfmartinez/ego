@@ -1,7 +1,8 @@
-package game
+package factory
 
 import (
 	"ego/pkg/configuration"
+	"ego/pkg/game"
 	"errors"
 	"log"
 	"os"
@@ -9,7 +10,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-func CreateGame(filename string) (*Game, error) {
+func CreateGameFromConfiguration(filename string) (game.GameInterface, error) {
 	dat, err := os.ReadFile("assets/configuration/" + filename)
 	if err != nil {
 		return nil, err
