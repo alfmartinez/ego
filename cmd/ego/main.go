@@ -1,11 +1,9 @@
 package main
 
-import (
-	"ego/pkg/game/factory"
-)
+import "ego/pkg/game"
 
 func main() {
-	game, err := factory.CreateGame("game.yml")
+	game, err := game.CreateGame("file")
 	if err != nil {
 		panic(err)
 	}

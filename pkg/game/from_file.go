@@ -1,22 +1,23 @@
-package factory
+package game
 
 import (
 	"ego/pkg/configuration"
-	"ego/pkg/game"
 	"errors"
-	"log"
 	"os"
 
 	"gopkg.in/yaml.v2"
 )
 
-func CreateGameFromConfiguration(filename string) (game.GameInterface, error) {
+func init() {
+	RegisterGameFactory("file", fromFile)
+}
+
+func fromFile() (Game, error) {
+	filename := "game.yml"
 	dat, err := os.ReadFile("assets/configuration/" + filename)
 	if err != nil {
 		return nil, err
 	}
-
-	log.Print("Read configuration file")
 
 	var configuration configuration.Configuration
 
@@ -35,6 +36,5 @@ func CreateGameFromConfiguration(filename string) (game.GameInterface, error) {
 	}
 
 	game := generateGame(configuration)
-	log.Print("Game created")
 	return game, nil
 }
