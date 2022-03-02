@@ -1,7 +1,7 @@
 package terrain
 
 import (
-	"ego/pkg/mob/movement"
+	"ego/pkg/object/movement"
 	"ego/pkg/renderable"
 	"image"
 )

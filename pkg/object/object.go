@@ -1,4 +1,4 @@
-package mob
+package object
 
 import (
 	"ego/pkg/configuration"

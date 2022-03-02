@@ -1,8 +1,8 @@
-package mob
+package object
 
 import (
 	"ego/pkg/configuration"
-	"ego/pkg/mob/state"
+	"ego/pkg/object/state"
 	"testing"
 )
 

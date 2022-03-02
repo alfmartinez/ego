@@ -1,7 +1,7 @@
 package state
 
 import (
-	"ego/pkg/mob/movement"
+	"ego/pkg/object/movement"
 	"ego/pkg/renderable"
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"

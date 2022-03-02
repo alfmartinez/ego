@@ -1,12 +1,12 @@
-package mob
+package object
 
 import (
 	"ego/pkg/configuration"
-	"ego/pkg/mob/data"
-	"ego/pkg/mob/memory"
-	"ego/pkg/mob/motivator"
-	"ego/pkg/mob/movement"
-	"ego/pkg/mob/state"
+	"ego/pkg/object/data"
+	"ego/pkg/object/memory"
+	"ego/pkg/object/motivator"
+	"ego/pkg/object/movement"
+	"ego/pkg/object/state"
 	"ego/pkg/sprite"
 	"image"
 )

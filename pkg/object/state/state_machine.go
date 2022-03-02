@@ -1,10 +1,10 @@
 package state
 
 import (
-	"ego/pkg/mob/data"
-	"ego/pkg/mob/memory"
-	"ego/pkg/mob/motivator"
-	"ego/pkg/mob/movement"
+	"ego/pkg/object/data"
+	"ego/pkg/object/memory"
+	"ego/pkg/object/motivator"
+	"ego/pkg/object/movement"
 	"ego/pkg/renderable"
 	"ego/pkg/renderer"
 	"ego/pkg/sprite"

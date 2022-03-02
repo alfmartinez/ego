@@ -2,7 +2,7 @@ package game
 
 import (
 	"ego/pkg/configuration"
-	"ego/pkg/mob"
+	"ego/pkg/object"
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 	"testing"
@@ -22,7 +22,7 @@ func (f *fakeMob) Update(t terrain.Terrain) {
 }
 
 func TestCreateSampleGame(t *testing.T) {
-	mobs := make([]mob.GameObject, 0)
+	mobs := make([]object.GameObject, 0)
 	ter := terrain.CreateGrid(0, 0)
 	r := renderer.CreateRenderer(configuration.Renderer{
 		Type: "log",
@@ -34,7 +34,7 @@ func TestCreateSampleGame(t *testing.T) {
 }
 
 func TestSampleGameSyncRenderer(t *testing.T) {
-	mobs := make([]mob.GameObject, 0)
+	mobs := make([]object.GameObject, 0)
 	mob := &fakeMob{}
 	mobs = append(mobs, mob)
 	ter := terrain.CreateGrid(1, 1)

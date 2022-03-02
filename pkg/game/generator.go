@@ -2,16 +2,16 @@ package game
 
 import (
 	"ego/pkg/configuration"
-	"ego/pkg/mob"
+	"ego/pkg/object"
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 )
 
-func generateGame(config configuration.Configuration, factory func([]mob.GameObject, terrain.Terrain, renderer.Renderer) Game) Game {
+func generateGame(config configuration.Configuration, factory func([]object.GameObject, terrain.Terrain, renderer.Renderer) Game) Game {
 
-	var mobs []mob.GameObject
+	var mobs []object.GameObject
 	for _, x := range config.Mobs {
-		object := mob.CreateObject(x)
+		object := object.CreateObject(x)
 		mobs = append(mobs, object)
 	}
 
