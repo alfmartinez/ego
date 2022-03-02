@@ -22,16 +22,15 @@ func CreateStateMachine() StateMachine {
 }
 
 func (m *stateMachine) Update(self interface{}, grid terrain.Terrain) {
+	if m.current == nil {
+		m.next = CreateState("idle")
+	}
 	if m.next != nil {
 		m.current = m.next
 		m.next = nil
 		m.current.Enter()
 	}
-	if m.current == nil {
-		m.next = CreateState("idle")
-	} else {
-		m.next = m.current.Update(self, grid)
-	}
+	m.next = m.current.Update(self, grid)
 }
 
 func (m *stateMachine) Render(self interface{}, r renderer.Renderer) {
