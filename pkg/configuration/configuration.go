@@ -11,6 +11,7 @@ type Size struct {
 }
 
 type Mob struct {
+	Type     string   `yaml:"type"`
 	Name     string   `yaml:"name"`
 	Position Position `yaml:"position"`
 	Sprite   string   `yaml:"sprite"`

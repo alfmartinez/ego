@@ -12,6 +12,7 @@ func TestGenerator(t *testing.T) {
 	config := configuration.Configuration{
 		Mobs: []configuration.Mob{
 			{
+				Type: "Mob",
 				Name: "freddy",
 			},
 		},

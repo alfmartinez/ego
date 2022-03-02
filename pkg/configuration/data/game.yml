@@ -14,6 +14,7 @@ grid:
   y: 20
 mobs: 
   - name: Arthur
+    type: Mob
     sprite: mario.png
     position: 
       x: 960
@@ -32,6 +33,7 @@ mobs:
         priority: 0
         value: 10
   - name: Bob
+    type: Mob
     sprite: frida.png
     position: 
       x: 480
@@ -50,6 +52,7 @@ mobs:
         priority: 0
         value: 100
   - name: Charlie
+    type: Mob
     sprite: maracas.png
     position: 
       x: 1440

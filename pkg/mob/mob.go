@@ -7,18 +7,15 @@ import (
 	"ego/pkg/mob/motivator"
 	"ego/pkg/mob/movement"
 	"ego/pkg/mob/state"
-	"ego/pkg/renderer"
 	"ego/pkg/sprite"
-	"ego/pkg/terrain"
 	"image"
 )
 
-type GameObject interface {
-	Update(terrain.Terrain)
-	Render(renderer.Renderer)
+func init() {
+	RegisterObjectFactory("Mob", CreateMob)
 }
 
-func CreateObject(config configuration.Mob) GameObject {
+func CreateMob(config configuration.Mob) GameObject {
 	name := config.Name
 	position := image.Pt(config.Position.X, config.Position.Y)
 
