@@ -1,6 +1,7 @@
 package game
 
 import (
+	"ego/pkg/mob"
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 	"log"
@@ -8,7 +9,7 @@ import (
 )
 
 type sampleGame struct {
-	Objects      []GameObject
+	Objects      []mob.GameObject
 	Terrain      terrain.Terrain
 	Renderer     renderer.Renderer
 	ExitLoop     chan bool
@@ -21,7 +22,7 @@ const (
 	RENDER_RATE = 30
 )
 
-func CreateSampleGame(mobs []GameObject, t terrain.Terrain, r renderer.Renderer) Game {
+func CreateSampleGame(mobs []mob.GameObject, t terrain.Terrain, r renderer.Renderer) Game {
 
 	updateTicker := time.NewTicker(time.Second / UPDATE_RATE)
 	renderTicker := time.NewTicker(time.Second / RENDER_RATE)

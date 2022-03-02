@@ -1,5 +1,22 @@
 package mob
 
-import "testing"
+import (
+	"ego/pkg/configuration"
+	"ego/pkg/mob/state"
+	"testing"
+)
 
-func TestMob(t *testing.T) {}
+func TestNew(t *testing.T) {
+	var config = configuration.Mob{
+		Needs: []configuration.Need{{
+			Type:     "building mocks",
+			Priority: 0,
+			Level:    100,
+		}},
+	}
+
+	actual := CreateObject(config)
+	if _, ok := actual.(state.StateMachine); !ok {
+		t.Error("Should return StateMachine")
+	}
+}

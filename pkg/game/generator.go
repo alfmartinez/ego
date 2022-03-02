@@ -7,11 +7,11 @@ import (
 	"ego/pkg/terrain"
 )
 
-func generateGame(config configuration.Configuration, factory func([]GameObject, terrain.Terrain, renderer.Renderer) Game) Game {
+func generateGame(config configuration.Configuration, factory func([]mob.GameObject, terrain.Terrain, renderer.Renderer) Game) Game {
 
-	var mobs []GameObject
+	var mobs []mob.GameObject
 	for _, x := range config.Mobs {
-		object := mob.New(x)
+		object := mob.CreateObject(x)
 		mobs = append(mobs, object)
 	}
 

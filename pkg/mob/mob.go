@@ -7,15 +7,18 @@ import (
 	"ego/pkg/mob/motivator"
 	"ego/pkg/mob/movement"
 	"ego/pkg/mob/state"
+	"ego/pkg/renderer"
 	"ego/pkg/sprite"
+	"ego/pkg/terrain"
 	"image"
 )
 
-type Mob struct {
-	state.StateMachine
+type GameObject interface {
+	Update(terrain.Terrain)
+	Render(renderer.Renderer)
 }
 
-func New(config configuration.Mob) *Mob {
+func CreateObject(config configuration.Mob) GameObject {
 	name := config.Name
 	position := image.Pt(config.Position.X, config.Position.Y)
 
@@ -29,5 +32,5 @@ func New(config configuration.Mob) *Mob {
 	}
 	stateMachine := state.CreateStateMachine(memory, mobData, movement, sprite, needs)
 
-	return &Mob{stateMachine}
+	return stateMachine
 }
