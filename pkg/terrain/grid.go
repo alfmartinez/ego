@@ -94,35 +94,32 @@ func (g *grid) AddSource(x int, y int, kind string, quantity uint) {
 	tile.AddResource(kind, quantity)
 }
 
-func (g *grid) FindClosestOld(a movement.Positionnable, validate func(Tile) bool) Tile {
-	tile := g.GetTile(a)
-	searched := make(map[image.Point]bool)
-	if validate(tile) {
-		return tile
-	}
-	searched[tile.Position()] = true
-	var surrounding = make([]Tile, 0)
-	surrounding = append(surrounding, tile.Surrounding()...)
-	for len(surrounding) > 0 {
-		for _, x := range surrounding {
-			if _, ok := searched[x.Position()]; !ok {
-				if validate(x) {
-					return x
+func (g *grid) FindClosest(a movement.Positionnable, validate func(Tile) bool) Tile {
+
+	var added = make(map[Tile]bool)
+	var order = make([]Tile, 0)
+
+	var expand func(tile Tile)
+
+	expand = func() func(Tile) {
+		return func(tile Tile) {
+			added[tile] = true
+			order = append(order, tile)
+			for _, x := range tile.Surrounding() {
+				if _, ok := added[x]; !ok {
+					expand(x)
 				}
-				searched[x.Position()] = true
-				surrounding = append(surrounding, x.Surrounding()...)
 			}
+		}
+	}()
+
+	expand(g.GetTile(a))
+
+	for _, x := range order {
+		if validate(x) {
+			return x
 		}
 	}
 
 	return nil
-}
-
-func (g *grid) FindClosest(a movement.Positionnable, validate func(Tile) bool) Tile {
-	var found Tile = nil
-	tile := g.GetTile(a)
-	if validate(tile) {
-		found = tile
-	}
-	return found
 }
