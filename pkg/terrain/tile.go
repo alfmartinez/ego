@@ -11,6 +11,7 @@ type Tile interface {
 	renderable.Renderable
 	Surrounding() []Tile
 	AddSurrounding([]Tile)
+	Rect() image.Rectangle
 	Resources
 }
 
@@ -40,6 +41,10 @@ func (t *tile) Position() image.Point {
 
 func (t *tile) Surrounding() []Tile {
 	return t.surrounding
+}
+
+func (t *tile) Rect() image.Rectangle {
+	return t.rect
 }
 
 func (t *tile) AddSurrounding(surrounding []Tile) {
