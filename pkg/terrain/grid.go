@@ -46,6 +46,10 @@ func CreateGrid(width int, height int) Terrain {
 
 }
 
+func (g *grid) Tile(pt image.Point) Tile {
+	return g.tiles[pt]
+}
+
 func (g *grid) GetTile(pos movement.Positionnable) Tile {
 	return g.tiles[pos.Position().Div(tileSize)]
 }
@@ -60,6 +64,10 @@ func (g *grid) SearchAround(a movement.Positionnable, r int, validate func(t Til
 	tile := g.GetTile(a)
 	current := tile.Surrounding()
 	found := make(map[movement.Positionnable]movement.Positionnable)
+	if validate(tile) {
+		pos := movement.Loc(tile.Position().Div(tileSize))
+		found[pos] = pos
+	}
 	for r > 0 {
 		var next []Tile
 		for _, t := range current {
@@ -79,4 +87,30 @@ func (g *grid) SearchAround(a movement.Positionnable, r int, validate func(t Til
 	}
 
 	return results
+}
+
+func (g *grid) AddSource(x int, y int, kind string, quantity uint) {
+	tile := g.tiles[image.Pt(x, y)]
+	tile.AddResource(kind, quantity)
+}
+
+func (g *grid) FindClosest(a movement.Positionnable, validate func(Tile) bool) Tile {
+	tile := g.GetTile(a)
+	searched := make(map[image.Point]bool)
+	if validate(tile) {
+		return tile
+	}
+	searched[tile.Position()] = true
+	var surrounding = make([]Tile, 0)
+	surrounding = append(surrounding, tile.Surrounding()...)
+	for _, x := range surrounding {
+		if _, ok := searched[x.Position()]; !ok {
+			if validate(x) {
+				return x
+			}
+			searched[x.Position()] = true
+			surrounding = append(surrounding, x.Surrounding()...)
+		}
+	}
+	return nil
 }

@@ -11,7 +11,7 @@ func init() {
 	RegisterStateFactory("move", func(data []interface{}) State {
 		args := data[0].(struct {
 			Destination movement.Positionnable
-			Next        string
+			Next        State
 		})
 		return &moveState{args.Destination, args.Next}
 	})
@@ -23,7 +23,7 @@ type Mover interface {
 
 type moveState struct {
 	destination movement.Positionnable
-	next        string
+	next        State
 }
 
 func (s *moveState) Label() string {
@@ -37,7 +37,7 @@ func (s *moveState) Update(sm interface{}, g terrain.Terrain) State {
 	a := sm.(Mover)
 	done := a.MoveTowards(s.destination)
 	if done {
-		return CreateState(s.next)
+		return s.next
 	}
 	return nil
 }

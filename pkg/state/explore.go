@@ -27,9 +27,7 @@ func (s *exploreState) Label() string {
 	return "exploring"
 }
 
-func (s *exploreState) Enter() {
-
-}
+func (s *exploreState) Enter() {}
 
 func (s *exploreState) Update(sm interface{}, g terrain.Terrain) State {
 	a, _ := sm.(Explorer)
@@ -50,8 +48,8 @@ func (s *exploreState) Update(sm interface{}, g terrain.Terrain) State {
 		} else {
 			return CreateState("move", struct {
 				Destination movement.Positionnable
-				Next        string
-			}{Destination: s.exploring, Next: "explore"})
+				Next        State
+			}{Destination: s.exploring, Next: s})
 		}
 	}
 

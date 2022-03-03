@@ -11,10 +11,12 @@ type Tile interface {
 	renderable.Renderable
 	Surrounding() []Tile
 	AddSurrounding([]Tile)
+	Resources
 }
 
 type tile struct {
 	TileType
+	Resources
 	rect        image.Rectangle
 	size        int
 	surrounding []Tile
@@ -24,7 +26,8 @@ func CreateTile(coord image.Point, tileType TileType, tileSize int) Tile {
 	surrounding := make([]Tile, 0)
 	rect := image.Rect(0, 0, tileSize, tileSize)
 	rect = rect.Add(coord.Mul(tileSize))
-	return &tile{tileType, rect, tileSize, surrounding}
+	res := CreateResources()
+	return &tile{tileType, res, rect, tileSize, surrounding}
 }
 
 func (t *tile) IsAt(pos movement.Positionnable) bool {
