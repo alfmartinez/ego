@@ -50,10 +50,7 @@ func (s *exploreState) Update(sm interface{}, g terrain.Terrain) State {
 				return CreateState("idle")
 			}
 		} else {
-			return CreateState("move", struct {
-				Destination movement.Positionnable
-				Next        State
-			}{Destination: s.exploring, Next: s})
+			return CreateState("move", MoveArguments{Destination: s.exploring, Next: s})
 		}
 	}
 

@@ -33,9 +33,6 @@ func (s *healState) Update(a interface{}, g terrain.Terrain) State {
 	patient := a.(Patient)
 	if s.target == nil {
 		tiles := g.FindClosest(patient, 1, func(t terrain.Tile) bool {
-			if t == nil {
-				return false
-			}
 			return t.HasResource("health")
 		})
 		tile := tiles[0]
@@ -47,10 +44,7 @@ func (s *healState) Update(a interface{}, g terrain.Terrain) State {
 		patient.Provide(motivator.CreateNeed("health", 0), 1, 10)
 		s.target.Consume("health")
 	} else {
-		return CreateState("move", struct {
-			Destination movement.Positionnable
-			Next        State
-		}{Destination: s.target, Next: s})
+		return CreateState("move", MoveArguments{Destination: s.target, Next: s})
 	}
 	return CreateState("idle")
 }

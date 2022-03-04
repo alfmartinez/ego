@@ -9,12 +9,14 @@ import (
 
 func init() {
 	RegisterStateFactory("move", func(data []interface{}) State {
-		args := data[0].(struct {
-			Destination movement.Positionnable
-			Next        State
-		})
+		args := data[0].(MoveArguments)
 		return &moveState{args.Destination, args.Next}
 	})
+}
+
+type MoveArguments struct {
+	Destination movement.Positionnable
+	Next        State
 }
 
 type Mover interface {
