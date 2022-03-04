@@ -9,16 +9,16 @@ var types = make(map[string]TileType)
 func CreateTileType(name string) TileType {
 	tileType, ok := types[name]
 	if !ok {
-		tileType = &plainType{"mario.png"}
+		tileType = &defaultType{"mario.png"}
 		types[name] = tileType
 	}
 	return tileType
 }
 
-type plainType struct {
+type defaultType struct {
 	path string
 }
 
-func (t *plainType) Path() string {
+func (t *defaultType) Path() string {
 	return t.path
 }
