@@ -95,23 +95,53 @@ func (g *grid) AddSource(x int, y int, kind string, quantity uint) {
 }
 
 func (g *grid) FindClosest(a movement.Positionnable, validate func(Tile) bool) Tile {
+	return g.channelFind(a, validate)
+}
+
+func (g *grid) recursiveFind(a movement.Positionnable, validate func(Tile) bool) Tile {
 
 	var added = make(map[Tile]bool)
 	var order = make([]Tile, 0)
 
 	var expand func(tile Tile)
 
-	expand = func() func(Tile) {
-		return func(tile Tile) {
-			added[tile] = true
-			order = append(order, tile)
-			for _, x := range tile.Surrounding() {
-				if _, ok := added[x]; !ok {
-					expand(x)
-				}
+	expand = func(tile Tile) {
+		added[tile] = true
+		order = append(order, tile)
+		for _, x := range tile.Surrounding() {
+			if _, ok := added[x]; !ok {
+				expand(x)
 			}
 		}
-	}()
+	}
+
+	expand(g.GetTile(a))
+
+	for _, x := range order {
+		if validate(x) {
+			return x
+		}
+	}
+
+	return nil
+}
+
+func (g *grid) channelFind(a movement.Positionnable, validate func(Tile) bool) Tile {
+
+	var added = make(map[Tile]bool)
+	var order = make([]Tile, 0)
+
+	var expand func(tile Tile)
+
+	expand = func(tile Tile) {
+		added[tile] = true
+		order = append(order, tile)
+		for _, x := range tile.Surrounding() {
+			if _, ok := added[x]; !ok {
+				expand(x)
+			}
+		}
+	}
 
 	expand(g.GetTile(a))
 
