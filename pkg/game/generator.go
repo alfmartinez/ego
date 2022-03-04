@@ -16,8 +16,8 @@ func generateGame(config configuration.Configuration, factory func([]object.Game
 	}
 
 	t := terrain.CreateGrid(config.Grid.X, config.Grid.Y)
-
 	r := renderer.CreateRenderer(config.Renderer)
+
 	r.Init()
 
 	game := factory(mobs, t, r)

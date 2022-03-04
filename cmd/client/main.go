@@ -11,5 +11,6 @@ func main() {
 	w.SetPadded(false)
 	w.SetContent(widget.NewLabel("Hello world !"))
 	w.SetFullScreen(true)
+
 	w.ShowAndRun()
 }

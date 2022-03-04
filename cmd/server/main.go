@@ -1,9 +1,8 @@
 package main
 
-import (
-	"ego/internal/server"
-)
+import "ego/pkg/game"
 
 func main() {
-	server.CreateServer().Start(":8081")
+	game := game.CreateGame("backend")
+	game.Start()
 }

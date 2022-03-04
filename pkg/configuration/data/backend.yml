@@ -1,0 +1,64 @@
+modelVersion: v0
+renderer: 
+  type: net
+grid: 
+  x: 20
+  y: 20
+mobs: 
+  - name: Arthur
+    type: Mob
+    sprite: mario.png
+    position: 
+      x: 960
+      y: 540
+    needs: 
+      - name: social
+        priority: 2
+        value: 100
+      - name: curiosity
+        priority: 2
+        value: 20
+      - name: rest
+        priority: 1
+        value: 100
+      - name: health
+        priority: 0
+        value: 10
+  - name: Bob
+    type: Mob
+    sprite: frida.png
+    position: 
+      x: 480
+      y: 540
+    needs: 
+      - name: social
+        priority: 2
+        value: 100
+      - name: curiosity
+        priority: 2
+        value: 100
+      - name: rest
+        priority: 1
+        value: 10
+      - name: health
+        priority: 0
+        value: 100
+  - name: Charlie
+    type: Mob
+    sprite: maracas.png
+    position: 
+      x: 1440
+      y: 540
+    needs: 
+      - name: social
+        priority: 2
+        value: 50
+      - name: curiosity
+        priority: 2
+        value: 10
+      - name: rest
+        priority: 1
+        value: 100
+      - name: health
+        priority: 0
+        value: 100
