@@ -1,4 +1,4 @@
-module github.com/alfmartinez/ego
+module ego
 
 go 1.17
 
