@@ -5,7 +5,6 @@ import (
 	"ego/pkg/renderable"
 	"ego/pkg/renderer"
 	"image"
-	"log"
 	"testing"
 )
 
@@ -80,7 +79,7 @@ func TestRender(t *testing.T) {
 func TestFindClosestSingleTrue(t *testing.T) {
 	g := CreateGrid(1, 1)
 	pos := movement.Loc(image.Pt(0, 0))
-	tile := g.FindClosest(pos, func(tile Tile) bool {
+	tile := g.FindClosest(pos, 1, func(tile Tile) bool {
 		return true
 	})
 	if tile == nil {
@@ -91,11 +90,12 @@ func TestFindClosestSingleTrue(t *testing.T) {
 func TestFindClosestMultipleFalse(t *testing.T) {
 	g := CreateGrid(3, 3)
 	pos := movement.Loc(image.Pt(0, 0))
-	tile := g.FindClosest(pos, func(tile Tile) bool {
+	tile := g.FindClosest(pos, 1, func(tile Tile) bool {
 		return false
-	})
+	})[0]
+
 	if tile != nil {
-		t.Error("Should return nil")
+		t.Errorf("Should return nil, got %+v", tile)
 	}
 }
 
@@ -104,8 +104,7 @@ func TestFindClosestMultipleResource(t *testing.T) {
 	g := CreateGrid(3, 3)
 	pos := movement.Loc(image.Pt(0, 0))
 	g.AddSource(2, 2, "health", 1)
-	tile := g.FindClosest(pos, func(tile Tile) bool {
-		log.Printf("Tile : %+v", tile.Rect())
+	tile := g.FindClosest(pos, 1, func(tile Tile) bool {
 		return tile.HasResource("health")
 	})
 	if tile == nil {

@@ -32,12 +32,13 @@ func (s *healState) Enter() {}
 func (s *healState) Update(a interface{}, g terrain.Terrain) State {
 	patient := a.(Patient)
 	if s.target == nil {
-		tile := g.FindClosest(patient, func(t terrain.Tile) bool {
+		tiles := g.FindClosest(patient, 1, func(t terrain.Tile) bool {
 			if t == nil {
 				return false
 			}
 			return t.HasResource("health")
 		})
+		tile := tiles[0]
 		if tile != nil {
 			s.target = tile
 		}

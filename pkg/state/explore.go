@@ -33,10 +33,18 @@ func (s *exploreState) Update(sm interface{}, g terrain.Terrain) State {
 	a, _ := sm.(Explorer)
 	if s.exploring == nil {
 		if !a.HasInterests() {
-			interests := g.SearchAround(a, 3, func(t terrain.Tile) bool {
+			interests := g.FindClosest(a, 9, func(t terrain.Tile) bool {
 				return !a.HasExplored(t)
 			})
-			a.AddInterests(interests)
+			positions := make([]movement.Positionnable, len(interests))
+			for _, x := range interests {
+				if x != nil {
+					if p, ok := x.(movement.Positionnable); ok {
+						positions = append(positions, p)
+					}
+				}
+			}
+			a.AddInterests(positions)
 		}
 		s.exploring = a.GetNextInterest()
 	} else {

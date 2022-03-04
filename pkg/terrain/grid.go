@@ -60,46 +60,13 @@ func (g *grid) Render(r renderer.Renderer) {
 	}
 }
 
-func (g *grid) SearchAround(a movement.Positionnable, r int, validate func(t Tile) bool) []movement.Positionnable {
-	tile := g.GetTile(a)
-	current := tile.Surrounding()
-	found := make(map[movement.Positionnable]movement.Positionnable)
-	if validate(tile) {
-		pos := movement.Loc(tile.Position().Div(tileSize))
-		found[pos] = pos
-	}
-	for r > 0 {
-		var next []Tile
-		for _, t := range current {
-			_, ok := found[t]
-			if validate(t) && !ok {
-				found[t] = t
-				next = append(next, t.Surrounding()...)
-			}
-		}
-		r--
-		current = next
-	}
-
-	results := make([]movement.Positionnable, 0, len(found))
-	for _, f := range found {
-		results = append(results, f)
-	}
-
-	return results
-}
-
 func (g *grid) AddSource(x int, y int, kind string, quantity uint) {
 	tile := g.tiles[image.Pt(x, y)]
 	tile.AddResource(kind, quantity)
 }
 
-func (g *grid) FindClosest(a movement.Positionnable, validate func(Tile) bool) Tile {
-	return g.channelFind(a, validate)
-}
-
-func (g *grid) recursiveFind(a movement.Positionnable, validate func(Tile) bool) Tile {
-
+func (g *grid) FindClosest(a movement.Positionnable, count int, validate func(Tile) bool) []Tile {
+	var found = make([]Tile, count)
 	var added = make(map[Tile]bool)
 	var order = make([]Tile, 0)
 
@@ -119,37 +86,9 @@ func (g *grid) recursiveFind(a movement.Positionnable, validate func(Tile) bool)
 
 	for _, x := range order {
 		if validate(x) {
-			return x
+			found = append(found, x)
 		}
 	}
 
-	return nil
-}
-
-func (g *grid) channelFind(a movement.Positionnable, validate func(Tile) bool) Tile {
-
-	var added = make(map[Tile]bool)
-	var order = make([]Tile, 0)
-
-	var expand func(tile Tile)
-
-	expand = func(tile Tile) {
-		added[tile] = true
-		order = append(order, tile)
-		for _, x := range tile.Surrounding() {
-			if _, ok := added[x]; !ok {
-				expand(x)
-			}
-		}
-	}
-
-	expand(g.GetTile(a))
-
-	for _, x := range order {
-		if validate(x) {
-			return x
-		}
-	}
-
-	return nil
+	return found
 }
