@@ -11,7 +11,7 @@ type fakeRenderable struct{}
 func (f *fakeRenderable) Name() string          { return "fake" }
 func (f *fakeRenderable) Doing() string         { return "fake" }
 func (f *fakeRenderable) Position() image.Point { return image.Pt(0, 0) }
-func (f *fakeRenderable) Path() string          { return "fake" }
+func (f *fakeRenderable) Path() string          { return "mario.png" }
 
 func (f *fakeRenderable) Size() uint { return 1 }
 

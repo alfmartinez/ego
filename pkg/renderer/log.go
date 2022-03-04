@@ -19,16 +19,11 @@ func (r *LogRenderer) IsAsync() bool {
 	return false
 }
 
-func (r *LogRenderer) Init() {
+func (r *LogRenderer) Init() {}
 
-}
+func (r *LogRenderer) Start(exit chan bool) {}
 
-func (r *LogRenderer) Start(exit chan bool) {
-	//<-exit
-}
-
-func (r *LogRenderer) Refresh() {
-}
+func (r *LogRenderer) Refresh() {}
 
 func (r *LogRenderer) Render(s renderable.Renderable) {
 	if s.Name() != "" {
