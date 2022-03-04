@@ -3,8 +3,6 @@ package state
 import (
 	"ego/pkg/motivator"
 	"ego/pkg/movement"
-	"ego/pkg/renderable"
-	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 )
 
@@ -20,14 +18,13 @@ type Patient interface {
 }
 
 type healState struct {
+	baseState
 	target terrain.Tile
 }
 
 func (s *healState) Label() string {
 	return "healing"
 }
-
-func (s *healState) Enter() {}
 
 func (s *healState) Update(a interface{}, g terrain.Terrain) State {
 	patient := a.(Patient)
@@ -47,8 +44,4 @@ func (s *healState) Update(a interface{}, g terrain.Terrain) State {
 		return CreateState("move", MoveArguments{Destination: s.target, Next: s})
 	}
 	return CreateState("idle")
-}
-
-func (s *healState) Render(r renderer.Renderer, m renderable.Renderable) {
-	r.Render(m)
 }

@@ -2,8 +2,6 @@ package state
 
 import (
 	"ego/pkg/motivator"
-	"ego/pkg/renderable"
-	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 )
 
@@ -18,13 +16,11 @@ type Idler interface {
 }
 
 type idleState struct {
+	baseState
 }
 
 func (s *idleState) Label() string {
 	return "preparing"
-}
-
-func (s *idleState) Enter() {
 }
 
 func (s *idleState) Update(sm interface{}, g terrain.Terrain) State {
@@ -42,8 +38,4 @@ func (s *idleState) Update(sm interface{}, g terrain.Terrain) State {
 	}
 	return nil
 
-}
-
-func (s *idleState) Render(r renderer.Renderer, m renderable.Renderable) {
-	r.Render(m)
 }

@@ -3,8 +3,6 @@ package state
 import (
 	"ego/pkg/memory"
 	"ego/pkg/movement"
-	"ego/pkg/renderable"
-	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 )
 
@@ -20,14 +18,13 @@ type Explorer interface {
 }
 
 type exploreState struct {
+	baseState
 	exploring movement.Positionnable
 }
 
 func (s *exploreState) Label() string {
 	return "exploring"
 }
-
-func (s *exploreState) Enter() {}
 
 func (s *exploreState) Update(sm interface{}, g terrain.Terrain) State {
 	a, _ := sm.(Explorer)
@@ -56,8 +53,4 @@ func (s *exploreState) Update(sm interface{}, g terrain.Terrain) State {
 
 	return nil
 
-}
-
-func (s *exploreState) Render(r renderer.Renderer, m renderable.Renderable) {
-	r.Render(m)
 }

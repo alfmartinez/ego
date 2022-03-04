@@ -2,15 +2,16 @@ package state
 
 import (
 	"ego/pkg/movement"
-	"ego/pkg/renderable"
-	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 )
 
 func init() {
 	RegisterStateFactory("move", func(data []interface{}) State {
 		args := data[0].(MoveArguments)
-		return &moveState{args.Destination, args.Next}
+		return &moveState{
+			destination: args.Destination,
+			next:        args.Next,
+		}
 	})
 }
 
@@ -24,15 +25,13 @@ type Mover interface {
 }
 
 type moveState struct {
+	baseState
 	destination movement.Positionnable
 	next        State
 }
 
 func (s *moveState) Label() string {
 	return "moving"
-}
-
-func (s *moveState) Enter() {
 }
 
 func (s *moveState) Update(sm interface{}, g terrain.Terrain) State {
@@ -42,8 +41,4 @@ func (s *moveState) Update(sm interface{}, g terrain.Terrain) State {
 		return s.next
 	}
 	return nil
-}
-
-func (s *moveState) Render(r renderer.Renderer, m renderable.Renderable) {
-	r.Render(m)
 }
