@@ -111,3 +111,12 @@ func TestFindClosestMultipleResource(t *testing.T) {
 		t.Error("Should return tile with resource")
 	}
 }
+
+func TestGridTileReturnsTileInGridCoord(t *testing.T) {
+	g := CreateGrid(3, 3)
+
+	tile := g.Tile(image.Pt(0, 0))
+	if tile == nil {
+		t.Errorf("tile should not be nil")
+	}
+}
