@@ -41,4 +41,10 @@ func TestIdleState(t *testing.T) {
 
 	}
 
+	sm := createFakeIdler("other")
+	next := s.Update(sm, g)
+	if next != nil {
+		t.Errorf("Other needs should return nil, got %+v", next)
+	}
+
 }
