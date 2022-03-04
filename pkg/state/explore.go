@@ -6,7 +6,6 @@ import (
 	"ego/pkg/renderable"
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
-	"log"
 )
 
 func init() {
@@ -37,14 +36,9 @@ func (s *exploreState) Update(sm interface{}, g terrain.Terrain) State {
 			interests := g.FindClosest(a, 9, func(t terrain.Tile) bool {
 				return !a.HasExplored(t)
 			})
-			positions := make([]movement.Positionnable, len(interests))
+			positions := make([]movement.Positionnable, 0, len(interests))
 			for _, x := range interests {
-				log.Printf(" --- %+v", x)
-				if x != nil {
-					if p, ok := x.(movement.Positionnable); ok {
-						positions = append(positions, p)
-					}
-				}
+				positions = append(positions, movement.Loc(x.Position()))
 			}
 			a.AddInterests(positions)
 		}
