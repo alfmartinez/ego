@@ -6,6 +6,7 @@ import (
 	"ego/pkg/renderable"
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
+	"log"
 )
 
 func init() {
@@ -38,6 +39,7 @@ func (s *exploreState) Update(sm interface{}, g terrain.Terrain) State {
 			})
 			positions := make([]movement.Positionnable, len(interests))
 			for _, x := range interests {
+				log.Printf(" --- %+v", x)
 				if x != nil {
 					if p, ok := x.(movement.Positionnable); ok {
 						positions = append(positions, p)

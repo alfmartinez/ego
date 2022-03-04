@@ -92,9 +92,9 @@ func TestFindClosestMultipleFalse(t *testing.T) {
 	pos := movement.Loc(image.Pt(0, 0))
 	tile := g.FindClosest(pos, 1, func(tile Tile) bool {
 		return false
-	})[0]
+	})
 
-	if tile != nil {
+	if len(tile) != 0 {
 		t.Errorf("Should return nil, got %+v", tile)
 	}
 }

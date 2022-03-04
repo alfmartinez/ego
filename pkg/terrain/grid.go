@@ -66,7 +66,7 @@ func (g *grid) AddSource(x int, y int, kind string, quantity uint) {
 }
 
 func (g *grid) FindClosest(a movement.Positionnable, count int, validate func(Tile) bool) []Tile {
-	var found = make([]Tile, count)
+	var found = make([]Tile, 0, count)
 	var added = make(map[Tile]bool)
 	var order = make([]Tile, 0)
 
