@@ -23,7 +23,8 @@ func ConvertObjectToDisplayable(i interface{}) display.Displayable {
 		size = v.Size()
 		position = v.Position()
 	default:
-		log.Fatalf("Cannot convert %+v", i)
+		log.Printf("Cannot convert from %+v, return nil", i)
+		return nil
 	}
 
 	return display.CreateDisplayable(path, size, position)

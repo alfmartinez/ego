@@ -2,6 +2,7 @@ package renderer
 
 import (
 	"ego/pkg/configuration"
+	"ego/pkg/render"
 	"testing"
 )
 
@@ -38,7 +39,7 @@ func TestFyneRenderer(t *testing.T) {
 	})
 
 	t.Run("Render should render ^^'", func(t *testing.T) {
-		tree := CreateRenderTree()
+		tree := render.CreateRenderTree()
 		r.Render(tree)
 	})
 
