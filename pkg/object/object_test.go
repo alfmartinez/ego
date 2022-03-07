@@ -2,7 +2,6 @@ package object
 
 import (
 	"ego/pkg/configuration"
-	"ego/pkg/state"
 	"testing"
 )
 
@@ -17,7 +16,7 @@ func TestNew(t *testing.T) {
 	}
 
 	actual := CreateObject(config)
-	if _, ok := actual.(state.StateMachine); !ok {
-		t.Error("Should return StateMachine")
+	if _, ok := actual.(StateMob); !ok {
+		t.Errorf("Should return StateMob, got %+v", actual)
 	}
 }
