@@ -5,12 +5,6 @@ import (
 	"image"
 )
 
-type Displayable interface {
-	Path() string
-	Size() uint
-	Position() image.Point
-}
-
 type Display interface {
 	Init()
 	Render() image.Image

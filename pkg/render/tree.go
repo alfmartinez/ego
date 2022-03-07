@@ -10,15 +10,15 @@ type renderTree struct {
 }
 
 func CreateRenderTree() RenderTree {
-	return &renderTree{
+	return renderTree{
 		root: CreateRenderNode(),
 	}
 }
 
-func (t *renderTree) Root() RenderNode {
+func (t renderTree) Root() RenderNode {
 	return t.root
 }
 
-func (t *renderTree) Apply(f func(n RenderNode)) {
+func (t renderTree) Apply(f func(n RenderNode)) {
 	t.root.Apply(f)
 }

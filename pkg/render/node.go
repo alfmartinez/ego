@@ -3,42 +3,33 @@ package render
 import (
 	"ego/pkg/display"
 	"ego/pkg/utils"
-	"image"
 )
 
 type RenderNode interface {
-	utils.Attributes
 	utils.Tree
 	Apply(func(RenderNode))
-	SetValue(RenderableObject)
-	Value() RenderableObject
 	Display() display.Displayable
 	CreateFolder(string) RenderNode
-	CreateObject(RenderableObject)
-}
-
-type RenderableObject interface {
-	Path() string
-	Size() uint
-	Position() image.Point
+	CreateObject(interface{})
 }
 
 func CreateRenderNode() RenderNode {
-	return &renderNode{}
+	return &renderNode{
+		Tree:  utils.CreateTree(),
+		value: nil,
+	}
+}
+
+func CreateObjectNode(v display.Displayable) RenderNode {
+	return &renderNode{
+		Tree:  utils.CreateTree(),
+		value: v,
+	}
 }
 
 type renderNode struct {
 	utils.Tree
-	utils.Attributes
-	value RenderableObject
-}
-
-func (n *renderNode) SetValue(value RenderableObject) {
-	n.value = value
-}
-
-func (n *renderNode) Value() RenderableObject {
-	return n.value
+	value display.Displayable
 }
 
 func (n *renderNode) Display() display.Displayable {
@@ -55,15 +46,11 @@ func (n *renderNode) Apply(f func(RenderNode)) {
 
 func (n *renderNode) CreateFolder(name string) RenderNode {
 	folder := CreateRenderNode()
-	folder.SetAttribute("name", name)
-	folder.SetAttribute("type", "folder")
 	n.AddChild(folder)
 	return folder
 }
 
-func (n *renderNode) CreateObject(o RenderableObject) {
-	node := CreateRenderNode()
-	node.SetAttribute("type", "node")
-	node.SetValue(o)
+func (n *renderNode) CreateObject(o interface{}) {
+	node := CreateObjectNode(ConvertObjectToDisplayable(o))
 	n.AddChild(node)
 }

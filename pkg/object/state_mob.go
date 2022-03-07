@@ -11,12 +11,17 @@ import (
 	"image"
 )
 
+func init() {
+	RegisterObjectFactory("Mob", CreateStateMob)
+}
+
 type StateMob interface {
 	GameObject
 	memory.Memory
 	data.Data
 	movement.Movement
 	motivator.NeedsCollection
+	sprite.Sprite
 }
 
 type stateMob struct {
