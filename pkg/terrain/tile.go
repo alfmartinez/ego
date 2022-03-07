@@ -9,6 +9,7 @@ type Tile interface {
 	movement.Positionnable
 	Surrounding() []Tile
 	AddSurrounding([]Tile)
+	Update()
 	Rect() image.Rectangle
 	Resources
 }
@@ -48,3 +49,5 @@ func (t *tile) Rect() image.Rectangle {
 func (t *tile) AddSurrounding(surrounding []Tile) {
 	t.surrounding = append(t.surrounding, surrounding...)
 }
+
+func (t *tile) Update() {}

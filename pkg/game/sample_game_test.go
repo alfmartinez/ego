@@ -2,9 +2,7 @@ package game
 
 import (
 	"ego/pkg/configuration"
-	"ego/pkg/object"
 	"ego/pkg/renderer"
-	"ego/pkg/terrain"
 	"testing"
 	"time"
 )
@@ -14,34 +12,29 @@ type fakeMob struct {
 	Updated  bool
 }
 
-func (f *fakeMob) Render(self interface{}, r renderer.Renderer) {
-	f.Rendered = true
-}
-func (f *fakeMob) Update(self interface{}, t terrain.Terrain) {
+func (f *fakeMob) Update() {
 	f.Updated = true
 }
 
 func TestCreateSampleGame(t *testing.T) {
-	mobs := make([]object.GameObject, 0)
-	ter := terrain.CreateGrid(0, 0)
+	scene := CreateScene()
 	r := renderer.CreateRenderer(configuration.Renderer{
 		Type: "log",
 	})
-	game := CreateSampleGame(mobs, ter, r)
+	game := CreateSampleGame(scene, r)
 	if _, ok := game.(*sampleGame); !ok {
 		t.Errorf("Should create sample game, got %v", game)
 	}
 }
 
 func TestSampleGameSyncRenderer(t *testing.T) {
-	mobs := make([]object.GameObject, 0)
 	mob := &fakeMob{}
-	mobs = append(mobs, mob)
-	ter := terrain.CreateGrid(1, 1)
+	scene := CreateScene()
+	scene.Root().AddObject(mob)
 	r := renderer.CreateRenderer(configuration.Renderer{
 		Type: "log",
 	})
-	game := CreateSampleGame(mobs, ter, r)
+	game := CreateSampleGame(scene, r)
 
 	if mob.Rendered {
 		t.Error("Mob should not have been rendered")
