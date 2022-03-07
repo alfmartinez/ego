@@ -1,11 +1,17 @@
 package renderable
 
-import "image"
+import "ego/pkg/renderer"
 
 type Renderable interface {
-	Position() image.Point
-	Name() string
-	Doing() string
-	Path() string
-	Size() uint
+	Render(interface{}, renderer.Renderer)
+}
+
+var factories = make(map[string]func() Renderable)
+
+func RegisterRenderableFactory(name string, f func() Renderable) {
+	factories[name] = f
+}
+
+func CreateRenderable(name string) Renderable {
+	return factories[name]()
 }

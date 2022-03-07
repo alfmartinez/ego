@@ -2,14 +2,19 @@ package display
 
 import (
 	"ego/pkg/configuration"
-	"ego/pkg/renderable"
 	"image"
 )
+
+type Displayable interface {
+	Path() string
+	Size() uint
+	Position() image.Point
+}
 
 type Display interface {
 	Init()
 	Render() image.Image
-	AddObject(renderable.Renderable)
+	AddObject(Displayable)
 	GetSize() configuration.Size
 }
 

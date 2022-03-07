@@ -38,7 +38,7 @@ func TestFyneRenderer(t *testing.T) {
 	})
 
 	t.Run("Render should render ^^'", func(t *testing.T) {
-		r.Render(&fakeRenderable{})
+		t.Error("To fix")
 	})
 
 }

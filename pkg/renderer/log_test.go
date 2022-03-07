@@ -27,7 +27,6 @@ func TestLogRenderer(t *testing.T) {
 	r.Start(make(chan bool)) // Do nothing
 	r.Refresh()              // Do nothing
 
-	s := &fakeRenderable{}
+	t.Error("to fix")
 
-	r.Render(s)
 }

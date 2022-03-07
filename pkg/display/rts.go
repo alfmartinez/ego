@@ -3,7 +3,6 @@ package display
 import (
 	"ego/pkg/configuration"
 	"ego/pkg/loader"
-	"ego/pkg/renderable"
 	"errors"
 	"image"
 	"image/color"
@@ -52,7 +51,7 @@ func (d *rts) Render() image.Image {
 	return buffer
 }
 
-func (d *rts) AddObject(s renderable.Renderable) {
+func (d *rts) AddObject(s Displayable) {
 	src := d.loader.GetSprite(s.Path(), s.Size())
 	pos := s.Position()
 	srcPoint := pos

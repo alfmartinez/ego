@@ -3,7 +3,6 @@ package renderer
 import (
 	"ego/pkg/configuration"
 	"ego/pkg/display"
-	"ego/pkg/renderable"
 	_ "embed"
 
 	"fyne.io/fyne/v2"
@@ -52,8 +51,12 @@ func (r *fyneRenderer) Start(exit chan bool) {
 	r.window.ShowAndRun()
 }
 
-func (r *fyneRenderer) Render(s renderable.Renderable) {
-	r.display.AddObject(s)
+func (r *fyneRenderer) Render(tree RenderTree) {
+	tree.Apply(func(renderable interface{}) {
+		s := renderable.(display.Displayable)
+		r.display.AddObject(s)
+	})
+
 }
 
 func (r *fyneRenderer) Refresh() {

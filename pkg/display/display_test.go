@@ -2,7 +2,6 @@ package display
 
 import (
 	"ego/pkg/configuration"
-	"ego/pkg/renderable"
 	"image"
 	"testing"
 )
@@ -14,7 +13,7 @@ func (f *FakeDisplay) Init() {}
 func (f *FakeDisplay) Render() image.Image {
 	return &image.RGBA{}
 }
-func (f *FakeDisplay) AddObject(s renderable.Renderable) {}
+func (f *FakeDisplay) AddObject(s Displayable) {}
 func (f *FakeDisplay) GetSize() configuration.Size {
 	return configuration.Size{}
 }

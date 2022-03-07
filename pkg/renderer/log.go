@@ -2,7 +2,6 @@ package renderer
 
 import (
 	"ego/pkg/configuration"
-	"ego/pkg/renderable"
 	"log"
 )
 
@@ -25,8 +24,9 @@ func (r *LogRenderer) Start(exit chan bool) {}
 
 func (r *LogRenderer) Refresh() {}
 
-func (r *LogRenderer) Render(s renderable.Renderable) {
-	if s.Name() != "" {
-		log.Printf("- %s %s at %+v", s.Name(), s.Doing(), s.Position())
-	}
+func (r *LogRenderer) Render(tree RenderTree) {
+	tree.Apply(func(s interface{}) {
+		log.Printf("%+v", s)
+	})
+
 }
