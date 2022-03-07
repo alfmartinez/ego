@@ -3,6 +3,7 @@ package render
 import (
 	"ego/pkg/display"
 	"ego/pkg/object"
+	"ego/pkg/terrain"
 	"image"
 	"log"
 )
@@ -14,6 +15,10 @@ func ConvertObjectToDisplayable(i interface{}) display.Displayable {
 
 	switch v := i.(type) {
 	case object.StateMob:
+		path = v.Path()
+		size = v.Size()
+		position = v.Position()
+	case terrain.Tile:
 		path = v.Path()
 		size = v.Size()
 		position = v.Position()

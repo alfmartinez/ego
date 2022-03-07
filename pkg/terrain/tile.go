@@ -12,6 +12,8 @@ type Tile interface {
 	Update()
 	Rect() image.Rectangle
 	Resources
+	Path() string
+	Size() uint
 }
 
 type tile struct {
@@ -28,6 +30,10 @@ func CreateTile(coord image.Point, tileType TileType, tileSize int) Tile {
 	rect = rect.Add(coord.Mul(tileSize))
 	res := CreateResources()
 	return &tile{tileType, res, rect, tileSize, surrounding}
+}
+
+func (t *tile) Size() uint {
+	return uint(t.size)
 }
 
 func (t *tile) IsAt(pos movement.Positionnable) bool {
