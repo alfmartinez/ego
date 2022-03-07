@@ -38,7 +38,8 @@ func TestFyneRenderer(t *testing.T) {
 	})
 
 	t.Run("Render should render ^^'", func(t *testing.T) {
-		t.Error("To fix")
+		tree := CreateRenderTree()
+		r.Render(tree)
 	})
 
 }

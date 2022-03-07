@@ -52,14 +52,16 @@ func (d *rts) Render() image.Image {
 }
 
 func (d *rts) AddObject(s Displayable) {
-	src := d.loader.GetSprite(s.Path(), s.Size())
-	pos := s.Position()
-	srcPoint := pos
-	if src == nil {
-		panic(errors.New("Sprite not found " + s.Path()))
+	if s != nil {
+		src := d.loader.GetSprite(s.Path(), s.Size())
+		pos := s.Position()
+		srcPoint := pos
+		if src == nil {
+			panic(errors.New("Sprite not found " + s.Path()))
+		}
+		r := image.Rectangle{srcPoint, srcPoint.Add(src.Bounds().Size())}
+		draw.Draw(d.buffer, r, src, d.buffer.Bounds().Min, draw.Over)
 	}
-	r := image.Rectangle{srcPoint, srcPoint.Add(src.Bounds().Size())}
-	draw.Draw(d.buffer, r, src, d.buffer.Bounds().Min, draw.Over)
 }
 
 func createBlankBuffer(w, h int) draw.Image {

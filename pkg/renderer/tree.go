@@ -1,9 +1,13 @@
 package renderer
 
-import "ego/pkg/utils"
+import (
+	"ego/pkg/display"
+	"ego/pkg/utils"
+)
 
 type RenderTree interface {
 	Apply(func(RenderTree))
+	Display() display.Displayable
 }
 
 func CreateRenderTree() RenderTree {
@@ -21,4 +25,8 @@ func (t *renderTree) Apply(f func(RenderTree)) {
 		c := x.(RenderTree)
 		c.Apply(f)
 	}
+}
+
+func (t *renderTree) Display() display.Displayable {
+	return nil
 }

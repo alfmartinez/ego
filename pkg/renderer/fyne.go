@@ -53,7 +53,7 @@ func (r *fyneRenderer) Start(exit chan bool) {
 
 func (r *fyneRenderer) Render(tree RenderTree) {
 	tree.Apply(func(renderable RenderTree) {
-		s := renderable.(display.Displayable)
+		s := renderable.Display()
 		r.display.AddObject(s)
 	})
 
