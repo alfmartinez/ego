@@ -18,15 +18,11 @@ type Explorer interface {
 }
 
 type exploreState struct {
-	baseState
 	exploring movement.Positionnable
 }
 
-func (s *exploreState) Label() string {
-	return "exploring"
-}
-
-func (s *exploreState) Update(sm interface{}, g terrain.Terrain) State {
+func (s *exploreState) Update(sm Updatable) State {
+	g := terrain.GetTerrain()
 	a, _ := sm.(Explorer)
 	if s.exploring == nil {
 		if !a.HasInterests() {

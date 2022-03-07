@@ -6,10 +6,8 @@ func init() {
 	})
 }
 
-type restState struct {
-	baseState
-}
+type restState struct{}
 
-func (s *restState) Label() string {
-	return "resting"
+func (s *restState) Update(sm Updatable) State {
+	return nil
 }

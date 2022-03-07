@@ -2,7 +2,6 @@ package terrain
 
 import (
 	"ego/pkg/movement"
-	"ego/pkg/renderer"
 	"image"
 )
 
@@ -42,7 +41,10 @@ func CreateGrid(width int, height int) Terrain {
 		t.AddSurrounding(surrounding)
 	}
 
-	return &grid{tiles}
+	myGrid := &grid{tiles}
+
+	terrainSingleton = myGrid
+	return myGrid
 
 }
 
@@ -52,12 +54,6 @@ func (g *grid) Tile(pt image.Point) Tile {
 
 func (g *grid) GetTile(pos movement.Positionnable) Tile {
 	return g.tiles[pos.Position().Div(tileSize)]
-}
-
-func (g *grid) Render(r renderer.Renderer) {
-	for _, tile := range g.tiles {
-		r.Render(tile)
-	}
 }
 
 func (g *grid) AddSource(x int, y int, kind string, quantity uint) {

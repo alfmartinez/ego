@@ -14,7 +14,6 @@ import (
 
 type StateMob interface {
 	GameObject
-	renderable.Renderable
 	memory.Memory
 	data.Data
 	movement.Movement

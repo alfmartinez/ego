@@ -1,9 +1,7 @@
 package renderable
 
-import "ego/pkg/renderer"
-
 type Renderable interface {
-	Render(interface{}, renderer.Renderer)
+	Render()
 }
 
 var factories = make(map[string]func() Renderable)

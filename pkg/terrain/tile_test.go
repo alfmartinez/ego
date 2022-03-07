@@ -27,16 +27,4 @@ func TestTile(t *testing.T) {
 		t.Errorf("10,10 should be outside tile")
 	}
 
-	if tile.Size() != 10 {
-		t.Errorf("Tile should have size 10 with property")
-	}
-
-	if tile.Doing() != "" {
-		t.Errorf("tile should do nothing")
-	}
-
-	if tile.Name() != "" {
-		t.Errorf("tile should have no name")
-	}
-
 }

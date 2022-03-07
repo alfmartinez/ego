@@ -6,10 +6,8 @@ func init() {
 	})
 }
 
-type interactState struct {
-	baseState
-}
+type interactState struct{}
 
-func (s *interactState) Label() string {
-	return "interacting"
+func (s *interactState) Update(sm Updatable) State {
+	return nil
 }

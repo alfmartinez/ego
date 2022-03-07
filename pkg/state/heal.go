@@ -18,15 +18,11 @@ type Patient interface {
 }
 
 type healState struct {
-	baseState
 	target terrain.Tile
 }
 
-func (s *healState) Label() string {
-	return "healing"
-}
-
-func (s *healState) Update(a interface{}, g terrain.Terrain) State {
+func (s *healState) Update(a Updatable) State {
+	g := terrain.GetTerrain()
 	patient := a.(Patient)
 	if s.target == nil {
 		tiles := g.FindClosest(patient, 1, func(t terrain.Tile) bool {

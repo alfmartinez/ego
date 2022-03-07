@@ -2,13 +2,11 @@ package terrain
 
 import (
 	"ego/pkg/movement"
-	"ego/pkg/renderable"
 	"image"
 )
 
 type Tile interface {
 	movement.Positionnable
-	renderable.Renderable
 	Surrounding() []Tile
 	AddSurrounding([]Tile)
 	Rect() image.Rectangle
@@ -49,16 +47,4 @@ func (t *tile) Rect() image.Rectangle {
 
 func (t *tile) AddSurrounding(surrounding []Tile) {
 	t.surrounding = append(t.surrounding, surrounding...)
-}
-
-func (t *tile) Doing() string {
-	return ""
-}
-
-func (t *tile) Name() string {
-	return ""
-}
-
-func (t *tile) Size() uint {
-	return uint(t.size)
 }

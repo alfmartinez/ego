@@ -1,16 +1,9 @@
 package state
 
-import (
-	"ego/pkg/renderable"
-	"ego/pkg/renderer"
-	"ego/pkg/terrain"
-)
+type Updatable interface{}
 
 type State interface {
-	Label() string
-	Enter()
-	Update(interface{}, terrain.Terrain) State
-	Render(renderer.Renderer, renderable.Renderable)
+	Update(Updatable) State
 }
 
 var states = make(map[string]func([]interface{}) State)

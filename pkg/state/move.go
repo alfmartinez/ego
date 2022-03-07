@@ -2,7 +2,6 @@ package state
 
 import (
 	"ego/pkg/movement"
-	"ego/pkg/terrain"
 )
 
 func init() {
@@ -25,16 +24,11 @@ type Mover interface {
 }
 
 type moveState struct {
-	baseState
 	destination movement.Positionnable
 	next        State
 }
 
-func (s *moveState) Label() string {
-	return "moving"
-}
-
-func (s *moveState) Update(sm interface{}, g terrain.Terrain) State {
+func (s *moveState) Update(sm Updatable) State {
 	a := sm.(Mover)
 	done := a.MoveTowards(s.destination)
 	if done {

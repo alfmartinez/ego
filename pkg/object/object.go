@@ -2,13 +2,11 @@ package object
 
 import (
 	"ego/pkg/configuration"
-	"ego/pkg/renderer"
-	"ego/pkg/terrain"
 )
 
 type GameObject interface {
-	Update(interface{}, terrain.Terrain)
-	Render(interface{}, renderer.Renderer)
+	Update()
+	Render()
 }
 
 var objectFactories = make(map[string]func(configuration.Mob) GameObject)
