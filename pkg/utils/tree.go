@@ -3,7 +3,7 @@ package utils
 type Tree interface {
 	AddChild(Tree)
 	AddChildren([]Tree)
-	Apply(func(Tree))
+	Children() []Tree
 }
 
 func CreateTree() Tree {
@@ -22,6 +22,6 @@ func (t *tree) AddChildren(a []Tree) {
 	t.children = append(t.children, a...)
 }
 
-func (t *tree) Apply(f func(Tree)) {
-
+func (t *tree) Children() []Tree {
+	return t.children
 }

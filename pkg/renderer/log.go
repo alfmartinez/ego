@@ -2,7 +2,6 @@ package renderer
 
 import (
 	"ego/pkg/configuration"
-	"ego/pkg/utils"
 	"log"
 )
 
@@ -26,7 +25,7 @@ func (r *LogRenderer) Start(exit chan bool) {}
 func (r *LogRenderer) Refresh() {}
 
 func (r *LogRenderer) Render(tree RenderTree) {
-	tree.Apply(func(s utils.Tree) {
+	tree.Apply(func(s RenderTree) {
 		log.Printf("%+v", s)
 	})
 

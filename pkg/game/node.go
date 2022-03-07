@@ -13,6 +13,7 @@ type SceneNode interface {
 	Update()
 	CreateFolder(name string) SceneNode
 	AddObject(object.GameObject) SceneNode
+	Apply(func(SceneNode))
 }
 
 func CreateSceneNode() SceneNode {
@@ -56,4 +57,12 @@ func (s *sceneNode) AddObject(o object.GameObject) SceneNode {
 	node.SetValue(o)
 	s.AddChild(node)
 	return node
+}
+
+func (t *sceneNode) Apply(f func(SceneNode)) {
+	f(t)
+	for _, x := range t.Children() {
+		node := x.(SceneNode)
+		node.Apply(f)
+	}
 }

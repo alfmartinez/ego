@@ -2,7 +2,6 @@ package game
 
 import (
 	"ego/pkg/renderer"
-	"ego/pkg/utils"
 )
 
 type Scene interface {
@@ -26,8 +25,7 @@ func (s *scene) Root() SceneNode {
 }
 
 func (s *scene) Update() {
-	s.root.Apply(func(n utils.Tree) {
-		node := n.(SceneNode)
+	s.root.Apply(func(node SceneNode) {
 		node.Update()
 	})
 }

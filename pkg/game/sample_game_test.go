@@ -8,8 +8,7 @@ import (
 )
 
 type fakeMob struct {
-	Rendered bool
-	Updated  bool
+	Updated bool
 }
 
 func (f *fakeMob) Update() {
@@ -30,15 +29,13 @@ func TestCreateSampleGame(t *testing.T) {
 func TestSampleGameSyncRenderer(t *testing.T) {
 	mob := &fakeMob{}
 	scene := CreateScene()
-	scene.Root().AddObject(mob)
+	folder := scene.Root().CreateFolder("mobs")
+	folder.AddObject(mob)
 	r := renderer.CreateRenderer(configuration.Renderer{
 		Type: "log",
 	})
 	game := CreateSampleGame(scene, r)
 
-	if mob.Rendered {
-		t.Error("Mob should not have been rendered")
-	}
 	if mob.Updated {
 		t.Error("Mob should not have been updated")
 	}
@@ -47,9 +44,6 @@ func TestSampleGameSyncRenderer(t *testing.T) {
 	time.Sleep(time.Second)
 	game.Stop()
 
-	if !mob.Rendered {
-		t.Error("Mob should have been rendered")
-	}
 	if !mob.Updated {
 		t.Error("Mob should have been updated")
 	}
