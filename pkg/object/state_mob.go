@@ -6,7 +6,6 @@ import (
 	"ego/pkg/memory"
 	"ego/pkg/motivator"
 	"ego/pkg/movement"
-	"ego/pkg/renderable"
 	"ego/pkg/sprite"
 	"ego/pkg/state"
 	"image"
@@ -18,7 +17,6 @@ type StateMob interface {
 	data.Data
 	movement.Movement
 	motivator.NeedsCollection
-	renderable.Renderable
 }
 
 type stateMob struct {

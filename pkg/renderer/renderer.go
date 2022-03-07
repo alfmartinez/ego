@@ -2,13 +2,14 @@ package renderer
 
 import (
 	"ego/pkg/configuration"
+	"ego/pkg/render"
 )
 
 type Renderer interface {
 	Init()
 	IsAsync() bool
 	Start(chan bool)
-	Render(RenderTree)
+	Render(render.RenderTree)
 	Refresh()
 }
 

@@ -1,12 +1,12 @@
 package game
 
 import (
-	"ego/pkg/renderer"
+	"ego/pkg/render"
 )
 
 type Scene interface {
 	Update()
-	Render() renderer.RenderTree
+	Render() render.RenderTree
 	Root() SceneNode
 }
 
@@ -30,7 +30,14 @@ func (s *scene) Update() {
 	})
 }
 
-func (s *scene) Render() renderer.RenderTree {
-	renderTree := renderer.CreateRenderTree()
+func (s *scene) Render() render.RenderTree {
+	renderTree := render.CreateRenderTree()
+	folder := renderTree.Root().CreateFolder("render")
+	s.root.Apply(func(node SceneNode) {
+		o := node.Value()
+		if o != nil {
+			folder.CreateObject(o)
+		}
+	})
 	return renderTree
 }
