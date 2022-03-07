@@ -1,7 +1,7 @@
 package state
 
 type StateMachine interface {
-	Update()
+	Update(Updatable)
 }
 
 type stateMachine struct {
@@ -13,7 +13,7 @@ func CreateStateMachine() StateMachine {
 	return &stateMachine{}
 }
 
-func (m *stateMachine) Update() {
+func (m *stateMachine) Update(self Updatable) {
 	if m.current == nil {
 		m.next = CreateState("idle")
 	}
@@ -21,5 +21,5 @@ func (m *stateMachine) Update() {
 		m.current = m.next
 		m.next = nil
 	}
-	m.next = m.current.Update(m)
+	m.next = m.current.Update(self)
 }

@@ -46,3 +46,7 @@ func CreateStateMob(config configuration.Mob) GameObject {
 
 	return &stateMob{sm, memo, mobData, mvmnt, sprt, needs}
 }
+
+func (m *stateMob) Update() {
+	m.StateMachine.Update(m)
+}
