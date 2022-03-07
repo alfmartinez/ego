@@ -7,20 +7,26 @@ import (
 	"ego/pkg/terrain"
 )
 
-func generateGame(config configuration.Configuration, factory func([]object.GameObject, terrain.Terrain, renderer.Renderer) Game) Game {
+func generateGame(config configuration.Configuration, factory func(Scene, renderer.Renderer) Game) Game {
 
-	var mobs []object.GameObject
+	scene := CreateScene()
+	root := scene.Root()
+	tiles := root.CreateFolder("tile")
+	mobs := root.CreateFolder("mobs")
+
 	for _, x := range config.Mobs {
-		object := object.CreateObject(x)
-		mobs = append(mobs, object)
+		o := object.CreateObject(x)
+		mobs.AddObject(o)
 	}
 
-	t := terrain.CreateGrid(config.Grid.X, config.Grid.Y)
+	terrain.CreateGrid(config.Grid.X, config.Grid.Y, func(t terrain.Tile) {
+		tiles.AddObject(t)
+	})
 	r := renderer.CreateRenderer(config.Renderer)
 
 	r.Init()
 
-	game := factory(mobs, t, r)
+	game := factory(scene, r)
 
 	return game
 }

@@ -13,7 +13,7 @@ const (
 	tileSize = 100
 )
 
-func CreateGrid(width int, height int) Terrain {
+func CreateGrid(width int, height int, register func(Tile)) Terrain {
 	tiles := make(map[image.Point]Tile)
 	tileType := CreateTileType("plain")
 	for y := 0; y < height; y++ {
@@ -38,6 +38,7 @@ func CreateGrid(width int, height int) Terrain {
 				surrounding = append(surrounding, tile)
 			}
 		}
+		register(t)
 		t.AddSurrounding(surrounding)
 	}
 

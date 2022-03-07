@@ -1,16 +1,13 @@
 package game
 
 import (
-	"ego/pkg/object"
 	"ego/pkg/renderer"
-	"ego/pkg/terrain"
 	"log"
 	"time"
 )
 
 type sampleGame struct {
-	Objects      []object.GameObject
-	Terrain      terrain.Terrain
+	Scene        Scene
 	Renderer     renderer.Renderer
 	ExitLoop     chan bool
 	renderTicker time.Ticker
@@ -22,13 +19,12 @@ const (
 	RENDER_RATE = 30
 )
 
-func CreateSampleGame(mobs []object.GameObject, t terrain.Terrain, r renderer.Renderer) Game {
+func CreateSampleGame(scene Scene, r renderer.Renderer) Game {
 
 	updateTicker := time.NewTicker(time.Second / UPDATE_RATE)
 	renderTicker := time.NewTicker(time.Second / RENDER_RATE)
 	return &sampleGame{
-		Objects:      mobs,
-		Terrain:      t,
+		Scene:        scene,
 		Renderer:     r,
 		ExitLoop:     make(chan bool),
 		renderTicker: *renderTicker,
@@ -61,15 +57,11 @@ func (game *sampleGame) loop() {
 }
 
 func (game *sampleGame) update() {
-	for _, x := range game.Objects {
-		x.Update(x, game.Terrain)
-	}
+	game.Scene.Update()
 }
 
 func (game *sampleGame) render() {
-	game.Terrain.Render(game.Renderer)
-	for _, x := range game.Objects {
-		x.Render(x, game.Renderer)
-	}
+	renderTree := game.Scene.Render()
+	game.Renderer.Render(renderTree)
 	game.Renderer.Refresh()
 }

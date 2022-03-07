@@ -6,7 +6,6 @@ import (
 
 type GameObject interface {
 	Update()
-	Render()
 }
 
 var objectFactories = make(map[string]func(configuration.Mob) GameObject)
