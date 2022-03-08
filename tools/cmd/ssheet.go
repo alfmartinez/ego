@@ -27,11 +27,14 @@ var ssheetCmd = &cobra.Command{
 		var inPath = pwd + "/" + args[0]
 		var outPath = pwd
 		if len(args) > 1 {
-			outPath += args[1]
+			outPath += "/" + args[1]
+		} else {
+			outPath += "/" + args[0] + ".png"
 		}
 		sheet := spritesheet.New()
 		sheet.Load(inPath)
 		sheet.Export(outPath)
+		log.Printf("File created : %s", outPath)
 	},
 }
 

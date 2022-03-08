@@ -36,7 +36,17 @@ func TestSlot(t *testing.T) {
 				t.Error("item should not be acceptable")
 			}
 		})
+	})
 
+	t.Run("Compound types", func(t *testing.T) {
+		g := CreateSlot(item.Equippable | item.Consumable)
+		t.Run("Compound", func(t *testing.T) {
+			i := item.CreateItem(item.Equippable | item.Apparel)
+			ok := g.Accepts(i)
+			if !ok {
+				t.Error("item should be acceptable")
+			}
+		})
 	})
 
 	t.Run("Gear can retrieve item", func(t *testing.T) {
