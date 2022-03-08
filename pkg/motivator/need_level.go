@@ -1,14 +1,14 @@
 package motivator
 
 type NeedLevel interface {
-	Need
+	Need() Need
 	Value() int
 	Update()
 	AddIncrement(LevelIncrement)
 }
 
 type needLevel struct {
-	Need
+	need       Need
 	value      int
 	increments []LevelIncrement
 }
@@ -16,6 +16,10 @@ type needLevel struct {
 func CreateNeedLevel(need Need, value int) NeedLevel {
 	increments := make([]LevelIncrement, 0)
 	return &needLevel{need, value, increments}
+}
+
+func (n *needLevel) Need() Need {
+	return n.need
 }
 
 func (n *needLevel) Value() int {

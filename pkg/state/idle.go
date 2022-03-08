@@ -1,9 +1,5 @@
 package state
 
-import (
-	"ego/pkg/motivator"
-)
-
 func init() {
 	RegisterStateFactory("idle", func(data []interface{}) State {
 		return &idleState{}
@@ -11,7 +7,7 @@ func init() {
 }
 
 type Idler interface {
-	motivator.NeedsCollection
+	TopNeed() string
 }
 
 type idleState struct{}

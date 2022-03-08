@@ -4,23 +4,20 @@ import "testing"
 
 func TestNeedsCollection(t *testing.T) {
 	collection := CreateNeedsCollection()
-	need := CreateNeed("foo", 0)
-	otherNeed := CreateNeed("bar", 1)
-	anotherNeed := CreateNeed("baz", 0)
-	collection.AddNeed(need, 100)
-	collection.AddNeed(otherNeed, 100)
-	collection.AddNeed(anotherNeed, 100)
-	collection.Provide(need, -1, -1)
-	collection.Provide(otherNeed, -1, 60)
-	collection.Provide(anotherNeed, -2, 50)
+	collection.AddNeed(Health, 100)
+	collection.AddNeed(Rest, 100)
+	collection.AddNeed(Beauty, 100)
+	collection.Provide(Health, -1, -1)
+	collection.Provide(Rest, -1, 60)
+	collection.Provide(Beauty, -2, 50)
 
 	top := collection.TopNeed()
-	if top != "none" {
-		t.Errorf("Should have need foo, got %s", top)
+	if top != None {
+		t.Errorf("Should have need foo, got %v", top)
 	}
 
 	var countNone = 0
-	for collection.TopNeed() == "none" {
+	for collection.TopNeed() == None {
 		collection.UpdateNeeds()
 		countNone++
 	}
@@ -30,7 +27,7 @@ func TestNeedsCollection(t *testing.T) {
 	}
 
 	var countBaz = 0
-	for collection.TopNeed() == "baz" {
+	for collection.TopNeed() == Beauty {
 		collection.UpdateNeeds()
 		countBaz++
 	}
@@ -39,8 +36,8 @@ func TestNeedsCollection(t *testing.T) {
 	}
 
 	var countBar = 0
-	collection.Provide(need, 2, 10)
-	for collection.TopNeed() == "bar" {
+	collection.Provide(Health, 2, 10)
+	for collection.TopNeed() == Rest {
 		collection.UpdateNeeds()
 		countBar++
 	}

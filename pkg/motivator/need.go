@@ -1,23 +1,30 @@
 package motivator
 
-type Need interface {
-	Name() string
-	Priority() int
+type Need int
+
+const (
+	None Need = iota
+	Health
+	Food
+	Rest
+	Learn
+	Outdoor
+	Indoor
+	Recreation
+	Beauty
+)
+
+var needs = map[string]Need{
+	"health":     Health,
+	"food":       Food,
+	"rest":       Rest,
+	"learn":      Learn,
+	"outdoor":    Outdoor,
+	"indoor":     Indoor,
+	"recreation": Recreation,
+	"beauty":     Beauty,
 }
 
-type need struct {
-	name     string
-	priority int
-}
-
-func CreateNeed(name string, priority int) Need {
-	return &need{name, priority}
-}
-
-func (n *need) Name() string {
-	return n.name
-}
-
-func (n *need) Priority() int {
-	return n.priority
+func CreateNeed(name string) Need {
+	return needs[name]
 }

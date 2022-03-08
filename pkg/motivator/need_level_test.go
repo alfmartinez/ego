@@ -5,16 +5,11 @@ import (
 )
 
 func TestNeedLevel(t *testing.T) {
-	need := CreateNeed("foo", 1)
+	need := Health
 	level := CreateNeedLevel(need, 100)
 	increment := CreateLevelIncrement(-1, 1)
 	level.AddIncrement(increment)
-	if level.Name() != need.Name() {
-		t.Error("Need Level should have same name as need")
-	}
-	if level.Priority() != need.Priority() {
-		t.Error("Need Level should have same priority as need")
-	}
+
 	if level.Value() != 100 {
 		t.Errorf("Need level should have level %d", level.Value())
 	}

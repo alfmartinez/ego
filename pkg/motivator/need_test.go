@@ -3,11 +3,24 @@ package motivator
 import "testing"
 
 func TestNeed(t *testing.T) {
-	need := CreateNeed("foo", 1)
-	if need.Name() != "foo" {
-		t.Errorf("need should have name 'foo', got %s", need.Name())
+
+	var needs = map[string]Need{
+		"health":     Health,
+		"food":       Food,
+		"rest":       Rest,
+		"learn":      Learn,
+		"outdoor":    Outdoor,
+		"indoor":     Indoor,
+		"recreation": Recreation,
+		"beauty":     Beauty,
 	}
-	if need.Priority() != 1 {
-		t.Errorf("need should have priority 1, got %d", need.Priority())
+	for label, expected := range needs {
+		t.Run(label, func(t *testing.T) {
+			need := CreateNeed(label)
+			if need != expected {
+				t.Errorf("Expected %v, got %v", expected, need)
+			}
+		})
 	}
+
 }

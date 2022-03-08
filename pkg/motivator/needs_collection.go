@@ -5,28 +5,22 @@ import "sort"
 type NeedsCollection interface {
 	AddNeed(Need, int)
 	UpdateNeeds()
-	TopNeed() string
+	TopNeed() Need
 	Provide(Need, int, int)
 }
 
 type needsCollection struct {
-	needs map[string]NeedLevel
-}
-
-type sorter struct {
-	name     string
-	priority int
-	value    int
+	needs map[Need]NeedLevel
 }
 
 func CreateNeedsCollection() NeedsCollection {
-	needs := make(map[string]NeedLevel)
+	needs := make(map[Need]NeedLevel)
 	return &needsCollection{needs}
 }
 
 func (c *needsCollection) AddNeed(need Need, value int) {
 	needLevel := CreateNeedLevel(need, value)
-	c.needs[need.Name()] = needLevel
+	c.needs[need] = needLevel
 }
 
 func (c *needsCollection) UpdateNeeds() {
@@ -35,31 +29,31 @@ func (c *needsCollection) UpdateNeeds() {
 	}
 }
 
-func (c *needsCollection) TopNeed() string {
-	values := make([]sorter, 0, len(c.needs))
+func (c *needsCollection) TopNeed() Need {
+	values := make([]NeedLevel, 0, len(c.needs))
 	for _, x := range c.needs {
 		if x.Value() < 50 {
-			values = append(values, sorter{x.Name(), x.Priority(), x.Value()})
+			values = append(values, x)
 		}
 	}
 
 	if len(values) == 0 {
-		return "none"
+		return None
 	}
 
 	sort.Slice(values, func(i, j int) bool {
 		a, b := values[i], values[j]
-		if a.value == b.value {
-			return a.priority > b.priority
+		if a.Value() == b.Value() {
+			return a.Need() > b.Need()
 		} else {
-			return a.value > b.value
+			return a.Value() > b.Value()
 		}
 	})
 
-	return values[0].name
+	return values[0].Need()
 }
 
 func (c *needsCollection) Provide(need Need, value int, duration int) {
 	increment := CreateLevelIncrement(value, duration)
-	c.needs[need.Name()].AddIncrement(increment)
+	c.needs[need].AddIncrement(increment)
 }
