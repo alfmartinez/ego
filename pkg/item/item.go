@@ -10,6 +10,7 @@ const (
 )
 
 type Item interface {
+	Type() ItemType
 }
 
 func CreateItem(itemType ItemType) Item {
@@ -18,4 +19,8 @@ func CreateItem(itemType ItemType) Item {
 
 type item struct {
 	itemType ItemType
+}
+
+func (i *item) Type() ItemType {
+	return i.itemType
 }
