@@ -28,6 +28,25 @@ func TestGear(t *testing.T) {
 		if actual != i {
 			t.Errorf("should return equipped item, got %+v", actual)
 		}
+		actual = g.Equipped()
+		if actual != i {
+			t.Errorf("should return equipped item, got %+v", actual)
+		}
+
+	})
+
+	t.Run("Gear can unequip item", func(t *testing.T) {
+		g := CreateGear()
+		i := item.CreateItem(item.Equippable)
+		g.Equip(i)
+		actual := g.Unequip()
+		if actual != i {
+			t.Errorf("should return equipped item, got %+v", actual)
+		}
+		actual = g.Equipped()
+		if actual != nil {
+			t.Errorf("should return equipped item, got %+v", actual)
+		}
 
 	})
 
