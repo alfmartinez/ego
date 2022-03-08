@@ -11,6 +11,7 @@ import (
 var content embed.FS
 
 type Loader interface {
+	Init()
 	GetSprite(string, uint) image.Image
 }
 

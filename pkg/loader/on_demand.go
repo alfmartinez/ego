@@ -18,6 +18,8 @@ type onDemandLoader struct {
 	sheets map[string]image.Image
 }
 
+func (l *onDemandLoader) Init() {}
+
 func (l *onDemandLoader) GetSprite(name string, size uint) image.Image {
 	key := name + "_" + strconv.Itoa(int(size))
 	src, ok := l.sheets[key]

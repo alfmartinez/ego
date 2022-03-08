@@ -13,7 +13,8 @@ import (
 
 func init() {
 	RegisterDisplay("rts", func(config configuration.Display) Display {
-		loader := loader.CreateSpriteLoader("on_demand")
+		loader := loader.CreateSpriteLoader("pre_load")
+		loader.Init()
 		return &rts{
 			loader: loader,
 			config: config,

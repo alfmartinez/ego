@@ -9,7 +9,7 @@ var types = make(map[string]TileType)
 func CreateTileType(name string) TileType {
 	tileType, ok := types[name]
 	if !ok {
-		tileType = &defaultType{"mario.png"}
+		tileType = &defaultType{"sheet:0:0"}
 		types[name] = tileType
 	}
 	return tileType

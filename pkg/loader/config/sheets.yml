@@ -1,0 +1,10 @@
+sheets:
+  - label: sheet
+    path: sheet.png
+    rect: 
+      x: 100
+      y: 100
+    sizes:
+      - 100
+      - 50
+      - 10
