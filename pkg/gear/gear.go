@@ -6,6 +6,7 @@ import "ego/pkg/item"
 
 type Gear interface {
 	Equip(item.Item) bool
+	Equipped() item.Item
 }
 
 func CreateGear() Gear {
@@ -22,4 +23,8 @@ func (g *gear) Equip(item item.Item) bool {
 		return true
 	}
 	return false
+}
+
+func (g *gear) Equipped() item.Item {
+	return g.equipped
 }
