@@ -1,5 +1,7 @@
 package state
 
+import "ego/pkg/motivator"
+
 func init() {
 	RegisterStateFactory("idle", func(data []interface{}) State {
 		return &idleState{}
@@ -7,7 +9,7 @@ func init() {
 }
 
 type Idler interface {
-	TopNeed() string
+	TopNeed() motivator.Need
 }
 
 type idleState struct{}
@@ -16,13 +18,13 @@ func (s *idleState) Update(sm Updatable) State {
 	a := sm.(Idler)
 	topNeed := a.TopNeed()
 	switch topNeed {
-	case "curiosity":
+	case motivator.Learn:
 		return CreateState("explore")
-	case "social":
+	case motivator.Recreation:
 		return CreateState("interact")
-	case "rest":
+	case motivator.Rest:
 		return CreateState("rest")
-	case "health":
+	case motivator.Health:
 		return CreateState("heal")
 	}
 	return nil

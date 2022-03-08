@@ -57,7 +57,7 @@ func (g *grid) GetTile(pos movement.Positionnable) Tile {
 	return g.tiles[pos.Position().Div(tileSize)]
 }
 
-func (g *grid) AddSource(x int, y int, kind string, quantity uint) {
+func (g *grid) AddSource(x int, y int, kind Resource, quantity uint) {
 	tile := g.tiles[image.Pt(x, y)]
 	tile.AddResource(kind, quantity)
 }

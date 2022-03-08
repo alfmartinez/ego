@@ -30,9 +30,8 @@ type Display struct {
 }
 
 type Need struct {
-	Type     string `yaml:"name"`
-	Priority int    `yaml:"priority"`
-	Level    int    `yaml:"level"`
+	Type  string `yaml:"name"`
+	Level int    `yaml:"level"`
 }
 
 type Configuration struct {

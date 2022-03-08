@@ -4,34 +4,34 @@ import "testing"
 
 func TestCreateResources(t *testing.T) {
 	resources := CreateResources()
-	if resources.HasResource("foo") {
+	if resources.HasResource(Health) {
 		t.Errorf("New Resources should have no resource")
 	}
-	resources.AddResource("foo", 1)
-	resources.AddResource("bar", 2)
+	resources.AddResource(Health, 1)
+	resources.AddResource(Food, 2)
 
-	if !resources.HasResource("foo") {
-		t.Error("Resources should have foo")
+	if !resources.HasResource(Health) {
+		t.Error("Resources should have Health")
 	}
 
-	if !resources.HasResource("bar") {
-		t.Error("Resources should have bar")
+	if !resources.HasResource(Food) {
+		t.Error("Resources should have Food")
 	}
 
-	resources.Consume("foo")
-	resources.Consume("bar")
+	resources.Consume(Health)
+	resources.Consume(Food)
 
-	if resources.HasResource("foo") {
+	if resources.HasResource(Health) {
 		t.Error("Resources should have no more foo")
 	}
 
-	if !resources.HasResource("bar") {
+	if !resources.HasResource(Food) {
 		t.Error("Resources should still have bar")
 	}
 
-	resources.Consume("bar")
+	resources.Consume(Food)
 
-	if resources.HasResource("bar") {
+	if resources.HasResource(Food) {
 		t.Error("Resources should have no more bar")
 	}
 

@@ -9,9 +9,8 @@ func TestStateMob(t *testing.T) {
 	var config = configuration.Mob{
 		Type: "Mob",
 		Needs: []configuration.Need{{
-			Type:     "building mocks",
-			Priority: 0,
-			Level:    100,
+			Type:  "health",
+			Level: 100,
 		}},
 	}
 	t.Run("CreateStateMob creates Mob from configuration", func(t *testing.T) {

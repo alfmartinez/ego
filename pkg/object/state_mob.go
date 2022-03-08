@@ -43,7 +43,7 @@ func CreateStateMob(config configuration.Mob) GameObject {
 	sprt := sprite.CreateSprite(config.Sprite)
 	needs := motivator.CreateNeedsCollection()
 	for _, need := range config.Needs {
-		needs.AddNeed(motivator.CreateNeed(need.Type, need.Priority), need.Level)
+		needs.AddNeed(motivator.CreateNeed(need.Type), need.Level)
 	}
 	sm := state.CreateStateMachine()
 

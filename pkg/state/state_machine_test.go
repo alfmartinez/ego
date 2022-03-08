@@ -1,13 +1,16 @@
 package state
 
-import "testing"
+import (
+	"ego/pkg/motivator"
+	"testing"
+)
 
 type fakeUpdatable struct {
-	Need string
+	N motivator.Need
 }
 
-func (f fakeUpdatable) TopNeed() string {
-	return f.Need
+func (f fakeUpdatable) TopNeed() motivator.Need {
+	return f.N
 }
 
 func TestStateMachine(t *testing.T) {
@@ -21,7 +24,7 @@ func TestStateMachine(t *testing.T) {
 	t.Run("Update with no current state", func(t *testing.T) {
 		sm := CreateStateMachine()
 		self := fakeUpdatable{}
-		self.Need = "curiosity"
+		self.N = motivator.Learn
 		sm.Update(self)
 	})
 }

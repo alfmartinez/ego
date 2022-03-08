@@ -79,9 +79,9 @@ func TestFindClosestMultipleResource(t *testing.T) {
 
 	g := CreateGrid(3, 3, func(t Tile) {})
 	pos := movement.Loc(image.Pt(0, 0))
-	g.AddSource(2, 2, "health", 1)
+	g.AddSource(2, 2, Health, 1)
 	tile := g.FindClosest(pos, 1, func(tile Tile) bool {
-		return tile.HasResource("health")
+		return tile.HasResource(Health)
 	})
 	if tile == nil {
 		t.Error("Should return tile with resource")

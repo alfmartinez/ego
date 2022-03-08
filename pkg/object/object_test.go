@@ -30,9 +30,8 @@ func TestCreateObject(t *testing.T) {
 		var config = configuration.Mob{
 			Type: "Mob",
 			Needs: []configuration.Need{{
-				Type:     "building mocks",
-				Priority: 0,
-				Level:    100,
+				Type:  "health",
+				Level: 100,
 			}},
 		}
 
