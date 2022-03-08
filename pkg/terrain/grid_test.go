@@ -12,6 +12,7 @@ func TestCreateGrid(t *testing.T) {
 	t.Run("should return grid", func(t *testing.T) {
 		if _, ok := g.(*grid); !ok {
 			t.Errorf("Should return Grid, got %+v", g)
+
 		}
 	})
 
