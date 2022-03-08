@@ -21,6 +21,8 @@ func (r *LogRenderer) IsAsync() bool {
 
 func (r *LogRenderer) Init() {}
 
+func (r *LogRenderer) Close() {}
+
 func (r *LogRenderer) Start(exit chan bool) {}
 
 func (r *LogRenderer) Refresh() {}

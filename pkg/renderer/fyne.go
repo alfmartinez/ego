@@ -24,6 +24,7 @@ func init() {
 type fyneRenderer struct {
 	display display.Display
 	window  fyne.Window
+	exit    chan bool
 }
 
 func (r *fyneRenderer) IsAsync() bool {
@@ -44,12 +45,16 @@ func (r *fyneRenderer) Init() {
 
 func (r *fyneRenderer) Start(exit chan bool) {
 	//r.window.SetFullScreen(true)
+	r.exit = exit
 	size := r.display.GetSize()
 	r.window.Resize(fyne.NewSize(float32(size.Width), float32(size.Height)))
-	r.window.SetOnClosed(func() {
-		exit <- true
-	})
+	r.window.SetOnClosed(r.Close)
 	r.window.ShowAndRun()
+}
+
+func (r *fyneRenderer) Close() {
+	r.exit <- true
+	close(r.exit)
 }
 
 func (r *fyneRenderer) Render(tree render.RenderTree) {

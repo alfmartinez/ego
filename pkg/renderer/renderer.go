@@ -11,6 +11,7 @@ type Renderer interface {
 	Start(chan bool)
 	Render(render.RenderTree)
 	Refresh()
+	Close()
 }
 
 var rendererFactories = make(map[string]func(configuration.Renderer) Renderer)

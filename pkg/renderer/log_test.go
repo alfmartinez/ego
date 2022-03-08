@@ -2,6 +2,7 @@ package renderer
 
 import (
 	"ego/pkg/configuration"
+	"ego/pkg/render"
 	"testing"
 )
 
@@ -20,7 +21,7 @@ func TestLogRenderer(t *testing.T) {
 	r.Refresh()              // Do nothing
 
 	t.Run("render", func(t *testing.T) {
-
+		r.Render(render.CreateRenderTree())
 	})
 
 }
