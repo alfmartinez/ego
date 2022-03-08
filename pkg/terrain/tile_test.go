@@ -27,4 +27,8 @@ func TestTile(t *testing.T) {
 		t.Errorf("10,10 should be outside tile")
 	}
 
+	if tile.Size() != 10 {
+		t.Errorf("Tile should have size 10, got %+v", tile.Size())
+	}
+
 }
