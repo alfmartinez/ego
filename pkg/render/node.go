@@ -10,7 +10,7 @@ type RenderNode interface {
 	Apply(func(RenderNode))
 	Display() display.Displayable
 	CreateFolder(string) RenderNode
-	CreateObject(interface{})
+	CreateObject(interface{}) RenderNode
 }
 
 func CreateRenderNode() RenderNode {
@@ -20,7 +20,7 @@ func CreateRenderNode() RenderNode {
 	}
 }
 
-func CreateObjectNode(v display.Displayable) RenderNode {
+func createObjectNode(v display.Displayable) RenderNode {
 	return &renderNode{
 		Tree:  utils.CreateTree(),
 		value: v,
@@ -50,7 +50,8 @@ func (n *renderNode) CreateFolder(name string) RenderNode {
 	return folder
 }
 
-func (n *renderNode) CreateObject(o interface{}) {
-	node := CreateObjectNode(ConvertObjectToDisplayable(o))
+func (n *renderNode) CreateObject(o interface{}) RenderNode {
+	node := createObjectNode(ConvertObjectToDisplayable(o))
 	n.AddChild(node)
+	return node
 }
