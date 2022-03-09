@@ -7,4 +7,12 @@ sheets:
     sizes:
       - 100
       - 50
-      - 10
+  - label: morris
+    path: morris.png
+    rect: 
+      x: 1024
+      y: 1024
+    sizes: 
+      - 1000
+      - 100
+      - 50

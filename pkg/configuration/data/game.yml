@@ -15,7 +15,7 @@ grid:
 mobs: 
   - name: Arthur
     type: Mob
-    sprite: sheet:0:0
+    sprite: morris:0:0
     position: 
       x: 960
       y: 540
