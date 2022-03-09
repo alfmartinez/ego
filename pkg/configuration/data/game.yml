@@ -15,10 +15,10 @@ grid:
 mobs: 
   - name: Arthur
     type: Mob
-    sprite: morris:0:0
+    sprite: morris
     position: 
-      x: 960
-      y: 540
+      x: 0
+      y: 0
     needs: 
       - name: social
         priority: 2
@@ -32,41 +32,3 @@ mobs:
       - name: health
         priority: 0
         value: 10
-  - name: Bob
-    type: Mob
-    sprite: sheet:1:0
-    position: 
-      x: 480
-      y: 540
-    needs: 
-      - name: social
-        priority: 2
-        value: 100
-      - name: curiosity
-        priority: 2
-        value: 100
-      - name: rest
-        priority: 1
-        value: 10
-      - name: health
-        priority: 0
-        value: 100
-  - name: Charlie
-    type: Mob
-    sprite: sheet:2:0
-    position: 
-      x: 1440
-      y: 540
-    needs: 
-      - name: social
-        priority: 2
-        value: 50
-      - name: curiosity
-        priority: 2
-        value: 10
-      - name: rest
-        priority: 1
-        value: 100
-      - name: health
-        priority: 0
-        value: 100
