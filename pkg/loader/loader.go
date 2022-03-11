@@ -2,7 +2,6 @@ package loader
 
 import (
 	"embed"
-	_ "embed"
 	"image"
 	_ "image/png"
 )

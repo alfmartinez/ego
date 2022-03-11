@@ -1,13 +1,11 @@
 package loader
 
 import (
-	"embed"
 	"image"
 	"strconv"
 	"strings"
 
 	"github.com/nfnt/resize"
-	"gopkg.in/yaml.v2"
 )
 
 func init() {
@@ -28,9 +26,6 @@ type SheetConfiguration struct {
 		Sizes []uint
 	}
 }
-
-//go:embed config/sheets.yml
-var configContent embed.FS
 
 type index struct {
 	label string
@@ -85,21 +80,6 @@ func (l *preLoad) GetSprite(name string, size uint) image.Image {
 	}
 	idx := index{parts[0], x, y, size}
 	return l.imgs[idx]
-}
-
-func loadConfiguration() SheetConfiguration {
-	dat, err := configContent.ReadFile("config/sheets.yml")
-	if err != nil {
-		panic(err)
-	}
-
-	var config SheetConfiguration
-
-	err = yaml.Unmarshal(dat, &config)
-	if err != nil {
-		panic(err)
-	}
-	return config
 }
 
 func divideRect(src image.Rectangle, tile image.Rectangle) (int, int) {
