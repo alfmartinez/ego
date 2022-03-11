@@ -27,14 +27,14 @@ func TestConverter(t *testing.T) {
 					X: 99,
 					Y: 1,
 				},
-				Sprite: "foo.png",
+				Sprite: "foo",
 			}),
-			expected: display.CreateDisplayable("foo.png", 50, image.Pt(99, 1)),
+			expected: display.CreateDisplayable("foo:0:0", 1000, image.Pt(99, 1)),
 		},
 		{
 			name:     "Tile",
 			in:       terrain.CreateTile(image.Pt(30, 30), terrain.CreateTileType("plain"), 50),
-			expected: display.CreateDisplayable("mario.png", 50, image.Pt(1500, 1500)),
+			expected: display.CreateDisplayable("sheet:0:0", 50, image.Pt(1500, 1500)),
 		},
 	}
 

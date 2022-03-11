@@ -13,6 +13,8 @@ func (f fakeUpdatable) TopNeed() motivator.Need {
 	return f.N
 }
 
+func (f fakeUpdatable) Frame(x, y int) {}
+
 func TestStateMachine(t *testing.T) {
 	t.Run("CreateStateMachine", func(t *testing.T) {
 		sm := CreateStateMachine()

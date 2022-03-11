@@ -4,11 +4,11 @@ import "testing"
 
 func TestSprite(t *testing.T) {
 	sprite := CreateSprite("test")
-	if sprite.Path() != "test" {
-		t.Error("Sprite should return given path")
+	if sprite.Path() != "test:0:0" {
+		t.Errorf("Sprite should return expected path, got %s", sprite.Path())
 	}
 
-	if sprite.Size() != 50 {
-		t.Error("Sprite should have size 50")
+	if sprite.Size() != 1000 {
+		t.Error("Sprite should have size 1000")
 	}
 }

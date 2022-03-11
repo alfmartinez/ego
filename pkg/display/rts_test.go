@@ -21,6 +21,8 @@ type FakeLoader struct {
 	spriteFunc func(string, uint) image.Image
 }
 
+func (l *FakeLoader) Init() {}
+
 func (l *FakeLoader) GetSprite(s string, i uint) image.Image {
 	return l.spriteFunc(s, i)
 }
