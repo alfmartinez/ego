@@ -15,7 +15,7 @@ type Frame struct {
 	X, Y int
 }
 
-func (f Frame) Array(a string) [3]string {
+func (f Frame) buildPathArray(a string) [3]string {
 	b := strconv.Itoa(f.X)
 	c := strconv.Itoa(f.Y)
 	return [3]string{a, b, c}
@@ -40,7 +40,7 @@ func (s *sprite) Frame(x, y int) {
 }
 
 func (s *sprite) Path() string {
-	parts := s.frame.Array(s.sheet)
+	parts := s.frame.buildPathArray(s.sheet)
 	return strings.Join(parts[:], ":")
 }
 
