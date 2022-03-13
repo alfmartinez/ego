@@ -1,6 +1,6 @@
 modelVersion: v0
 renderer: 
-  type: fyne
+  type: glfw
   display: 
     type: rts
     size: 
