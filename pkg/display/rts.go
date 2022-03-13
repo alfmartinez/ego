@@ -60,6 +60,9 @@ func (d *rts) AddObject(s Displayable) {
 		if src == nil {
 			panic(errors.New("Sprite not found " + s.Path()))
 		}
+		if d.buffer == nil {
+			panic(errors.New("buffer not initialized"))
+		}
 		r := image.Rectangle{srcPoint, srcPoint.Add(src.Bounds().Size())}
 		draw.Draw(d.buffer, r, src, d.buffer.Bounds().Min, draw.Over)
 	}

@@ -1,9 +1,10 @@
-package renderer
+package fyne
 
 import (
 	"ego/pkg/configuration"
 	"ego/pkg/display"
 	"ego/pkg/render"
+	"ego/pkg/renderer"
 	_ "embed"
 
 	"fyne.io/fyne/v2"
@@ -15,7 +16,7 @@ import (
 var icon []byte
 
 func init() {
-	RegisterRendererFactory("fyne", func(config configuration.Renderer) Renderer {
+	renderer.RegisterRendererFactory("fyne", func(config configuration.Renderer) renderer.Renderer {
 		display := display.CreateDisplay(config.Display)
 		return &fyneRenderer{display: display}
 	})

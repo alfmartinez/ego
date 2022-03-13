@@ -1,14 +1,15 @@
-package renderer
+package fyne
 
 import (
 	"ego/pkg/configuration"
 	"ego/pkg/render"
+	"ego/pkg/renderer"
 	"testing"
 	"time"
 )
 
 func TestFyneRenderer(t *testing.T) {
-	r := CreateRenderer(configuration.Renderer{
+	r := renderer.CreateRenderer(configuration.Renderer{
 		Type: "fyne",
 		Display: configuration.Display{
 			Type: "rts",

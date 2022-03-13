@@ -1,13 +1,14 @@
-package renderer
+package log
 
 import (
 	"ego/pkg/configuration"
 	"ego/pkg/render"
+	"ego/pkg/renderer"
 	"log"
 )
 
 func init() {
-	RegisterRendererFactory("log", func(config configuration.Renderer) Renderer {
+	renderer.RegisterRendererFactory("log", func(config configuration.Renderer) renderer.Renderer {
 		return &LogRenderer{}
 	})
 }

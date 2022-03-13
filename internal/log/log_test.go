@@ -1,13 +1,14 @@
-package renderer
+package log
 
 import (
 	"ego/pkg/configuration"
 	"ego/pkg/render"
+	"ego/pkg/renderer"
 	"testing"
 )
 
 func TestLogRenderer(t *testing.T) {
-	r := CreateRenderer(configuration.Renderer{
+	r := renderer.CreateRenderer(configuration.Renderer{
 		Type: "log",
 	})
 	t.Run("should be Async", func(t *testing.T) {

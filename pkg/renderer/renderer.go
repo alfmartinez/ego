@@ -3,6 +3,8 @@ package renderer
 import (
 	"ego/pkg/configuration"
 	"ego/pkg/render"
+	"errors"
+	"log"
 )
 
 type Renderer interface {
@@ -22,5 +24,10 @@ func RegisterRendererFactory(name string, f func(configuration.Renderer) Rendere
 
 func CreateRenderer(config configuration.Renderer) Renderer {
 	name := config.Type
-	return rendererFactories[name](config)
+	f, ok := rendererFactories[name]
+	if !ok {
+		log.Printf("%+v", rendererFactories)
+		panic(errors.New("Can find factory " + name))
+	}
+	return f(config)
 }
