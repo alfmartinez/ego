@@ -1,6 +1,7 @@
 package game
 
 import (
+	"ego/internal/log"
 	"ego/pkg/configuration"
 	"ego/pkg/renderer"
 	"testing"
@@ -19,7 +20,7 @@ func TestGenerator(t *testing.T) {
 		},
 	}
 	factory := func(scene Scene, r renderer.Renderer) Game {
-		if _, ok := r.(*renderer.LogRenderer); !ok {
+		if _, ok := r.(*log.LogRenderer); !ok {
 			t.Errorf("Should have LogRenderer, got %+v instead", r)
 		}
 		return &fakeGame{}

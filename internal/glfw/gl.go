@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"image"
 	"image/draw"
+	"log"
 	"strings"
 
-	"github.com/go-gl/gl/v2.1/gl"
+	"github.com/go-gl/gl/v4.1-core/gl"
+	"github.com/go-gl/mathgl/mgl32"
 )
 
 var vertexShader = `
@@ -37,12 +39,12 @@ var cubeVertices = []float32{
 	//  X, Y, Z, U, V
 
 	// Front
-	-1.0, -1.0, 0, 1.0, 0.0,
-	1.0, -1.0, 0, 0.0, 0.0,
-	-1.0, 1.0, 0, 1.0, 1.0,
-	1.0, -1.0, 0, 0.0, 0.0,
-	1.0, 1.0, 0, 0.0, 1.0,
-	-1.0, 1.0, 0, 1.0, 1.0,
+	-1.0, -1.0, 0, 1.0, 0.0, // A
+	1.0, -1.0, 0, 0.0, 0.0, // B
+	-1.0, 1.0, 0, 1.0, 1.0, // C
+	1.0, -1.0, 0, 0.0, 0.0, // B
+	1.0, 1.0, 0, 0.0, 1.0, // D
+	-1.0, 1.0, 0, 1.0, 1.0, // C
 }
 
 type GlRenderer interface {
@@ -60,7 +62,7 @@ type glRenderer struct {
 }
 
 func (g *glRenderer) InitGl() {
-
+	var windowWidth, windowHeight float32 = 800, 600
 	// Initialize Glow
 	if err := gl.Init(); err != nil {
 		panic(err)
@@ -74,6 +76,25 @@ func (g *glRenderer) InitGl() {
 	if err != nil {
 		panic(err)
 	}
+
+	gl.UseProgram(program)
+
+	projection := mgl32.Perspective(mgl32.DegToRad(45.0), float32(windowWidth)/windowHeight, 0.1, 10.0)
+	projectionUniform := gl.GetUniformLocation(program, gl.Str("projection\x00"))
+	gl.UniformMatrix4fv(projectionUniform, 1, false, &projection[0])
+
+	camera := mgl32.LookAtV(mgl32.Vec3{0, 0, 3}, mgl32.Vec3{0, 0, 0}, mgl32.Vec3{0, 1, 0})
+	cameraUniform := gl.GetUniformLocation(program, gl.Str("camera\x00"))
+	gl.UniformMatrix4fv(cameraUniform, 1, false, &camera[0])
+
+	model := mgl32.Ident4()
+	modelUniform := gl.GetUniformLocation(program, gl.Str("model\x00"))
+	gl.UniformMatrix4fv(modelUniform, 1, false, &model[0])
+
+	textureUniform := gl.GetUniformLocation(program, gl.Str("tex\x00"))
+	gl.Uniform1i(textureUniform, 0)
+
+	gl.BindFragDataLocation(program, 0, gl.Str("outputColor\x00"))
 
 	// Configure the vertex data
 	var vao uint32
@@ -100,9 +121,11 @@ func (g *glRenderer) InitGl() {
 
 	g.program = program
 	g.vao = vao
+	fmt.Println("Init done")
 }
 
 func (g *glRenderer) Draw(img image.Image) {
+	log.Printf("%+v", img)
 	texture, err := newTexture(img)
 	if err != nil {
 		panic(err)
