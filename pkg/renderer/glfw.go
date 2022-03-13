@@ -6,7 +6,6 @@ import (
 	"ego/pkg/render"
 	"fmt"
 	"image"
-	"image/draw"
 	"log"
 	"runtime"
 
@@ -76,18 +75,7 @@ func (g *glfwRenderer) Start(chan bool) {
 // Refresh implements Renderer
 func (g *glfwRenderer) Refresh() {
 	img := g.display.Render()
-	texture, err := makeTexture(img)
-	if err != nil {
-		panic(err)
-	}
-	vao := makeVao(quad)
-	gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-	gl.UseProgram(g.prog)
-	gl.BindVertexArray(vao)
-	gl.ActiveTexture(gl.TEXTURE0)
-	gl.BindTexture(gl.TEXTURE_2D, texture)
-
-	gl.DrawArrays(gl.QUADS, 0, int32(len(quad)/3))
+	draw(img, g.prog)
 	g.window.SwapBuffers()
 	glfw.PollEvents()
 }
@@ -98,7 +86,22 @@ func (g *glfwRenderer) Render(tree render.RenderTree) {
 		s := node.Display()
 		g.display.AddObject(s)
 	})
+}
 
+func draw(img image.Image, prog uint32) {
+	texture, err := makeTexture(img)
+	if err != nil {
+		panic(err)
+	}
+	vao := makeVao(quad)
+	gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+	gl.UseProgram(prog)
+	gl.BindVertexArray(vao)
+
+	gl.ActiveTexture(gl.TEXTURE0)
+	gl.BindTexture(gl.TEXTURE_2D, texture)
+
+	gl.DrawArrays(gl.TRIANGLES, 0, int32(len(quad)/3))
 }
 
 func initOpenGL() uint32 {
