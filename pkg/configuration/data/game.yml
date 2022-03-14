@@ -20,15 +20,5 @@ mobs:
       x: 0
       y: 0
     needs: 
-      - name: social
-        priority: 2
-        value: 100
-      - name: curiosity
-        priority: 2
-        value: 20
-      - name: rest
-        priority: 1
-        value: 100
       - name: health
-        priority: 0
         value: 10

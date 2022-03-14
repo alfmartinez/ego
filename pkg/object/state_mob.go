@@ -55,6 +55,8 @@ func CreateStateMob(config configuration.Mob) GameObject {
 }
 
 func (m *stateMob) Update() {
-	m.Execute()
+	if m.Execute() {
+		m.After(CreateEvaluateCommand(m))
+	}
 	m.StateMachine.Update(m)
 }
