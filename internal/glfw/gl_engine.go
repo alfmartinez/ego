@@ -2,11 +2,8 @@ package ego_glfw
 
 import (
 	"fmt"
-	"go/build"
 	"image"
 	"image/draw"
-	"log"
-	"os"
 	"strings"
 
 	"github.com/go-gl/gl/v4.1-core/gl"
@@ -52,7 +49,7 @@ func (e *glEngine) Init() {
 	projectionUniform := gl.GetUniformLocation(program, gl.Str("projection\x00"))
 	gl.UniformMatrix4fv(projectionUniform, 1, false, &projection[0])
 
-	camera := mgl32.LookAtV(mgl32.Vec3{0, 0, 3}, mgl32.Vec3{0, 0, 0}, mgl32.Vec3{0, 1, 0})
+	camera := mgl32.LookAtV(mgl32.Vec3{0, 0, 3}, mgl32.Vec3{0, 0, 0}, mgl32.Vec3{0, -1, 0})
 	cameraUniform := gl.GetUniformLocation(program, gl.Str("camera\x00"))
 	gl.UniformMatrix4fv(cameraUniform, 1, false, &camera[0])
 
@@ -170,29 +167,6 @@ var cubeVertices = []float32{
 	1.0, -1.0, 0, 0.0, 0.0,
 	1.0, 1.0, 0, 0.0, 1.0,
 	-1.0, 1.0, 0, 1.0, 1.0,
-}
-
-// Set the working directory to the root of Go package, so that its assets can be accessed.
-func init() {
-	dir, err := importPathToDir("github.com/go-gl/example/gl41core-cube")
-	if err != nil {
-		log.Fatalln("Unable to find Go package in your GOPATH, it's needed to load assets:", err)
-	}
-	err = os.Chdir(dir)
-	if err != nil {
-		log.Panicln("os.Chdir:", err)
-	}
-}
-
-// importPathToDir resolves the absolute path from importPath.
-// There doesn't need to be a valid Go package inside that import path,
-// but the directory must exist.
-func importPathToDir(importPath string) (string, error) {
-	p, err := build.Import(importPath, "", build.FindOnly)
-	if err != nil {
-		return "", err
-	}
-	return p.Dir, nil
 }
 
 func newProgram(vertexShaderSource, fragmentShaderSource string) (uint32, error) {
