@@ -21,4 +21,34 @@ func TestPreLoad(t *testing.T) {
 			t.Errorf("GetSprite should return sprite in expected size")
 		}
 	})
+
+	t.Run("Loader can return sprite, malformed 1", func(t *testing.T) {
+		l := CreateSpriteLoader("pre_load")
+
+		l.Init()
+
+		defer func() {
+			r := recover()
+			if r == nil {
+				t.Error("Should have panicked")
+			}
+		}()
+		l.GetSprite("sheet:A:0", 100)
+
+	})
+
+	t.Run("Loader can return sprite, malformed 2", func(t *testing.T) {
+		l := CreateSpriteLoader("pre_load")
+
+		l.Init()
+
+		defer func() {
+			r := recover()
+			if r == nil {
+				t.Error("Should have panicked")
+			}
+		}()
+		l.GetSprite("sheet:0:A", 100)
+
+	})
 }
