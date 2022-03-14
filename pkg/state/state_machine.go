@@ -1,7 +1,5 @@
 package state
 
-import "log"
-
 type StateMachine interface {
 	DoUpdate(Updatable)
 	SetState(StateType)
@@ -28,6 +26,5 @@ func (m *stateMachine) DoUpdate(self Updatable) {
 }
 
 func (m *stateMachine) SetState(t StateType) {
-	log.Printf("Changing state %d", t)
 	m.current = CreateState(t)
 }

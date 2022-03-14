@@ -29,4 +29,9 @@ func TestStateMachine(t *testing.T) {
 		self.N = motivator.Learn
 		sm.DoUpdate(self)
 	})
+
+	t.Run("SetState overrides current state", func(t *testing.T) {
+		sm := CreateStateMachine()
+		sm.SetState(StateMove)
+	})
 }
