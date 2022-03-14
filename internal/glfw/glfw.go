@@ -1,11 +1,10 @@
-package glfw
+package ego_glfw
 
 import (
 	"ego/pkg/configuration"
 	"ego/pkg/display"
 	"ego/pkg/render"
 	"ego/pkg/renderer"
-	"fmt"
 
 	"github.com/go-gl/glfw/v3.3/glfw"
 )
@@ -13,14 +12,14 @@ import (
 func init() {
 	renderer.RegisterRendererFactory("glfw", func(config configuration.Renderer) renderer.Renderer {
 		display := display.CreateDisplay(config.Display)
-		gl := CreateGlRenderer()
+		gl := CreateGLEngine()
 		return &glfwRenderer{display: display, gl: gl}
 	})
 }
 
 type glfwRenderer struct {
 	display display.Display
-	gl      GlRenderer
+	gl      GLEngine
 	window  *glfw.Window
 }
 
@@ -42,6 +41,8 @@ func (g *glfwRenderer) Init() {
 	if err != nil {
 		panic(err)
 	}
+	window.MakeContextCurrent()
+	g.gl.Init()
 	g.window = window
 }
 
@@ -57,13 +58,11 @@ func (*glfwRenderer) IsAsync() bool {
 
 // Start implements Renderer
 func (g *glfwRenderer) Start(chan bool) {
-	g.window.MakeContextCurrent()
-	g.gl.InitGl()
+
 }
 
 // Render implements Renderer
 func (g *glfwRenderer) Render(tree render.RenderTree) {
-	fmt.Println("Render")
 	tree.Apply(func(node render.RenderNode) {
 		s := node.Display()
 		g.display.AddObject(s)
@@ -72,9 +71,9 @@ func (g *glfwRenderer) Render(tree render.RenderTree) {
 
 // Refresh implements Renderer
 func (g *glfwRenderer) Refresh() {
-	fmt.Println("Refresh")
 	img := g.display.Render()
-	g.gl.Draw(img)
+	texture := g.gl.AddTexture(img)
+	g.gl.Draw(texture)
 	g.window.SwapBuffers()
 	glfw.PollEvents()
 }

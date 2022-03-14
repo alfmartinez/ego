@@ -33,8 +33,9 @@ func CreateSampleGame(scene Scene, r renderer.Renderer) Game {
 }
 
 func (game *sampleGame) Start() {
-	go game.loop()
-	defer game.renderer.Start(game.ExitLoop)
+	game.renderer.Start(game.ExitLoop)
+	game.loop()
+	//defer game.renderer.Start(game.ExitLoop)
 }
 
 func (game *sampleGame) Stop() {
@@ -42,6 +43,7 @@ func (game *sampleGame) Stop() {
 }
 
 func (game *sampleGame) loop() {
+	log.Print("Start game loop")
 	loop := true
 	for loop {
 		select {
@@ -53,6 +55,7 @@ func (game *sampleGame) loop() {
 			game.render()
 		}
 	}
+	game.renderer.Close()
 	log.Print("End game loop")
 }
 
