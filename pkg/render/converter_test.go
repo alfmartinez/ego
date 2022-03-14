@@ -29,7 +29,7 @@ func TestConverter(t *testing.T) {
 				},
 				Sprite: "foo",
 			}),
-			expected: display.CreateDisplayable("foo:0:0", 1000, image.Pt(99, 1)),
+			expected: display.CreateDisplayable("foo:0:0", 512, image.Pt(99, 1)),
 		},
 		{
 			name:     "Tile",

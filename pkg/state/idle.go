@@ -1,7 +1,5 @@
 package state
 
-import "ego/pkg/motivator"
-
 func init() {
 	RegisterStateFactory("idle", func(data []interface{}) State {
 		return &idleState{0}
@@ -9,7 +7,6 @@ func init() {
 }
 
 type Idler interface {
-	TopNeed() motivator.Need
 	Frame(x, y int)
 }
 
