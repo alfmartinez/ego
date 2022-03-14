@@ -21,6 +21,7 @@ type glfwRenderer struct {
 	display display.Display
 	gl      GLEngine
 	window  *glfw.Window
+	exit    chan bool
 }
 
 // Init implements Renderer
@@ -49,7 +50,7 @@ func (g *glfwRenderer) Init() {
 }
 
 // Close implements Renderer
-func (*glfwRenderer) Close() {
+func (g *glfwRenderer) Close() {
 	defer glfw.Terminate()
 }
 
@@ -59,8 +60,9 @@ func (*glfwRenderer) IsAsync() bool {
 }
 
 // Start implements Renderer
-func (g *glfwRenderer) Start(chan bool) {
-
+func (g *glfwRenderer) Start(exit chan bool) {
+	g.exit = exit
+	g.window.SetKeyCallback(g.GetKeyCallBack())
 }
 
 // Render implements Renderer
@@ -78,4 +80,14 @@ func (g *glfwRenderer) Refresh() {
 	g.gl.Draw(texture)
 	g.window.SwapBuffers()
 	glfw.PollEvents()
+}
+
+func (g *glfwRenderer) GetKeyCallBack() glfw.KeyCallback {
+	return func(w *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey) {
+		if key == glfw.KeyEscape && action == glfw.Press {
+			go func() {
+				g.exit <- true
+			}()
+		}
+	}
 }
