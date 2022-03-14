@@ -21,17 +21,6 @@ func (s *idleState) Update(sm Updatable) State {
 	a := sm.(Idler)
 	a.Frame(s.frame, 0)
 	s.frame = (s.frame + 1) % 20
-	topNeed := a.TopNeed()
-	switch topNeed {
-	case motivator.Learn:
-		return CreateState("explore")
-	case motivator.Recreation:
-		return CreateState("interact")
-	case motivator.Rest:
-		return CreateState("rest")
-	case motivator.Health:
-		return CreateState("heal")
-	}
 	return nil
 
 }

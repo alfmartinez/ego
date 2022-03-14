@@ -27,7 +27,7 @@ func CreateRenderer(config configuration.Renderer) Renderer {
 	f, ok := rendererFactories[name]
 	if !ok {
 		log.Printf("%+v", rendererFactories)
-		panic(errors.New("Can find factory " + name))
+		panic(errors.New("Cannot find factory " + name))
 	}
 	return f(config)
 }

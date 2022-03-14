@@ -2,7 +2,6 @@ package main
 
 import (
 	_ "ego/internal/renderer/glfw"
-	_ "ego/internal/renderer/log"
 	"ego/pkg/game"
 	"runtime"
 )

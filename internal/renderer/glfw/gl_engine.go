@@ -1,4 +1,4 @@
-package ego_glfw
+package glfw
 
 import (
 	"fmt"

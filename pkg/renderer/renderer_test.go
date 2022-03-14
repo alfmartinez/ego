@@ -27,25 +27,16 @@ func TestCreateRenderer(t *testing.T) {
 			t.Errorf("Should return fakeRenderer, got %+v", o)
 		}
 	})
-	t.Run("should create log renderer", func(t *testing.T) {
-		o := CreateRenderer(configuration.Renderer{
-			Type: "log",
-		})
-		if _, ok := o.(*LogRenderer); !ok {
-			t.Errorf("Should return LogRenderer, got %+v", o)
-		}
-	})
 
-	t.Run("should create fyne renderer", func(t *testing.T) {
-		o := CreateRenderer(configuration.Renderer{
-			Type: "fyne",
-			Display: configuration.Display{
-				Type: "rts",
-			},
+	t.Run("should panic if not registered", func(t *testing.T) {
+		defer func() {
+			if r := recover(); r == nil {
+				t.Error("Should have panicked")
+			}
+		}()
+		CreateRenderer(configuration.Renderer{
+			Type: "panicplz",
 		})
-		if _, ok := o.(*fyneRenderer); !ok {
-			t.Errorf("Should return FyneRenderer, got %+v", o)
-		}
-	})
 
+	})
 }

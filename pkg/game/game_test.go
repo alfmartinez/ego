@@ -1,6 +1,8 @@
 package game
 
-import "testing"
+import (
+	"testing"
+)
 
 type fakeGame struct{}
 
@@ -20,14 +22,4 @@ func TestCreateGame(t *testing.T) {
 			t.Errorf("CreateGame should have returned FakeGame")
 		}
 	})
-
-	t.Run("uses file Factory", func(t *testing.T) {
-		game := CreateGame("file")
-
-		_, ok := game.(*sampleGame)
-		if !ok {
-			t.Errorf("CreateGame should have returned sampleGame")
-		}
-	})
-
 }

@@ -1,7 +1,7 @@
 package game
 
 import (
-	"ego/internal/log"
+	"ego/internal/renderer/log"
 	"ego/pkg/configuration"
 	"ego/pkg/renderer"
 	"testing"

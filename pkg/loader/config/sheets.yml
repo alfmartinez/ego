@@ -13,6 +13,11 @@ sheets:
       x: 1024
       y: 1024
     sizes: 
-      - 1000
-      - 100
-      - 50
+      - 512
+  - label: ball
+    path: ball.png
+    rect: 
+      x: 512
+      y: 512
+    sizes: 
+      - 512
