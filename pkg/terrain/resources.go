@@ -1,28 +1,12 @@
 package terrain
 
-import (
-	"ego/pkg/motivator"
-	"fmt"
-)
-
 type Resource int
 
 const (
-	Health Resource = iota
+	Medicine Resource = iota
 	Food
 	Water
 )
-
-func GetResourcesProviding(need motivator.Need) []Resource {
-	switch need {
-	case motivator.Health:
-		return []Resource{Health}
-	case motivator.Food:
-		return []Resource{Food, Water}
-	default:
-		panic(fmt.Errorf("unknown need %d", need))
-	}
-}
 
 type Resources interface {
 	AddResource(Resource, uint)
