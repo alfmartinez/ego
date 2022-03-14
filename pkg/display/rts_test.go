@@ -49,7 +49,6 @@ func TestGetSizeReturnsViewport(t *testing.T) {
 	if size != expectedSize {
 		t.Errorf("Expected size %+v, got %+v", expectedSize, size)
 	}
-
 }
 
 func TestRenderReturnsBlankImageSameViewPort(t *testing.T) {
