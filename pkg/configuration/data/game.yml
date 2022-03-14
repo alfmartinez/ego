@@ -4,11 +4,11 @@ renderer:
   display: 
     type: rts
     size: 
-      width: 2000
-      height: 2000
+      width: 1920
+      height: 1080
     viewport:
-      width: 1900
-      height: 1000
+      width: 1920
+      height: 1080
 grid: 
   x: 20
   y: 20

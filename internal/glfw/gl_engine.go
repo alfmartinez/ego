@@ -26,7 +26,7 @@ type glEngine struct {
 }
 
 func (e *glEngine) Init() {
-	var windowWidth, windowHeight float32 = 800, 600
+	var windowWidth, windowHeight float32 = 1920, 1080
 	// Initialize Glow
 	if err := gl.Init(); err != nil {
 		panic(err)
@@ -53,7 +53,7 @@ func (e *glEngine) Init() {
 	cameraUniform := gl.GetUniformLocation(program, gl.Str("camera\x00"))
 	gl.UniformMatrix4fv(cameraUniform, 1, false, &camera[0])
 
-	model := mgl32.Ident4()
+	model := mgl32.Scale3D(float32(windowWidth)/windowHeight, 1, 1)
 	modelUniform := gl.GetUniformLocation(program, gl.Str("model\x00"))
 	gl.UniformMatrix4fv(modelUniform, 1, false, &model[0])
 

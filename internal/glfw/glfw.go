@@ -36,12 +36,14 @@ func (g *glfwRenderer) Init() {
 	glfw.WindowHint(glfw.ContextVersionMinor, 1)
 	glfw.WindowHint(glfw.OpenGLProfile, glfw.OpenGLCoreProfile)
 	glfw.WindowHint(glfw.OpenGLForwardCompatible, glfw.True)
+	//glfw.WindowHint(glfw.AutoIconify, glfw.True)
 
-	window, err := glfw.CreateWindow(800, 600, "Ego", nil, nil)
+	window, err := glfw.CreateWindow(1920, 1080, "Ego", glfw.GetPrimaryMonitor(), nil)
 	if err != nil {
 		panic(err)
 	}
 	window.MakeContextCurrent()
+	glfw.SwapInterval(1)
 	g.gl.Init()
 	g.window = window
 }
