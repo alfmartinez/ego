@@ -1,6 +1,7 @@
 package object
 
 import (
+	"ego/pkg/command"
 	"ego/pkg/configuration"
 	"ego/pkg/data"
 	"ego/pkg/memory"
@@ -22,6 +23,7 @@ type StateMob interface {
 	movement.Movement
 	motivator.NeedsCollection
 	sprite.Sprite
+	command.CommandStream
 }
 
 type stateMob struct {
@@ -31,6 +33,7 @@ type stateMob struct {
 	movement.Movement
 	sprite.Sprite
 	motivator.NeedsCollection
+	command.CommandStream
 }
 
 func CreateStateMob(config configuration.Mob) GameObject {
@@ -46,10 +49,12 @@ func CreateStateMob(config configuration.Mob) GameObject {
 		needs.AddNeed(motivator.CreateNeed(need.Type), need.Level)
 	}
 	sm := state.CreateStateMachine()
+	stream := command.CreateCommandStream()
 
-	return &stateMob{sm, memo, mobData, mvmnt, sprt, needs}
+	return &stateMob{sm, memo, mobData, mvmnt, sprt, needs, stream}
 }
 
 func (m *stateMob) Update() {
+	m.Execute()
 	m.StateMachine.Update(m)
 }
