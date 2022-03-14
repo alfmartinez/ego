@@ -116,4 +116,44 @@ func TestCommandStream(t *testing.T) {
 		}
 	})
 
+	t.Run("What if I add a command stream inside a command stream ? Same Interface isn't it ?", func(t *testing.T) {
+		s1 := CreateCommandStream()
+		s2 := CreateCommandStream()
+		s1.After(s2)
+
+		var first, second, third bool = false, false, false
+		c1 := CreateCommand(func() bool {
+			first = true
+			return true
+		})
+		c2 := CreateCommand(func() bool {
+			second = true
+			return true
+		})
+		c3 := CreateCommand(func() bool {
+			third = true
+			return true
+		})
+
+		s2.After(c1)
+		s2.After(c2)
+		s1.After(c3)
+
+		if first || second || third {
+			t.Error("stream should not have executed any command")
+		}
+		s1.Execute()
+		if !first || second || third {
+			t.Error("stream should have executed first command")
+		}
+		s1.Execute()
+		if !first || !second || third {
+			t.Error("stream should have executed second command too")
+		}
+		s1.Execute()
+		if !first || !second || !third {
+			t.Error("stream should have executed third command too")
+		}
+	})
+
 }
