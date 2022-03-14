@@ -10,16 +10,10 @@ import (
 var configContent embed.FS
 
 func loadConfiguration() SheetConfiguration {
-	dat, err := configContent.ReadFile("config/sheets.yml")
-	if err != nil {
-		panic(err)
-	}
+	dat, _ := configContent.ReadFile("config/sheets.yml")
 
 	var config SheetConfiguration
+	yaml.Unmarshal(dat, &config)
 
-	err = yaml.Unmarshal(dat, &config)
-	if err != nil {
-		panic(err)
-	}
 	return config
 }
