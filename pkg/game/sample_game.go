@@ -33,9 +33,9 @@ func CreateSampleGame(scene Scene, r renderer.Renderer) Game {
 }
 
 func (game *sampleGame) Start() {
+	game.renderer.Init()
 	game.renderer.Start(game.ExitLoop)
 	game.loop()
-	//defer game.renderer.Start(game.ExitLoop)
 }
 
 func (game *sampleGame) Stop() {

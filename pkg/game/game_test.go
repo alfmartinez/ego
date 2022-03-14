@@ -22,4 +22,12 @@ func TestCreateGame(t *testing.T) {
 			t.Errorf("CreateGame should have returned FakeGame")
 		}
 	})
+
+	t.Run("uses file factory", func(t *testing.T) {
+		game := CreateGame("file")
+		if _, ok := game.(*sampleGame); !ok {
+			t.Error("file factory should return sample game")
+		}
+
+	})
 }

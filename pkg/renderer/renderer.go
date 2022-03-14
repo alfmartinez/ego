@@ -9,7 +9,6 @@ import (
 
 type Renderer interface {
 	Init()
-	IsAsync() bool
 	Start(chan bool)
 	Render(render.RenderTree)
 	Refresh()

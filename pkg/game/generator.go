@@ -24,7 +24,7 @@ func generateGame(config configuration.Configuration, factory func(Scene, render
 	})
 	r := renderer.CreateRenderer(config.Renderer)
 
-	r.Init()
+	//r.Init()
 
 	game := factory(scene, r)
 
