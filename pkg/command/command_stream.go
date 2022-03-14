@@ -4,6 +4,7 @@ type CommandStream interface {
 	After(Command)
 	Before(Command)
 	Execute() bool
+	Abort()
 }
 
 func CreateCommandStream() CommandStream {
@@ -11,7 +12,12 @@ func CreateCommandStream() CommandStream {
 }
 
 type commandStream struct {
-	stream []Command
+	stream  []Command
+	aborted bool
+}
+
+func (s *commandStream) Abort() {
+	s.aborted = true
 }
 
 func (s *commandStream) After(c Command) {
@@ -23,6 +29,9 @@ func (s *commandStream) Before(c Command) {
 }
 
 func (s *commandStream) Execute() bool {
+	if s.aborted {
+		return true
+	}
 	if len(s.stream) > 0 {
 		done := s.stream[0].Execute()
 		if done {

@@ -1,7 +1,10 @@
 package state
 
+import "log"
+
 type StateMachine interface {
-	Update(Updatable)
+	DoUpdate(Updatable)
+	SetState(StateType)
 }
 
 type stateMachine struct {
@@ -13,13 +16,18 @@ func CreateStateMachine() StateMachine {
 	return &stateMachine{}
 }
 
-func (m *stateMachine) Update(self Updatable) {
+func (m *stateMachine) DoUpdate(self Updatable) {
 	if m.current == nil {
-		m.next = CreateState("idle")
+		m.next = CreateState(StateIdle)
 	}
 	if m.next != nil {
 		m.current = m.next
 		m.next = nil
 	}
 	m.next = m.current.Update(self)
+}
+
+func (m *stateMachine) SetState(t StateType) {
+	log.Printf("Changing state %d", t)
+	m.current = CreateState(t)
 }

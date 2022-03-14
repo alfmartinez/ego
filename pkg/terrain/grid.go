@@ -21,10 +21,10 @@ func CreateGrid(width int, height int, register func(Tile)) Terrain {
 			position := image.Pt(x, y)
 			tiles[position] = CreateTile(position, tileType, tileSize)
 			if x == 5 && y == 5 {
-				tiles[position].AddResource(Health, 5)
+				tiles[position].AddResource(Health, 1)
 			}
 			if x == 8 && y == 0 {
-				tiles[position].AddResource(Health, 5)
+				tiles[position].AddResource(Health, 1)
 			}
 		}
 	}

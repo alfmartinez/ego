@@ -1,17 +1,26 @@
 package state
 
-type Updatable interface{}
+type StateType int
+
+const (
+	StateIdle StateType = iota
+	StateMove
+)
+
+type Updatable interface {
+	Frame(x, y int)
+}
 
 type State interface {
 	Update(Updatable) State
 }
 
-var states = make(map[string]func([]interface{}) State)
+var states = make(map[StateType]func([]interface{}) State)
 
-func RegisterStateFactory(name string, factory func([]interface{}) State) {
-	states[name] = factory
+func RegisterStateFactory(code StateType, factory func([]interface{}) State) {
+	states[code] = factory
 }
 
-func CreateState(name string, data ...interface{}) State {
-	return states[name](data)
+func CreateState(code StateType, data ...interface{}) State {
+	return states[code](data)
 }

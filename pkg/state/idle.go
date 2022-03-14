@@ -1,23 +1,15 @@
 package state
 
 func init() {
-	RegisterStateFactory("idle", func(data []interface{}) State {
-		return &idleState{0}
+	RegisterStateFactory(StateIdle, func(data []interface{}) State {
+		return &idleState{}
 	})
 }
 
-type Idler interface {
-	Frame(x, y int)
-}
+type idleState struct{}
 
-type idleState struct {
-	frame int
-}
-
-func (s *idleState) Update(sm Updatable) State {
-	a := sm.(Idler)
-	a.Frame(s.frame, 0)
-	s.frame = (s.frame + 1) % 20
+func (s *idleState) Update(a Updatable) State {
+	a.Frame(0, 0)
 	return nil
 
 }

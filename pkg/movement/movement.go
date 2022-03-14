@@ -10,7 +10,7 @@ type Positionnable interface {
 }
 
 type Moveable interface {
-	MoveTowards(Positionnable) bool
+	MoveForward(Positionnable) bool
 }
 
 type Movement interface {
@@ -27,7 +27,7 @@ func CreateMovement(coord image.Point) Movement {
 	return &movement{position}
 }
 
-func (m *movement) MoveTowards(destination Positionnable) bool {
+func (m *movement) MoveForward(destination Positionnable) bool {
 	v := destination.Position().Sub(m.Position())
 	dp := image.Pt(0, 0)
 	switch {

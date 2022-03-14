@@ -18,6 +18,7 @@ func init() {
 
 type StateMob interface {
 	GameObject
+	state.StateMachine
 	memory.Memory
 	data.Data
 	movement.Movement
@@ -58,5 +59,5 @@ func (m *stateMob) Update() {
 	if m.Execute() {
 		m.After(CreateEvaluateCommand(m))
 	}
-	m.StateMachine.Update(m)
+	m.StateMachine.DoUpdate(m)
 }

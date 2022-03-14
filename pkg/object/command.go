@@ -3,17 +3,21 @@ package object
 import (
 	"ego/pkg/command"
 	"ego/pkg/motivator"
-	"ego/pkg/movement"
+	"ego/pkg/state"
 	"ego/pkg/terrain"
 )
 
-func CreateEvaluateCommand(m StateMob) command.Command {
+func CreateEvaluateCommand(actor StateMob) command.Command {
 	f := func() func() bool {
-		actor := m
+		var stateChanged bool = false
 		return func() bool {
-			need := m.TopNeed()
+			if !stateChanged {
+				actor.SetState(state.StateIdle)
+				stateChanged = true
+			}
+			need := actor.TopNeed()
 			if need != motivator.None {
-				actor.After(CreateSeekAndUseCommand(m, m.TopNeed()))
+				actor.After(CreateSeekAndUseCommand(actor, actor.TopNeed()))
 				return true
 			}
 			return false
@@ -22,57 +26,83 @@ func CreateEvaluateCommand(m StateMob) command.Command {
 	return command.CreateCommand(f)
 }
 
-func CreateSeekCommand(m StateMob, validate func(terrain.Tile) bool, callback func([]terrain.Tile)) command.Command {
+func CreateSeekCommand(actor StateMob, validate func(terrain.Tile) bool) command.Command {
 	f := func() func() bool {
-		actor := m
+		var stateChanged bool = false
 		grid := terrain.GetTerrain()
 		return func() bool {
-			tiles := grid.FindClosest(actor, 1, validate)
-			callback(tiles)
+			if !stateChanged {
+				actor.SetState(state.StateIdle)
+				stateChanged = true
+			}
+			grid.FindClosest(actor, 1, validate)
 			return true
 		}
 	}()
 	return command.CreateCommand(f)
 }
 
-func CreateMoveCommand(m StateMob, dest movement.Positionnable) command.Command {
-	f := func() func() bool {
-		actor := m
-		destination := dest
-		return func() bool {
-			return actor.MoveTowards(destination)
-		}
-	}()
-	return command.CreateCommand(f)
-}
-
-func CreateConsumeCommand(m StateMob, tile terrain.Tile, need motivator.Need, r terrain.Resource) command.Command {
-	f := func() func() bool {
-		return func() bool {
-			tile.Consume(r)
-			m.Provide(need, 1, 10)
-			return true
-		}
-	}()
-	return command.CreateCommand(f)
-}
-
-func CreateSeekAndUseCommand(m StateMob, need motivator.Need) command.Command {
+func CreateSeekAndUseCommand(actor StateMob, need motivator.Need) command.Command {
 	resource := terrain.GetResourcesProviding(need)
 	var foundResource terrain.Resource
-	return CreateSeekCommand(m, func(t terrain.Tile) bool {
-		for _, r := range resource {
-			if t.HasResource(r) {
-				foundResource = r
+	var foundTile terrain.Tile
+
+	commandStream := command.CreateCommandStream()
+	seekCommand := func() func() bool {
+		var stateChanged bool = false
+		grid := terrain.GetTerrain()
+		return func() bool {
+			if !stateChanged {
+				actor.SetState(state.StateIdle)
+				stateChanged = true
+			}
+			grid.FindClosest(actor, 1, func(t terrain.Tile) bool {
+				for _, r := range resource {
+					if t.HasResource(r) {
+						foundResource = r
+						foundTile = t
+						return true
+					}
+				}
+				return false
+			})
+			return true
+		}
+	}()
+	moveCommand := func() func() bool {
+		var stateChanged bool = false
+		return func() bool {
+			if foundTile == nil {
+				commandStream.Abort()
 				return true
 			}
+			if !stateChanged {
+				actor.SetState(state.StateMove)
+				stateChanged = true
+			}
+			return actor.MoveForward(foundTile)
 		}
-		return false
-	}, func(tiles []terrain.Tile) {
-		if len(tiles) > 0 {
-			tile := tiles[0]
-			m.After(CreateMoveCommand(m, tile))
-			m.After(CreateConsumeCommand(m, tile, need, foundResource))
+	}()
+	consumeCommand := func() func() bool {
+		var stateChanged bool = false
+		var count int = 20
+		return func() bool {
+			if !stateChanged {
+				actor.SetState(state.StateIdle)
+				stateChanged = true
+			}
+			count--
+			if count == 0 {
+				foundTile.Consume(foundResource)
+				actor.Provide(need, 1, 10)
+				return true
+			}
+			return false
 		}
-	})
+	}()
+	commandStream.After(command.CreateCommand(seekCommand))
+	commandStream.After(command.CreateCommand(moveCommand))
+	commandStream.After(command.CreateCommand(consumeCommand))
+	return commandStream
+
 }

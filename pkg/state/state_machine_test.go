@@ -27,6 +27,6 @@ func TestStateMachine(t *testing.T) {
 		sm := CreateStateMachine()
 		self := fakeUpdatable{}
 		self.N = motivator.Learn
-		sm.Update(self)
+		sm.DoUpdate(self)
 	})
 }
