@@ -1,9 +1,9 @@
 package main
 
 import (
-	_ "ego/internal/fyne"
-	_ "ego/internal/glfw"
-	_ "ego/internal/log"
+	_ "ego/internal/renderer/fyne"
+	_ "ego/internal/renderer/glfw"
+	_ "ego/internal/renderer/log"
 	"ego/pkg/game"
 	"runtime"
 )
