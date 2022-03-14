@@ -26,22 +26,6 @@ func CreateEvaluateCommand(actor StateMob) command.Command {
 	return command.CreateCommand(f)
 }
 
-func CreateSeekCommand(actor StateMob, validate func(terrain.Tile) bool) command.Command {
-	f := func() func() bool {
-		var stateChanged bool = false
-		grid := terrain.GetTerrain()
-		return func() bool {
-			if !stateChanged {
-				actor.SetState(state.StateIdle)
-				stateChanged = true
-			}
-			grid.FindClosest(actor, 1, validate)
-			return true
-		}
-	}()
-	return command.CreateCommand(f)
-}
-
 func CreateSeekAndUseCommand(actor StateMob, need motivator.Need) command.Command {
 	resource := terrain.GetResourcesProviding(need)
 	var foundResource terrain.Resource
