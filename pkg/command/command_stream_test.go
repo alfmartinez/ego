@@ -156,4 +156,22 @@ func TestCommandStream(t *testing.T) {
 		}
 	})
 
+	t.Run("Multiple commands, Abort makes stream done forever", func(t *testing.T) {
+		var executed bool = false
+		s := CreateCommandStream()
+		s.After(CreateCommand(func() bool {
+			executed = true
+			return false
+		}))
+		s.Abort()
+		done := s.Execute()
+		if !done {
+			t.Error("Stream should be considered done")
+		}
+		if executed {
+			t.Error("Command should not be executed")
+		}
+
+	})
+
 }

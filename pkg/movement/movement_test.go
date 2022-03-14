@@ -22,7 +22,7 @@ func TestMoveTowardsReturnsTrueIfDestinationReached(t *testing.T) {
 	m := CreateMovement(image.Pt(10, 10))
 	d := Loc(image.Pt(10, 10))
 
-	reached := m.MoveTowards(d)
+	reached := m.MoveForward(d)
 	if !reached {
 		t.Errorf("should have reached destination, is at %+v", m.Position())
 	}
@@ -46,7 +46,7 @@ func TestMoveTowardsReturnsFalseIfDestinationNotReached(t *testing.T) {
 			m := CreateMovement(tt.orig)
 			d := Loc(tt.destination)
 
-			reached := m.MoveTowards(d)
+			reached := m.MoveForward(d)
 
 			if reached {
 				t.Errorf("should not have reached destination, is at %+v", m.Position())
