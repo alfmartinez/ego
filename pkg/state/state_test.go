@@ -18,4 +18,12 @@ func TestCreateState(t *testing.T) {
 			t.Errorf("should return fakeState, got %+v", s)
 		}
 	})
+
+}
+
+func TestStateType(t *testing.T) {
+	o := StateIdle
+	if o.Type() != StateIdle {
+		t.Error("Type should return object proper")
+	}
 }
