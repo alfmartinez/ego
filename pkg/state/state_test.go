@@ -2,7 +2,9 @@ package state
 
 import "testing"
 
-type fakeState struct{}
+type fakeState struct {
+	StateType
+}
 
 func (f fakeState) Update(s Updatable) State { return nil }
 func TestCreateState(t *testing.T) {

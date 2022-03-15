@@ -2,11 +2,12 @@ package state
 
 func init() {
 	RegisterStateFactory(StateMove, func(data []interface{}) State {
-		return &moveState{0}
+		return &moveState{StateMove, 0}
 	})
 }
 
 type moveState struct {
+	StateType
 	frame int
 }
 

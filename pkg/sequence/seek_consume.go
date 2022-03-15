@@ -1,32 +1,26 @@
-package object
+package sequence
 
 import (
 	"ego/pkg/command"
 	"ego/pkg/motivator"
+	"ego/pkg/movement"
 	"ego/pkg/state"
 	"ego/pkg/terrain"
 )
 
-func CreateEvaluateCommand(actor StateMob) command.Command {
-	f := func() func() bool {
-		var stateChanged bool = false
-		return func() bool {
-			if !stateChanged {
-				actor.SetState(state.StateIdle)
-				stateChanged = true
-			}
-			need := actor.TopNeed()
-			if need != motivator.None {
-				actor.After(CreateSeekAndUseCommand(actor, actor.TopNeed()))
-				return true
-			}
-			return false
-		}
-	}()
-	return command.CreateCommand(f)
+func init() {
+	RegisterSequenceFactory(Seek, CreateSeekAndUseCommand)
 }
 
-func CreateSeekAndUseCommand(actor StateMob, need motivator.Need) command.Command {
+type SeekerActor interface {
+	SetState(state.StateType)
+	movement.Movement
+	Provide(motivator.Need, int, int)
+}
+
+func CreateSeekAndUseCommand(args ...interface{}) command.Command {
+	actor := args[0].(SeekerActor)
+	need := args[1].(motivator.Need)
 	resource := terrain.GetResourcesProviding(need)
 	var foundResource terrain.Resource
 	var foundTile terrain.Tile

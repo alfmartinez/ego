@@ -7,6 +7,7 @@ import (
 	"ego/pkg/memory"
 	"ego/pkg/motivator"
 	"ego/pkg/movement"
+	"ego/pkg/sequence"
 	"ego/pkg/sprite"
 	"ego/pkg/state"
 	"image"
@@ -57,7 +58,7 @@ func CreateStateMob(config configuration.Mob) GameObject {
 
 func (m *stateMob) Update() {
 	if m.Execute() {
-		m.After(CreateEvaluateCommand(m))
+		m.After(sequence.CreateSequence(sequence.Evaluate)(m))
 	}
 	m.StateMachine.DoUpdate(m)
 }

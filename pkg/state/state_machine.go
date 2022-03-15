@@ -6,8 +6,9 @@ type StateMachine interface {
 }
 
 type stateMachine struct {
-	current State
-	next    State
+	currentType StateType
+	current     State
+	next        State
 }
 
 func CreateStateMachine() StateMachine {
@@ -26,5 +27,7 @@ func (m *stateMachine) DoUpdate(self Updatable) {
 }
 
 func (m *stateMachine) SetState(t StateType) {
-	m.current = CreateState(t)
+	if m.current == nil || t != m.current.Type() {
+		m.current = CreateState(t)
+	}
 }
