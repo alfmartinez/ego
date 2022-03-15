@@ -1,6 +1,7 @@
 package spritesheet
 
 import (
+	"fmt"
 	"image"
 	"image/draw"
 	"os"
@@ -23,6 +24,9 @@ type spritesheet struct {
 func (s *spritesheet) Load(path string) {
 	var files []string
 	filepath.Walk(path, func(p string, info os.FileInfo, err error) error {
+		if info == nil {
+			panic(fmt.Errorf("cannot read path %s", p))
+		}
 		if !info.IsDir() {
 			files = append(files, p)
 		}

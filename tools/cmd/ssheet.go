@@ -6,7 +6,7 @@ package cmd
 
 import (
 	"ego/tools/spritesheet"
-	"log"
+	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -20,10 +20,7 @@ var ssheetCmd = &cobra.Command{
 	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 
-		pwd, err := os.Getwd()
-		if err != nil {
-			log.Println(err)
-		}
+		pwd, _ := os.Getwd()
 		var inPath = pwd + "/" + args[0]
 		var outPath = pwd
 		if len(args) > 1 {
@@ -32,9 +29,17 @@ var ssheetCmd = &cobra.Command{
 			outPath += "/" + args[0] + ".png"
 		}
 		sheet := spritesheet.New()
+
+		defer func() {
+			r := recover()
+			if r != nil {
+				fmt.Printf("Error : %s", r)
+			}
+		}()
+
 		sheet.Load(inPath)
 		sheet.Export(outPath)
-		log.Printf("File created : %s", outPath)
+		fmt.Printf("File created : %s", outPath)
 	},
 }
 
