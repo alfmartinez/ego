@@ -9,7 +9,7 @@ type fakeState struct {
 func (f fakeState) Update(s Updatable) State { return nil }
 func TestCreateState(t *testing.T) {
 	RegisterStateFactory(255, func(i []interface{}) State {
-		return fakeState{}
+		return fakeState{255}
 	})
 
 	t.Run("CreateState uses registered factories", func(t *testing.T) {

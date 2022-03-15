@@ -19,12 +19,8 @@ type EvaluateActor interface {
 func CreateEvaluateCommand(args ...interface{}) command.Command {
 	actor, _ := args[0].(EvaluateActor)
 	f := func() func() bool {
-		var stateChanged bool = false
 		return func() bool {
-			if !stateChanged {
-				actor.SetState(state.StateIdle)
-				stateChanged = true
-			}
+			actor.SetState(state.StateIdle)
 			need := actor.TopNeed()
 			if need != motivator.None {
 				actor.After(CreateSeekAndUseCommand(actor, actor.TopNeed()))

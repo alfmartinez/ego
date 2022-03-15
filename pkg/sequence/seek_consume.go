@@ -27,13 +27,9 @@ func CreateSeekAndUseCommand(args ...interface{}) command.Command {
 
 	commandStream := command.CreateCommandStream()
 	seekCommand := func() func() bool {
-		var stateChanged bool = false
 		grid := terrain.GetTerrain()
 		return func() bool {
-			if !stateChanged {
-				actor.SetState(state.StateIdle)
-				stateChanged = true
-			}
+			actor.SetState(state.StateIdle)
 			grid.FindClosest(actor, 1, func(t terrain.Tile) bool {
 				for _, r := range resource {
 					if t.HasResource(r) {
@@ -48,27 +44,19 @@ func CreateSeekAndUseCommand(args ...interface{}) command.Command {
 		}
 	}()
 	moveCommand := func() func() bool {
-		var stateChanged bool = false
 		return func() bool {
 			if foundTile == nil {
 				commandStream.Abort()
 				return true
 			}
-			if !stateChanged {
-				actor.SetState(state.StateMove)
-				stateChanged = true
-			}
+			actor.SetState(state.StateMove)
 			return actor.MoveForward(foundTile)
 		}
 	}()
 	consumeCommand := func() func() bool {
-		var stateChanged bool = false
 		var count int = 20
 		return func() bool {
-			if !stateChanged {
-				actor.SetState(state.StateIdle)
-				stateChanged = true
-			}
+			actor.SetState(state.StateIdle)
 			count--
 			if count == 0 {
 				foundTile.Consume(foundResource)
