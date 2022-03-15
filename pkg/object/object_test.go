@@ -11,7 +11,7 @@ func (f fakeObject) Update() {}
 
 func TestCreateObject(t *testing.T) {
 
-	RegisterObjectFactory("fake", func(m configuration.Mob) GameObject {
+	RegisterObjectFactory("fake", func(key string) GameObject {
 		return fakeObject{}
 	})
 

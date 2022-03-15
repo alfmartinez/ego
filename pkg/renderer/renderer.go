@@ -1,10 +1,11 @@
 package renderer
 
 import (
-	"ego/pkg/configuration"
 	"ego/pkg/render"
 	"errors"
 	"log"
+
+	"github.com/spf13/viper"
 )
 
 type Renderer interface {
@@ -15,18 +16,18 @@ type Renderer interface {
 	Close()
 }
 
-var rendererFactories = make(map[string]func(configuration.Renderer) Renderer)
+var rendererFactories = make(map[string]func() Renderer)
 
-func RegisterRendererFactory(name string, f func(configuration.Renderer) Renderer) {
+func RegisterRendererFactory(name string, f func() Renderer) {
 	rendererFactories[name] = f
 }
 
-func CreateRenderer(config configuration.Renderer) Renderer {
-	name := config.Type
+func CreateRenderer() Renderer {
+	name := viper.GetString("renderer.type")
 	f, ok := rendererFactories[name]
 	if !ok {
 		log.Printf("%+v", rendererFactories)
 		panic(errors.New("Cannot find factory " + name))
 	}
-	return f(config)
+	return f()
 }
