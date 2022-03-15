@@ -5,6 +5,7 @@ import (
 	"ego/pkg/motivator"
 	"ego/pkg/movement"
 	"ego/pkg/state"
+	"ego/pkg/terrain"
 	"image"
 	"testing"
 )
@@ -26,6 +27,8 @@ func createMockEvaluateActor(need motivator.Need, value int) EvaluateActor {
 }
 
 func TestCreateEvaluateCommand(t *testing.T) {
+	terrain.CreateGrid(5, 5, func(terrain.Tile) {})
+
 	t.Run("Need obvious", func(t *testing.T) {
 		mob := createMockEvaluateActor(motivator.Health, 10)
 		cmd := CreateEvaluateCommand(mob)

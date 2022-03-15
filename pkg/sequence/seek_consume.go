@@ -40,15 +40,15 @@ func CreateSeekAndUseCommand(args ...interface{}) command.Command {
 				}
 				return false
 			})
+			if foundTile == nil {
+				commandStream.Abort()
+				return true
+			}
 			return true
 		}
 	}()
 	moveCommand := func() func() bool {
 		return func() bool {
-			if foundTile == nil {
-				commandStream.Abort()
-				return true
-			}
 			actor.SetState(state.StateMove)
 			return actor.MoveForward(foundTile)
 		}
