@@ -5,6 +5,12 @@ grid:
     'B': swamp
     'C': mountain
   content: |-
-    AAA
-    ABA
-    AAC
+    AAAAAAAAAAAA
+    ABAAAAAAAAAA
+    AACAAAAAAAAA
+    AAAAAAAAAAAA
+    AAAAAAAAAAAA
+    AAAAAAAAAAAA
+    AAAAAAAAAAAA
+    AAAAAAAAABAA
+    AAAAAAAAAAAA
