@@ -15,28 +15,52 @@ func init() {
 }
 
 func main() {
-	viper.SetConfigName("config")
-	viper.AddConfigPath("./assets/config/")
-	err := viper.ReadInConfig()
+	err := readConfig()
 	if err != nil {
 		panic(fmt.Errorf("fatal error config file: %w", err))
 	}
 
+	game := game.CreateGame("viper")
+	game.Start()
+}
+
+func readConfig() error {
+	var err error
+	viper.SetConfigName("config")
+	viper.AddConfigPath("./assets/config/")
+	err = viper.ReadInConfig()
+	if err != nil {
+		return err
+	}
+
 	imports := viper.GetStringSlice("imports")
+	err = importConfig(imports)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func importConfig(imports []string) error {
 	for _, x := range imports {
 		v := viper.New()
 		v.SetConfigName(x)
 		v.AddConfigPath("./assets/config/")
 		err := v.ReadInConfig()
 		if err != nil {
-			panic(fmt.Errorf("fatal error config file: %w", err))
+			return fmt.Errorf("fatal error config file: %w", err)
 		}
+
 		err = viper.MergeConfigMap(v.AllSettings())
 		if err != nil {
-			panic(fmt.Errorf("cannot merge config %s", x))
+			return fmt.Errorf("cannot merge config %s", x)
+		}
+
+		imports := v.GetStringSlice("imports")
+		err = importConfig(imports)
+		if err != nil {
+			return err
 		}
 	}
-
-	game := game.CreateGame("viper")
-	game.Start()
+	return nil
 }
