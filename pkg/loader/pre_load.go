@@ -18,9 +18,8 @@ func init() {
 
 type SheetConfiguration struct {
 	Sheets []struct {
-		Label string
-		Path  string
-		Rect  struct {
+		Path string
+		Rect struct {
 			X int
 			Y int
 		}
@@ -44,9 +43,8 @@ type preLoad struct {
 }
 
 type Sheet struct {
-	Label string
-	Path  string
-	Rect  struct {
+	Path string
+	Rect struct {
 		W int
 		H int
 	}
@@ -61,8 +59,7 @@ func (l *preLoad) Init() {
 	if err != nil {
 		panic(err)
 	}
-	for _, sheet := range sheets {
-		label := sheet.Label
+	for label, sheet := range sheets {
 		img := loadSpriteSheet("sheets/" + sheet.Path)
 		columns, lines := divideRect(img.Bounds(), image.Rect(0, 0, sheet.Rect.W, sheet.Rect.H))
 		rect := image.Rect(0, 0, sheet.Rect.W, sheet.Rect.H)

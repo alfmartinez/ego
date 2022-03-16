@@ -1,8 +1,24 @@
 package loader
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/spf13/viper"
+)
 
 func TestPreLoad(t *testing.T) {
+	viper.Set("sheets", Sheets{
+		"sheet": Sheet{
+			Path: "sheet.png",
+			Rect: struct {
+				W int
+				H int
+			}{
+				W: 100,
+				H: 100,
+			},
+			Sizes: []uint{100, 50},
+		}})
 	t.Run("CreateLoader", func(t *testing.T) {
 		l := CreateSpriteLoader("pre_load")
 		if _, ok := l.(*preLoad); !ok {
