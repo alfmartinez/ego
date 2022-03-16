@@ -3,7 +3,6 @@ package renderer
 import (
 	"ego/pkg/render"
 	"errors"
-	"log"
 
 	"github.com/spf13/viper"
 )
@@ -26,7 +25,6 @@ func CreateRenderer() Renderer {
 	name := viper.GetString("renderer.type")
 	f, ok := rendererFactories[name]
 	if !ok {
-		log.Printf("%+v", rendererFactories)
 		panic(errors.New("Cannot find factory " + name))
 	}
 	return f()

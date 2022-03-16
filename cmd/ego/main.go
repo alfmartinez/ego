@@ -15,11 +15,26 @@ func init() {
 }
 
 func main() {
-	viper.SetConfigName("game")
+	viper.SetConfigName("config")
 	viper.AddConfigPath("./assets/config/")
 	err := viper.ReadInConfig()
 	if err != nil {
-		panic(fmt.Errorf("Fatal error config file: %w \n", err))
+		panic(fmt.Errorf("fatal error config file: %w", err))
+	}
+
+	imports := viper.GetStringSlice("imports")
+	for _, x := range imports {
+		v := viper.New()
+		v.SetConfigName(x)
+		v.AddConfigPath("./assets/config/")
+		err := v.ReadInConfig()
+		if err != nil {
+			panic(fmt.Errorf("fatal error config file: %w", err))
+		}
+		err = viper.MergeConfigMap(v.AllSettings())
+		if err != nil {
+			panic(fmt.Errorf("cannot merge config %s", x))
+		}
 	}
 
 	game := game.CreateGame("viper")
