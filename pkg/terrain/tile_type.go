@@ -8,6 +8,7 @@ import (
 
 type TileType interface {
 	Path() string
+	MovementCost() int
 }
 
 type tileType struct {
@@ -45,4 +46,8 @@ func CreateTileType(name string) TileType {
 
 func (t *tileType) Path() string {
 	return t.Sprite
+}
+
+func (t *tileType) MovementCost() int {
+	return t.Movement
 }

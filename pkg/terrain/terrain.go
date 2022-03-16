@@ -6,6 +6,7 @@ import (
 )
 
 type Terrain interface {
+	Tiles() map[image.Point]Tile
 	Tile(image.Point) Tile
 	GetTile(movement.Positionnable) Tile
 	FindClosest(movement.Positionnable, int, func(Tile) bool) []Tile

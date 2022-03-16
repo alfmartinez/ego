@@ -64,6 +64,10 @@ func CreateGrid(register func(Tile)) Terrain {
 
 }
 
+func (g *grid) Tiles() map[image.Point]Tile {
+	return g.tiles
+}
+
 func (g *grid) Tile(pt image.Point) Tile {
 	return g.tiles[pt]
 }
