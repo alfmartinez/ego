@@ -5,6 +5,7 @@ sheets:
       w: 100
       h: 100
     sizes:
+      - 200
       - 100
       - 50
   morris:

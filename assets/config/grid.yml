@@ -1,16 +1,10 @@
 grid: 
-  size: 50
+  size: 200
   types:
     'A': plain
     'B': swamp
     'C': mountain
   content: |-
-    AAAAAAAAAAAA
-    ABAAAAAAAAAA
-    AACAAAAAAAAA
-    AAAAAAAAAAAA
-    AAAAAAAAAAAA
-    AAAAAAAAAAAA
-    AAAAAAAAAAAA
-    AAAAAAAAABAA
-    AAAAAAAAAAAA
+    ABC
+    AAA
+    AAC
