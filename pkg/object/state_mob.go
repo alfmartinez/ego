@@ -43,8 +43,11 @@ type stateMob struct {
 type MobData struct {
 	Name     string
 	Position image.Point
-	Sprite   string
-	Needs    map[string]int
+	Sprite   struct {
+		Path string
+		Size uint
+	}
+	Needs map[string]int
 }
 
 func CreateStateMob(key string) GameObject {
@@ -59,7 +62,7 @@ func CreateStateMob(key string) GameObject {
 	data := data.CreateData(name)
 	mvmnt := movement.CreateMovement(position)
 	memo := memory.CreateMemory()
-	sprt := sprite.CreateSprite(mobData.Sprite)
+	sprt := sprite.CreateSprite(mobData.Sprite.Path, mobData.Sprite.Size)
 	needs := motivator.CreateNeedsCollection()
 	for needK, value := range mobData.Needs {
 		needs.AddNeed(motivator.CreateNeed(needK), value)

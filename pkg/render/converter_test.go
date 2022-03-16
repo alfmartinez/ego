@@ -27,7 +27,13 @@ func TestConverter(t *testing.T) {
 			name: "StateMob",
 			in: func() interface{} {
 				viper.Set("mobs.foo", object.MobData{
-					Sprite:   "foo",
+					Sprite: struct {
+						Path string
+						Size uint
+					}{
+						Path: "foo",
+						Size: 50,
+					},
 					Position: image.Pt(99, 1),
 				})
 				return object.CreateStateMob("foo")

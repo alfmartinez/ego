@@ -2,7 +2,9 @@ mobs:
   arthur:
     name: Arthur
     type: Mob
-    sprite: morris
+    sprite: 
+      path: morris
+      size: 50
     position: 
       x: 3
       'y': 2

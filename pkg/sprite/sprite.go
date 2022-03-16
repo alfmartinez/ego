@@ -31,8 +31,8 @@ type sprite struct {
 	size  uint
 }
 
-func CreateSprite(path string) Sprite {
-	return &sprite{path, NewFrame(0, 0), 50}
+func CreateSprite(path string, size uint) Sprite {
+	return &sprite{path, NewFrame(0, 0), size}
 }
 
 func (s *sprite) Frame(x, y int) {
@@ -45,5 +45,5 @@ func (s *sprite) Path() string {
 }
 
 func (s *sprite) Size() uint {
-	return 50
+	return s.size
 }
