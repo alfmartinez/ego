@@ -9,7 +9,7 @@ import (
 )
 
 func generateGame(factory func(Scene, renderer.Renderer) Game) Game {
-
+	terrain.RegisterTileTypes()
 	scene := CreateScene()
 	root := scene.Root()
 	tiles := root.CreateFolder("tile")

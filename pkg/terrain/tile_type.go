@@ -1,18 +1,32 @@
 package terrain
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/spf13/viper"
+)
 
 type TileType interface {
 	Path() string
 }
 
-func init() {
-	types["plain"] = &defaultType{"sheet:0:0"}
-	types["swamp"] = &defaultType{"sheet:1:0"}
-	types["mountain"] = &defaultType{"sheet:2:0"}
+type tileType struct {
+	Sprite   string
+	Movement int
 }
 
-var types = make(map[string]TileType)
+type TileTypes map[string]*tileType
+
+var types TileTypes
+
+func RegisterTileTypes() {
+	var typesData TileTypes
+	err := viper.UnmarshalKey("tile_types", &typesData)
+	if err != nil {
+		panic(err)
+	}
+	types = typesData
+}
 
 func CreateTileType(name string) TileType {
 	tileType, ok := types[name]
@@ -22,10 +36,6 @@ func CreateTileType(name string) TileType {
 	return tileType
 }
 
-type defaultType struct {
-	path string
-}
-
-func (t *defaultType) Path() string {
-	return t.path
+func (t *tileType) Path() string {
+	return t.Sprite
 }

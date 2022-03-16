@@ -3,3 +3,4 @@ imports:
   - mobs
   - grid
   - sheets
+  - tile_types

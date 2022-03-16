@@ -15,7 +15,7 @@ sheets:
       w: 1024
       h: 1024
     sizes: 
-      - 512
+      - 50
   ball:
     label: ball
     path: ball.png

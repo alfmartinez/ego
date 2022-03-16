@@ -45,5 +45,5 @@ func (s *sprite) Path() string {
 }
 
 func (s *sprite) Size() uint {
-	return 512
+	return 50
 }

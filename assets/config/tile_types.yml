@@ -1,0 +1,10 @@
+tile_types:
+  plain:
+    sprite: sheet:0:0
+    movement: 1
+  mountain: 
+    sprite: sheet:1:0
+    movement: 0
+  swamp:
+    sprite: sheet:2:0
+    movement: 2
