@@ -25,7 +25,7 @@ func CreateRenderer() Renderer {
 	name := viper.GetString("renderer.type")
 	f, ok := rendererFactories[name]
 	if !ok {
-		panic(errors.New("Cannot find factory " + name))
+		panic(errors.New("Cannot find renderer factory " + name))
 	}
 	return f()
 }

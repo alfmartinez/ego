@@ -2,7 +2,6 @@ package game
 
 import (
 	_ "ego/internal/renderer/glfw"
-	"ego/pkg/configuration"
 	"ego/pkg/object"
 	"ego/pkg/render"
 	"ego/pkg/renderer"
@@ -23,27 +22,13 @@ type fakeGameObject struct{}
 func (o *fakeGameObject) Update() {}
 
 func TestGenerator(t *testing.T) {
-	renderer.RegisterRendererFactory("fake", func(r configuration.Renderer) renderer.Renderer {
+	renderer.RegisterRendererFactory("fake", func() renderer.Renderer {
 		return &fakeRenderer{}
 	})
-	object.RegisterObjectFactory("foo", func(m configuration.Mob) object.GameObject {
+	object.RegisterObjectFactory("foo", func(key string) object.GameObject {
 		return &fakeGameObject{}
 	})
-	generateGame(configuration.Configuration{
-		Mobs: []configuration.Mob{
-			configuration.Mob{
-				Name: "foo",
-				Type: "foo",
-			},
-		},
-		Renderer: configuration.Renderer{
-			Type: "fake",
-		},
-		Grid: configuration.Position{
-			X: 1,
-			Y: 1,
-		},
-	}, func(s Scene, r renderer.Renderer) Game {
+	generateGame(func(s Scene, r renderer.Renderer) Game {
 		return CreateSampleGame(s, r)
 	})
 }

@@ -28,7 +28,7 @@ func CreateDisplay() Display {
 	name := viper.GetString("renderer.display.type")
 	factory, ok := displayFactories[name]
 	if !ok {
-		panic(fmt.Errorf("can't find factory for type %s", name))
+		panic(fmt.Errorf("can't find display factory for type %s", name))
 	}
 	return factory()
 }

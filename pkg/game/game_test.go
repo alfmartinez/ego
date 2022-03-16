@@ -2,6 +2,8 @@ package game
 
 import (
 	"testing"
+
+	"github.com/spf13/viper"
 )
 
 type fakeGame struct{}
@@ -23,10 +25,12 @@ func TestCreateGame(t *testing.T) {
 		}
 	})
 
-	t.Run("uses file factory", func(t *testing.T) {
-		game := CreateGame("file")
+	t.Run("uses viper factory", func(t *testing.T) {
+		viper.Set("renderer.type", "glfw")
+		viper.Set("renderer.display.type", "rts")
+		game := CreateGame("viper")
 		if _, ok := game.(*sampleGame); !ok {
-			t.Error("file factory should return sample game")
+			t.Error("viper factory should return sample game")
 		}
 
 	})
