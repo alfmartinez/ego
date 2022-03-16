@@ -4,12 +4,22 @@ import (
 	"ego/pkg/motivator"
 	"ego/pkg/terrain"
 	"testing"
+
+	"github.com/spf13/viper"
 )
 
 func TestCreateSeekAndUseCommand(t *testing.T) {
 
 	t.Run("Not found", func(t *testing.T) {
-		terrain.CreateGrid(5, 5, func(terrain.Tile) {})
+		terrain.RegisterTileType("plain", &fakeTile{})
+		viper.Set("grid", terrain.GridData{
+			Size: 100,
+			Types: map[string]string{
+				"a": "plain",
+			},
+			Content: "AAA\nAAA\nAAA",
+		})
+		terrain.CreateGrid(func(terrain.Tile) {})
 		mob := createMockEvaluateActor(motivator.Health, 10)
 		cmd := CreateSeekAndUseCommand(mob, motivator.Health)
 		done := cmd.Execute()
@@ -22,7 +32,15 @@ func TestCreateSeekAndUseCommand(t *testing.T) {
 		}
 	})
 	t.Run("Found", func(t *testing.T) {
-		grid := terrain.CreateGrid(5, 5, func(terrain.Tile) {})
+		terrain.RegisterTileType("plain", &fakeTile{})
+		viper.Set("grid", terrain.GridData{
+			Size: 100,
+			Types: map[string]string{
+				"a": "plain",
+			},
+			Content: "AAA\nAAA\nAAA",
+		})
+		grid := terrain.CreateGrid(func(terrain.Tile) {})
 		grid.AddSource(1, 0, terrain.Medicine, 1)
 		mob := createMockEvaluateActor(motivator.Health, 10)
 		cmd := CreateSeekAndUseCommand(mob, motivator.Health)

@@ -15,9 +15,9 @@ type tileType struct {
 	Movement int
 }
 
-type TileTypes map[string]*tileType
+type TileTypes map[string]tileType
 
-var types TileTypes
+var types = make(map[string]TileType)
 
 func RegisterTileTypes() {
 	var typesData TileTypes
@@ -25,7 +25,13 @@ func RegisterTileTypes() {
 	if err != nil {
 		panic(err)
 	}
-	types = typesData
+	for name, tileType := range typesData {
+		RegisterTileType(name, &tileType)
+	}
+}
+
+func RegisterTileType(name string, tileType TileType) {
+	types[name] = tileType
 }
 
 func CreateTileType(name string) TileType {

@@ -8,6 +8,8 @@ import (
 	"ego/pkg/terrain"
 	"image"
 	"testing"
+
+	"github.com/spf13/viper"
 )
 
 type mockEvaluator struct {
@@ -26,8 +28,20 @@ func createMockEvaluateActor(need motivator.Need, value int) EvaluateActor {
 	return &mockEvaluator{stream, sm, nc, mvmt}
 }
 
+type fakeTile struct{}
+
+func (f *fakeTile) Path() string { return "fake" }
+
 func TestCreateEvaluateCommand(t *testing.T) {
-	terrain.CreateGrid(5, 5, func(terrain.Tile) {})
+	terrain.RegisterTileType("plain", &fakeTile{})
+	viper.Set("grid", terrain.GridData{
+		Size: 10,
+		Types: map[string]string{
+			"a": "plain",
+		},
+		Content: "AAA\nAAA\nAAA",
+	})
+	terrain.CreateGrid(func(terrain.Tile) {})
 
 	t.Run("Need obvious", func(t *testing.T) {
 		mob := createMockEvaluateActor(motivator.Health, 10)
