@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/nfnt/resize"
+	"github.com/spf13/viper"
 )
 
 func init() {
@@ -42,14 +43,29 @@ type preLoad struct {
 	imgs map[index]image.Image
 }
 
-func (l *preLoad) Init() {
+type Sheet struct {
+	Label string
+	Path  string
+	Rect  struct {
+		W int
+		H int
+	}
+	Sizes []uint
+}
 
-	config := loadConfiguration()
-	for _, sheet := range config.Sheets {
+type Sheets map[string]Sheet
+
+func (l *preLoad) Init() {
+	var sheets Sheets
+	err := viper.UnmarshalKey("sheets", &sheets)
+	if err != nil {
+		panic(err)
+	}
+	for _, sheet := range sheets {
 		label := sheet.Label
 		img := loadSpriteSheet("sheets/" + sheet.Path)
-		columns, lines := divideRect(img.Bounds(), image.Rect(0, 0, sheet.Rect.X, sheet.Rect.Y))
-		rect := image.Rect(0, 0, sheet.Rect.X, sheet.Rect.Y)
+		columns, lines := divideRect(img.Bounds(), image.Rect(0, 0, sheet.Rect.W, sheet.Rect.H))
+		rect := image.Rect(0, 0, sheet.Rect.W, sheet.Rect.H)
 		dX := image.Pt(rect.Dx(), 0)
 		dY := image.Pt(0, rect.Dy())
 		var subImage image.Image
@@ -59,7 +75,7 @@ func (l *preLoad) Init() {
 			for i := 0; i < columns; i++ {
 				subImage = img.(CropableImage).SubImage(col)
 				for _, size := range sheet.Sizes {
-					l.imgs[index{label, i, j, size}] = resize.Resize(uint(size), 0, subImage, resize.Lanczos2)
+					l.imgs[index{label, i, j, size}] = resize.Resize(size, 0, subImage, resize.Lanczos2)
 				}
 				col = col.Add(dX)
 			}

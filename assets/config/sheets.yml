@@ -1,23 +1,26 @@
 sheets:
-  - label: sheet
+  basic:
+    label: sheet
     path: sheet.png
     rect: 
-      x: 100
-      y: 100
+      w: 100
+      h: 100
     sizes:
       - 100
       - 50
-  - label: morris
+  morris:
+    label: morris
     path: morris.png
     rect: 
-      x: 1024
-      y: 1024
+      w: 1024
+      h: 1024
     sizes: 
       - 512
-  - label: ball
+  ball:
+    label: ball
     path: ball.png
     rect: 
-      x: 512
-      y: 512
+      w: 512
+      h: 512
     sizes: 
       - 512
