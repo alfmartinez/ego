@@ -14,37 +14,46 @@ import (
 
 func init() {
 	RegisterDisplay("rts", func() Display {
+		var displayConfig RtsData
+		err := viper.UnmarshalKey("renderer.display", &displayConfig)
+		if err != nil {
+			panic(err)
+		}
 		loader := loader.CreateSpriteLoader("pre_load")
 		loader.Init()
 		return &rts{
-			loader: loader,
+			loader:   loader,
+			size:     displayConfig.Size,
+			viewport: displayConfig.ViewPort,
 		}
 	})
 }
 
+type RtsData struct {
+	Size     image.Point
+	ViewPort image.Point
+}
+
 type rts struct {
 	loader   loader.Loader
+	size     image.Point
+	viewport image.Point
 	buffer   draw.Image
 	vpOrigin image.Point
 }
 
 func (d *rts) Init() {
-	width := viper.GetInt("renderer.display.size.width")
-	height := viper.GetInt("renderer.display.size.height")
-	d.buffer = createBlankBuffer(width, height)
+
+	d.buffer = createBlankBuffer(d.size.X, d.size.Y)
 	d.vpOrigin = image.Point{0, 0}
 }
 
 func (d *rts) Render() image.Image {
-	width := viper.GetInt("renderer.display.size.width")
-	height := viper.GetInt("renderer.display.size.height")
-	vpWidth := viper.GetInt("renderer.display.viewport.width")
-	vpHeight := viper.GetInt("renderer.display.viewport.height")
 	buffer := d.buffer
-	d.buffer = createBlankBuffer(width, height)
+	d.buffer = createBlankBuffer(d.size.X, d.size.Y)
 
 	if p, ok := buffer.(CropableImage); ok {
-		vpLimit := d.vpOrigin.Add(image.Point{vpWidth, vpHeight})
+		vpLimit := d.vpOrigin.Add(d.viewport)
 		cropRect := image.Rectangle{d.vpOrigin, vpLimit}
 		cropImg := p.SubImage(cropRect)
 		buffer = cropImg.(draw.Image)

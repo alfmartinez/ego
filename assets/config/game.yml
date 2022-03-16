@@ -3,9 +3,9 @@ renderer:
   display: 
     type: rts
     size: 
-      width: 1920
-      height: 1080
+      x: 1920
+      'y': 1080
     viewport:
-      width: 1920
-      height: 1080
+      x: 1920
+      'y': 1080
 

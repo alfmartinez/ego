@@ -8,6 +8,7 @@ func TestCommand(t *testing.T) {
 		cmd := CreateCommand(func() bool {
 			return status
 		})
+
 		done := cmd.Execute()
 		if done {
 			t.Error("Command should not be done")

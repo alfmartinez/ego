@@ -1,7 +1,6 @@
 package display
 
 import (
-	"ego/pkg/configuration"
 	"image"
 	"testing"
 )
@@ -14,22 +13,13 @@ func (f *FakeDisplay) Render() image.Image {
 	return &image.RGBA{}
 }
 func (f *FakeDisplay) AddObject(s Displayable) {}
-func (f *FakeDisplay) GetSize() configuration.Size {
-	return configuration.Size{}
-}
 
 func TestRegisterDisplayAllowsCreation(t *testing.T) {
-	RegisterDisplay("fake", func(configuration.Display) Display {
+	RegisterDisplay("fake", func() Display {
 		return &FakeDisplay{}
 	})
 
-	config := configuration.Display{
-		Type:     "fake",
-		Size:     configuration.Size{Width: 10, Height: 10},
-		ViewPort: configuration.Size{Width: 1, Height: 1},
-	}
-
-	display := CreateDisplay(config)
+	display := CreateDisplay()
 	s, ok := display.(*FakeDisplay)
 	if !ok {
 		t.Errorf("Should return FakeDisplay, got %+v", s)

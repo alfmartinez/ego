@@ -1,7 +1,6 @@
 package display
 
 import (
-	"ego/pkg/configuration"
 	"image"
 	"image/color"
 	"testing"
@@ -28,36 +27,16 @@ func (l *FakeLoader) GetSprite(s string, i uint) image.Image {
 }
 
 func TestCreateDisplayCanBuildRts(t *testing.T) {
-	actual := CreateDisplay(configuration.Display{
-		Type: "rts",
-	})
+	actual := CreateDisplay()
 	if _, ok := actual.(*rts); !ok {
 		t.Errorf("Create Display for rts should return rts")
-	}
-}
-
-func TestGetSizeReturnsViewport(t *testing.T) {
-	sut := &rts{
-		loader: &FakeLoader{},
-		config: configuration.Display{
-			Size:     configuration.Size{Width: 10, Height: 10},
-			ViewPort: configuration.Size{Width: 5, Height: 5},
-		}}
-	sut.Init()
-	size := sut.GetSize()
-	expectedSize := configuration.Size{Width: 5, Height: 5}
-	if size != expectedSize {
-		t.Errorf("Expected size %+v, got %+v", expectedSize, size)
 	}
 }
 
 func TestRenderReturnsBlankImageSameViewPort(t *testing.T) {
 	sut := &rts{
 		loader: &FakeLoader{},
-		config: configuration.Display{
-			Size:     configuration.Size{Width: 10, Height: 10},
-			ViewPort: configuration.Size{Width: 10, Height: 10},
-		}}
+	}
 	sut.Init()
 	actual := sut.Render()
 	if !actual.Bounds().Eq(image.Rect(0, 0, 10, 10)) {
@@ -74,10 +53,7 @@ func TestRenderReturnsBlankImageSameViewPort(t *testing.T) {
 func TestRenderReturnsBlankImageDifferentViewPort(t *testing.T) {
 	sut := &rts{
 		loader: &FakeLoader{},
-		config: configuration.Display{
-			Size:     configuration.Size{Width: 10, Height: 10},
-			ViewPort: configuration.Size{Width: 5, Height: 5},
-		}}
+	}
 	sut.Init()
 	actual := sut.Render()
 	if !actual.Bounds().Eq(image.Rect(0, 0, 5, 5)) {
@@ -107,10 +83,7 @@ func TestRenderSinglePointSprite(t *testing.T) {
 
 	sut := &rts{
 		loader: &FakeLoader{loaderFunc},
-		config: configuration.Display{
-			Size:     configuration.Size{Width: 10, Height: 10},
-			ViewPort: configuration.Size{Width: 10, Height: 10},
-		}}
+	}
 	sprite := &FakeSprite{image.Pt(2, 2)}
 	sut.Init()
 	defer func() {
@@ -143,10 +116,7 @@ func TestAddObjectShouldPanicIfSpriteUnknown(t *testing.T) {
 
 	sut := &rts{
 		loader: &FakeLoader{loaderFunc},
-		config: configuration.Display{
-			Size:     configuration.Size{Width: 10, Height: 10},
-			ViewPort: configuration.Size{Width: 10, Height: 10},
-		}}
+	}
 	sprite := &FakeSprite{image.Pt(2, 2)}
 	sut.Init()
 

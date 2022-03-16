@@ -40,8 +40,8 @@ func (g *glfwRenderer) Init() {
 	//glfw.WindowHint(glfw.AutoIconify, glfw.True)
 
 	window, err := glfw.CreateWindow(
-		viper.GetInt("renderer.display.viewport.width"),
-		viper.GetInt("renderer.display.viewport.height"),
+		viper.GetInt("renderer.display.viewport.x"),
+		viper.GetInt("renderer.display.viewport.y"),
 		"Ego", glfw.GetPrimaryMonitor(), nil,
 	)
 	if err != nil {
