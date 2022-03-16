@@ -1,20 +1,22 @@
 package object
 
 import (
-	"ego/pkg/configuration"
+	"fmt"
+
+	"github.com/spf13/viper"
 )
 
 type GameObject interface {
 	Update()
 }
 
-var objectFactories = make(map[string]func(configuration.Mob) GameObject)
+var objectFactories = make(map[string]func(key string) GameObject)
 
-func RegisterObjectFactory(name string, f func(configuration.Mob) GameObject) {
+func RegisterObjectFactory(name string, f func(key string) GameObject) {
 	objectFactories[name] = f
 }
 
-func CreateObject(config configuration.Mob) GameObject {
-	name := config.Type
-	return objectFactories[name](config)
+func CreateObject(key string) GameObject {
+	name := viper.GetString(fmt.Sprintf("mobs.%s.type", key))
+	return objectFactories[name](key)
 }

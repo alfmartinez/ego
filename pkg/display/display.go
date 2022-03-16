@@ -1,15 +1,15 @@
 package display
 
 import (
-	"ego/pkg/configuration"
 	"image"
+
+	"github.com/spf13/viper"
 )
 
 type Display interface {
 	Init()
 	Render() image.Image
 	AddObject(Displayable)
-	GetSize() configuration.Size
 }
 
 type CropableImage interface {
@@ -17,13 +17,13 @@ type CropableImage interface {
 	SubImage(image.Rectangle) image.Image
 }
 
-var displayFactories = make(map[string]func(configuration.Display) Display)
+var displayFactories = make(map[string]func() Display)
 
-func RegisterDisplay(name string, f func(configuration.Display) Display) {
+func RegisterDisplay(name string, f func() Display) {
 	displayFactories[name] = f
 }
 
-func CreateDisplay(config configuration.Display) Display {
-	name := config.Type
-	return displayFactories[name](config)
+func CreateDisplay() Display {
+	name := viper.GetString("renderer.display.type")
+	return displayFactories[name]()
 }

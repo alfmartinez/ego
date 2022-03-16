@@ -1,17 +1,17 @@
 package glfw
 
 import (
-	"ego/pkg/configuration"
 	"ego/pkg/display"
 	"ego/pkg/render"
 	"ego/pkg/renderer"
 
 	"github.com/go-gl/glfw/v3.3/glfw"
+	"github.com/spf13/viper"
 )
 
 func init() {
-	renderer.RegisterRendererFactory("glfw", func(config configuration.Renderer) renderer.Renderer {
-		display := display.CreateDisplay(config.Display)
+	renderer.RegisterRendererFactory("glfw", func() renderer.Renderer {
+		display := display.CreateDisplay()
 		gl := CreateGLEngine()
 		return &glfwRenderer{display: display, gl: gl}
 	})
@@ -39,7 +39,11 @@ func (g *glfwRenderer) Init() {
 	glfw.WindowHint(glfw.OpenGLForwardCompatible, glfw.True)
 	//glfw.WindowHint(glfw.AutoIconify, glfw.True)
 
-	window, err := glfw.CreateWindow(1920, 1080, "Ego", glfw.GetPrimaryMonitor(), nil)
+	window, err := glfw.CreateWindow(
+		viper.GetInt("renderer.display.viewport.width"),
+		viper.GetInt("renderer.display.viewport.height"),
+		"Ego", glfw.GetPrimaryMonitor(), nil,
+	)
 	if err != nil {
 		panic(err)
 	}

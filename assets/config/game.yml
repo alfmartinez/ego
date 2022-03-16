@@ -13,12 +13,12 @@ grid:
   x: 20
   y: 20
 mobs: 
-  - name: Arthur
+  arthur:
+    name: Arthur
     type: Mob
     sprite: morris
     position: 
       x: 0
       y: 0
     needs: 
-      - name: health
-        value: 10
+      health: 100

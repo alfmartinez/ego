@@ -1,13 +1,8 @@
 package game
 
-import (
-	"ego/pkg/configuration"
-)
-
 func init() {
-	RegisterGameFactory("file", func() Game {
-		config, _ := configuration.ReadConfigurationFromFile("game.yml")
-		return generateGame(config, CreateSampleGame)
+	RegisterGameFactory("viper", func() Game {
+		return generateGame(CreateSampleGame)
 	})
 }
 

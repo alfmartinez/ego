@@ -1,7 +1,6 @@
 package display
 
 import (
-	"ego/pkg/configuration"
 	"ego/pkg/loader"
 	"errors"
 	"image"
@@ -9,15 +8,16 @@ import (
 	"image/draw"
 
 	_ "image/png"
+
+	"github.com/spf13/viper"
 )
 
 func init() {
-	RegisterDisplay("rts", func(config configuration.Display) Display {
+	RegisterDisplay("rts", func() Display {
 		loader := loader.CreateSpriteLoader("pre_load")
 		loader.Init()
 		return &rts{
 			loader: loader,
-			config: config,
 		}
 	})
 }
@@ -25,25 +25,26 @@ func init() {
 type rts struct {
 	loader   loader.Loader
 	buffer   draw.Image
-	config   configuration.Display
 	vpOrigin image.Point
 }
 
 func (d *rts) Init() {
-	d.buffer = createBlankBuffer(d.config.Size.Width, d.config.Size.Height)
+	width := viper.GetInt("renderer.display.size.width")
+	height := viper.GetInt("renderer.display.size.height")
+	d.buffer = createBlankBuffer(width, height)
 	d.vpOrigin = image.Point{0, 0}
 }
 
-func (d *rts) GetSize() configuration.Size {
-	return d.config.ViewPort
-}
-
 func (d *rts) Render() image.Image {
+	width := viper.GetInt("renderer.display.size.width")
+	height := viper.GetInt("renderer.display.size.height")
+	vpWidth := viper.GetInt("renderer.display.viewport.width")
+	vpHeight := viper.GetInt("renderer.display.viewport.height")
 	buffer := d.buffer
-	d.buffer = createBlankBuffer(d.config.Size.Width, d.config.Size.Height)
+	d.buffer = createBlankBuffer(width, height)
 
 	if p, ok := buffer.(CropableImage); ok {
-		vpLimit := d.vpOrigin.Add(image.Point{d.config.ViewPort.Width, d.config.ViewPort.Height})
+		vpLimit := d.vpOrigin.Add(image.Point{vpWidth, vpHeight})
 		cropRect := image.Rectangle{d.vpOrigin, vpLimit}
 		cropImg := p.SubImage(cropRect)
 		buffer = cropImg.(draw.Image)
