@@ -3,7 +3,6 @@ package main
 import (
 	_ "ego/internal/renderer/glfw"
 	"ego/pkg/game"
-	"fmt"
 	"runtime"
 
 	"github.com/spf13/viper"
@@ -17,7 +16,7 @@ func init() {
 func main() {
 	err := readConfig()
 	if err != nil {
-		panic(fmt.Errorf("fatal error config file: %w", err))
+		panic(err)
 	}
 
 	game := game.CreateGame("viper")
@@ -48,12 +47,12 @@ func importConfig(imports []string) error {
 		v.AddConfigPath("./assets/config/")
 		err := v.ReadInConfig()
 		if err != nil {
-			return fmt.Errorf("fatal error config file: %w", err)
+			return err
 		}
 
 		err = viper.MergeConfigMap(v.AllSettings())
 		if err != nil {
-			return fmt.Errorf("cannot merge config %s", x)
+			return err
 		}
 
 		imports := v.GetStringSlice("imports")

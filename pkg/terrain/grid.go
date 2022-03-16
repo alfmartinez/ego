@@ -3,23 +3,38 @@ package terrain
 import (
 	"ego/pkg/movement"
 	"image"
+	"strings"
+
+	"github.com/spf13/viper"
 )
 
 type grid struct {
 	tiles map[image.Point]Tile
+	size  int
 }
 
-const (
-	tileSize = 100
-)
+type GridData struct {
+	Size    int
+	Content string
+	Types   map[string]string
+}
 
-func CreateGrid(width int, height int, register func(Tile)) Terrain {
+func CreateGrid(register func(Tile)) Terrain {
+	var gridData GridData
+	err := viper.UnmarshalKey("grid", &gridData)
+	if err != nil {
+		panic(err)
+	}
+
 	tiles := make(map[image.Point]Tile)
-	tileType := CreateTileType("plain")
-	for y := 0; y < height; y++ {
-		for x := 0; x < width; x++ {
+
+	lines := strings.Split(gridData.Content, "\n")
+	for y, line := range lines {
+		for x, vType := range line {
+			typeName := strings.ToLower(string(vType))
+			tileType := CreateTileType(gridData.Types[typeName])
 			position := image.Pt(x, y)
-			tiles[position] = CreateTile(position, tileType, tileSize)
+			tiles[position] = CreateTile(position, tileType, gridData.Size)
 		}
 	}
 
@@ -42,7 +57,7 @@ func CreateGrid(width int, height int, register func(Tile)) Terrain {
 		t.AddSurrounding(surrounding)
 	}
 
-	myGrid := &grid{tiles}
+	myGrid := &grid{tiles, gridData.Size}
 
 	terrainSingleton = myGrid
 	return myGrid
@@ -54,7 +69,7 @@ func (g *grid) Tile(pt image.Point) Tile {
 }
 
 func (g *grid) GetTile(pos movement.Positionnable) Tile {
-	return g.tiles[pos.Position().Div(tileSize)]
+	return g.tiles[pos.Position().Div(g.size)]
 }
 
 func (g *grid) AddSource(x int, y int, kind Resource, quantity uint) {

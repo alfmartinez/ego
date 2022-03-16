@@ -11,8 +11,6 @@ import (
 	"ego/pkg/state"
 	"fmt"
 	"image"
-	"log"
-	"strconv"
 
 	"github.com/spf13/viper"
 )
@@ -42,32 +40,34 @@ type stateMob struct {
 	command.CommandStream
 }
 
-func CreateStateMob(key string) GameObject {
-	vPath := fmt.Sprintf("mobs.%s", key)
-	sub := viper.Sub(vPath)
-	if sub == nil {
-		panic(fmt.Errorf("cant find mob configuration, %s", vPath))
-	}
-	log.Printf("%+v", sub.AllKeys())
-	name := sub.GetString("name")
-	position := image.Pt(sub.GetInt("position.x"), sub.GetInt("position.y"))
+type MobData struct {
+	Name     string
+	Position image.Point
+	Sprite   string
+	Needs    map[string]int
+}
 
-	mobData := data.CreateData(name)
+func CreateStateMob(key string) GameObject {
+	var mobData MobData
+	vPath := fmt.Sprintf("mobs.%s", key)
+	err := viper.UnmarshalKey(vPath, &mobData)
+	if err != nil {
+		panic(err)
+	}
+	name := mobData.Name
+	position := mobData.Position
+	data := data.CreateData(name)
 	mvmnt := movement.CreateMovement(position)
 	memo := memory.CreateMemory()
-	sprt := sprite.CreateSprite(sub.GetString("sprite"))
+	sprt := sprite.CreateSprite(mobData.Sprite)
 	needs := motivator.CreateNeedsCollection()
-	for needK, value := range sub.GetStringMapString("needs") {
-		intValue, err := strconv.Atoi(value)
-		if err != nil {
-			panic(err)
-		}
-		needs.AddNeed(motivator.CreateNeed(needK), intValue)
+	for needK, value := range mobData.Needs {
+		needs.AddNeed(motivator.CreateNeed(needK), value)
 	}
 	sm := state.CreateStateMachine()
 	stream := command.CreateCommandStream()
 
-	return &stateMob{sm, memo, mobData, mvmnt, sprt, needs, stream}
+	return &stateMob{sm, memo, data, mvmnt, sprt, needs, stream}
 }
 
 func (m *stateMob) Update() {

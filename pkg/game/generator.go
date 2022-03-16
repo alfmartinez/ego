@@ -20,7 +20,7 @@ func generateGame(factory func(Scene, renderer.Renderer) Game) Game {
 		mobs.AddObject(o)
 	}
 
-	terrain.CreateGrid(viper.GetInt("grid.x"), viper.GetInt("grid.y"), func(t terrain.Tile) {
+	terrain.CreateGrid(func(t terrain.Tile) {
 		tiles.AddObject(t)
 	})
 	r := renderer.CreateRenderer()

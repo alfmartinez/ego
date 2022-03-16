@@ -1,7 +1,15 @@
 package terrain
 
+import "fmt"
+
 type TileType interface {
 	Path() string
+}
+
+func init() {
+	types["plain"] = &defaultType{"sheet:0:0"}
+	types["swamp"] = &defaultType{"sheet:1:0"}
+	types["mountain"] = &defaultType{"sheet:2:0"}
 }
 
 var types = make(map[string]TileType)
@@ -9,8 +17,7 @@ var types = make(map[string]TileType)
 func CreateTileType(name string) TileType {
 	tileType, ok := types[name]
 	if !ok {
-		tileType = &defaultType{"sheet:0:0"}
-		types[name] = tileType
+		panic(fmt.Errorf("unknown tile type %s", name))
 	}
 	return tileType
 }

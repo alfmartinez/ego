@@ -1,0 +1,10 @@
+mobs: 
+  arthur:
+    name: Arthur
+    type: Mob
+    sprite: morris
+    position: 
+      x: 3
+      'y': 2
+    needs: 
+      health: 100

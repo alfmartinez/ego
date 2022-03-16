@@ -1,4 +1,3 @@
-modelVersion: v0
 renderer: 
   type: glfw
   display: 
@@ -9,16 +8,4 @@ renderer:
     viewport:
       width: 1920
       height: 1080
-grid: 
-  x: 20
-  y: 20
-mobs: 
-  arthur:
-    name: Arthur
-    type: Mob
-    sprite: morris
-    position: 
-      x: 0
-      y: 0
-    needs: 
-      health: 100
+
