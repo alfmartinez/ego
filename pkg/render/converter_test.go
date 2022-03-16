@@ -1,46 +1,61 @@
 package render
 
 import (
-	"ego/pkg/configuration"
 	"ego/pkg/display"
 	"ego/pkg/object"
 	"ego/pkg/terrain"
 	"image"
 	"testing"
+
+	"github.com/spf13/viper"
 )
 
 func TestConverter(t *testing.T) {
 	var cases = []struct {
 		name     string
-		in       interface{}
+		in       func() interface{}
 		expected display.Displayable
 	}{
 		{
-			name:     "int",
-			in:       1,
+			name: "int",
+			in: func() interface{} {
+				return 1
+			},
 			expected: nil,
 		},
 		{
 			name: "StateMob",
-			in: object.CreateStateMob(configuration.Mob{
-				Position: configuration.Position{
-					X: 99,
-					Y: 1,
-				},
-				Sprite: "foo",
-			}),
-			expected: display.CreateDisplayable("foo:0:0", 512, image.Pt(99, 1)),
+			in: func() interface{} {
+				viper.Set("mobs.foo", object.MobData{
+					Sprite:   "foo",
+					Position: image.Pt(99, 1),
+				})
+				return object.CreateStateMob("foo")
+			},
+			expected: display.CreateDisplayable("foo:0:0", 50, image.Pt(99, 1)),
 		},
 		{
-			name:     "Tile",
-			in:       terrain.CreateTile(image.Pt(30, 30), terrain.CreateTileType("plain"), 50),
+			name: "Tile",
+			in: func() interface{} {
+				viper.Set("tile_types", map[string]struct {
+					Sprite   string
+					Movement int
+				}{
+					"plain": {
+						Sprite:   "sheet:0:0",
+						Movement: 10,
+					},
+				})
+				terrain.RegisterTileTypes()
+				return terrain.CreateTile(image.Pt(30, 30), terrain.CreateTileType("plain"), 50)
+			},
 			expected: display.CreateDisplayable("sheet:0:0", 50, image.Pt(1500, 1500)),
 		},
 	}
 
 	for _, tt := range cases {
 		t.Run(tt.name, func(t *testing.T) {
-			actual := ConvertObjectToDisplayable(tt.in)
+			actual := ConvertObjectToDisplayable(tt.in())
 			if actual != tt.expected {
 				t.Errorf("expected %v, got %v", tt.expected, actual)
 			}
