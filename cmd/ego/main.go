@@ -24,16 +24,7 @@ func main() {
 }
 
 func readConfig() error {
-	var err error
-	viper.SetConfigName("config")
-	viper.AddConfigPath("./assets/config/")
-	err = viper.ReadInConfig()
-	if err != nil {
-		return err
-	}
-
-	imports := viper.GetStringSlice("imports")
-	err = importConfig(imports)
+	err := importConfig([]string{"config"})
 	if err != nil {
 		return err
 	}
@@ -44,7 +35,7 @@ func importConfig(imports []string) error {
 	for _, x := range imports {
 		v := viper.New()
 		v.SetConfigName(x)
-		v.AddConfigPath("./assets/config/")
+		v.AddConfigPath("assets/config/")
 		err := v.ReadInConfig()
 		if err != nil {
 			return err
