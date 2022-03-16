@@ -4,10 +4,20 @@ import (
 	"ego/pkg/movement"
 	"image"
 	"testing"
+
+	"github.com/spf13/viper"
 )
 
 func TestCreateGrid(t *testing.T) {
-	g := CreateGrid(3, 3, func(t Tile) {})
+	RegisterTileType("plain", &tileType{"foo", 10})
+	viper.Set("grid", GridData{
+		Size: 10,
+		Types: map[string]string{
+			"a": "plain",
+		},
+		Content: "AAA\nAAA\nAAA",
+	})
+	g := CreateGrid(func(t Tile) {})
 
 	t.Run("should return grid", func(t *testing.T) {
 		if _, ok := g.(*grid); !ok {
@@ -35,7 +45,15 @@ func TestCreateGrid(t *testing.T) {
 }
 
 func TestGridGetTile(t *testing.T) {
-	g := CreateGrid(2, 2, func(t Tile) {})
+	RegisterTileType("plain", &tileType{"foo", 10})
+	viper.Set("grid", GridData{
+		Size: 100,
+		Types: map[string]string{
+			"a": "plain",
+		},
+		Content: "AA\nAA",
+	})
+	g := CreateGrid(func(t Tile) {})
 	var tile = g.GetTile(movement.Loc(image.Pt(0, 0)))
 	if tile == nil {
 		t.Error("Should return origin tile")
@@ -53,7 +71,15 @@ func TestGridGetTile(t *testing.T) {
 }
 
 func TestFindClosestSingleTrue(t *testing.T) {
-	g := CreateGrid(1, 1, func(t Tile) {})
+	RegisterTileType("plain", &tileType{"foo", 10})
+	viper.Set("grid", GridData{
+		Size: 10,
+		Types: map[string]string{
+			"a": "plain",
+		},
+		Content: "A",
+	})
+	g := CreateGrid(func(t Tile) {})
 	pos := movement.Loc(image.Pt(0, 0))
 	tile := g.FindClosest(pos, 1, func(tile Tile) bool {
 		return true
@@ -64,7 +90,15 @@ func TestFindClosestSingleTrue(t *testing.T) {
 }
 
 func TestFindClosestMultipleFalse(t *testing.T) {
-	g := CreateGrid(3, 3, func(t Tile) {})
+	RegisterTileType("plain", &tileType{"foo", 10})
+	viper.Set("grid", GridData{
+		Size: 10,
+		Types: map[string]string{
+			"a": "plain",
+		},
+		Content: "AAA\nAAA\nAAA",
+	})
+	g := CreateGrid(func(t Tile) {})
 	pos := movement.Loc(image.Pt(0, 0))
 	tile := g.FindClosest(pos, 1, func(tile Tile) bool {
 		return false
@@ -76,8 +110,15 @@ func TestFindClosestMultipleFalse(t *testing.T) {
 }
 
 func TestFindClosestMultipleResource(t *testing.T) {
-
-	g := CreateGrid(3, 3, func(t Tile) {})
+	RegisterTileType("plain", &tileType{"foo", 10})
+	viper.Set("grid", GridData{
+		Size: 10,
+		Types: map[string]string{
+			"a": "plain",
+		},
+		Content: "AAA\nAAA\nAAA",
+	})
+	g := CreateGrid(func(t Tile) {})
 	pos := movement.Loc(image.Pt(0, 0))
 	g.AddSource(2, 2, Medicine, 1)
 	tile := g.FindClosest(pos, 1, func(tile Tile) bool {
@@ -89,7 +130,15 @@ func TestFindClosestMultipleResource(t *testing.T) {
 }
 
 func TestGridTileReturnsTileInGridCoord(t *testing.T) {
-	g := CreateGrid(3, 3, func(t Tile) {})
+	RegisterTileType("plain", &tileType{"foo", 10})
+	viper.Set("grid", GridData{
+		Size: 10,
+		Types: map[string]string{
+			"a": "plain",
+		},
+		Content: "AAA\nAAA\nAAA",
+	})
+	g := CreateGrid(func(t Tile) {})
 
 	tile := g.Tile(image.Pt(0, 0))
 	if tile == nil {
