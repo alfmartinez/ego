@@ -4,6 +4,8 @@ import (
 	"image"
 	"image/color"
 	"testing"
+
+	"github.com/spf13/viper"
 )
 
 type FakeSprite struct {
@@ -27,6 +29,7 @@ func (l *FakeLoader) GetSprite(s string, i uint) image.Image {
 }
 
 func TestCreateDisplayCanBuildRts(t *testing.T) {
+	viper.Set("renderer.display.type", "rts")
 	actual := CreateDisplay()
 	if _, ok := actual.(*rts); !ok {
 		t.Errorf("Create Display for rts should return rts")
@@ -35,7 +38,9 @@ func TestCreateDisplayCanBuildRts(t *testing.T) {
 
 func TestRenderReturnsBlankImageSameViewPort(t *testing.T) {
 	sut := &rts{
-		loader: &FakeLoader{},
+		loader:   &FakeLoader{},
+		size:     image.Pt(10, 10),
+		viewport: image.Pt(10, 10),
 	}
 	sut.Init()
 	actual := sut.Render()
@@ -52,7 +57,9 @@ func TestRenderReturnsBlankImageSameViewPort(t *testing.T) {
 
 func TestRenderReturnsBlankImageDifferentViewPort(t *testing.T) {
 	sut := &rts{
-		loader: &FakeLoader{},
+		loader:   &FakeLoader{},
+		size:     image.Pt(10, 10),
+		viewport: image.Pt(5, 5),
 	}
 	sut.Init()
 	actual := sut.Render()
@@ -82,7 +89,9 @@ func TestRenderSinglePointSprite(t *testing.T) {
 	}
 
 	sut := &rts{
-		loader: &FakeLoader{loaderFunc},
+		loader:   &FakeLoader{loaderFunc},
+		size:     image.Pt(10, 10),
+		viewport: image.Pt(10, 10),
 	}
 	sprite := &FakeSprite{image.Pt(2, 2)}
 	sut.Init()

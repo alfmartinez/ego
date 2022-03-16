@@ -1,6 +1,7 @@
 package display
 
 import (
+	"fmt"
 	"image"
 
 	"github.com/spf13/viper"
@@ -25,5 +26,9 @@ func RegisterDisplay(name string, f func() Display) {
 
 func CreateDisplay() Display {
 	name := viper.GetString("renderer.display.type")
-	return displayFactories[name]()
+	factory, ok := displayFactories[name]
+	if !ok {
+		panic(fmt.Errorf("can't find factory for type %s", name))
+	}
+	return factory()
 }

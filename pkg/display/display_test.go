@@ -3,6 +3,8 @@ package display
 import (
 	"image"
 	"testing"
+
+	"github.com/spf13/viper"
 )
 
 type FakeDisplay struct {
@@ -18,7 +20,7 @@ func TestRegisterDisplayAllowsCreation(t *testing.T) {
 	RegisterDisplay("fake", func() Display {
 		return &FakeDisplay{}
 	})
-
+	viper.Set("renderer.display.type", "fake")
 	display := CreateDisplay()
 	s, ok := display.(*FakeDisplay)
 	if !ok {
