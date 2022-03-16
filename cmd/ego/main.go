@@ -36,6 +36,7 @@ func importConfig(imports []string) error {
 		v := viper.New()
 		v.SetConfigName(x)
 		v.AddConfigPath("assets/config/")
+		v.AddConfigPath("../../assets/config/")
 		err := v.ReadInConfig()
 		if err != nil {
 			return err

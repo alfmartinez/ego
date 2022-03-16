@@ -24,7 +24,7 @@ func TestMainCreatesGameAndLaunchesIt(t *testing.T) {
 	gameFactory := fakeGameFactory(func() game.Game {
 		return mockGame
 	})
-	game.RegisterGameFactory("file", gameFactory)
+	game.RegisterGameFactory("viper", gameFactory)
 	main()
 	if !mockGame.launched {
 		t.Error("main should have launched game")
