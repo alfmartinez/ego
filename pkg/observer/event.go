@@ -1,0 +1,25 @@
+package observer
+
+type EventType uint
+
+const (
+	UPDATE EventType = iota
+	RENDER
+)
+
+type Event interface {
+	Type() EventType
+}
+
+type event struct {
+	eventType EventType
+	data      interface{}
+}
+
+func CreateEvent(t EventType, data interface{}) Event {
+	return event{t, data}
+}
+
+func (e event) Type() EventType {
+	return e.eventType
+}
