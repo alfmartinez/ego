@@ -1,15 +1,18 @@
 package terrain
 
 import (
+	"ego/pkg/context"
 	"ego/pkg/movement"
+	"ego/pkg/observer"
+	"ego/pkg/renderer"
 	"image"
 )
 
 type Tile interface {
+	observer.Observer
 	movement.Positionnable
 	Surrounding() []Tile
 	AddSurrounding([]Tile)
-	Update()
 	Rect() image.Rectangle
 	Resources
 	Path() string
@@ -30,6 +33,15 @@ func CreateTile(coord image.Point, tileType TileType, tileSize int) Tile {
 	rect = rect.Add(coord.Mul(tileSize))
 	res := CreateResources()
 	return &tile{tileType, res, rect, tileSize, surrounding}
+}
+
+func (t *tile) OnNotify(e observer.Event) {
+	switch e.Type() {
+	case observer.RENDER:
+		r := context.GetContext().Get("renderer").(renderer.Renderer)
+		r.Render(t)
+	}
+
 }
 
 func (t *tile) Size() uint {
@@ -55,5 +67,3 @@ func (t *tile) Rect() image.Rectangle {
 func (t *tile) AddSurrounding(surrounding []Tile) {
 	t.surrounding = append(t.surrounding, surrounding...)
 }
-
-func (t *tile) Update() {}

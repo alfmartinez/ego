@@ -14,7 +14,7 @@ func (o *mockObserver) OnNotify(e Event) {
 func TestObserver(t *testing.T) {
 	t.Run("Simple observer", func(t *testing.T) {
 		var called bool
-		evt := CreateEvent(UPDATE, nil)
+		evt := CreateEvent(UPDATE)
 		s := CreateSubject()
 		s.Register(&mockObserver{func(e Event) {
 			called = true
@@ -30,7 +30,7 @@ func TestObserver(t *testing.T) {
 
 	t.Run("Two observers", func(t *testing.T) {
 		var called1, called2 int
-		evt := CreateEvent(UPDATE, nil)
+		evt := CreateEvent(UPDATE)
 		s := CreateSubject()
 		o1 := &mockObserver{func(e Event) {
 			called1++

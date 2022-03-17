@@ -1,33 +1,36 @@
 package game
 
 import (
+	"ego/pkg/context"
 	"ego/pkg/object"
+	"ego/pkg/observer"
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 
 	"github.com/spf13/viper"
 )
 
-func generateGame(factory func(Scene, renderer.Renderer) Game) Game {
+func generateGame(factory func(observer.Subject, renderer.Renderer) Game) Game {
+	ctx := context.GetContext()
+	cfg := ctx.Get("cfg").(*viper.Viper)
 	terrain.RegisterTileTypes()
-	scene := CreateScene()
-	root := scene.Root()
-	tiles := root.CreateFolder("tile")
-	mobs := root.CreateFolder("mobs")
+	subject := observer.CreateSubject()
 
-	for key, _ := range viper.GetStringMap("mobs") {
+	for key, _ := range cfg.GetStringMap("mobs") {
 		o := object.CreateObject(key)
-		mobs.AddObject(o)
+		subject.Register(o)
 	}
 
-	terrain.CreateGrid(func(t terrain.Tile) {
-		tiles.AddObject(t)
+	grid := terrain.CreateGrid(func(t terrain.Tile) {
+		subject.Register(t)
 	})
-	r := renderer.CreateRenderer()
 
-	//r.Init()
+	ctx.Set("terrain", grid)
+	name := cfg.GetString("renderer.type")
+	r := renderer.CreateRenderer(name)
+	ctx.Set("renderer", r)
 
-	game := factory(scene, r)
+	game := factory(subject, r)
 
 	return game
 }

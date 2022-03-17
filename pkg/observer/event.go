@@ -1,6 +1,7 @@
 package observer
 
 type EventType uint
+type ObserverFunc func(Observer)
 
 const (
 	UPDATE EventType = iota
@@ -13,11 +14,10 @@ type Event interface {
 
 type event struct {
 	eventType EventType
-	data      interface{}
 }
 
-func CreateEvent(t EventType, data interface{}) Event {
-	return event{t, data}
+func CreateEvent(t EventType) Event {
+	return event{t}
 }
 
 func (e event) Type() EventType {

@@ -12,9 +12,3 @@ type Terrain interface {
 	FindClosest(movement.Positionnable, int, func(Tile) bool) []Tile
 	AddSource(int, int, Resource, uint)
 }
-
-var terrainSingleton Terrain = nil
-
-func GetTerrain() Terrain {
-	return terrainSingleton
-}

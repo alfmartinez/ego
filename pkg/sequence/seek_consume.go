@@ -2,6 +2,7 @@ package sequence
 
 import (
 	"ego/pkg/command"
+	"ego/pkg/context"
 	"ego/pkg/motivator"
 	"ego/pkg/movement"
 	"ego/pkg/state"
@@ -27,7 +28,7 @@ func CreateSeekAndUseCommand(args ...interface{}) command.Command {
 
 	commandStream := command.CreateCommandStream()
 	seekCommand := func() func() bool {
-		grid := terrain.GetTerrain()
+		grid := context.GetContext().Get("terrain").(terrain.Terrain)
 		return func() bool {
 			actor.SetState(state.StateIdle)
 			grid.FindClosest(actor, 1, func(t terrain.Tile) bool {

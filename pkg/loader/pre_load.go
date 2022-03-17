@@ -1,6 +1,7 @@
 package loader
 
 import (
+	"ego/pkg/context"
 	"image"
 	"strconv"
 	"strings"
@@ -55,6 +56,7 @@ type Sheets map[string]Sheet
 
 func (l *preLoad) Init() {
 	var sheets Sheets
+	viper := context.GetContext().Get("cfg").(*viper.Viper)
 	err := viper.UnmarshalKey("sheets", &sheets)
 	if err != nil {
 		panic(err)

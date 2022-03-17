@@ -2,10 +2,10 @@ package main
 
 import (
 	_ "ego/internal/renderer/glfw"
+	"ego/pkg/configuration"
+	"ego/pkg/context"
 	"ego/pkg/game"
 	"runtime"
-
-	"github.com/spf13/viper"
 )
 
 func init() {
@@ -14,44 +14,11 @@ func init() {
 }
 
 func main() {
-	err := readConfig()
-	if err != nil {
-		panic(err)
-	}
-
+	ctx := context.CreateContext()
+	context.RegisterContext("ego", ctx)
+	cfg := configuration.CreateConfiguration()
+	cfg.Init()
+	ctx.Set("cfg", cfg.Get())
 	game := game.CreateGame("viper")
 	game.Start()
-}
-
-func readConfig() error {
-	err := importConfig([]string{"config"})
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func importConfig(imports []string) error {
-	for _, x := range imports {
-		v := viper.New()
-		v.SetConfigName(x)
-		v.AddConfigPath("assets/config/")
-		v.AddConfigPath("../../assets/config/")
-		err := v.ReadInConfig()
-		if err != nil {
-			return err
-		}
-
-		err = viper.MergeConfigMap(v.AllSettings())
-		if err != nil {
-			return err
-		}
-
-		imports := v.GetStringSlice("imports")
-		err = importConfig(imports)
-		if err != nil {
-			return err
-		}
-	}
-	return nil
 }

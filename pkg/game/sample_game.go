@@ -1,13 +1,14 @@
 package game
 
 import (
+	"ego/pkg/observer"
 	"ego/pkg/renderer"
 	"log"
 	"time"
 )
 
 type sampleGame struct {
-	scene        Scene
+	subject      observer.Subject
 	renderer     renderer.Renderer
 	ExitLoop     chan bool
 	renderTicker time.Ticker
@@ -19,12 +20,12 @@ const (
 	RENDER_RATE = 30
 )
 
-func CreateSampleGame(scene Scene, r renderer.Renderer) Game {
+func CreateSampleGame(subject observer.Subject, r renderer.Renderer) Game {
 
 	updateTicker := time.NewTicker(time.Second / UPDATE_RATE)
 	renderTicker := time.NewTicker(time.Second / RENDER_RATE)
 	return &sampleGame{
-		scene:        scene,
+		subject:      subject,
 		renderer:     r,
 		ExitLoop:     make(chan bool),
 		renderTicker: *renderTicker,
@@ -60,11 +61,11 @@ func (game *sampleGame) loop() {
 }
 
 func (game *sampleGame) update() {
-	game.scene.Update()
+	game.subject.NotifyAll(observer.CreateEvent(observer.UPDATE))
 }
 
 func (game *sampleGame) render() {
-	renderTree := game.scene.Render()
-	game.renderer.Render(renderTree)
+	evt := observer.CreateEvent(observer.RENDER)
+	game.subject.NotifyAll(evt)
 	game.renderer.Refresh()
 }

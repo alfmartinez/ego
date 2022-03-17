@@ -2,10 +2,13 @@ package object
 
 import (
 	"ego/pkg/command"
+	"ego/pkg/context"
 	"ego/pkg/data"
 	"ego/pkg/memory"
 	"ego/pkg/motivator"
 	"ego/pkg/movement"
+	"ego/pkg/observer"
+	"ego/pkg/renderer"
 	"ego/pkg/sequence"
 	"ego/pkg/sprite"
 	"ego/pkg/state"
@@ -52,6 +55,7 @@ type MobData struct {
 
 func CreateStateMob(key string) GameObject {
 	var mobData MobData
+	viper := context.GetContext().Get("cfg").(*viper.Viper)
 	vPath := fmt.Sprintf("mobs.%s", key)
 	err := viper.UnmarshalKey(vPath, &mobData)
 	if err != nil {
@@ -73,9 +77,23 @@ func CreateStateMob(key string) GameObject {
 	return &stateMob{sm, memo, data, mvmnt, sprt, needs, stream}
 }
 
-func (m *stateMob) Update() {
+func (m *stateMob) OnNotify(e observer.Event) {
+	switch e.Type() {
+	case observer.UPDATE:
+		m.update()
+	case observer.RENDER:
+		m.render()
+	}
+}
+
+func (m *stateMob) update() {
 	if m.Execute() {
 		m.After(sequence.CreateSequence(sequence.Evaluate)(m))
 	}
 	m.StateMachine.DoUpdate(m)
+}
+
+func (m *stateMob) render() {
+	r := context.GetContext().Get("renderer").(renderer.Renderer)
+	r.Render(m)
 }

@@ -1,6 +1,7 @@
 package display
 
 import (
+	"ego/pkg/context"
 	"ego/pkg/loader"
 	"errors"
 	"image"
@@ -15,6 +16,7 @@ import (
 func init() {
 	RegisterDisplay("rts", func() Display {
 		var displayConfig RtsData
+		viper := context.GetContext().Get("cfg").(*viper.Viper)
 		err := viper.UnmarshalKey("renderer.display", &displayConfig)
 		if err != nil {
 			panic(err)

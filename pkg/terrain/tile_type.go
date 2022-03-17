@@ -1,6 +1,7 @@
 package terrain
 
 import (
+	"ego/pkg/context"
 	"fmt"
 
 	"github.com/spf13/viper"
@@ -22,6 +23,7 @@ var tileTypes = make(map[string]TileType)
 
 func RegisterTileTypes() {
 	var typesData TileTypes
+	viper := context.GetContext().Get("cfg").(*viper.Viper)
 	err := viper.UnmarshalKey("tile_types", &typesData)
 	if err != nil {
 		panic(err)

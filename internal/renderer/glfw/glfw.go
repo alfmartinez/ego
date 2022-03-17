@@ -1,8 +1,8 @@
 package glfw
 
 import (
+	"ego/pkg/context"
 	"ego/pkg/display"
-	"ego/pkg/render"
 	"ego/pkg/renderer"
 
 	"github.com/go-gl/glfw/v3.3/glfw"
@@ -38,7 +38,7 @@ func (g *glfwRenderer) Init() {
 	glfw.WindowHint(glfw.OpenGLProfile, glfw.OpenGLCoreProfile)
 	glfw.WindowHint(glfw.OpenGLForwardCompatible, glfw.True)
 	//glfw.WindowHint(glfw.AutoIconify, glfw.True)
-
+	viper := context.GetContext().Get("cfg").(*viper.Viper)
 	window, err := glfw.CreateWindow(
 		viper.GetInt("renderer.display.viewport.x"),
 		viper.GetInt("renderer.display.viewport.y"),
@@ -70,11 +70,8 @@ func (g *glfwRenderer) Start(exit chan bool) {
 }
 
 // Render implements Renderer
-func (g *glfwRenderer) Render(tree render.RenderTree) {
-	tree.Apply(func(node render.RenderNode) {
-		s := node.Display()
-		g.display.AddObject(s)
-	})
+func (g *glfwRenderer) Render(s display.Displayable) {
+	g.display.AddObject(s)
 }
 
 // Refresh implements Renderer

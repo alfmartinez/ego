@@ -1,6 +1,7 @@
 package display
 
 import (
+	"ego/pkg/context"
 	"fmt"
 	"image"
 
@@ -25,6 +26,7 @@ func RegisterDisplay(name string, f func() Display) {
 }
 
 func CreateDisplay() Display {
+	viper := context.GetContext().Get("cfg").(*viper.Viper)
 	name := viper.GetString("renderer.display.type")
 	factory, ok := displayFactories[name]
 	if !ok {
