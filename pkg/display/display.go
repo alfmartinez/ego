@@ -11,7 +11,7 @@ import (
 type Display interface {
 	Init()
 	Render() image.Image
-	AddObject(Displayable)
+	AddObject(interface{})
 }
 
 type CropableImage interface {

@@ -1,7 +1,6 @@
 package render
 
 import (
-	"ego/pkg/display"
 	"ego/pkg/object"
 	"ego/pkg/terrain"
 	"image"
@@ -14,7 +13,7 @@ func TestConverter(t *testing.T) {
 	var cases = []struct {
 		name     string
 		in       func() interface{}
-		expected display.Displayable
+		expected Displayable
 	}{
 		{
 			name: "int",
@@ -38,7 +37,7 @@ func TestConverter(t *testing.T) {
 				})
 				return object.CreateStateMob("foo")
 			},
-			expected: display.CreateDisplayable("foo:0:0", 50, image.Pt(99, 1)),
+			expected: CreateDisplayable("foo:0:0", 50, image.Pt(99, 1), FOREGROUND),
 		},
 		{
 			name: "Tile",
@@ -55,7 +54,7 @@ func TestConverter(t *testing.T) {
 				terrain.RegisterTileTypes()
 				return terrain.CreateTile(image.Pt(30, 30), terrain.CreateTileType("plain"), 50)
 			},
-			expected: display.CreateDisplayable("sheet:0:0", 50, image.Pt(1500, 1500)),
+			expected: CreateDisplayable("sheet:0:0", 50, image.Pt(1500, 1500), BACKGROUND),
 		},
 	}
 

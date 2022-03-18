@@ -3,6 +3,7 @@ package glfw
 import (
 	"ego/pkg/context"
 	"ego/pkg/display"
+	"ego/pkg/render"
 	"ego/pkg/renderer"
 
 	"github.com/go-gl/glfw/v3.3/glfw"
@@ -70,7 +71,8 @@ func (g *glfwRenderer) Start(exit chan bool) {
 }
 
 // Render implements Renderer
-func (g *glfwRenderer) Render(s display.Displayable) {
+func (g *glfwRenderer) Render(i interface{}) {
+	s := render.ConvertObjectToDisplayable(i)
 	g.display.AddObject(s)
 }
 

@@ -1,14 +1,13 @@
 package renderer
 
 import (
-	"ego/pkg/display"
 	"errors"
 )
 
 type Renderer interface {
 	Init()
 	Start(chan bool)
-	Render(display.Displayable)
+	Render(interface{})
 	Refresh()
 	Close()
 }

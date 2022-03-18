@@ -2,6 +2,7 @@ package display
 
 import (
 	"ego/pkg/context"
+	"ego/pkg/layer"
 	"ego/pkg/loader"
 	"errors"
 	"image"
@@ -42,17 +43,17 @@ type rts struct {
 	viewport image.Point
 	buffer   draw.Image
 	vpOrigin image.Point
+	layers   layer.LayerMap
 }
 
 func (d *rts) Init() {
-
 	d.buffer = createBlankBuffer(d.size.X, d.size.Y)
 	d.vpOrigin = image.Point{0, 0}
+	d.layers = layer.CreateLayerMap()
 }
 
 func (d *rts) Render() image.Image {
-	buffer := d.buffer
-	d.buffer = createBlankBuffer(d.size.X, d.size.Y)
+	buffer := d.renderLayers()
 
 	if p, ok := buffer.(CropableImage); ok {
 		vpLimit := d.vpOrigin.Add(d.viewport)
@@ -64,17 +65,27 @@ func (d *rts) Render() image.Image {
 	return buffer
 }
 
-func (d *rts) AddObject(s Displayable) {
-	if s != nil {
-		src := d.loader.GetSprite(s.Path(), s.Size())
-		pos := s.Position()
-		srcPoint := pos
-		if src == nil {
-			panic(errors.New("Sprite not found " + s.Path()))
+func (d *rts) renderLayers() image.Image {
+	buffer := createBlankBuffer(d.size.X, d.size.Y)
+	for _, elements := range d.layers {
+		for _, element := range elements {
+			s := element.(Displayable)
+			src := d.loader.GetSprite(s.Path(), s.Size())
+			pos := s.Position()
+			srcPoint := pos
+			if src == nil {
+				panic(errors.New("Sprite not found " + s.Path()))
+			}
+			r := image.Rectangle{srcPoint, srcPoint.Add(src.Bounds().Size())}
+			draw.Draw(buffer, r, src, buffer.Bounds().Min, draw.Over)
 		}
-		r := image.Rectangle{srcPoint, srcPoint.Add(src.Bounds().Size())}
-		draw.Draw(d.buffer, r, src, d.buffer.Bounds().Min, draw.Over)
 	}
+	return buffer
+}
+
+func (d *rts) AddObject(i interface{}) {
+	s := i.(Displayable)
+	d.layers.Add(s.Layer(), s)
 }
 
 func createBlankBuffer(w, h int) draw.Image {

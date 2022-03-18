@@ -16,8 +16,8 @@ type sampleGame struct {
 }
 
 const (
-	UPDATE_RATE = 30
-	RENDER_RATE = 30
+	UPDATE_RATE = 1
+	RENDER_RATE = 1
 )
 
 func CreateSampleGame(subject observer.Subject, r renderer.Renderer) Game {
