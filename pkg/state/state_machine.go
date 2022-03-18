@@ -1,7 +1,9 @@
 package state
 
+import "time"
+
 type StateMachine interface {
-	DoUpdate(Updatable)
+	DoUpdate(Updatable, time.Duration)
 	SetState(StateType)
 }
 
@@ -15,7 +17,7 @@ func CreateStateMachine() StateMachine {
 	return &stateMachine{}
 }
 
-func (m *stateMachine) DoUpdate(self Updatable) {
+func (m *stateMachine) DoUpdate(self Updatable, dt time.Duration) {
 	if m.current == nil {
 		m.next = CreateState(StateIdle)
 	}
@@ -23,7 +25,7 @@ func (m *stateMachine) DoUpdate(self Updatable) {
 		m.current = m.next
 		m.next = nil
 	}
-	m.next = m.current.Update(self)
+	m.next = m.current.Update(self, dt)
 }
 
 func (m *stateMachine) SetState(t StateType) {

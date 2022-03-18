@@ -3,6 +3,7 @@ package terrain
 import (
 	"ego/pkg/context"
 	"ego/pkg/movement"
+	"fmt"
 	"image"
 	"strings"
 
@@ -23,6 +24,7 @@ type GridData struct {
 func CreateGrid(register func(Tile)) Terrain {
 	var gridData GridData
 	viper := context.GetContext().Get("cfg").(*viper.Viper)
+	fmt.Printf("Grid \n%v\n", viper.Get("grid.types.."))
 	err := viper.UnmarshalKey("grid", &gridData)
 	if err != nil {
 		panic(err)

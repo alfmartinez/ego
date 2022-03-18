@@ -2,6 +2,7 @@ package state
 
 import (
 	"ego/pkg/movement"
+	"time"
 )
 
 func init() {
@@ -23,15 +24,15 @@ type moveState struct {
 
 type Mover interface {
 	Updatable
-	MoveDirection(movement.Direction)
+	MoveDirection(movement.Direction, time.Duration)
 }
 
-func (s *moveState) Update(a Updatable) State {
+func (s *moveState) Update(a Updatable, dt time.Duration) State {
 	mover := a.(Mover)
 	a.Frame(s.frame, 0)
 	s.frame = (s.frame + 1) % 20
 	if s.frame > 5 && s.frame < 15 {
-		mover.MoveDirection(s.direction)
+		mover.MoveDirection(s.direction, dt)
 	}
 	if s.frame == 0 {
 		return CreateState(StateIdle)

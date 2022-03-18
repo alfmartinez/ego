@@ -1,9 +1,9 @@
 package terrain
 
 import (
-	"ego/pkg/context"
 	"ego/pkg/movement"
 	"ego/pkg/observer"
+	"ego/pkg/physics"
 	"ego/pkg/renderer"
 	"image"
 )
@@ -38,8 +38,11 @@ func CreateTile(coord image.Point, tileType TileType, tileSize int) Tile {
 func (t *tile) OnNotify(e observer.Event) {
 	switch e.Type() {
 	case observer.RENDER:
-		r := context.GetContext().Get("renderer").(renderer.Renderer)
+		r := renderer.FromContext()
 		r.Render(t)
+	case observer.PHYSICS:
+		p := physics.FromContext()
+		p.Add(t)
 	}
 
 }

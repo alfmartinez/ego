@@ -5,6 +5,7 @@ import (
 	"ego/pkg/input"
 	"ego/pkg/object"
 	"ego/pkg/observer"
+	"ego/pkg/physics"
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
 
@@ -33,6 +34,9 @@ func generateGame(factory func(observer.Subject, renderer.Renderer) Game) Game {
 
 	inputHandler := input.CreateInputHandler()
 	ctx.Set("input", inputHandler)
+
+	physics := physics.CreatePhysicsEngine()
+	ctx.Set("physics", physics)
 
 	game := factory(subject, r)
 

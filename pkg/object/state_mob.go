@@ -8,11 +8,13 @@ import (
 	"ego/pkg/motivator"
 	"ego/pkg/movement"
 	"ego/pkg/observer"
+	"ego/pkg/physics"
 	"ego/pkg/renderer"
 	"ego/pkg/sprite"
 	"ego/pkg/state"
 	"fmt"
 	"image"
+	"time"
 
 	"github.com/spf13/viper"
 )
@@ -79,15 +81,19 @@ func CreateStateMob(key string) GameObject {
 func (m *stateMob) OnNotify(e observer.Event) {
 	switch e.Type() {
 	case observer.UPDATE:
-		m.update()
+		dt := e.Data()[0].(time.Duration)
+		m.update(dt)
 	case observer.RENDER:
 		m.render()
+	case observer.PHYSICS:
+		p := physics.FromContext()
+		p.Add(m)
 	}
 }
 
-func (m *stateMob) update() {
+func (m *stateMob) update(dt time.Duration) {
 	m.Execute()
-	m.StateMachine.DoUpdate(m)
+	m.StateMachine.DoUpdate(m, dt)
 }
 
 func (m *stateMob) render() {

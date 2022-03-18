@@ -1,10 +1,20 @@
 tile_types:
-  plain:
+  free:
     sprite: sheet:0:0
     movement: 1
-  mountain: 
+  top:
+    sprite: sheet:0:0
+    movement: 1
+  floor: 
     sprite: sheet:1:0
     movement: 0
-  swamp:
-    sprite: sheet:2:0
-    movement: 2
+  ground: 
+    sprite: sheet:1:0
+    movement: 0
+  cloud: 
+    sprite: sheet:1:0
+    movement: 0
+  brick: 
+    sprite: sheet:1:0
+    movement: 0
+  

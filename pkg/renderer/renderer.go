@@ -1,6 +1,7 @@
 package renderer
 
 import (
+	"ego/pkg/context"
 	"errors"
 )
 
@@ -22,6 +23,10 @@ func GetRenderer() Renderer {
 
 func RegisterRendererFactory(name string, f func() Renderer) {
 	rendererFactories[name] = f
+}
+
+func FromContext() Renderer {
+	return context.GetContext().Get("renderer").(Renderer)
 }
 
 func CreateRenderer(name string) Renderer {

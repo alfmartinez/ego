@@ -2,6 +2,7 @@ package movement
 
 import (
 	"image"
+	"time"
 )
 
 type Direction uint
@@ -21,7 +22,7 @@ type Positionnable interface {
 
 type Moveable interface {
 	MoveForward(Positionnable) bool
-	MoveDirection(Direction)
+	MoveDirection(Direction, time.Duration)
 }
 
 type Movement interface {
@@ -58,7 +59,7 @@ func (m *movement) MoveForward(destination Positionnable) bool {
 	return dp.Eq(image.Point{})
 }
 
-func (m *movement) MoveDirection(d Direction) {
+func (m *movement) MoveDirection(d Direction, dt time.Duration) {
 	var dp image.Point
 	switch d {
 	case MOVE_DOWN:

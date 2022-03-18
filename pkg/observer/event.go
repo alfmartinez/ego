@@ -6,10 +6,12 @@ type ObserverFunc func(Observer)
 const (
 	UPDATE EventType = iota
 	RENDER
+	PHYSICS
 )
 
 type Event interface {
 	Type() EventType
+	Data() []interface{}
 }
 
 type event struct {
@@ -23,4 +25,8 @@ func CreateEvent(t EventType, data ...interface{}) Event {
 
 func (e event) Type() EventType {
 	return e.eventType
+}
+
+func (e event) Data() []interface{} {
+	return e.data
 }

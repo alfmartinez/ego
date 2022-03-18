@@ -4,6 +4,7 @@ import (
 	"ego/pkg/context"
 	"ego/pkg/input"
 	"ego/pkg/observer"
+	"ego/pkg/physics"
 	"ego/pkg/renderer"
 	"log"
 	"time"
@@ -39,6 +40,7 @@ func (game *sampleGame) loop() {
 	loop := true
 	lastUpdate := time.Now()
 	lastRender := time.Now()
+	lastPhysics := time.Now()
 	for loop {
 		if inputHandler.IsPressed(input.ESCAPE) {
 			loop = false
@@ -46,6 +48,9 @@ func (game *sampleGame) loop() {
 
 		game.update(time.Since(lastUpdate))
 		lastUpdate = time.Now()
+
+		game.physics(time.Since(lastPhysics))
+		lastPhysics = time.Now()
 
 		renderWait := time.Until(lastRender.Add(time.Second / FPS))
 		time.Sleep(renderWait)
@@ -59,6 +64,11 @@ func (game *sampleGame) loop() {
 
 func (game *sampleGame) update(dt time.Duration) {
 	game.subject.NotifyAll(observer.CreateEvent(observer.UPDATE, dt))
+}
+
+func (game *sampleGame) physics(dt time.Duration) {
+	game.subject.NotifyAll(observer.CreateEvent(observer.PHYSICS))
+	physics.FromContext().Advance(dt)
 }
 
 func (game *sampleGame) render() {

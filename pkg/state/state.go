@@ -1,5 +1,7 @@
 package state
 
+import "time"
+
 type StateType int
 
 type HasStateType interface {
@@ -20,7 +22,7 @@ type Updatable interface {
 }
 
 type State interface {
-	Update(Updatable) State
+	Update(Updatable, time.Duration) State
 	HasStateType
 }
 
