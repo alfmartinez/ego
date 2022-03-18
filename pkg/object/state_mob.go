@@ -9,7 +9,6 @@ import (
 	"ego/pkg/movement"
 	"ego/pkg/observer"
 	"ego/pkg/renderer"
-	"ego/pkg/sequence"
 	"ego/pkg/sprite"
 	"ego/pkg/state"
 	"fmt"
@@ -87,9 +86,7 @@ func (m *stateMob) OnNotify(e observer.Event) {
 }
 
 func (m *stateMob) update() {
-	if m.Execute() {
-		m.After(sequence.CreateSequence(sequence.Evaluate)(m))
-	}
+	m.Execute()
 	m.StateMachine.DoUpdate(m)
 }
 

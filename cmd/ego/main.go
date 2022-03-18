@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "ego/internal/display/rts"
 	_ "ego/internal/renderer/glfw"
 	"ego/pkg/configuration"
 	"ego/pkg/context"

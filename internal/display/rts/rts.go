@@ -1,7 +1,8 @@
-package display
+package rts
 
 import (
 	"ego/pkg/context"
+	"ego/pkg/display"
 	"ego/pkg/layer"
 	"ego/pkg/loader"
 	"errors"
@@ -15,7 +16,7 @@ import (
 )
 
 func init() {
-	RegisterDisplay("rts", func() Display {
+	display.RegisterDisplay("rts", func() display.Display {
 		var displayConfig RtsData
 		viper := context.GetContext().Get("cfg").(*viper.Viper)
 		err := viper.UnmarshalKey("renderer.display", &displayConfig)
@@ -55,7 +56,7 @@ func (d *rts) Init() {
 func (d *rts) Render() image.Image {
 	buffer := d.renderLayers()
 
-	if p, ok := buffer.(CropableImage); ok {
+	if p, ok := buffer.(display.CropableImage); ok {
 		vpLimit := d.vpOrigin.Add(d.viewport)
 		cropRect := image.Rectangle{d.vpOrigin, vpLimit}
 		cropImg := p.SubImage(cropRect)
@@ -69,7 +70,7 @@ func (d *rts) renderLayers() image.Image {
 	buffer := createBlankBuffer(d.size.X, d.size.Y)
 	for _, elements := range d.layers {
 		for _, element := range elements {
-			s := element.(Displayable)
+			s := element.(display.Displayable)
 			src := d.loader.GetSprite(s.Path(), s.Size())
 			pos := s.Position()
 			srcPoint := pos
@@ -84,7 +85,7 @@ func (d *rts) renderLayers() image.Image {
 }
 
 func (d *rts) AddObject(i interface{}) {
-	s := i.(Displayable)
+	s := i.(display.Displayable)
 	d.layers.Add(s.Layer(), s)
 }
 

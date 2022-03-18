@@ -1,6 +1,7 @@
-package display
+package rts
 
 import (
+	"ego/pkg/display"
 	"image"
 	"image/color"
 	"testing"
@@ -30,7 +31,7 @@ func (l *FakeLoader) GetSprite(s string, i uint) image.Image {
 
 func TestCreateDisplayCanBuildRts(t *testing.T) {
 	viper.Set("renderer.display.type", "rts")
-	actual := CreateDisplay()
+	actual := display.CreateDisplay()
 	if _, ok := actual.(*rts); !ok {
 		t.Errorf("Create Display for rts should return rts")
 	}
