@@ -2,6 +2,7 @@ package game
 
 import (
 	"ego/pkg/context"
+	"ego/pkg/input"
 	"ego/pkg/object"
 	"ego/pkg/observer"
 	"ego/pkg/renderer"
@@ -29,6 +30,9 @@ func generateGame(factory func(observer.Subject, renderer.Renderer) Game) Game {
 	name := cfg.GetString("renderer.type")
 	r := renderer.CreateRenderer(name)
 	ctx.Set("renderer", r)
+
+	inputHandler := input.CreateInputHandler()
+	ctx.Set("input", inputHandler)
 
 	game := factory(subject, r)
 

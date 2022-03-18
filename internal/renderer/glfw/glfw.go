@@ -3,6 +3,7 @@ package glfw
 import (
 	"ego/pkg/context"
 	"ego/pkg/display"
+	"ego/pkg/input"
 	"ego/pkg/render"
 	"ego/pkg/renderer"
 
@@ -65,9 +66,14 @@ func (*glfwRenderer) IsAsync() bool {
 }
 
 // Start implements Renderer
-func (g *glfwRenderer) Start(exit chan bool) {
-	g.exit = exit
-	g.window.SetKeyCallback(g.GetKeyCallBack())
+func (g *glfwRenderer) Start() {
+	handler := context.GetContext().Get("input").(input.InputHandler)
+	g.window.SetKeyCallback(func(w *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey) {
+		handler.Handle(input.Event{
+			Key:    ConvertKey(key),
+			Action: ConvertAction(action),
+		})
+	})
 }
 
 // Render implements Renderer
@@ -83,14 +89,4 @@ func (g *glfwRenderer) Refresh() {
 	g.gl.Draw(texture)
 	g.window.SwapBuffers()
 	glfw.PollEvents()
-}
-
-func (g *glfwRenderer) GetKeyCallBack() glfw.KeyCallback {
-	return func(w *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey) {
-		if key == glfw.KeyEscape && action == glfw.Press {
-			go func() {
-				g.exit <- true
-			}()
-		}
-	}
 }

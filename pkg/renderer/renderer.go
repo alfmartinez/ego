@@ -6,7 +6,7 @@ import (
 
 type Renderer interface {
 	Init()
-	Start(chan bool)
+	Start()
 	Render(interface{})
 	Refresh()
 	Close()

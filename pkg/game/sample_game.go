@@ -1,18 +1,16 @@
 package game
 
 import (
+	"ego/pkg/context"
+	"ego/pkg/input"
 	"ego/pkg/observer"
 	"ego/pkg/renderer"
 	"log"
-	"time"
 )
 
 type sampleGame struct {
-	subject      observer.Subject
-	renderer     renderer.Renderer
-	ExitLoop     chan bool
-	renderTicker time.Ticker
-	updateTicker time.Ticker
+	subject  observer.Subject
+	renderer renderer.Renderer
 }
 
 const (
@@ -21,40 +19,31 @@ const (
 )
 
 func CreateSampleGame(subject observer.Subject, r renderer.Renderer) Game {
-
-	updateTicker := time.NewTicker(time.Second / UPDATE_RATE)
-	renderTicker := time.NewTicker(time.Second / RENDER_RATE)
 	return &sampleGame{
-		subject:      subject,
-		renderer:     r,
-		ExitLoop:     make(chan bool),
-		renderTicker: *renderTicker,
-		updateTicker: *updateTicker,
+		subject:  subject,
+		renderer: r,
 	}
 }
 
 func (game *sampleGame) Start() {
 	game.renderer.Init()
-	game.renderer.Start(game.ExitLoop)
+	game.renderer.Start()
 	game.loop()
 }
 
-func (game *sampleGame) Stop() {
-	game.ExitLoop <- true
-}
+func (game *sampleGame) Stop() {}
 
 func (game *sampleGame) loop() {
+	inputHandler := context.GetContext().Get("input").(input.InputHandler)
 	log.Print("Start game loop")
 	loop := true
 	for loop {
-		select {
-		case <-game.ExitLoop:
+		if inputHandler.IsPressed(input.ESCAPE) {
 			loop = false
-		case <-game.updateTicker.C:
-			game.update()
-		case <-game.renderTicker.C:
-			game.render()
 		}
+		game.update()
+		game.render()
+
 	}
 	game.renderer.Close()
 	log.Print("End game loop")
