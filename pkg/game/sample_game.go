@@ -6,6 +6,7 @@ import (
 	"ego/pkg/observer"
 	"ego/pkg/renderer"
 	"log"
+	"time"
 )
 
 type sampleGame struct {
@@ -37,20 +38,28 @@ func (game *sampleGame) loop() {
 	inputHandler := context.GetContext().Get("input").(input.InputHandler)
 	log.Print("Start game loop")
 	loop := true
+	lastUpdate := time.Now()
+	lastRender := time.Now()
 	for loop {
 		if inputHandler.IsPressed(input.ESCAPE) {
 			loop = false
 		}
-		game.update()
+
+		game.update(time.Since(lastUpdate))
+		lastUpdate = time.Now()
+
+		renderWait := time.Until(lastRender.Add(time.Second / 30))
+		time.Sleep(renderWait)
 		game.render()
+		lastRender = time.Now()
 
 	}
 	game.renderer.Close()
 	log.Print("End game loop")
 }
 
-func (game *sampleGame) update() {
-	game.subject.NotifyAll(observer.CreateEvent(observer.UPDATE))
+func (game *sampleGame) update(dt time.Duration) {
+	game.subject.NotifyAll(observer.CreateEvent(observer.UPDATE, dt))
 }
 
 func (game *sampleGame) render() {

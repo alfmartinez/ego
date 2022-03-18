@@ -14,10 +14,11 @@ type Event interface {
 
 type event struct {
 	eventType EventType
+	data      []interface{}
 }
 
-func CreateEvent(t EventType) Event {
-	return event{t}
+func CreateEvent(t EventType, data ...interface{}) Event {
+	return event{t, data}
 }
 
 func (e event) Type() EventType {
