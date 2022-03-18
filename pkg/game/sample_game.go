@@ -15,8 +15,7 @@ type sampleGame struct {
 }
 
 const (
-	UPDATE_RATE = 1
-	RENDER_RATE = 1
+	FPS = 30
 )
 
 func CreateSampleGame(subject observer.Subject, r renderer.Renderer) Game {
@@ -48,7 +47,7 @@ func (game *sampleGame) loop() {
 		game.update(time.Since(lastUpdate))
 		lastUpdate = time.Now()
 
-		renderWait := time.Until(lastRender.Add(time.Second / 30))
+		renderWait := time.Until(lastRender.Add(time.Second / FPS))
 		time.Sleep(renderWait)
 		game.render()
 		lastRender = time.Now()

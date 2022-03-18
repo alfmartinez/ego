@@ -13,7 +13,10 @@ type moveState struct {
 
 func (s *moveState) Update(a Updatable) State {
 	a.Frame(s.frame, 0)
-	//s.frame = (s.frame + 1) % 20
+	s.frame = (s.frame + 1) % 20
+	if s.frame == 0 {
+		return CreateState(StateIdle)
+	}
 	return nil
 
 }

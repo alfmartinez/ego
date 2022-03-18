@@ -5,10 +5,11 @@ import (
 	"ego/pkg/display"
 	"ego/pkg/layer"
 	"ego/pkg/loader"
-	"errors"
+	"fmt"
 	"image"
 	"image/color"
 	"image/draw"
+	"sort"
 
 	_ "image/png"
 
@@ -42,13 +43,11 @@ type rts struct {
 	loader   loader.Loader
 	size     image.Point
 	viewport image.Point
-	buffer   draw.Image
 	vpOrigin image.Point
 	layers   layer.LayerMap
 }
 
 func (d *rts) Init() {
-	d.buffer = createBlankBuffer(d.size.X, d.size.Y)
 	d.vpOrigin = image.Point{0, 0}
 	d.layers = layer.CreateLayerMap()
 }
@@ -56,31 +55,46 @@ func (d *rts) Init() {
 func (d *rts) Render() image.Image {
 	buffer := d.renderLayers()
 
-	if p, ok := buffer.(display.CropableImage); ok {
-		vpLimit := d.vpOrigin.Add(d.viewport)
-		cropRect := image.Rectangle{d.vpOrigin, vpLimit}
-		cropImg := p.SubImage(cropRect)
-		buffer = cropImg.(draw.Image)
-	}
+	//	if p, ok := buffer.(display.CropableImage); ok {
+	//		vpLimit := d.vpOrigin.Add(d.viewport)
+	//		cropRect := image.Rectangle{d.vpOrigin, vpLimit}
+	//		cropImg := p.SubImage(cropRect)
+	//		buffer = cropImg.(draw.Image)
+	//	}
 
 	return buffer
 }
 
 func (d *rts) renderLayers() image.Image {
+	fmt.Println("--------")
+
+	layerKeys := make([]layer.Layer, 0)
+	for k, _ := range d.layers {
+		layerKeys = append(layerKeys, k)
+	}
+
+	sort.Slice(layerKeys, func(i, j int) bool {
+		return layerKeys[i] < layerKeys[j]
+	})
+
 	buffer := createBlankBuffer(d.size.X, d.size.Y)
-	for _, elements := range d.layers {
+	for idx := range layerKeys {
+		fmt.Printf("Rendering layer %d\n", layerKeys[idx])
+		elements := d.layers[layerKeys[idx]]
 		for _, element := range elements {
 			s := element.(display.Displayable)
 			src := d.loader.GetSprite(s.Path(), s.Size())
 			pos := s.Position()
 			srcPoint := pos
 			if src == nil {
-				panic(errors.New("Sprite not found " + s.Path()))
+				panic(fmt.Errorf("sprite not found %s", s.Path()))
 			}
 			r := image.Rectangle{srcPoint, srcPoint.Add(src.Bounds().Size())}
 			draw.Draw(buffer, r, src, buffer.Bounds().Min, draw.Over)
 		}
 	}
+
+	d.layers = layer.CreateLayerMap()
 	return buffer
 }
 
