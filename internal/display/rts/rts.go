@@ -66,8 +66,6 @@ func (d *rts) Render() image.Image {
 }
 
 func (d *rts) renderLayers() image.Image {
-	fmt.Println("--------")
-
 	layerKeys := make([]layer.Layer, 0)
 	for k, _ := range d.layers {
 		layerKeys = append(layerKeys, k)
@@ -79,7 +77,6 @@ func (d *rts) renderLayers() image.Image {
 
 	buffer := createBlankBuffer(d.size.X, d.size.Y)
 	for idx := range layerKeys {
-		fmt.Printf("Rendering layer %d\n", layerKeys[idx])
 		elements := d.layers[layerKeys[idx]]
 		for _, element := range elements {
 			s := element.(display.Displayable)

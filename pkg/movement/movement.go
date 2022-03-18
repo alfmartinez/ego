@@ -4,6 +4,16 @@ import (
 	"image"
 )
 
+type Direction uint
+
+const (
+	MOVE_NONE Direction = iota
+	MOVE_RIGHT
+	MOVE_LEFT
+	MOVE_UP
+	MOVE_DOWN
+)
+
 type Positionnable interface {
 	Position() image.Point
 	IsAt(Positionnable) bool
@@ -11,6 +21,7 @@ type Positionnable interface {
 
 type Moveable interface {
 	MoveForward(Positionnable) bool
+	MoveDirection(Direction)
 }
 
 type Movement interface {
@@ -45,4 +56,20 @@ func (m *movement) MoveForward(destination Positionnable) bool {
 	m.position = m.position.Add(dp)
 
 	return dp.Eq(image.Point{})
+}
+
+func (m *movement) MoveDirection(d Direction) {
+	var dp image.Point
+	switch d {
+	case MOVE_DOWN:
+		dp = image.Pt(0, 1)
+	case MOVE_UP:
+		dp = image.Pt(0, -1)
+	case MOVE_LEFT:
+		dp = image.Pt(-1, 0)
+	case MOVE_RIGHT:
+		dp = image.Pt(1, 0)
+	}
+
+	m.position = m.position.Add(dp)
 }
