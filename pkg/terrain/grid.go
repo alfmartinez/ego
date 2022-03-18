@@ -3,15 +3,23 @@ package terrain
 import (
 	"ego/pkg/context"
 	"ego/pkg/movement"
-	"fmt"
 	"image"
 	"strings"
 
 	"github.com/spf13/viper"
 )
 
+type GridCoord image.Point
+
+func (c GridCoord) Add(p image.Point) GridCoord {
+	return GridCoord{
+		X: c.X + p.X,
+		Y: c.Y + p.Y,
+	}
+}
+
 type grid struct {
-	tiles map[image.Point]Tile
+	tiles map[GridCoord]Tile
 	size  int
 }
 
@@ -24,20 +32,19 @@ type GridData struct {
 func CreateGrid(register func(Tile)) Terrain {
 	var gridData GridData
 	viper := context.GetContext().Get("cfg").(*viper.Viper)
-	fmt.Printf("Grid \n%v\n", viper.Get("grid.types.."))
 	err := viper.UnmarshalKey("grid", &gridData)
 	if err != nil {
 		panic(err)
 	}
 
-	tiles := make(map[image.Point]Tile)
+	tiles := make(map[GridCoord]Tile)
 
 	lines := strings.Split(gridData.Content, "\n")
 	for y, line := range lines {
 		for x, vType := range line {
 			typeName := strings.ToLower(string(vType))
 			tileType := CreateTileType(gridData.Types[typeName])
-			position := image.Pt(x, y)
+			position := GridCoord(image.Pt(x, y))
 			tiles[position] = CreateTile(position, tileType, gridData.Size)
 		}
 	}
@@ -67,20 +74,21 @@ func CreateGrid(register func(Tile)) Terrain {
 
 }
 
-func (g *grid) Tiles() map[image.Point]Tile {
+func (g *grid) Tiles() map[GridCoord]Tile {
 	return g.tiles
 }
 
-func (g *grid) Tile(pt image.Point) Tile {
+func (g *grid) Tile(pt GridCoord) Tile {
 	return g.tiles[pt]
 }
 
 func (g *grid) GetTile(pos movement.Positionnable) Tile {
-	return g.tiles[pos.Position().Div(g.size)]
+	coords := g.LocationToGridCoord(pos.Position())
+	return g.tiles[coords]
 }
 
 func (g *grid) AddSource(x int, y int, kind Resource, quantity uint) {
-	tile := g.tiles[image.Pt(x, y)]
+	tile := g.tiles[GridCoord{x, y}]
 	tile.AddResource(kind, quantity)
 }
 
@@ -110,4 +118,11 @@ func (g *grid) FindClosest(a movement.Positionnable, count int, validate func(Ti
 	}
 
 	return found
+}
+
+func (g *grid) LocationToGridCoord(l movement.Location) GridCoord {
+	return GridCoord{
+		X: int(l.X / float64(g.size)),
+		Y: int(l.Y / float64(g.size)),
+	}
 }

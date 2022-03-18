@@ -2,18 +2,39 @@ package movement
 
 import "image"
 
-type location struct {
-	position image.Point
+type Location struct {
+	X, Y float64
 }
 
-func Loc(pt image.Point) Positionnable {
-	return &location{pt}
+func (l Location) Point() image.Point {
+	return image.Pt(int(l.X), int(l.Y))
 }
 
-func (m *location) Position() image.Point {
-	return m.position
+func (l Location) Add(p image.Point) Location {
+	return Location{
+		X: l.X + float64(p.X),
+		Y: l.Y + float64(p.Y),
+	}
 }
 
-func (m *location) IsAt(pos Positionnable) bool {
-	return m.position.Eq(pos.Position())
+func (l Location) In(r image.Rectangle) bool {
+	return l.Point().In(r)
 }
+
+func (l Location) Div(d int) Location {
+	return Location{
+		X: l.X / float64(d),
+		Y: l.Y / float64(d),
+	}
+}
+
+func (l Location) Sub(s Location) Location {
+	return Location{
+		X: l.X - s.X,
+		Y: l.Y - s.Y,
+	}
+}
+
+type Speed Location
+
+type Acceleration Location

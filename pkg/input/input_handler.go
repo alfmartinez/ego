@@ -3,6 +3,7 @@ package input
 type InputHandler interface {
 	Handle(Event)
 	IsPressed(Key) bool
+	AllReleased() bool
 }
 
 func CreateInputHandler() InputHandler {
@@ -27,6 +28,15 @@ func (h *inputHandler) Handle(e Event) {
 func (h *inputHandler) IsPressed(k Key) bool {
 	if _, ok := h.keyStatus[k]; !ok {
 		return false
+	}
+	return true
+}
+
+func (h *inputHandler) AllReleased() bool {
+	for _, key := range h.keyStatus {
+		if key {
+			return true
+		}
 	}
 	return true
 }

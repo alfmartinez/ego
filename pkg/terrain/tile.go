@@ -11,6 +11,7 @@ import (
 type Tile interface {
 	observer.Observer
 	movement.Positionnable
+	physics.Collider
 	Surrounding() []Tile
 	AddSurrounding([]Tile)
 	Rect() image.Rectangle
@@ -27,10 +28,10 @@ type tile struct {
 	surrounding []Tile
 }
 
-func CreateTile(coord image.Point, tileType TileType, tileSize int) Tile {
+func CreateTile(coord GridCoord, tileType TileType, tileSize int) Tile {
 	surrounding := make([]Tile, 0)
 	rect := image.Rect(0, 0, tileSize, tileSize)
-	rect = rect.Add(coord.Mul(tileSize))
+	rect = rect.Add(image.Point(coord).Mul(tileSize))
 	res := CreateResources()
 	return &tile{tileType, res, rect, tileSize, surrounding}
 }
@@ -55,8 +56,11 @@ func (t *tile) IsAt(pos movement.Positionnable) bool {
 	return pos.Position().In(t.rect)
 }
 
-func (t *tile) Position() image.Point {
-	return t.rect.Min
+func (t *tile) Position() movement.Location {
+	return movement.Location{
+		X: float64(t.rect.Min.X),
+		Y: float64(t.rect.Min.Y),
+	}
 }
 
 func (t *tile) Surrounding() []Tile {
@@ -69,4 +73,8 @@ func (t *tile) Rect() image.Rectangle {
 
 func (t *tile) AddSurrounding(surrounding []Tile) {
 	t.surrounding = append(t.surrounding, surrounding...)
+}
+
+func (t *tile) Hitbox() image.Rectangle {
+	return t.Rect()
 }

@@ -10,11 +10,13 @@ import (
 type TileType interface {
 	Path() string
 	MovementCost() int
+	IsIgnored() bool
 }
 
 type tileType struct {
 	Sprite   string
 	Movement int
+	Blocking bool
 }
 
 type TileTypes map[string]tileType
@@ -52,4 +54,8 @@ func (t *tileType) Path() string {
 
 func (t *tileType) MovementCost() int {
 	return t.Movement
+}
+
+func (t *tileType) IsIgnored() bool {
+	return !t.Blocking
 }

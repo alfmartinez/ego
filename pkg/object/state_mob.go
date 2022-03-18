@@ -24,6 +24,8 @@ func init() {
 }
 
 type StateMob interface {
+	physics.Collider
+	physics.Mobile
 	GameObject
 	state.StateMachine
 	memory.Memory
@@ -46,7 +48,7 @@ type stateMob struct {
 
 type MobData struct {
 	Name     string
-	Position image.Point
+	Position movement.Location
 	Sprite   struct {
 		Path string
 		Size uint
@@ -75,7 +77,9 @@ func CreateStateMob(key string) GameObject {
 	sm := state.CreateStateMachine()
 	stream := command.CreateCommandStream()
 
-	return &stateMob{sm, memo, data, mvmnt, sprt, needs, stream}
+	m := &stateMob{sm, memo, data, mvmnt, sprt, needs, stream}
+	m.Fall()
+	return m
 }
 
 func (m *stateMob) OnNotify(e observer.Event) {
@@ -99,4 +103,35 @@ func (m *stateMob) update(dt time.Duration) {
 func (m *stateMob) render() {
 	r := context.GetContext().Get("renderer").(renderer.Renderer)
 	r.Render(m)
+}
+
+func (m *stateMob) IsMobile() bool {
+	return true
+}
+
+func (m *stateMob) Hitbox() image.Rectangle {
+	return image.Rect(0, 0, int(m.Size()), int(m.Size())).Add(m.Position().Point())
+}
+
+func (m *stateMob) IsHit(collider physics.Collider) physics.CollisionType {
+	intersect := m.Hitbox().Intersect(collider.Hitbox())
+	if intersect != image.Rect(0, 0, 0, 0) {
+		if intersect.Min.Y < m.Hitbox().Max.Y {
+			return physics.COLLISION_BOTTOM
+		}
+		if intersect.Max.Y > m.Hitbox().Min.Y {
+			return physics.COLLISION_TOP
+		}
+		if intersect.Min.X < m.Hitbox().Max.X {
+			return physics.COLLISION_RIGHT
+		}
+		if intersect.Max.X > m.Hitbox().Min.X {
+			return physics.COLLISION_LEFT
+		}
+	}
+	return physics.COLLISION_NONE
+}
+
+func (m *stateMob) IsIgnored() bool {
+	return false
 }

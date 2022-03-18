@@ -72,7 +72,7 @@ func TestEvaluatePositionV2(t *testing.T) {
 
 	for _, tt := range cases {
 		t.Run(tt.label, func(t *testing.T) {
-			tt.given.Advance(tt.dt)
+			tt.given.Advance(tt.dt.Seconds())
 			if tt.given != tt.expected {
 				t.Errorf("Expected %v, got %v", tt.expected, tt.given)
 			}

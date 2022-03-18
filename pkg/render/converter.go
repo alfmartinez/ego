@@ -19,12 +19,12 @@ func ConvertObjectToDisplayable(i interface{}) display.Displayable {
 	case object.StateMob:
 		path = v.Path()
 		size = v.Size()
-		position = v.Position()
+		position = v.Position().Point()
 		l = layer.FOREGROUND
 	case terrain.Tile:
 		path = v.Path()
 		size = v.Size()
-		position = v.Position()
+		position = v.Position().Point()
 		l = layer.BACKGROUND
 	default:
 		log.Printf("Cannot convert from %+v, return nil", i)

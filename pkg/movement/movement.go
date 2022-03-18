@@ -8,6 +8,10 @@ import (
 type Direction uint
 
 const (
+	ACCELERATION_UNIT = 50
+)
+
+const (
 	MOVE_NONE Direction = iota
 	MOVE_RIGHT
 	MOVE_LEFT
@@ -16,31 +20,78 @@ const (
 )
 
 type Positionnable interface {
-	Position() image.Point
+	Position() Location
 	IsAt(Positionnable) bool
 }
 
-type Moveable interface {
+type Movable interface {
+	Acceleration() Acceleration
+	SetAcceleration(Acceleration)
+	Position() Location
+	SetPosition(Location)
+	Speed() Speed
+	SetSpeed(Speed)
 	MoveForward(Positionnable) bool
 	MoveDirection(Direction, time.Duration)
+	Land()
+	Fall()
 }
 
 type Movement interface {
 	Positionnable
-	Moveable
+	Movable
 }
 
 type movement struct {
-	location
+	location     Location
+	speed        Speed
+	acceleration Acceleration
+	onGround     bool
 }
 
-func CreateMovement(coord image.Point) Movement {
-	position := location{coord}
-	return &movement{position}
+func CreateMovement(coord Location) Movement {
+	position := Location(coord)
+	return &movement{
+		location:     position,
+		speed:        Speed{0, 0},
+		acceleration: Acceleration{0, 0},
+	}
+}
+
+func (m *movement) Land() {
+	m.acceleration.Y = 0
+}
+
+func (m *movement) Fall() {
+	m.acceleration.Y = 10
+}
+
+func (m *movement) SetPosition(l Location) {
+	m.location = l
+}
+
+func (m *movement) Position() Location {
+	return m.location
+}
+
+func (m *movement) SetSpeed(s Speed) {
+	m.speed = s
+}
+
+func (m *movement) Speed() Speed {
+	return m.speed
+}
+
+func (m *movement) SetAcceleration(a Acceleration) {
+	m.acceleration = a
+}
+
+func (m *movement) Acceleration() Acceleration {
+	return m.acceleration
 }
 
 func (m *movement) MoveForward(destination Positionnable) bool {
-	v := destination.Position().Sub(m.Position())
+	v := destination.Position().Sub(m.location)
 	dp := image.Pt(0, 0)
 	switch {
 	case v.X > 0:
@@ -54,23 +105,29 @@ func (m *movement) MoveForward(destination Positionnable) bool {
 	case v.Y < 0:
 		dp.Y = -1
 	}
-	m.position = m.position.Add(dp)
+	m.location = m.location.Add(dp)
 
 	return dp.Eq(image.Point{})
 }
 
 func (m *movement) MoveDirection(d Direction, dt time.Duration) {
-	var dp image.Point
+	var a Acceleration
 	switch d {
+	case MOVE_NONE:
+		a = Acceleration{0, 0}
 	case MOVE_DOWN:
-		dp = image.Pt(0, 1)
+		a = Acceleration{0, ACCELERATION_UNIT}
 	case MOVE_UP:
-		dp = image.Pt(0, -1)
+		a = Acceleration{0, -ACCELERATION_UNIT}
 	case MOVE_LEFT:
-		dp = image.Pt(-1, 0)
+		a = Acceleration{-ACCELERATION_UNIT, 0}
 	case MOVE_RIGHT:
-		dp = image.Pt(1, 0)
+		a = Acceleration{ACCELERATION_UNIT, 0}
 	}
+	m.acceleration = a
+}
 
-	m.position = m.position.Add(dp)
+func (m *movement) IsAt(p Positionnable) bool {
+	mPt := m.location.Point()
+	return mPt.Eq(p.Position().Point())
 }

@@ -2,7 +2,6 @@ package memory
 
 import (
 	"ego/pkg/movement"
-	"image"
 )
 
 type RemembersPlaces interface {
@@ -11,11 +10,11 @@ type RemembersPlaces interface {
 }
 
 type places struct {
-	places map[image.Point]PlaceMemory
+	places map[movement.Location]PlaceMemory
 }
 
 func CreatePlaces() RemembersPlaces {
-	p := make(map[image.Point]PlaceMemory)
+	p := make(map[movement.Location]PlaceMemory)
 	return &places{p}
 }
 

@@ -12,13 +12,10 @@ type M2 struct {
 	A Vec2
 }
 
-const NUM_STEPS = 100
-
-func (m *M2) Advance(dt time.Duration) {
-	timeStep := dt.Seconds() / NUM_STEPS
-	for i := 0; i < NUM_STEPS; i++ {
-		m.S = m.S.Add(m.A.Mul(timeStep))
-		m.P = m.P.Add(m.S.Mul(timeStep))
+func (m M2) Advance(dt float64) M2 {
+	return M2{
+		P: m.P.Add(m.S.Mul(dt)),
+		S: m.S.Add(m.A.Mul(dt)),
+		A: m.A,
 	}
-
 }

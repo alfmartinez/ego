@@ -4,9 +4,9 @@ mobs:
     type: Mob
     sprite: 
       path: morris
-      size: 200
+      size: 100
     position: 
-      x: 3
-      'y': 2
+      x: 200
+      'y': 100
     needs: 
       health: 100

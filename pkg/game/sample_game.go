@@ -67,6 +67,7 @@ func (game *sampleGame) update(dt time.Duration) {
 }
 
 func (game *sampleGame) physics(dt time.Duration) {
+	physics.FromContext().Init()
 	game.subject.NotifyAll(observer.CreateEvent(observer.PHYSICS))
 	physics.FromContext().Advance(dt)
 }
