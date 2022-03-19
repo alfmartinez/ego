@@ -8,7 +8,7 @@ import (
 type Direction uint
 
 const (
-	ACCELERATION_UNIT = 50
+	SPEED_INCREMENT = 50
 )
 
 const (
@@ -69,11 +69,11 @@ func (m *movement) MoveDirection(direction Direction, dt time.Duration) {
 	speed := matrix.Vec2{}
 	switch direction {
 	case MOVE_LEFT:
-		speed.X = -10
+		speed.X = -SPEED_INCREMENT
 	case MOVE_RIGHT:
-		speed.X = 10
+		speed.X = SPEED_INCREMENT
 	}
 	matrix := m.matrix
-	matrix.S.Add(speed)
+	matrix.S = matrix.S.Add(speed.Mul(dt.Seconds()))
 	m.matrix = matrix
 }

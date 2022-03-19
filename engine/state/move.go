@@ -8,9 +8,14 @@ import (
 func init() {
 	RegisterStateFactory(StateMove, func(data []interface{}) State {
 		if len(data) > 0 {
-			return &moveState{StateMove, 0, data[0].(movement.Direction), false}
+			return &moveState{
+				StateType: StateMove,
+				direction: data[0].(movement.Direction),
+			}
 		} else {
-			return &moveState{StateMove, 0, 0, false}
+			return &moveState{
+				StateType: StateMove,
+			}
 		}
 
 	})
@@ -32,11 +37,12 @@ func (s *moveState) Update(a Updatable, dt time.Duration) State {
 	mover := a.(Mover)
 	a.Frame(s.frame, 0)
 	s.frame = (s.frame + 1) % 20
-	if !s.impulse {
-		mover.MoveDirection(s.direction, dt)
+	if !s.impulse && s.frame > 5 {
+		mover.MoveDirection(s.direction, time.Second)
 		s.impulse = true
-	} else {
-		mover.MoveDirection(movement.MOVE_NONE, dt)
+	}
+	if s.frame == 15 {
+		mover.MoveDirection(s.direction, -time.Second)
 	}
 	if s.frame == 0 {
 		return CreateState(StateIdle)
