@@ -4,32 +4,37 @@ import "time"
 
 type StateMachine interface {
 	DoUpdate(Updatable, time.Duration)
-	SetState(StateType)
+	SetState(string)
+	SetStates(States)
 }
 
 type stateMachine struct {
-	currentType StateType
-	current     State
-	next        State
+	states  States
+	current string
+	next    string
 }
 
 func CreateStateMachine() StateMachine {
 	return &stateMachine{}
 }
 
-func (m *stateMachine) DoUpdate(self Updatable, dt time.Duration) {
-	if m.current == nil {
-		m.next = CreateState(StateIdle)
-	}
-	if m.next != nil {
-		m.current = m.next
-		m.next = nil
-	}
-	m.next = m.current.Update(self, dt)
+func (m *stateMachine) SetStates(states States) {
+	m.states = states
 }
 
-func (m *stateMachine) SetState(t StateType) {
-	if m.current == nil || t != m.current.Type() {
-		m.current = CreateState(t)
+func (m *stateMachine) DoUpdate(self Updatable, dt time.Duration) {
+	if m.current == "" {
+		m.next = "default"
+	}
+	if m.next != "" {
+		m.current = m.next
+		m.next = ""
+	}
+	m.next = m.states[m.current](dt)
+}
+
+func (m *stateMachine) SetState(t string) {
+	if m.current == "" || t != m.current {
+		m.current = t
 	}
 }

@@ -35,6 +35,7 @@ type stateMob struct {
 
 type MobData struct {
 	Position movement.Location
+	States   string
 	Sprite   struct {
 		Path string
 		Size uint
@@ -55,6 +56,8 @@ func CreateStateMob(key string) object.GameObject {
 	sm := state.CreateStateMachine()
 
 	m := &stateMob{sm, mvmnt, sprt}
+	states := state.CreateStates(mobData.States, m)
+	sm.SetStates(states)
 	return m
 }
 

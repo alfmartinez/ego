@@ -7,6 +7,7 @@ import (
 	"ego/shared/display/rts"
 	"ego/shared/object"
 	"ego/shared/renderer/glfw"
+	"ego/shared/state"
 	"runtime"
 )
 
@@ -16,6 +17,7 @@ func init() {
 	rts.Register()
 	glfw.Register()
 	object.Register()
+	state.Register()
 }
 
 func main() {

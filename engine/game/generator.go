@@ -15,6 +15,10 @@ func generateGame(factory func(observer.Subject, renderer.Renderer) Game) Game {
 
 	cfg := configuration.FromContext()
 	terrain.RegisterTileTypes()
+
+	inputHandler := input.CreateInputHandler()
+	context.Set("input", inputHandler)
+
 	subject := observer.CreateSubject()
 
 	for key, _ := range cfg.GetStringMap("mobs") {
@@ -30,9 +34,6 @@ func generateGame(factory func(observer.Subject, renderer.Renderer) Game) Game {
 	name := cfg.GetString("renderer.type")
 	r := renderer.CreateRenderer(name)
 	context.Set("renderer", r)
-
-	inputHandler := input.CreateInputHandler()
-	context.Set("input", inputHandler)
 
 	physics := physics.CreatePhysicsEngine()
 	context.Set("physics", physics)
