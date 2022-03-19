@@ -4,4 +4,5 @@ use (
 ./engine
 ./tools
 ./examples/platformer
+./shared
 )
