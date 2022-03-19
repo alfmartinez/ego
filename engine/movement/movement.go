@@ -74,6 +74,8 @@ func (m *movement) MoveDirection(direction Direction, dt time.Duration) {
 		speed.X = SPEED_INCREMENT
 	case MOVE_UP:
 		speed.Y = -SPEED_INCREMENT
+	case MOVE_DOWN:
+		speed.Y = SPEED_INCREMENT
 	}
 	matrix := m.matrix
 	matrix.S = matrix.S.Add(speed.Mul(dt.Seconds()))
