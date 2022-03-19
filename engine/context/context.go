@@ -4,6 +4,10 @@ func Set(name string, value interface{}) {
 	GetContext().Set(name, value)
 }
 
+func Get(name string) interface{} {
+	return GetContext().Get(name)
+}
+
 type Context interface {
 	Set(string, interface{})
 	Get(string) interface{}
@@ -24,6 +28,10 @@ var currentContext string
 
 func RegisterContext(name string, ctx Context) {
 	contexts[name] = ctx
+	currentContext = name
+}
+
+func SwitchContext(name string) {
 	currentContext = name
 }
 
