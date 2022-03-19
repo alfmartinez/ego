@@ -1,7 +1,7 @@
 package movement
 
 import (
-	"image"
+	"ego/engine/physics/matrix"
 	"time"
 )
 
@@ -25,109 +25,55 @@ type Positionnable interface {
 }
 
 type Movable interface {
-	Acceleration() Acceleration
-	SetAcceleration(Acceleration)
 	Position() Location
-	SetPosition(Location)
-	Speed() Speed
-	SetSpeed(Speed)
-	MoveForward(Positionnable) bool
-	MoveDirection(Direction, time.Duration)
-	Land()
-	Fall()
+	SetMatrix(matrix.M)
+	GetMatrix() matrix.M
 }
 
 type Movement interface {
 	Positionnable
 	Movable
+	MoveDirection(Direction, time.Duration)
 }
 
 type movement struct {
-	location     Location
-	speed        Speed
-	acceleration Acceleration
-	onGround     bool
+	matrix matrix.M
 }
 
 func CreateMovement(coord Location) Movement {
-	position := Location(coord)
-	return &movement{
-		location:     position,
-		speed:        Speed{0, 0},
-		acceleration: Acceleration{0, 0},
+	m := matrix.M{
+		A: matrix.Vec2{X: 0, Y: 0},
+		S: matrix.Vec2{X: 0, Y: 0},
+		P: matrix.Vec2{X: coord.X, Y: coord.Y},
 	}
-}
-
-func (m *movement) Land() {
-	m.acceleration.Y = 0
-}
-
-func (m *movement) Fall() {
-	m.acceleration.Y = 10
-}
-
-func (m *movement) SetPosition(l Location) {
-	m.location = l
+	return &movement{m}
 }
 
 func (m *movement) Position() Location {
-	return m.location
-}
-
-func (m *movement) SetSpeed(s Speed) {
-	m.speed = s
-}
-
-func (m *movement) Speed() Speed {
-	return m.speed
-}
-
-func (m *movement) SetAcceleration(a Acceleration) {
-	m.acceleration = a
-}
-
-func (m *movement) Acceleration() Acceleration {
-	return m.acceleration
-}
-
-func (m *movement) MoveForward(destination Positionnable) bool {
-	v := destination.Position().Sub(m.location)
-	dp := image.Pt(0, 0)
-	switch {
-	case v.X > 0:
-		dp.X = 1
-	case v.X < 0:
-		dp.X = -1
-	}
-	switch {
-	case v.Y > 0:
-		dp.Y = 1
-	case v.Y < 0:
-		dp.Y = -1
-	}
-	m.location = m.location.Add(dp)
-
-	return dp.Eq(image.Point{})
-}
-
-func (m *movement) MoveDirection(d Direction, dt time.Duration) {
-	var a Acceleration
-	switch d {
-	case MOVE_NONE:
-		a = Acceleration{0, 0}
-	case MOVE_DOWN:
-		a = Acceleration{0, ACCELERATION_UNIT}
-	case MOVE_UP:
-		a = Acceleration{0, -ACCELERATION_UNIT}
-	case MOVE_LEFT:
-		a = Acceleration{-ACCELERATION_UNIT, 0}
-	case MOVE_RIGHT:
-		a = Acceleration{ACCELERATION_UNIT, 0}
-	}
-	m.acceleration = a
+	return Location(m.matrix.P)
 }
 
 func (m *movement) IsAt(p Positionnable) bool {
-	mPt := m.location.Point()
-	return mPt.Eq(p.Position().Point())
+	return m.Position().Point().Eq(p.Position().Point())
+}
+
+func (m *movement) GetMatrix() matrix.M {
+	return m.matrix
+}
+
+func (m *movement) SetMatrix(o matrix.M) {
+	m.matrix = o
+}
+
+func (m *movement) MoveDirection(direction Direction, dt time.Duration) {
+	speed := matrix.Vec2{}
+	switch direction {
+	case MOVE_LEFT:
+		speed.X = -10
+	case MOVE_RIGHT:
+		speed.X = 10
+	}
+	matrix := m.matrix
+	matrix.S.Add(speed)
+	m.matrix = matrix
 }

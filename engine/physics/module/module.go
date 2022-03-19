@@ -2,7 +2,6 @@ package module
 
 import (
 	"fmt"
-	"time"
 )
 
 type moduleFactory = func() Module
@@ -24,5 +23,5 @@ func CreateModule(name string) Module {
 type Module interface {
 	Init()
 	Add(any)
-	Advance(time.Duration)
+	Advance(float64)
 }

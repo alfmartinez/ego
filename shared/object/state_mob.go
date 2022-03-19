@@ -10,6 +10,7 @@ import (
 	"ego/engine/sprite"
 	"ego/engine/state"
 	"fmt"
+	"image"
 	"time"
 
 	"github.com/spf13/viper"
@@ -77,4 +78,17 @@ func (m *stateMob) update(dt time.Duration) {
 func (m *stateMob) render() {
 	r := renderer.FromContext()
 	r.Render(m)
+}
+
+func (m *stateMob) Hitbox() image.Rectangle {
+	rect := image.Rect(0, 0, int(m.Size()), int(m.Size()))
+	return rect.Add(m.Position().Point()).Inset(int(m.Size()) / 4)
+}
+
+func (m *stateMob) IsHit(rect image.Rectangle) bool {
+	return m.Hitbox().Intersect(rect) != image.Rect(0, 0, 0, 0)
+}
+
+func (m *stateMob) IsSolid() bool {
+	return true
 }

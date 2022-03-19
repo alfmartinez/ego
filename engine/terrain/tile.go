@@ -73,3 +73,7 @@ func (t *tile) Rect() image.Rectangle {
 func (t *tile) AddSurrounding(surrounding []Tile) {
 	t.surrounding = append(t.surrounding, surrounding...)
 }
+
+func (t *tile) Hitbox() image.Rectangle {
+	return t.rect
+}

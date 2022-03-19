@@ -10,7 +10,7 @@ import (
 type TileType interface {
 	Path() string
 	MovementCost() int
-	IsIgnored() bool
+	IsSolid() bool
 }
 
 type tileType struct {
@@ -56,6 +56,6 @@ func (t *tileType) MovementCost() int {
 	return t.Movement
 }
 
-func (t *tileType) IsIgnored() bool {
-	return !t.Collide
+func (t *tileType) IsSolid() bool {
+	return t.Collide
 }

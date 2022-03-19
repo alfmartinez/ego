@@ -1,6 +1,9 @@
 package module
 
-import "time"
+import (
+	"ego/engine/physics/mobile"
+	"ego/engine/slices"
+)
 
 func init() {
 	RegisterModuleFactory("gravity", func() Module {
@@ -8,19 +11,27 @@ func init() {
 	})
 }
 
-type gravity struct{}
+type gravity struct {
+	mobiles []mobile.Mobile
+}
 
 // Init implements Module
-func (*gravity) Init() {
-
+func (m *gravity) Init() {
+	m.mobiles = make([]mobile.Mobile, 0)
 }
 
 // Add implements Module
-func (*gravity) Add(interface{}) {
-
+func (m *gravity) Add(i any) {
+	if o, ok := i.(mobile.Mobile); ok {
+		m.mobiles = append(m.mobiles, o)
+	}
 }
 
 // Advance implements Module
-func (*gravity) Advance(dt time.Duration) {
-
+func (m *gravity) Advance(dt float64) {
+	slices.Apply(m.mobiles, func(m mobile.Mobile) {
+		matrix := m.GetMatrix()
+		matrix.A.Y = 10
+		m.SetMatrix(matrix)
+	})
 }

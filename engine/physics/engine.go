@@ -50,6 +50,6 @@ func (e *phyiscsEngine) Add(i interface{}) {
 
 func (e *phyiscsEngine) Advance(dt time.Duration) {
 	slices.Apply(e.modules, func(x module.Module) {
-		x.Advance(dt)
+		x.Advance(dt.Seconds())
 	})
 }
