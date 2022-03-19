@@ -9,6 +9,11 @@ type Context interface {
 	Get(string) interface{}
 }
 
+func CreateAndRegisterContext(name string) {
+	ctx := CreateContext()
+	RegisterContext(name, ctx)
+}
+
 func CreateContext() Context {
 	values := make(map[string]interface{})
 	return &context{values}
