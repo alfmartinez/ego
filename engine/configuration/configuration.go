@@ -30,7 +30,10 @@ func (c *configuration) Get() *viper.Viper {
 }
 
 func (c *configuration) Init() {
-	c.readConfig()
+	err := c.readConfig()
+	if err != nil {
+		panic(err)
+	}
 }
 
 func (c *configuration) readConfig() error {
@@ -51,10 +54,7 @@ func (c *configuration) importConfig(imports []string) error {
 			return err
 		}
 
-		err = c.viper.MergeConfigMap(v.AllSettings())
-		if err != nil {
-			return err
-		}
+		c.viper.MergeConfigMap(v.AllSettings())
 
 		imports := v.GetStringSlice("imports")
 		err = c.importConfig(imports)
