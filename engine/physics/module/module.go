@@ -23,22 +23,6 @@ func CreateModule(name string) Module {
 
 type Module interface {
 	Init()
-	Add(interface{})
-	Advance(time.Duration, []interface{}) []interface{}
-}
-
-type Modules []Module
-
-func (m Modules) Map(f func(x Module) interface{}) []interface{} {
-	results := make([]interface{}, 0)
-	for _, m := range m {
-		results = append(results, f(m))
-	}
-	return results
-}
-
-func (a Modules) Apply(f func(m Module)) {
-	for _, m := range a {
-		f(m)
-	}
+	Add(any)
+	Advance(time.Duration)
 }

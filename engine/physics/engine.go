@@ -4,6 +4,7 @@ import (
 	"ego/engine/configuration"
 	"ego/engine/context"
 	"ego/engine/physics/module"
+	"ego/engine/slices"
 	"time"
 )
 
@@ -23,32 +24,32 @@ func CreatePhysicsEngine() Engine {
 
 	cfg.UnmarshalKey("physics.modules", &moduleList)
 
-	for _, name := range moduleList {
+	slices.Apply(moduleList, func(name string) {
 		module := module.CreateModule(name)
 		modules = append(modules, module)
-	}
+	})
+
 	return &phyiscsEngine{modules}
 }
 
 type phyiscsEngine struct {
-	modules module.Modules
+	modules []module.Module
 }
 
 func (e *phyiscsEngine) Init() {
-	e.modules.Apply(func(x module.Module) {
+	slices.Apply(e.modules, func(x module.Module) {
 		x.Init()
 	})
 }
 
 func (e *phyiscsEngine) Add(i interface{}) {
-	e.modules.Apply(func(x module.Module) {
+	slices.Apply(e.modules, func(x module.Module) {
 		x.Add(i)
 	})
 }
 
 func (e *phyiscsEngine) Advance(dt time.Duration) {
-	var results = make([]interface{}, 0)
-	e.modules.Apply(func(x module.Module) {
-		results = x.Advance(dt, results)
+	slices.Apply(e.modules, func(x module.Module) {
+		x.Advance(dt)
 	})
 }

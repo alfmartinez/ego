@@ -22,6 +22,6 @@ func (*simulate) Add(interface{}) {
 }
 
 // Advance implements Module
-func (*simulate) Advance(dt time.Duration, m []interface{}) []interface{} {
-	return m
+func (*simulate) Advance(dt time.Duration) {
+
 }

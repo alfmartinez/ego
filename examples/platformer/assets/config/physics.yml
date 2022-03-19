@@ -1,7 +1,6 @@
 physics:
   modules:
-    - extract
     - gravity
     - collider
     - simulate
-    - updater
+  

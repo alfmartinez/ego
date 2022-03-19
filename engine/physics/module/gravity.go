@@ -21,6 +21,6 @@ func (*gravity) Add(interface{}) {
 }
 
 // Advance implements Module
-func (*gravity) Advance(dt time.Duration, m []interface{}) []interface{} {
-	return m
+func (*gravity) Advance(dt time.Duration) {
+
 }

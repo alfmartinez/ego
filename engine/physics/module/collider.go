@@ -22,6 +22,6 @@ func (*collider) Add(interface{}) {
 }
 
 // Advance implements Module
-func (*collider) Advance(dt time.Duration, m []interface{}) []interface{} {
-	return m
+func (*collider) Advance(dt time.Duration) {
+
 }
