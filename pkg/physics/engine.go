@@ -4,7 +4,6 @@ import (
 	"ego/pkg/configuration"
 	"ego/pkg/context"
 	"ego/pkg/physics/module"
-	"fmt"
 	"time"
 )
 
@@ -21,12 +20,10 @@ func CreatePhysicsEngine() Engine {
 	cfg := configuration.FromContext()
 	var moduleList []string
 	var modules []module.Module
-	err := cfg.UnmarshalKey("physics.modules", &moduleList)
-	if err != nil {
-		panic(err)
-	}
-	for idx, name := range moduleList {
-		fmt.Printf("%d : %s\n", idx, name)
+
+	cfg.UnmarshalKey("physics.modules", &moduleList)
+
+	for _, name := range moduleList {
 		module := module.CreateModule(name)
 		modules = append(modules, module)
 	}
@@ -34,17 +31,24 @@ func CreatePhysicsEngine() Engine {
 }
 
 type phyiscsEngine struct {
-	modules []module.Module
+	modules module.Modules
 }
 
 func (e *phyiscsEngine) Init() {
-
+	e.modules.Apply(func(x module.Module) {
+		x.Init()
+	})
 }
 
 func (e *phyiscsEngine) Add(i interface{}) {
-
+	e.modules.Apply(func(x module.Module) {
+		x.Add(i)
+	})
 }
 
 func (e *phyiscsEngine) Advance(dt time.Duration) {
-
+	var results = make([]interface{}, 0)
+	e.modules.Apply(func(x module.Module) {
+		results = x.Advance(dt, results)
+	})
 }

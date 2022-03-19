@@ -1,4 +1,4 @@
-package physics
+package matrix
 
 type Vec2 struct {
 	X float64
