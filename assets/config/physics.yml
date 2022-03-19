@@ -1,0 +1,6 @@
+physics:
+  modules:
+    - gravity
+    - collider
+    - simule
+    - updater

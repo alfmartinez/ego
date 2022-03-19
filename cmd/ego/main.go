@@ -19,7 +19,7 @@ func main() {
 	context.RegisterContext("ego", ctx)
 	cfg := configuration.CreateConfiguration()
 	cfg.Init()
-	ctx.Set("cfg", cfg.Get())
+	context.Set("cfg", cfg.Get())
 	game := game.CreateGame("viper")
 	game.Start()
 }

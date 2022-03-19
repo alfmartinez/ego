@@ -16,7 +16,7 @@ type TileType interface {
 type tileType struct {
 	Sprite   string
 	Movement int
-	Blocking bool
+	Collide  bool
 }
 
 type TileTypes map[string]tileType
@@ -57,5 +57,5 @@ func (t *tileType) MovementCost() int {
 }
 
 func (t *tileType) IsIgnored() bool {
-	return !t.Blocking
+	return !t.Collide
 }

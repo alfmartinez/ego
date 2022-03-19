@@ -1,5 +1,9 @@
 package context
 
+func Set(name string, value interface{}) {
+	GetContext().Set(name, value)
+}
+
 type Context interface {
 	Set(string, interface{})
 	Get(string) interface{}

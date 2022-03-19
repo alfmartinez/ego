@@ -1,6 +1,14 @@
 package configuration
 
-import "github.com/spf13/viper"
+import (
+	"ego/pkg/context"
+
+	"github.com/spf13/viper"
+)
+
+func FromContext() *viper.Viper {
+	return context.GetContext().Get("cfg").(*viper.Viper)
+}
 
 type Configuration interface {
 	Init()

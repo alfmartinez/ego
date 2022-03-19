@@ -1,6 +1,7 @@
 package game
 
 import (
+	"ego/pkg/configuration"
 	"ego/pkg/context"
 	"ego/pkg/input"
 	"ego/pkg/object"
@@ -8,13 +9,11 @@ import (
 	"ego/pkg/physics"
 	"ego/pkg/renderer"
 	"ego/pkg/terrain"
-
-	"github.com/spf13/viper"
 )
 
 func generateGame(factory func(observer.Subject, renderer.Renderer) Game) Game {
-	ctx := context.GetContext()
-	cfg := ctx.Get("cfg").(*viper.Viper)
+
+	cfg := configuration.FromContext()
 	terrain.RegisterTileTypes()
 	subject := observer.CreateSubject()
 
@@ -27,16 +26,16 @@ func generateGame(factory func(observer.Subject, renderer.Renderer) Game) Game {
 		subject.Register(t)
 	})
 
-	ctx.Set("terrain", grid)
+	context.Set("terrain", grid)
 	name := cfg.GetString("renderer.type")
 	r := renderer.CreateRenderer(name)
-	ctx.Set("renderer", r)
+	context.Set("renderer", r)
 
 	inputHandler := input.CreateInputHandler()
-	ctx.Set("input", inputHandler)
+	context.Set("input", inputHandler)
 
 	physics := physics.CreatePhysicsEngine()
-	ctx.Set("physics", physics)
+	context.Set("physics", physics)
 
 	game := factory(subject, r)
 

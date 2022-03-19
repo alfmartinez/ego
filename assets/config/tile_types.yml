@@ -2,25 +2,25 @@ tile_types:
   free:
     sprite: sheet:0:0
     movement: 1
-    blocking: false
+    collide: false
   top:
-    sprite: sheet:0:0
+    sprite: sheet:1:0
     movement: 1
-    blocking: true
+    collide: true
   floor: 
     sprite: sheet:1:0
     movement: 0
-    blocking: true
+    collide: true
   ground: 
     sprite: sheet:1:0
     movement: 0
-    blocking: true
+    collide: true
   cloud: 
-    sprite: sheet:1:0
+    sprite: sheet:2:0
     movement: 0
-    blocking: false
+    collide: false
   brick: 
     sprite: sheet:1:0
     movement: 0
-    blocking: true
+    collide: true
   

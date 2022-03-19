@@ -1,8 +1,13 @@
 package terrain
 
 import (
+	"ego/pkg/context"
 	"ego/pkg/movement"
 )
+
+func FromContext() Terrain {
+	return context.GetContext().Get("terrain").(Terrain)
+}
 
 type Terrain interface {
 	Tiles() map[GridCoord]Tile
