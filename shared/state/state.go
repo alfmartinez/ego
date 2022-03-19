@@ -10,6 +10,7 @@ import (
 
 func Register() {
 	state.RegisterStatesClosure("morris", morrisStates)
+	state.RegisterStatesClosure("bomber", bomberStates)
 }
 
 type Morris interface {
@@ -55,6 +56,50 @@ func morrisStates(a any) state.States {
 			if frame == 0 {
 				impulse = false
 				jumping = false
+				return "default"
+			}
+			return ""
+		},
+	}
+}
+
+func bomberStates(a any) state.States {
+	var m Morris = a.(Morris)
+	var frame int
+	var inputHandler = input.FromContext()
+	var direction movement.Direction
+	var impulse bool
+
+	return state.States{
+		"default": func(dt time.Duration) string {
+			m.Frame(0, 0)
+			switch {
+			case inputHandler.IsPressed(input.UP):
+				direction = movement.MOVE_UP
+				return "move"
+			case inputHandler.IsPressed(input.RIGHT):
+				direction = movement.MOVE_RIGHT
+				return "move"
+			case inputHandler.IsPressed(input.LEFT):
+				direction = movement.MOVE_LEFT
+				return "move"
+			case inputHandler.IsPressed(input.DOWN):
+				direction = movement.MOVE_DOWN
+				return "move"
+			}
+			return ""
+		},
+		"move": func(dt time.Duration) string {
+			frame = (frame + 1) % 5
+			if !impulse {
+				m.MoveDirection(direction, time.Second)
+				impulse = true
+			}
+			if frame == 4 {
+				m.MoveDirection(direction, -time.Second)
+			}
+			if frame == 0 {
+				impulse = false
 				return "default"
 			}
 			return ""

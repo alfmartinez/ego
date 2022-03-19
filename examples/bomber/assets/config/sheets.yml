@@ -1,0 +1,26 @@
+sheets:
+  sheet:
+    path: sheet.png
+    rect: 
+      w: 100
+      h: 100
+    sizes:
+      - 200
+      - 100
+      - 50
+  morris:
+    path: morris.png
+    rect: 
+      w: 1024
+      h: 1024
+    sizes: 
+      - 50
+      - 100
+      - 200
+  ball:
+    path: ball.png
+    rect: 
+      w: 512
+      h: 512
+    sizes: 
+      - 512

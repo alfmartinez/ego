@@ -4,5 +4,6 @@ use (
 ./engine
 ./tools
 ./examples/platformer
+./examples/bomber
 ./shared
 )
