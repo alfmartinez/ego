@@ -8,4 +8,13 @@ mobs:
     position: 
       x: 200
       'y': 100
+  dummy:
+    type: Mob
+    states: goon 
+    sprite: 
+      path: morris
+      size: 200
+    position: 
+      x: 600
+      'y': 200
     
