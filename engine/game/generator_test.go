@@ -1,25 +1,25 @@
 package game
 
 import (
-	_ "ego/internal/renderer/glfw"
-	"ego/pkg/object"
-	"ego/pkg/render"
-	"ego/pkg/renderer"
+	"ego/engine/object"
+	"ego/engine/observer"
+	"ego/engine/renderer"
 	"testing"
+	"time"
 )
 
 type fakeRenderer struct{}
 
-func (r *fakeRenderer) Start(chan bool)          {}
-func (r *fakeRenderer) Close()                   {}
-func (r *fakeRenderer) Init()                    {}
-func (r *fakeRenderer) IsAsync() bool            { return false }
-func (r *fakeRenderer) Refresh()                 {}
-func (r *fakeRenderer) Render(render.RenderTree) {}
+func (r *fakeRenderer) Start()     {}
+func (r *fakeRenderer) Close()     {}
+func (r *fakeRenderer) Init()      {}
+func (r *fakeRenderer) Refresh()   {}
+func (r *fakeRenderer) Render(any) {}
 
 type fakeGameObject struct{}
 
-func (o *fakeGameObject) Update() {}
+func (o *fakeGameObject) Update(time.Duration)    {}
+func (o *fakeGameObject) OnNotify(observer.Event) {}
 
 func TestGenerator(t *testing.T) {
 	renderer.RegisterRendererFactory("fake", func() renderer.Renderer {
@@ -28,7 +28,7 @@ func TestGenerator(t *testing.T) {
 	object.RegisterObjectFactory("foo", func(key string) object.GameObject {
 		return &fakeGameObject{}
 	})
-	generateGame(func(s Scene, r renderer.Renderer) Game {
+	generateGame(func(s observer.Subject, r renderer.Renderer) Game {
 		return CreateSampleGame(s, r)
 	})
 }

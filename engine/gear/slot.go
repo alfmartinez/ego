@@ -1,8 +1,6 @@
 package gear
 
-import (
-	"ego/pkg/item"
-)
+import "ego/engine/item"
 
 // Gear is the component in charge of carrying, wearing and using items for a character
 

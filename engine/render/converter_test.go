@@ -1,8 +1,8 @@
 package render
 
 import (
-	"ego/pkg/object"
-	"ego/pkg/terrain"
+	"ego/engine/object"
+	"ego/engine/terrain"
 	"image"
 	"testing"
 

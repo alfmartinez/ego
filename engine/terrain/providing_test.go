@@ -1,7 +1,7 @@
 package terrain
 
 import (
-	"ego/pkg/motivator"
+	"ego/engine/motivator"
 	"testing"
 )
 

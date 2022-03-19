@@ -1,8 +1,8 @@
 package physics
 
 import (
-	"ego/pkg/configuration"
-	"ego/pkg/context"
+	"ego/engine/configuration"
+	"ego/engine/context"
 	"testing"
 )
 
@@ -33,6 +33,6 @@ func TestCreateEngine(t *testing.T) {
 
 func initConfig() {
 	context.CreateAndRegisterContext("test")
-	cfg := configuration.CreateConfiguration()
+	cfg := configuration.CreateConfiguration("")
 	context.Set("cfg", cfg.Get())
 }

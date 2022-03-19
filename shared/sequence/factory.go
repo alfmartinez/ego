@@ -1,6 +1,6 @@
 package sequence
 
-import "ego/pkg/command"
+import "ego/engine/command"
 
 type SequenceType int
 

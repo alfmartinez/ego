@@ -1,8 +1,8 @@
 package sequence
 
 import (
-	"ego/pkg/motivator"
-	"ego/pkg/terrain"
+	"ego/engine/motivator"
+	"ego/engine/terrain"
 	"testing"
 
 	"github.com/spf13/viper"

@@ -1,7 +1,7 @@
 package terrain
 
 import (
-	"ego/pkg/movement"
+	"ego/engine/movement"
 	"image"
 	"testing"
 )

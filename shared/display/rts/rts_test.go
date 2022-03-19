@@ -1,7 +1,7 @@
 package rts
 
 import (
-	"ego/pkg/display"
+	"ego/engine/display"
 	"image"
 	"image/color"
 	"testing"

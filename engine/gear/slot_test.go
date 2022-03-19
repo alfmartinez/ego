@@ -1,7 +1,7 @@
 package gear
 
 import (
-	"ego/pkg/item"
+	"ego/engine/item"
 	"testing"
 )
 

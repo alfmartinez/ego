@@ -1,2 +1,2 @@
-// Package Internal State implements specific states for a game
+// Package shared State implements specific states for a game
 package state

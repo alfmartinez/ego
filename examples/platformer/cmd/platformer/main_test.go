@@ -1,7 +1,7 @@
 package main
 
 import (
-	"ego/pkg/game"
+	"ego/engine/game"
 	"testing"
 )
 

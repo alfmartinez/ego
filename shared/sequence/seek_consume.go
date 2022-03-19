@@ -1,12 +1,12 @@
 package sequence
 
 import (
-	"ego/pkg/command"
-	"ego/pkg/context"
-	"ego/pkg/motivator"
-	"ego/pkg/movement"
-	"ego/pkg/state"
-	"ego/pkg/terrain"
+	"ego/engine/command"
+	"ego/engine/context"
+	"ego/engine/motivator"
+	"ego/engine/movement"
+	"ego/engine/state"
+	"ego/engine/terrain"
 )
 
 func init() {

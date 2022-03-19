@@ -1,9 +1,9 @@
 package sequence
 
 import (
-	"ego/pkg/command"
-	"ego/pkg/motivator"
-	"ego/pkg/state"
+	"ego/engine/command"
+	"ego/engine/motivator"
+	"ego/engine/state"
 )
 
 func init() {

@@ -1,7 +1,6 @@
 package game
 
 import (
-	"ego/pkg/render"
 	"testing"
 	"time"
 )
@@ -10,18 +9,17 @@ var mockStartMethod func(chan bool)
 var mockInitMethod func()
 var mockCloseMethod func()
 var mockRefreshMethod func()
-var mockRenderMethod func(render.RenderTree)
+var mockRenderMethod func(any)
 
 type mockRenderer struct{}
 
-func (r *mockRenderer) Start(e chan bool)             { mockStartMethod(e) }
-func (r *mockRenderer) Init()                         { mockInitMethod() }
-func (r *mockRenderer) Close()                        { mockCloseMethod() }
-func (r *mockRenderer) Refresh()                      { mockRefreshMethod() }
-func (r *mockRenderer) Render(tree render.RenderTree) { mockRenderMethod(tree) }
+func (r *mockRenderer) Start(e chan bool) { mockStartMethod(e) }
+func (r *mockRenderer) Init()             { mockInitMethod() }
+func (r *mockRenderer) Close()            { mockCloseMethod() }
+func (r *mockRenderer) Refresh()          { mockRefreshMethod() }
+func (r *mockRenderer) Render(a any)      { mockRenderMethod(a) }
 
 func TestSampleGame(t *testing.T) {
-	s := CreateScene()
 	r := &mockRenderer{}
 	t.Run("Start", func(t *testing.T) {
 		var initCalled, startCalled, renderCalled, refreshCalled, closeCalled bool
@@ -32,7 +30,7 @@ func TestSampleGame(t *testing.T) {
 		mockStartMethod = func(chan bool) {
 			startCalled = true
 		}
-		mockRenderMethod = func(render.RenderTree) {
+		mockRenderMethod = func(any) {
 			renderCalled = true
 		}
 		mockRefreshMethod = func() {
