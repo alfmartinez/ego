@@ -3,8 +3,8 @@ package render
 import (
 	"ego/engine/display"
 	"ego/engine/layer"
-	"ego/engine/object"
 	"ego/engine/terrain"
+	"ego/shared/object"
 	"image"
 	"log"
 )

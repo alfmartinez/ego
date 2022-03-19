@@ -5,6 +5,7 @@ import (
 	"ego/engine/context"
 	"ego/engine/game"
 	"ego/shared/display/rts"
+	"ego/shared/object"
 	"ego/shared/renderer/glfw"
 	"runtime"
 )
@@ -14,6 +15,7 @@ func init() {
 	runtime.LockOSThread()
 	rts.Register()
 	glfw.Register()
+	object.Register()
 }
 
 func main() {

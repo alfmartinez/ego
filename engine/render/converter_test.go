@@ -1,8 +1,11 @@
 package render
 
 import (
-	"ego/engine/object"
+	"ego/engine/display"
+	"ego/engine/layer"
+	"ego/engine/movement"
 	"ego/engine/terrain"
+	"ego/shared/object"
 	"image"
 	"testing"
 
@@ -13,7 +16,7 @@ func TestConverter(t *testing.T) {
 	var cases = []struct {
 		name     string
 		in       func() interface{}
-		expected Displayable
+		expected display.Displayable
 	}{
 		{
 			name: "int",
@@ -33,11 +36,11 @@ func TestConverter(t *testing.T) {
 						Path: "foo",
 						Size: 50,
 					},
-					Position: image.Pt(99, 1),
+					Position: movement.Location{99, 1},
 				})
 				return object.CreateStateMob("foo")
 			},
-			expected: CreateDisplayable("foo:0:0", 50, image.Pt(99, 1), FOREGROUND),
+			expected: display.CreateDisplayable("foo:0:0", 50, image.Pt(99, 1), layer.FOREGROUND),
 		},
 		{
 			name: "Tile",
@@ -52,9 +55,9 @@ func TestConverter(t *testing.T) {
 					},
 				})
 				terrain.RegisterTileTypes()
-				return terrain.CreateTile(image.Pt(30, 30), terrain.CreateTileType("plain"), 50)
+				return terrain.CreateTile(terrain.GridCoord{X: 30, Y: 30}, terrain.CreateTileType("plain"), 50)
 			},
-			expected: CreateDisplayable("sheet:0:0", 50, image.Pt(1500, 1500), BACKGROUND),
+			expected: display.CreateDisplayable("sheet:0:0", 50, image.Pt(1500, 1500), layer.BACKGROUND),
 		},
 	}
 
