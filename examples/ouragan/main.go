@@ -4,7 +4,12 @@ import (
 	"ego/engine/configuration"
 	"ego/engine/context"
 	"ego/engine/game"
+	"ego/shared/game/text"
 )
+
+func init() {
+	text.Register()
+}
 
 func main() {
 	ctx := context.CreateContext()
