@@ -1,5 +1,7 @@
 package game
 
+import "fmt"
+
 func init() {
 	RegisterGameFactory("viper", func() Game {
 		return generateGame(CreateSampleGame)
@@ -18,5 +20,9 @@ func RegisterGameFactory(name string, f func() Game) {
 }
 
 func CreateGame(name string) Game {
-	return factories[name]()
+	f, ok := factories[name]
+	if !ok {
+		panic(fmt.Errorf("unknown game factory %s", name))
+	}
+	return f()
 }
