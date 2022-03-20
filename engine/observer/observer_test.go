@@ -22,6 +22,7 @@ func TestObserver(t *testing.T) {
 				t.Errorf("Observer should be notified about %v, received %v", evt, e)
 			}
 		}})
+
 		s.NotifyAll(evt)
 		if !called {
 			t.Error("Observer should have been notified")
