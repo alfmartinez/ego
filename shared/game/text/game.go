@@ -1,12 +1,12 @@
 package text
 
 import (
-	"bufio"
+	"ego/shared/input/prompt"
 	"fmt"
-	"os"
 )
 
 type textGame struct {
+	inputHandler prompt.TextHandler
 }
 
 func (g *textGame) Start() {
@@ -18,11 +18,10 @@ func (g *textGame) Stop() {
 }
 
 func (g *textGame) scanner() {
-	scanner := bufio.NewScanner(os.Stdin)
 	var stopLoop bool
-	for !stopLoop && scanner.Scan() {
-		input := scanner.Text()
-		fmt.Println(input)
+	for !stopLoop {
+		input := g.inputHandler.GetText()
+		fmt.Printf("Got : %s\n", input)
 		if input == "exit" {
 			stopLoop = true
 		}

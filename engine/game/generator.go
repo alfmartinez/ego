@@ -16,7 +16,7 @@ func generateGame(factory func(observer.Subject, renderer.Renderer) Game) Game {
 	cfg := configuration.FromContext()
 	terrain.RegisterTileTypes()
 
-	inputHandler := input.CreateInputHandler()
+	inputHandler := input.CreateInputHandler("key").(input.KeyHandler)
 	context.Set("input", inputHandler)
 
 	subject := observer.CreateSubject()

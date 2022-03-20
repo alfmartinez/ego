@@ -35,7 +35,7 @@ func (game *sampleGame) Start() {
 func (game *sampleGame) Stop() {}
 
 func (game *sampleGame) loop() {
-	inputHandler := context.GetContext().Get("input").(input.InputHandler)
+	inputHandler := context.GetContext().Get("input").(input.KeyHandler)
 	log.Print("Start game loop")
 	loop := true
 	lastUpdate := time.Now()
