@@ -9,6 +9,7 @@ import (
 	"ego/engine/physics"
 	"ego/engine/renderer"
 	"ego/engine/terrain"
+	"fmt"
 )
 
 func generateGame(factory func(observer.Subject, renderer.Renderer) Game) Game {
@@ -20,7 +21,7 @@ func generateGame(factory func(observer.Subject, renderer.Renderer) Game) Game {
 	context.Set("input", inputHandler)
 
 	subject := observer.CreateSubject()
-
+	fmt.Printf("%s\n", cfg.Get("mobs"))
 	for key, _ := range cfg.GetStringMap("mobs") {
 		o := object.CreateObject(key)
 		subject.Register(o)
