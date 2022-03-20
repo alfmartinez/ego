@@ -1,9 +1,10 @@
 go 1.18
 
 use (
-./engine
-./tools
-./examples/platformer
-./examples/bomber
-./shared
+	./engine
+	./examples/bomber
+	./examples/platformer
+	./examples/trogue
+	./shared
+	./tools
 )
