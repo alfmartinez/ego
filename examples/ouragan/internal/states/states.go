@@ -8,7 +8,6 @@ import (
 	"ego/engine/template"
 	"ego/shared/input/prompt"
 	"github.com/inancgumus/screen"
-	"strings"
 	"time"
 )
 
@@ -37,7 +36,7 @@ func States(a any) state.States {
 		Default   defaultState
 	}{
 		Default: defaultState{
-			Items: []string{"key", "stapler", "orange"},
+			Items: []string{},
 		},
 	}
 
@@ -54,52 +53,52 @@ func States(a any) state.States {
 		render := renderer.FromContext().Render
 		subject := observer.FromContext()
 		return func(time.Duration) string {
-			return f(func() []string {
+			return f(func() string {
 				render("> ")
 				input := inputHandler.GetText()
 				if input == "exit" {
 					subject.NotifyAll(observer.CreateEvent(observer.EXIT))
 				}
-				return strings.Split(input, " ")
+				return input
 			})
 		}
 	}
 
 	return state.States{
-		"default": checkInput(func(getInput func() []string) string {
+		"default": checkInput(func(getInput func() string) string {
 			renderTemplate("default")
 			input := getInput()
-			var verb, subject string = input[0], input[1]
 			var next string
 			switch {
-			case verb == "go" && subject == "outside":
+			case input == "go outside":
 				if status.Default.DoorUnlocked {
 					next = "outside"
 				} else {
 					status.Feedback = "The door does not open."
 				}
-			case verb == "open" && subject == "door":
+			case input == "open door":
 				status.Default.DoorOpen = true
+			case input == "open drawer":
+				status.Default.Items = append(status.Default.Items, "key")
 			default:
-				status.Error = strings.Join(input, " ")
+				status.Error = input
 			}
 			return next
 		}),
-		"outside": checkInput(func(getInput func() []string) string {
+		"outside": checkInput(func(getInput func() string) string {
 			renderTemplate("outside")
 			input := getInput()
-			var verb, subject string = input[0], input[1]
 			var next string
 			switch {
-			case verb == "go" && subject == "inside":
+			case input == "go inside":
 				next = "default"
 			default:
-				status.Error = strings.Join(input, " ")
+				status.Error = input
 			}
 			return next
 		}),
 	}
 }
 
-type InputFunc func(func() []string) string
+type InputFunc func(func() string) string
 type DurationFunc func(time.Duration) string

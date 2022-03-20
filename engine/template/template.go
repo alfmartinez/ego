@@ -15,14 +15,6 @@ var fns = template.FuncMap{
 	"last": func(x int, a interface{}) bool {
 		return x == reflect.ValueOf(a).Len()-1
 	},
-	"article": func(x string) string {
-		var vowelsLike = map[byte]bool{'a': true, 'e': true, 'i': true, 'o': true, 'u': true, 'y': true, 'h': true}
-		var article = "a "
-		if _, ok := vowelsLike[x[0]]; ok {
-			article = "an "
-		}
-		return article + x
-	},
 }
 
 func InitializeTemplates() {
