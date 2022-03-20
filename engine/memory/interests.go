@@ -4,16 +4,16 @@ import "ego/engine/movement"
 
 type Interested interface {
 	HasInterests() bool
-	AddInterests([]movement.Positionnable)
-	GetNextInterest() movement.Positionnable
+	AddInterests([]movement.Location)
+	GetNextInterest() (interest movement.Location, found bool)
 }
 
 type interests struct {
-	interests []movement.Positionnable
+	interests []movement.Location
 }
 
 func CreateInterests() Interested {
-	var i []movement.Positionnable
+	var i []movement.Location
 	return &interests{i}
 }
 
@@ -21,15 +21,15 @@ func (m *interests) HasInterests() bool {
 	return len(m.interests) > 0
 }
 
-func (m *interests) AddInterests(interests []movement.Positionnable) {
+func (m *interests) AddInterests(interests []movement.Location) {
 	m.interests = append(m.interests, interests...)
 }
 
-func (m *interests) GetNextInterest() movement.Positionnable {
+func (m *interests) GetNextInterest() (interest movement.Location, found bool) {
 	a := m.interests
-	var i movement.Positionnable
+	var i movement.Location
 	if len(m.interests) == 0 {
-		return nil
+		return movement.Location{}, false
 	}
 	if len(m.interests) > 1 {
 		i, m.interests = a[0], a[1:]
@@ -38,6 +38,6 @@ func (m *interests) GetNextInterest() movement.Positionnable {
 		m.interests = nil
 	}
 
-	return i
+	return i, true
 
 }

@@ -5,8 +5,8 @@ import (
 )
 
 type RemembersPlaces interface {
-	HasExplored(movement.Positionnable) bool
-	Explore(movement.Positionnable) bool
+	HasExplored(movement.Location) bool
+	Explore(movement.Location) bool
 }
 
 type places struct {
@@ -18,16 +18,16 @@ func CreatePlaces() RemembersPlaces {
 	return &places{p}
 }
 
-func (m *places) HasExplored(location movement.Positionnable) bool {
-	p, ok := m.places[location.Position()]
+func (m *places) HasExplored(location movement.Location) bool {
+	p, ok := m.places[location]
 	return ok && p.IsExplored()
 }
 
-func (m *places) Explore(location movement.Positionnable) bool {
-	place, ok := m.places[location.Position()]
+func (m *places) Explore(location movement.Location) bool {
+	place, ok := m.places[location]
 	if !ok {
 		place = CreatePlaceMemory()
-		m.places[location.Position()] = place
+		m.places[location] = place
 	}
 	place.Explore()
 	return place.IsExplored()

@@ -2,7 +2,6 @@ package memory
 
 import (
 	"ego/engine/movement"
-	"image"
 	"testing"
 )
 
@@ -19,16 +18,14 @@ func TestMemoryCanRecordInterests(t *testing.T) {
 		t.Error("Newly created memory should have no interests")
 	}
 
-	var interest movement.Positionnable
-
-	interest = m.GetNextInterest()
-	if interest != nil {
-		t.Error("With no interests should return nil")
+	interest, found := m.GetNextInterest()
+	if found {
+		t.Error("With no interests should return false on found")
 	}
 
-	origin := movement.Loc(image.Pt(0, 0))
-	otherPoint := movement.Loc(image.Pt(1, 1))
-	interests := []movement.Positionnable{
+	origin := movement.Location{X: 0, Y: 0}
+	otherPoint := movement.Location{X: 1, Y: 1}
+	interests := []movement.Location{
 		origin,
 		otherPoint,
 	}
@@ -36,21 +33,21 @@ func TestMemoryCanRecordInterests(t *testing.T) {
 	if !m.HasInterests() {
 		t.Error("Memory should have interests")
 	}
-	interest = m.GetNextInterest()
-	if !interest.IsAt(origin) {
+	interest, found = m.GetNextInterest()
+	if interest != origin {
 		t.Error("Interest Location should be second")
 	}
 
-	interest = m.GetNextInterest()
-	if !interest.IsAt(otherPoint) {
+	interest, found = m.GetNextInterest()
+	if interest != otherPoint {
 		t.Error("Interest should be first")
 	}
 }
 
 func TestMemoryCanRecordExplorationOfPlaces(t *testing.T) {
 	m := CreateMemory()
-	coord := movement.Loc(image.Pt(0, 0))
-	otherCoord := movement.Loc(image.Pt(1, 1))
+	coord := movement.Location{}
+	otherCoord := movement.Location{X: 1, Y: 1}
 	if m.HasExplored(coord) {
 		t.Error("Newly create memory cannot know if place is explored")
 	}
