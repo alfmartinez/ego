@@ -1,6 +1,8 @@
 package object
 
 import (
+	"ego/engine/context"
+	"ego/engine/observer"
 	"testing"
 
 	"github.com/spf13/viper"
@@ -8,16 +10,21 @@ import (
 
 type fakeObject struct{}
 
-func (f fakeObject) Update() {}
+func (f fakeObject) OnNotify(observer.Event) {}
+func (f fakeObject) Update()                 {}
 
 func TestCreateObject(t *testing.T) {
+	context.CreateAndRegisterContext("test_object")
+	cfg := viper.New()
+	context.Set("cfg", cfg)
 
 	RegisterObjectFactory("fake", func(key string) GameObject {
 		return fakeObject{}
 	})
 
 	t.Run("Creates object base on type : 'fake' ", func(t *testing.T) {
-		viper.Set("mobs.fake.type", "fake")
+
+		cfg.Set("mobs.fake.type", "fake")
 
 		actual := CreateObject("fake")
 		if _, ok := actual.(fakeObject); !ok {
@@ -25,16 +32,18 @@ func TestCreateObject(t *testing.T) {
 		}
 	})
 
-	t.Run("Creates object base on type : 'Mob' ", func(t *testing.T) {
-		viper.Set("mobs.fake", MobData{
-			Needs: map[string]int{
-				"health": 100,
-			},
-		})
-		viper.Set("mobs.fake.type", "Mob")
-		actual := CreateObject("fake")
-		if _, ok := actual.(StateMob); !ok {
-			t.Errorf("Should return StateMob, got %+v", actual)
-		}
+	t.Run("Creates object base on type : missing ", func(t *testing.T) {
+
+		cfg.Set("mobs.fake.type", "foo")
+
+		defer func() {
+			r := recover()
+			if r == nil {
+				t.Error("should panic")
+			}
+		}()
+
+		CreateObject("fake")
+
 	})
 }
