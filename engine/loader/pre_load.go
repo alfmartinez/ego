@@ -1,13 +1,12 @@
 package loader
 
 import (
-	"ego/engine/context"
+	"ego/engine/configuration"
 	"image"
 	"strconv"
 	"strings"
 
 	"github.com/nfnt/resize"
-	"github.com/spf13/viper"
 )
 
 func init() {
@@ -56,11 +55,8 @@ type Sheets map[string]Sheet
 
 func (l *preLoad) Init() {
 	var sheets Sheets
-	viper := context.GetContext().Get("cfg").(*viper.Viper)
-	err := viper.UnmarshalKey("sheets", &sheets)
-	if err != nil {
-		panic(err)
-	}
+	cfg := configuration.FromContext()
+	cfg.UnmarshalKey("sheets", &sheets)
 	for label, sheet := range sheets {
 		img := loadSpriteSheet("sheets/" + sheet.Path)
 		columns, lines := divideRect(img.Bounds(), image.Rect(0, 0, sheet.Rect.W, sheet.Rect.H))

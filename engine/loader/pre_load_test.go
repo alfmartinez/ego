@@ -1,13 +1,17 @@
 package loader
 
 import (
+	"ego/engine/context"
 	"testing"
 
 	"github.com/spf13/viper"
 )
 
 func TestPreLoad(t *testing.T) {
-	viper.Set("sheets", Sheets{
+	context.CreateAndRegisterContext("pre_load")
+	cfg := viper.New()
+	context.Set("cfg", cfg)
+	sheets := Sheets{
 		"sheet": Sheet{
 			Path: "sheet.png",
 			Rect: struct {
@@ -18,8 +22,10 @@ func TestPreLoad(t *testing.T) {
 				H: 100,
 			},
 			Sizes: []uint{100, 50},
-		}})
+		}}
+
 	t.Run("CreateLoader", func(t *testing.T) {
+		cfg.Set("sheets", sheets)
 		l := CreateSpriteLoader("pre_load")
 		if _, ok := l.(*preLoad); !ok {
 			t.Errorf("Expected *preLoad, got %T", l)
@@ -27,6 +33,7 @@ func TestPreLoad(t *testing.T) {
 	})
 
 	t.Run("Loader can return sprite", func(t *testing.T) {
+		cfg.Set("sheets", sheets)
 		l := CreateSpriteLoader("pre_load")
 		l.Init()
 		sprite := l.GetSprite("sheet:0:0", 100)
@@ -39,6 +46,7 @@ func TestPreLoad(t *testing.T) {
 	})
 
 	t.Run("Loader can return sprite, malformed 1", func(t *testing.T) {
+		cfg.Set("sheets", sheets)
 		l := CreateSpriteLoader("pre_load")
 
 		l.Init()
