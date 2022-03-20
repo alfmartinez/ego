@@ -8,7 +8,7 @@ import (
 
 func TestTile(t *testing.T) {
 	tileType := CreateTileType("plain")
-	tile := CreateTile(image.Pt(0, 0), tileType, 10)
+	tile := CreateTile(GridCoord{0, 0}, tileType, 10)
 
 	if tile.Position() != image.Pt(0, 0) {
 		t.Errorf("Tile should be at 0,0")
