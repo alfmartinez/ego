@@ -2,6 +2,7 @@ package text
 
 import (
 	"ego/engine/observer"
+	"ego/engine/renderer"
 	"time"
 )
 
@@ -23,6 +24,8 @@ func (g *textGame) OnNotify(e observer.Event) {
 	switch e.Type() {
 	case observer.EXIT:
 		g.stopLoop = true
+	case observer.RENDER:
+		renderer.FromContext().Refresh()
 	}
 }
 
@@ -31,5 +34,6 @@ func (g *textGame) loop() {
 	for !g.stopLoop {
 		g.subject.NotifyAll(observer.CreateEvent(observer.UPDATE, time.Since(lastUpdate)))
 		lastUpdate = time.Now()
+		g.subject.NotifyAll(observer.CreateEvent(observer.RENDER))
 	}
 }

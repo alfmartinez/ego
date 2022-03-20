@@ -21,10 +21,10 @@ func Register() {
 		context.Set("input", inputHandler)
 		subject := observer.CreateSubject()
 		context.Set("subject", subject)
-		logic := CreateLogic(states())
-
 		renderer := renderer.CreateRenderer(cfg.GetString("renderer.type"))
 		context.Set("renderer", renderer)
+		logic := CreateLogic(states())
+
 		subject.Register(logic)
 		return &textGame{
 			subject: subject,
@@ -34,11 +34,14 @@ func Register() {
 
 func states() state.States {
 	subject := observer.FromContext()
+	renderer := renderer.FromContext()
 	return state.States{
 		"default": func(time.Duration) string {
 			inputHandler := input.FromContext().(prompt.TextHandler)
 			input := inputHandler.GetText()
-			fmt.Printf("Got : %s\n", input)
+			renderer.Render(fmt.Sprintf("Got : %s\n", input))
+			renderer.Render("--------------\n")
+			renderer.Render("> ")
 			if input == "exit" {
 				return "exit"
 			}
