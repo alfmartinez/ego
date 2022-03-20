@@ -1,12 +1,15 @@
 package state
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
 type fakeState struct {
 	StateType
 }
 
-func (f fakeState) Update(s Updatable) State { return nil }
+func (f fakeState) Update(Updatable, time.Duration) State { return nil }
 func TestCreateState(t *testing.T) {
 	RegisterStateFactory(255, func(i []interface{}) State {
 		return fakeState{255}

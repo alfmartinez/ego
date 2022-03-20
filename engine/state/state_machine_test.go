@@ -3,6 +3,7 @@ package state
 import (
 	"ego/engine/motivator"
 	"testing"
+	"time"
 )
 
 type fakeUpdatable struct {
@@ -27,11 +28,6 @@ func TestStateMachine(t *testing.T) {
 		sm := CreateStateMachine()
 		self := fakeUpdatable{}
 		self.N = motivator.Learn
-		sm.DoUpdate(self)
-	})
-
-	t.Run("SetState overrides current state", func(t *testing.T) {
-		sm := CreateStateMachine()
-		sm.SetState(StateMove)
+		sm.DoUpdate(self, time.Second)
 	})
 }

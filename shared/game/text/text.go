@@ -6,6 +6,7 @@ import (
 	"ego/engine/game"
 	"ego/engine/input"
 	"ego/engine/observer"
+	"ego/engine/renderer"
 	"ego/engine/state"
 	"ego/shared/input/prompt"
 	"fmt"
@@ -14,12 +15,16 @@ import (
 
 func Register() {
 	game.RegisterGameFactory("text", func() game.Game {
-		inputName := configuration.FromContext().GetString("input.type")
+		cfg := configuration.FromContext()
+		inputName := cfg.GetString("input.type")
 		inputHandler := input.CreateInputHandler(inputName).(prompt.TextHandler)
 		context.Set("input", inputHandler)
 		subject := observer.CreateSubject()
 		context.Set("subject", subject)
 		logic := CreateLogic(states())
+
+		renderer := renderer.CreateRenderer(cfg.GetString("renderer.type"))
+		context.Set("renderer", renderer)
 		subject.Register(logic)
 		return &textGame{
 			subject: subject,

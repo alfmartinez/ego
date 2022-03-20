@@ -5,10 +5,12 @@ import (
 	"ego/engine/context"
 	"ego/engine/game"
 	"ego/shared/game/text"
+	"ego/shared/renderer/console"
 )
 
 func init() {
 	text.Register()
+	console.Register()
 }
 
 func main() {

@@ -84,8 +84,9 @@ func (m *stateMob) render() {
 }
 
 func (m *stateMob) Hitbox() image.Rectangle {
-	rect := image.Rect(0, 0, int(m.Size()), int(m.Size()))
-	return rect.Add(image.Point(m.Position()).Inset(int(m.Size()) / 4)
+	rect := image.Rect(0, 0, int(m.Size()), int(m.Size())).Inset(int(m.Size()) / 4)
+	pos := image.Point{int(m.Position().X), int(m.Position().Y)}
+	return rect.Add(pos)
 }
 
 func (m *stateMob) IsHit(rect image.Rectangle) bool {
