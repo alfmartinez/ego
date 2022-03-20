@@ -5,6 +5,7 @@ import (
 	"ego/engine/context"
 	"ego/engine/game"
 	"ego/engine/state"
+	"ego/engine/template"
 	"ego/examples/ouragan/internal/states"
 	"ego/shared/game/text"
 	"ego/shared/renderer/console"
@@ -22,6 +23,7 @@ func main() {
 	cfg := configuration.CreateConfiguration("examples/ouragan/assets/config/")
 	cfg.Init()
 	context.Set("cfg", cfg.Get())
+	template.InitializeTemplates()
 	game := game.CreateGame("text")
 	game.Start()
 }

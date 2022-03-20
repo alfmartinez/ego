@@ -5,38 +5,66 @@ import (
 	"ego/engine/observer"
 	"ego/engine/renderer"
 	"ego/engine/state"
+	"ego/engine/template"
 	"ego/shared/input/prompt"
-	"fmt"
 	"time"
 )
 
+type TextWriter struct {
+	render func(any)
+}
+
+func (w *TextWriter) Write(p []byte) (n int, err error) {
+	w.render(string(p))
+	return len(p), nil
+}
+
 func States(a any) state.States {
-	render := renderer.FromContext().Render
+	writer := &TextWriter{renderer.FromContext().Render}
+	tmpl := template.FromContext()
+	status := struct {
+		Feedback string
+		Error    string
+		DoorOpen bool
+	}{}
+
+	renderTemplate := func(name string) {
+		tmpl.ExecuteTemplate(writer, "default", status)
+		status.Feedback = ""
+		status.Error = ""
+	}
+
 	return state.States{
 		"default": checkInput(func(getInput func() string) string {
-			render("\n--------------\n")
-			render("You are inside an office building.\nThere's a door behind you, leading outside.\n")
-			render("> ")
+			renderTemplate("default")
 			input := getInput()
 
 			var next string
 			switch {
 			case input == "go outside":
-				next = "outside"
+				if status.DoorOpen {
+					next = "outside"
+				} else {
+					status.Feedback = "The door does not open."
+				}
+			case input == "open door":
+				status.DoorOpen = true
 			default:
-				displayError(input)
+				status.Error = input
 			}
 			return next
 		}),
 		"outside": checkInput(func(getInput func() string) string {
-			render("\n--------------\n")
-			render("You are outisde the building.\n")
-			render("> ")
+			renderTemplate("outside")
 			input := getInput()
-			if input == "enter building" {
-				return "default"
+			var next string
+			switch {
+			case input == "go inside":
+				next = "default"
+			default:
+				status.Error = input
 			}
-			return ""
+			return next
 		}),
 	}
 }
@@ -46,9 +74,11 @@ type DurationFunc func(time.Duration) string
 
 func checkInput(f InputFunc) DurationFunc {
 	inputHandler := input.FromContext().(prompt.TextHandler)
+	render := renderer.FromContext().Render
 	subject := observer.FromContext()
 	return func(time.Duration) string {
 		return f(func() string {
+			render("> ")
 			input := inputHandler.GetText()
 			if input == "exit" {
 				subject.NotifyAll(observer.CreateEvent(observer.EXIT))
@@ -56,9 +86,4 @@ func checkInput(f InputFunc) DurationFunc {
 			return input
 		})
 	}
-}
-
-func displayError(input string) {
-	render := renderer.FromContext().Render
-	render(fmt.Sprintf("What do you mean exactly by \"%s\" ?", input))
 }

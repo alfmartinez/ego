@@ -1,0 +1,18 @@
+templates:
+  frame: |-
+    {{ define "header" }}------------------------------{{ end }}
+    {{ define "footer" }}{{if .Feedback}}
+      {{.Feedback}}{{end}}{{if .Error}}
+      What do you mean exactly by "{{.Error}}" ?{{end}}
+    {{ end }}  
+  default: |
+    {{ template "header" . }}
+    You are inside an office building.
+    There's a door behind you, leading outside.
+    {{if .DoorOpen}}The door seems to be unlocked.{{else}}The door seems locked.{{end}}
+    {{ template "footer" . }}
+  outside: |
+    {{ template "header" . }}
+    You are outisde the building.
+    {{if .DoorOpen}}The door to the building behind you seems to be unlocked.{{else}}The door behind you seems to be locked.{{end}}
+    {{ template "footer" . }}

@@ -2,3 +2,4 @@ imports:
   - render
   - input
   - game
+  - templates
