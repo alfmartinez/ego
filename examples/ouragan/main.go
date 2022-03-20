@@ -4,6 +4,8 @@ import (
 	"ego/engine/configuration"
 	"ego/engine/context"
 	"ego/engine/game"
+	"ego/engine/state"
+	"ego/examples/ouragan/internal/states"
 	"ego/shared/game/text"
 	"ego/shared/renderer/console"
 )
@@ -11,6 +13,7 @@ import (
 func init() {
 	text.Register()
 	console.Register()
+	state.RegisterStatesClosure("ouragan", states.States)
 }
 
 func main() {

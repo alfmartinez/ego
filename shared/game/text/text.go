@@ -9,8 +9,6 @@ import (
 	"ego/engine/renderer"
 	"ego/engine/state"
 	"ego/shared/input/prompt"
-	"fmt"
-	"time"
 )
 
 func Register() {
@@ -23,33 +21,13 @@ func Register() {
 		context.Set("subject", subject)
 		renderer := renderer.CreateRenderer(cfg.GetString("renderer.type"))
 		context.Set("renderer", renderer)
-		logic := CreateLogic(states())
-
+		statesName := cfg.GetString("states")
+		logic := CreateLogic()
+		states := state.CreateStates(statesName, logic)
+		logic.(state.StateMachine).SetStates(states)
 		subject.Register(logic)
 		return &textGame{
 			subject: subject,
 		}
 	})
-}
-
-func states() state.States {
-	subject := observer.FromContext()
-	renderer := renderer.FromContext()
-	return state.States{
-		"default": func(time.Duration) string {
-			inputHandler := input.FromContext().(prompt.TextHandler)
-			input := inputHandler.GetText()
-			renderer.Render(fmt.Sprintf("Got : %s\n", input))
-			renderer.Render("--------------\n")
-			renderer.Render("> ")
-			if input == "exit" {
-				return "exit"
-			}
-			return ""
-		},
-		"exit": func(time.Duration) string {
-			subject.NotifyAll(observer.CreateEvent(observer.EXIT))
-			return ""
-		},
-	}
 }

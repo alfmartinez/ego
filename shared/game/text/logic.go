@@ -7,9 +7,8 @@ import (
 	"time"
 )
 
-func CreateLogic(states state.States) object.GameObject {
+func CreateLogic() object.GameObject {
 	sm := state.CreateStateMachine()
-	sm.SetStates(states)
 	return &logic{sm}
 }
 
