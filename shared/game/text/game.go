@@ -1,29 +1,35 @@
 package text
 
 import (
-	"ego/shared/input/prompt"
-	"fmt"
+	"ego/engine/observer"
+	"time"
 )
 
 type textGame struct {
-	inputHandler prompt.TextHandler
+	subject  observer.Subject
+	stopLoop bool
 }
 
 func (g *textGame) Start() {
-	g.scanner()
+	g.subject.Register(g)
+	g.loop()
 }
 
 func (g *textGame) Stop() {
 
 }
 
-func (g *textGame) scanner() {
-	var stopLoop bool
-	for !stopLoop {
-		input := g.inputHandler.GetText()
-		fmt.Printf("Got : %s\n", input)
-		if input == "exit" {
-			stopLoop = true
-		}
+func (g *textGame) OnNotify(e observer.Event) {
+	switch e.Type() {
+	case observer.EXIT:
+		g.stopLoop = true
+	}
+}
+
+func (g *textGame) loop() {
+	var lastUpdate = time.Now()
+	for !g.stopLoop {
+		g.subject.NotifyAll(observer.CreateEvent(observer.UPDATE, time.Since(lastUpdate)))
+		lastUpdate = time.Now()
 	}
 }

@@ -1,9 +1,15 @@
 package observer
 
+import "ego/engine/context"
+
 type Subject interface {
 	Register(Observer)
 	Unregister(Observer)
 	NotifyAll(Event)
+}
+
+func FromContext() Subject {
+	return context.GetContext().Get("subject").(Subject)
 }
 
 type subject struct {

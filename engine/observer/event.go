@@ -7,6 +7,7 @@ const (
 	UPDATE EventType = iota
 	RENDER
 	PHYSICS
+	EXIT
 )
 
 type Event interface {
