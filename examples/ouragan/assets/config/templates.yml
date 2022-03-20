@@ -1,6 +1,7 @@
 templates:
   frame: |-
-    {{ define "header" }}------------------------------{{ end }}
+    {{ define "header" }}------------------------------
+    {{ end }}
     {{ define "footer" }}{{if .Feedback}}
       {{.Feedback}}{{end}}{{if .Error}}
       What do you mean exactly by "{{.Error}}" ?{{end}}
@@ -9,7 +10,9 @@ templates:
     {{ template "header" . }}
     You are inside an office building.
     There's a door behind you, leading outside.
-    {{if .DoorOpen}}The door seems to be unlocked.{{else}}The door seems locked.{{end}}
+    You see {{with .Default.Items}}{{range $i, $e := .}}{{if $i}}, {{end}}{{ article $e }}{{end}}{{else}}nothing{{end}}.
+    {{if .Default.DoorOpen}}The door is open.{{else if .Default.DoorUnlocked}}The door seems to be unlocked.{{else}}The door seems locked.{{end}}
+
     {{ template "footer" . }}
   outside: |
     {{ template "header" . }}
