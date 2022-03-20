@@ -1,11 +1,9 @@
 package object
 
 import (
-	"ego/engine/context"
+	"ego/engine/configuration"
 	"ego/engine/observer"
 	"fmt"
-
-	"github.com/spf13/viper"
 )
 
 type GameObject interface {
@@ -19,7 +17,11 @@ func RegisterObjectFactory(name string, f func(key string) GameObject) {
 }
 
 func CreateObject(key string) GameObject {
-	viper := context.GetContext().Get("cfg").(*viper.Viper)
-	name := viper.GetString(fmt.Sprintf("mobs.%s.type", key))
-	return objectFactories[name](key)
+	cfg := configuration.FromContext()
+	name := cfg.GetString(fmt.Sprintf("mobs.%s.type", key))
+	f, ok := objectFactories[name]
+	if !ok {
+		panic(fmt.Errorf("missing factory for object '%s'", name))
+	}
+	return f(key)
 }

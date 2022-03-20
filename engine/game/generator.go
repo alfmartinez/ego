@@ -21,8 +21,9 @@ func generateGame(factory func(observer.Subject, renderer.Renderer) Game) Game {
 	context.Set("input", inputHandler)
 
 	subject := observer.CreateSubject()
-	fmt.Printf("%s\n", cfg.Get("mobs"))
-	for key, _ := range cfg.GetStringMap("mobs") {
+
+	for key := range cfg.GetStringMap("mobs") {
+		fmt.Printf("Creating object Key: %s\n", key)
 		o := object.CreateObject(key)
 		subject.Register(o)
 	}

@@ -1,10 +1,8 @@
 package terrain
 
 import (
-	"ego/engine/context"
+	"ego/engine/configuration"
 	"fmt"
-
-	"github.com/spf13/viper"
 )
 
 type TileType interface {
@@ -25,8 +23,8 @@ var tileTypes = make(map[string]TileType)
 
 func RegisterTileTypes() {
 	var typesData TileTypes
-	viper := context.GetContext().Get("cfg").(*viper.Viper)
-	err := viper.UnmarshalKey("tile_types", &typesData)
+	cfg := configuration.FromContext()
+	err := cfg.UnmarshalKey("tile_types", &typesData)
 	if err != nil {
 		panic(err)
 	}
@@ -43,7 +41,7 @@ func RegisterTileType(name string, value TileType) {
 func CreateTileType(name string) TileType {
 	value, ok := tileTypes[name]
 	if !ok {
-		panic(fmt.Errorf("unknown tile type %s", name))
+		panic(fmt.Errorf("unknown tile type '%s'", name))
 	}
 	return value
 }

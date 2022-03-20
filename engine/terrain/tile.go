@@ -51,10 +51,6 @@ func (t *tile) Size() uint {
 	return uint(t.size)
 }
 
-func (t *tile) IsAt(pos movement.Positionnable) bool {
-	return pos.Position().In(t.rect)
-}
-
 func (t *tile) Position() movement.Location {
 	return movement.Location{
 		X: float64(t.rect.Min.X),
