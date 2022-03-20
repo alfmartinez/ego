@@ -1,6 +1,7 @@
 package text
 
 import (
+	"ego/engine/configuration"
 	"ego/engine/game"
 	"ego/engine/input"
 	"ego/shared/input/prompt"
@@ -8,7 +9,8 @@ import (
 
 func Register() {
 	game.RegisterGameFactory("text", func() game.Game {
-		inputHandler := input.CreateInputHandler("prompt").(prompt.TextHandler)
+		inputName := configuration.FromContext().GetString("input.type")
+		inputHandler := input.CreateInputHandler(inputName).(prompt.TextHandler)
 		return &textGame{inputHandler}
 	})
 }
