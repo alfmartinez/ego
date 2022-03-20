@@ -21,7 +21,6 @@ const (
 
 type Positionnable interface {
 	Position() Location
-	IsAt(Positionnable) bool
 }
 
 type Movable interface {
@@ -51,10 +50,6 @@ func CreateMovement(coord Location) Movement {
 
 func (m *movement) Position() Location {
 	return Location(m.matrix.P)
-}
-
-func (m *movement) IsAt(p Positionnable) bool {
-	return m.Position().Point().Eq(p.Position().Point())
 }
 
 func (m *movement) GetMatrix() matrix.M {

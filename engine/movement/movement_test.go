@@ -1,13 +1,14 @@
 package movement
 
 import (
-	"fmt"
-	"image"
+	"ego/engine/physics/matrix"
+	"reflect"
 	"testing"
+	"time"
 )
 
 func TestCreateMovementReturnsMovement(t *testing.T) {
-	i := CreateMovement(image.Pt(1, 10))
+	i := CreateMovement(Location{1, 10})
 
 	if i.Position().X != 1 {
 		t.Errorf("should be initialized with X value")
@@ -18,43 +19,226 @@ func TestCreateMovementReturnsMovement(t *testing.T) {
 	}
 }
 
-func TestMoveTowardsReturnsTrueIfDestinationReached(t *testing.T) {
-	m := CreateMovement(image.Pt(10, 10))
-	d := Loc(image.Pt(10, 10))
-
-	reached := m.MoveForward(d)
-	if !reached {
-		t.Errorf("should have reached destination, is at %+v", m.Position())
+func Test_movement_GetMatrix(t *testing.T) {
+	type fields struct {
+		matrix matrix.M
 	}
-}
-
-func TestMoveTowardsReturnsFalseIfDestinationNotReached(t *testing.T) {
-	cases := []struct{ orig, destination, expected image.Point }{
-		{image.Pt(10, 10), image.Pt(1, 10), image.Pt(9, 10)},
-		{image.Pt(10, 10), image.Pt(10, 1), image.Pt(10, 9)},
-		{image.Pt(10, 10), image.Pt(10, 20), image.Pt(10, 11)},
-		{image.Pt(10, 10), image.Pt(20, 10), image.Pt(11, 10)},
-		{image.Pt(10, 10), image.Pt(1, 1), image.Pt(9, 9)},
-		{image.Pt(10, 10), image.Pt(20, 20), image.Pt(11, 11)},
-		{image.Pt(10, 10), image.Pt(1, 20), image.Pt(9, 11)},
-		{image.Pt(10, 10), image.Pt(20, 1), image.Pt(11, 9)},
+	tests := []struct {
+		name   string
+		fields fields
+		want   matrix.M
+	}{
+		{
+			"sample",
+			fields{
+				matrix.M{
+					P: matrix.Vec2{X: 1, Y: 0},
+					S: matrix.Vec2{X: 0, Y: 1},
+					A: matrix.Vec2{X: 1, Y: 1},
+				},
+			},
+			matrix.M{
+				P: matrix.Vec2{X: 1, Y: 0},
+				S: matrix.Vec2{X: 0, Y: 1},
+				A: matrix.Vec2{X: 1, Y: 1},
+			},
+		},
 	}
-
-	for _, tt := range cases {
-		testName := fmt.Sprintf("Move from %+s towards %+s", tt.orig, tt.destination)
-		t.Run(testName, func(t *testing.T) {
-			m := CreateMovement(tt.orig)
-			d := Loc(tt.destination)
-
-			reached := m.MoveForward(d)
-
-			if reached {
-				t.Errorf("should not have reached destination, is at %+v", m.Position())
+	for _, tt := range tests {
+		t.Run(tt.name+"Constructor", func(t *testing.T) {
+			m := &movement{
+				matrix: tt.fields.matrix,
 			}
-			if !m.Position().Eq(tt.expected) {
-				t.Errorf("should be at %s, is at %s instead", m.Position(), tt.expected)
+			if got := m.GetMatrix(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("movement.GetMatrix() = %v, want %v", got, tt.want)
+			}
+		})
+		t.Run(tt.name+"Setter", func(t *testing.T) {
+			m := &movement{matrix: matrix.M{}}
+			m.SetMatrix(tt.fields.matrix)
+			if got := m.GetMatrix(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("movement.GetMatrix() = %v, want %v", got, tt.want)
 			}
 		})
 	}
+}
 
+func Test_movement_MoveDirection(t *testing.T) {
+	type fields struct {
+		matrix matrix.M
+	}
+	type args struct {
+		direction Direction
+		dt        time.Duration
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   matrix.M
+	}{
+		{
+			"0,0 - UP",
+			fields{
+				matrix.M{
+					P: matrix.Vec2{},
+					S: matrix.Vec2{},
+					A: matrix.Vec2{},
+				},
+			},
+			args{
+				MOVE_UP,
+				time.Second,
+			},
+			matrix.M{
+				P: matrix.Vec2{},
+				S: matrix.Vec2{X: 0, Y: -50},
+				A: matrix.Vec2{},
+			},
+		},
+		{
+			"0,0 - DOWN",
+			fields{
+				matrix.M{
+					P: matrix.Vec2{},
+					S: matrix.Vec2{},
+					A: matrix.Vec2{},
+				},
+			},
+			args{
+				MOVE_DOWN,
+				time.Second,
+			},
+			matrix.M{
+				P: matrix.Vec2{},
+				S: matrix.Vec2{X: 0, Y: 50},
+				A: matrix.Vec2{},
+			},
+		},
+		{
+			"0,0 - RIGHT",
+			fields{
+				matrix.M{
+					P: matrix.Vec2{},
+					S: matrix.Vec2{},
+					A: matrix.Vec2{},
+				},
+			},
+			args{
+				MOVE_RIGHT,
+				time.Second,
+			},
+			matrix.M{
+				P: matrix.Vec2{},
+				S: matrix.Vec2{X: 50, Y: 0},
+				A: matrix.Vec2{},
+			},
+		},
+		{
+			"0,0 - LEFT",
+			fields{
+				matrix.M{
+					P: matrix.Vec2{},
+					S: matrix.Vec2{},
+					A: matrix.Vec2{},
+				},
+			},
+			args{
+				MOVE_LEFT,
+				time.Second,
+			},
+			matrix.M{
+				P: matrix.Vec2{},
+				S: matrix.Vec2{X: -50, Y: 0},
+				A: matrix.Vec2{},
+			},
+		},
+		{
+			"0,0 - UP, reverse",
+			fields{
+				matrix.M{
+					P: matrix.Vec2{},
+					S: matrix.Vec2{},
+					A: matrix.Vec2{},
+				},
+			},
+			args{
+				MOVE_UP,
+				-time.Second,
+			},
+			matrix.M{
+				P: matrix.Vec2{},
+				S: matrix.Vec2{X: 0, Y: 50},
+				A: matrix.Vec2{},
+			},
+		},
+		{
+			"0,0 - DOWN, reserve",
+			fields{
+				matrix.M{
+					P: matrix.Vec2{},
+					S: matrix.Vec2{},
+					A: matrix.Vec2{},
+				},
+			},
+			args{
+				MOVE_DOWN,
+				-time.Second,
+			},
+			matrix.M{
+				P: matrix.Vec2{},
+				S: matrix.Vec2{X: 0, Y: -50},
+				A: matrix.Vec2{},
+			},
+		},
+		{
+			"0,0 - RIGHT, reverse",
+			fields{
+				matrix.M{
+					P: matrix.Vec2{},
+					S: matrix.Vec2{},
+					A: matrix.Vec2{},
+				},
+			},
+			args{
+				MOVE_RIGHT,
+				-time.Second,
+			},
+			matrix.M{
+				P: matrix.Vec2{},
+				S: matrix.Vec2{X: -50, Y: 0},
+				A: matrix.Vec2{},
+			},
+		},
+		{
+			"0,0 - LEFT, reverse",
+			fields{
+				matrix.M{
+					P: matrix.Vec2{},
+					S: matrix.Vec2{},
+					A: matrix.Vec2{},
+				},
+			},
+			args{
+				MOVE_LEFT,
+				-time.Second,
+			},
+			matrix.M{
+				P: matrix.Vec2{},
+				S: matrix.Vec2{X: 50, Y: 0},
+				A: matrix.Vec2{},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			m := &movement{
+				matrix: tt.fields.matrix,
+			}
+			m.MoveDirection(tt.args.direction, tt.args.dt)
+			if got := m.GetMatrix(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("movement.GetMatrix() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }
