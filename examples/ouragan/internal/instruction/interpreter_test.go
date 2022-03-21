@@ -7,14 +7,10 @@ import (
 
 type apiClient struct{}
 
-var mockGlobal func(GlobalAction)
-var mockItem func(ItemAction, ...int)
+var mockCall func(realm byte, action byte, data ...byte) int
 
-func (c *apiClient) Global(a GlobalAction) {
-	mockGlobal(a)
-}
-func (c *apiClient) Item(a ItemAction, data ...int) {
-	mockItem(a, data...)
+func (c *apiClient) Call(realm byte, action byte, data ...byte) int {
+	return mockCall(realm, action, data...)
 }
 
 func Test_interpreter_Interpret(t *testing.T) {
@@ -22,15 +18,12 @@ func Test_interpreter_Interpret(t *testing.T) {
 		bytecode ByteCode
 		client   ApiClient
 	}
-	type called struct {
-		global []int
-		item   []int
-	}
 	tests := []struct {
-		name   string
-		args   args
-		want   []byte
-		called called
+		name        string
+		args        args
+		want        []int
+		called      []byte
+		returnValue int
 	}{
 		{
 			"Empty",
@@ -38,8 +31,9 @@ func Test_interpreter_Interpret(t *testing.T) {
 				ByteCode{},
 				&apiClient{},
 			},
+			[]int{},
 			[]byte{},
-			called{},
+			0,
 		},
 		{
 			"Add",
@@ -47,8 +41,9 @@ func Test_interpreter_Interpret(t *testing.T) {
 				ByteCode{INST_LITERAL, 1, INST_LITERAL, 3, INST_ADD},
 				&apiClient{},
 			},
-			[]byte{4},
-			called{},
+			[]int{4},
+			[]byte{},
+			0,
 		},
 		{
 			"Sub",
@@ -56,8 +51,9 @@ func Test_interpreter_Interpret(t *testing.T) {
 				ByteCode{INST_LITERAL, 4, INST_LITERAL, 3, INST_SUB},
 				&apiClient{},
 			},
-			[]byte{1},
-			called{},
+			[]int{1},
+			[]byte{},
+			0,
 		},
 		{
 			"Sub neg",
@@ -65,19 +61,19 @@ func Test_interpreter_Interpret(t *testing.T) {
 				ByteCode{INST_LITERAL, 4, INST_LITERAL, 6, INST_SUB},
 				&apiClient{},
 			},
-			[]byte{254},
-			called{},
+			[]int{-2},
+			[]byte{},
+			0,
 		},
 		{
 			"Help",
 			args{
-				ByteCode{INST_LITERAL, GLOB_HELP, INST_GLOB},
+				ByteCode{INST_LITERAL, GLOB_HELP, INST_LITERAL, REALM_GLOB, INST_CALL},
 				&apiClient{},
 			},
-			[]byte{},
-			called{
-				global: []int{int(GLOB_HELP)},
-			},
+			[]int{0},
+			[]byte{REALM_GLOB, GLOB_HELP},
+			0,
 		},
 		{
 			"goto",
@@ -85,44 +81,41 @@ func Test_interpreter_Interpret(t *testing.T) {
 				ByteCode{INST_LITERAL, 1, INST_LITERAL, 5, INST_LITERAL, 8, INST_GOTO, INST_LITERAL, 4, INST_LITERAL, 12},
 				&apiClient{},
 			},
-			[]byte{12, 5, 1},
-			called{},
+			[]int{12, 5, 1},
+			[]byte{},
+			0,
 		},
 		{
 			"Pick item 27",
 			args{
-				ByteCode{INST_LITERAL, 27, INST_LITERAL, ITEM_PICK, INST_ITEM},
+				ByteCode{INST_LITERAL, 27, INST_LITERAL, ITEM_PICK, INST_LITERAL, REALM_ITEM, INST_CALL},
 				&apiClient{},
 			},
-			[]byte{},
-			called{
-				item: []int{int(ITEM_PICK), 27},
-			},
+			[]int{0},
+			[]byte{REALM_ITEM, ITEM_PICK, 27},
+			0,
 		},
 		{
 			"Combine item 27 on 12",
 			args{
-				ByteCode{INST_LITERAL, 27, INST_LITERAL, 12, INST_LITERAL, ITEM_COMBINE, INST_ITEM},
+				ByteCode{INST_LITERAL, 27, INST_LITERAL, 12, INST_LITERAL, ITEM_COMBINE, INST_LITERAL, REALM_ITEM, INST_CALL},
 				&apiClient{},
 			},
-			[]byte{},
-			called{
-				item: []int{int(ITEM_COMBINE), 27, 12},
-			},
+			[]int{0},
+			[]byte{REALM_ITEM, ITEM_COMBINE, 12, 27},
+			0,
 		},
 	}
 	for _, tt := range tests {
 
 		t.Run(tt.name, func(t *testing.T) {
-			gotCalled := called{}
-			mockGlobal = func(a GlobalAction) {
-				gotCalled.global = append(gotCalled.global, int(a))
+			gotCalled := make([]byte, 0)
+			mockCall = func(realm byte, action byte, data ...byte) int {
+				gotCalled = append(gotCalled, realm, action)
+				gotCalled = append(gotCalled, data...)
+				return tt.returnValue
 			}
-			mockItem = func(a ItemAction, data ...int) {
-				gotCalled.item = append(gotCalled.item, int(a))
-				gotCalled.item = append(gotCalled.item, data...)
-			}
-			stack := CreateStack[byte]()
+			stack := CreateStack[int]()
 			m := &interpreter{
 				Stack: stack,
 			}
@@ -136,7 +129,7 @@ func Test_interpreter_Interpret(t *testing.T) {
 		})
 	}
 	t.Run("Unknown instruction causes panic", func(t *testing.T) {
-		stack := CreateStack[byte]()
+		stack := CreateStack[int]()
 		m := &interpreter{
 			Stack: stack,
 		}

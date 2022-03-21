@@ -1,6 +1,5 @@
 package instruction
 
 type ApiClient interface {
-	Global(GlobalAction)
-	Item(ItemAction, ...int)
+	Call(realm byte, action byte, data ...byte) int
 }

@@ -9,7 +9,7 @@ type Interpreter interface {
 }
 
 type interpreter struct {
-	Stack[byte]
+	Stack[int]
 }
 
 func (m *interpreter) Interpret(bytecode ByteCode, client ApiClient) {
@@ -22,27 +22,29 @@ func (m *interpreter) Interpret(bytecode ByteCode, client ApiClient) {
 		case INST_LITERAL:
 			i++
 			value := bytecode[i]
-			m.Push(value)
+			m.Push(int(value))
 		case INST_ADD:
 			a, b := m.Pop(), m.Pop()
 			m.Push(a + b)
 		case INST_SUB:
 			a, b := m.Pop(), m.Pop()
 			m.Push(b - a)
-		case INST_GLOB:
-			action := m.Pop()
-			client.Global(GlobalAction(action))
-		case INST_ITEM:
-			action := m.Pop()
-			switch byte(action) {
-			case ITEM_PICK, ITEM_BREAK, ITEM_DROP, ITEM_EXAMINE, ITEM_USE:
-				subject := m.Pop()
-				client.Item(ItemAction(action), int(subject))
-			case ITEM_COMBINE:
-				object := m.Pop()
-				subject := m.Pop()
-				client.Item(ItemAction(action), int(subject), int(object))
+		case INST_CALL:
+			realm := byte(m.Pop())
+			action := byte(m.Pop())
+			var data []byte
+			switch realm {
+			case REALM_ITEM:
+				switch action {
+				case ITEM_COMBINE:
+					data = append(data, byte(m.Pop()))
+					fallthrough
+				case ITEM_PICK, ITEM_BREAK, ITEM_DROP, ITEM_EXAMINE, ITEM_USE:
+					data = append(data, byte(m.Pop()))
+				}
 			}
+			value := client.Call(realm, action, data...)
+			m.Push(value)
 		default:
 			panic(fmt.Errorf("unknown instruction %v", instruction))
 		}
