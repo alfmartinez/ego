@@ -37,6 +37,14 @@ func TestLoadImage(t *testing.T) {
 			true,
 		},
 		{
+			"wrong format",
+			args{
+				pwd + "/testdata/malformed",
+			},
+			nil,
+			true,
+		},
+		{
 			"missing",
 			args{
 				pwd + "/testdata/load.png",
