@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_inputHandler_Handle(t *testing.T) {
+func TestKeyHandlerHandle(t *testing.T) {
 	type fields struct {
 		keyStatus map[Key]bool
 	}

@@ -13,7 +13,7 @@ func TestFromContext(t *testing.T) {
 	}{
 		{
 			"retrieve input handler from context",
-			CreateInputHandler(),
+			CreateInputHandler("key"),
 		},
 	}
 	for _, tt := range tests {

@@ -1,5 +1,11 @@
 package input
 
+func init() {
+	RegisterInputHandler("key", func() InputHandler {
+		return CreateKeyHandler()
+	})
+}
+
 type KeyHandler interface {
 	IsPressed(Key) bool
 	AllReleased() bool
@@ -34,7 +40,7 @@ func (h *keyHandler) IsPressed(k Key) bool {
 func (h *keyHandler) AllReleased() bool {
 	for _, key := range h.keyStatus {
 		if key {
-			return true
+			return false
 		}
 	}
 	return true
