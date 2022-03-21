@@ -1,0 +1,8 @@
+l10n:
+  en:
+    data:
+      error_message: "What do you mean exactly by"
+      you_are: "You are"
+      inside_office_building: "inside an office building"
+      door_behind: "There's a door behind you"
+      leading_outside: "leading outside"

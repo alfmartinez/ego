@@ -1,15 +1,18 @@
+imports:
+  - l10n/en
+  - l10n/fr
 templates:
   frame: |-
     {{ define "header" }}------------------------------
     {{ end }}
     {{ define "footer" }}{{if .Feedback}}
       {{.Feedback}}{{end}}{{if .Error}}
-      What do you mean exactly by "{{.Error}}" ?{{end}}
+      {{ translate "error_message" .Error}}{{end}}
     {{ end }}  
   default: |
     {{ template "header" . }}
-    You are inside an office building.
-    There's a door behind you, leading outside.
+    {{ translate "you_are"}} {{translate "inside_office_building"}}.
+    {{ translate "door_behind" }}, {{ translate "leading_outside"}}.
     You see {{with .Default.Items}}{{range $i, $e := .}}{{if $i}}, {{end}}{{ $e }}{{end}}{{else}}nothing{{end}}.
     {{if .Default.DoorOpen}}The door is open.{{else if .Default.DoorUnlocked}}The door seems to be unlocked.{{else}}The door seems locked.{{end}}
 

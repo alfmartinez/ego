@@ -17,6 +17,7 @@ type ConfigurationFactory interface {
 
 func CreateConfiguration(path string) ConfigurationFactory {
 	v := viper.New()
+	v.BindEnv("lang")
 	return &configuration{v, path}
 }
 
