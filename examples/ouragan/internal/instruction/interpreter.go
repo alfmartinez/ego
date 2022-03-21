@@ -12,24 +12,29 @@ type interpreter struct {
 	Stack[int]
 }
 
-func (m *interpreter) Interpret(bytecode []Instruction, client ApiClient) {
+func (m *interpreter) Interpret(bytecode []byte, client ApiClient) {
 	size := len(bytecode)
 	for i := 0; i < size; i++ {
 		instruction := bytecode[i]
-		switch instruction {
+		switch Instruction(instruction) {
 		case INST_LITERAL:
 			i++
 			value := bytecode[i]
 			m.Push(int(value))
-		case INST_HELP:
-			client.Global(GLOB_HELP)
-		case INST_PICK:
-			value := m.Pop()
-			client.Item(ITEM_PICK, value)
-		case INST_COMBINE:
-			v2 := m.Pop()
-			v1 := m.Pop()
-			client.Item(ITEM_COMBINE, v1, v2)
+		case INST_GLOB:
+			action := m.Pop()
+			client.Global(GlobalAction(action))
+		case INST_ITEM:
+			action := m.Pop()
+			switch ItemAction(action) {
+			case ITEM_PICK, ITEM_BREAK, ITEM_DROP, ITEM_EXAMINE, ITEM_USE:
+				subject := m.Pop()
+				client.Item(ItemAction(action), subject)
+			case ITEM_COMBINE:
+				object := m.Pop()
+				subject := m.Pop()
+				client.Item(ItemAction(action), subject, object)
+			}
 		default:
 			panic(fmt.Errorf("unknown instruction %v", instruction))
 

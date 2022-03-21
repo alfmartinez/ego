@@ -19,7 +19,7 @@ func (c *apiClient) Item(a ItemAction, data ...int) {
 
 func Test_interpreter_Interpret(t *testing.T) {
 	type args struct {
-		bytecode []Instruction
+		bytecode []byte
 		client   ApiClient
 	}
 	type called struct {
@@ -35,7 +35,7 @@ func Test_interpreter_Interpret(t *testing.T) {
 		{
 			"Empty",
 			args{
-				[]Instruction{},
+				[]byte{},
 				&apiClient{},
 			},
 			[]int{},
@@ -44,7 +44,7 @@ func Test_interpreter_Interpret(t *testing.T) {
 		{
 			"Help",
 			args{
-				[]Instruction{INST_HELP},
+				[]byte{byte(INST_LITERAL), byte(GLOB_HELP), byte(INST_GLOB)},
 				&apiClient{},
 			},
 			[]int{},
@@ -55,7 +55,7 @@ func Test_interpreter_Interpret(t *testing.T) {
 		{
 			"Pick item 27",
 			args{
-				[]Instruction{INST_LITERAL, 27, INST_PICK},
+				[]byte{byte(INST_LITERAL), 27, byte(INST_LITERAL), byte(ITEM_PICK), byte(INST_ITEM)},
 				&apiClient{},
 			},
 			[]int{},
@@ -66,7 +66,7 @@ func Test_interpreter_Interpret(t *testing.T) {
 		{
 			"Combine item 27 on 12",
 			args{
-				[]Instruction{INST_LITERAL, 27, INST_LITERAL, 12, INST_COMBINE},
+				[]byte{byte(INST_LITERAL), 27, byte(INST_LITERAL), 12, byte(INST_LITERAL), byte(ITEM_COMBINE), byte(INST_ITEM)},
 				&apiClient{},
 			},
 			[]int{},
@@ -99,4 +99,17 @@ func Test_interpreter_Interpret(t *testing.T) {
 			}
 		})
 	}
+	t.Run("Unknown instruction causes panic", func(t *testing.T) {
+		stack := CreateStack[int]()
+		m := &interpreter{
+			Stack: stack,
+		}
+		defer func() {
+			r := recover()
+			if r == nil {
+				t.Error("should panic")
+			}
+		}()
+		m.Interpret([]byte{255}, &apiClient{})
+	})
 }
