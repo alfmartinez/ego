@@ -13,6 +13,8 @@ const (
 	INST_GLOB                // Execute Global Action
 	INST_ITEM                // Execute Item Action
 	INST_ADD                 // Add
+	INST_SUB                 // SUB
+	INST_GOTO
 )
 
 const (

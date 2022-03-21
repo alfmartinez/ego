@@ -17,10 +17,18 @@ func (m *interpreter) Interpret(bytecode ByteCode, client ApiClient) {
 	for i := 0; i < size; i++ {
 		instruction := bytecode[i]
 		switch instruction {
+		case INST_GOTO:
+			i = int(m.Pop())
 		case INST_LITERAL:
 			i++
 			value := bytecode[i]
 			m.Push(value)
+		case INST_ADD:
+			a, b := m.Pop(), m.Pop()
+			m.Push(a + b)
+		case INST_SUB:
+			a, b := m.Pop(), m.Pop()
+			m.Push(b - a)
 		case INST_GLOB:
 			action := m.Pop()
 			client.Global(GlobalAction(action))
@@ -37,7 +45,6 @@ func (m *interpreter) Interpret(bytecode ByteCode, client ApiClient) {
 			}
 		default:
 			panic(fmt.Errorf("unknown instruction %v", instruction))
-
 		}
 	}
 }

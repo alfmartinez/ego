@@ -44,10 +44,28 @@ func Test_interpreter_Interpret(t *testing.T) {
 		{
 			"Add",
 			args{
-				ByteCode{},
+				ByteCode{INST_LITERAL, 1, INST_LITERAL, 3, INST_ADD},
 				&apiClient{},
 			},
-			[]byte{},
+			[]byte{4},
+			called{},
+		},
+		{
+			"Sub",
+			args{
+				ByteCode{INST_LITERAL, 4, INST_LITERAL, 3, INST_SUB},
+				&apiClient{},
+			},
+			[]byte{1},
+			called{},
+		},
+		{
+			"Sub neg",
+			args{
+				ByteCode{INST_LITERAL, 4, INST_LITERAL, 6, INST_SUB},
+				&apiClient{},
+			},
+			[]byte{254},
 			called{},
 		},
 		{
@@ -60,6 +78,15 @@ func Test_interpreter_Interpret(t *testing.T) {
 			called{
 				global: []int{int(GLOB_HELP)},
 			},
+		},
+		{
+			"goto",
+			args{
+				ByteCode{INST_LITERAL, 1, INST_LITERAL, 5, INST_LITERAL, 8, INST_GOTO, INST_LITERAL, 4, INST_LITERAL, 12},
+				&apiClient{},
+			},
+			[]byte{12, 5, 1},
+			called{},
 		},
 		{
 			"Pick item 27",
