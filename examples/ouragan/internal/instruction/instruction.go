@@ -5,15 +5,18 @@ type ItemAction byte
 type GlobalAction byte
 type PlaceAction byte
 
+type ByteCode []byte
+
 const (
-	INST_NONE    Instruction = iota // Help
-	INST_LITERAL                    // Literal value
-	INST_GLOB                       // Execute Global Action
-	INST_ITEM
+	INST_NONE    byte = iota // Help
+	INST_LITERAL             // Literal value
+	INST_GLOB                // Execute Global Action
+	INST_ITEM                // Execute Item Action
+	INST_ADD                 // Add
 )
 
 const (
-	ITEM_PICK ItemAction = iota
+	ITEM_PICK byte = iota
 	ITEM_DROP
 	ITEM_BREAK
 	ITEM_USE
@@ -22,7 +25,7 @@ const (
 )
 
 const (
-	GLOB_HELP GlobalAction = iota
+	GLOB_HELP byte = iota
 	GLOB_INVENTORY
 	GLOB_EXIT
 )

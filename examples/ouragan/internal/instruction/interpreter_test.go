@@ -19,7 +19,7 @@ func (c *apiClient) Item(a ItemAction, data ...int) {
 
 func Test_interpreter_Interpret(t *testing.T) {
 	type args struct {
-		bytecode []byte
+		bytecode ByteCode
 		client   ApiClient
 	}
 	type called struct {
@@ -29,25 +29,34 @@ func Test_interpreter_Interpret(t *testing.T) {
 	tests := []struct {
 		name   string
 		args   args
-		want   []int
+		want   []byte
 		called called
 	}{
 		{
 			"Empty",
 			args{
-				[]byte{},
+				ByteCode{},
 				&apiClient{},
 			},
-			[]int{},
+			[]byte{},
+			called{},
+		},
+		{
+			"Add",
+			args{
+				ByteCode{},
+				&apiClient{},
+			},
+			[]byte{},
 			called{},
 		},
 		{
 			"Help",
 			args{
-				[]byte{byte(INST_LITERAL), byte(GLOB_HELP), byte(INST_GLOB)},
+				ByteCode{INST_LITERAL, GLOB_HELP, INST_GLOB},
 				&apiClient{},
 			},
-			[]int{},
+			[]byte{},
 			called{
 				global: []int{int(GLOB_HELP)},
 			},
@@ -55,10 +64,10 @@ func Test_interpreter_Interpret(t *testing.T) {
 		{
 			"Pick item 27",
 			args{
-				[]byte{byte(INST_LITERAL), 27, byte(INST_LITERAL), byte(ITEM_PICK), byte(INST_ITEM)},
+				ByteCode{INST_LITERAL, 27, INST_LITERAL, ITEM_PICK, INST_ITEM},
 				&apiClient{},
 			},
-			[]int{},
+			[]byte{},
 			called{
 				item: []int{int(ITEM_PICK), 27},
 			},
@@ -66,10 +75,10 @@ func Test_interpreter_Interpret(t *testing.T) {
 		{
 			"Combine item 27 on 12",
 			args{
-				[]byte{byte(INST_LITERAL), 27, byte(INST_LITERAL), 12, byte(INST_LITERAL), byte(ITEM_COMBINE), byte(INST_ITEM)},
+				ByteCode{INST_LITERAL, 27, INST_LITERAL, 12, INST_LITERAL, ITEM_COMBINE, INST_ITEM},
 				&apiClient{},
 			},
-			[]int{},
+			[]byte{},
 			called{
 				item: []int{int(ITEM_COMBINE), 27, 12},
 			},
@@ -86,7 +95,7 @@ func Test_interpreter_Interpret(t *testing.T) {
 				gotCalled.item = append(gotCalled.item, int(a))
 				gotCalled.item = append(gotCalled.item, data...)
 			}
-			stack := CreateStack[int]()
+			stack := CreateStack[byte]()
 			m := &interpreter{
 				Stack: stack,
 			}
@@ -100,7 +109,7 @@ func Test_interpreter_Interpret(t *testing.T) {
 		})
 	}
 	t.Run("Unknown instruction causes panic", func(t *testing.T) {
-		stack := CreateStack[int]()
+		stack := CreateStack[byte]()
 		m := &interpreter{
 			Stack: stack,
 		}
