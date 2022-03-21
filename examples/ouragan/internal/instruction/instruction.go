@@ -17,6 +17,8 @@ const (
 	INST_GOTO
 	INST_GOSUB
 	INST_RETURN
+	INST_POP
+	INST_IF
 )
 
 const (

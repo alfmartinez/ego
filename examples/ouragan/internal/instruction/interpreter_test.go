@@ -36,6 +36,16 @@ func Test_interpreter_Interpret(t *testing.T) {
 			0,
 		},
 		{
+			"Pop",
+			args{
+				ByteCode{INST_LITERAL, 34, INST_POP},
+				&apiClient{},
+			},
+			[]int{},
+			[]byte{},
+			0,
+		},
+		{
 			"Add",
 			args{
 				ByteCode{INST_LITERAL, 1, INST_LITERAL, 3, INST_ADD},
@@ -78,10 +88,48 @@ func Test_interpreter_Interpret(t *testing.T) {
 		{
 			"goto",
 			args{
-				ByteCode{INST_LITERAL, 1, INST_LITERAL, 5, INST_LITERAL, 8, INST_GOTO, INST_LITERAL, 4, INST_LITERAL, 12},
+				ByteCode{INST_LITERAL, 1, INST_LITERAL, 5, INST_LITERAL, 9, INST_GOTO, INST_LITERAL, 4, INST_LITERAL, 12},
 				&apiClient{},
 			},
 			[]int{12, 5, 1},
+			[]byte{},
+			0,
+		},
+		{
+			"if / true",
+			args{
+				ByteCode{
+					INST_LITERAL, 56, // Previous value
+					INST_LITERAL, 15, // Finally
+					INST_LITERAL, 12, // True subroutine
+					INST_LITERAL, 1, // Condition
+					INST_IF, // THE IF !
+					INST_LITERAL, 13,
+					INST_RETURN,
+					INST_LITERAL, 42,
+					INST_RETURN,
+					INST_LITERAL, 24,
+				},
+				&apiClient{},
+			},
+			[]int{24, 42, 56},
+			[]byte{},
+			0,
+		},
+		{
+			"gosub/return",
+			args{
+				ByteCode{
+					INST_LITERAL, 1, INST_LITERAL, 5, // 0
+					INST_LITERAL, 12, INST_GOSUB, // 4
+					INST_LITERAL, 4, // 7
+					INST_LITERAL, 15, INST_GOTO, // 9
+					INST_LITERAL, 52, INST_RETURN, // 12
+					INST_LITERAL, 32, // 14
+				},
+				&apiClient{},
+			},
+			[]int{32, 4, 52, 5, 1},
 			[]byte{},
 			0,
 		},

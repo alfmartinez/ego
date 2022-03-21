@@ -17,8 +17,24 @@ func (m *interpreter) Interpret(bytecode ByteCode, client ApiClient) {
 	for i := 0; i < size; i++ {
 		instruction := bytecode[i]
 		switch instruction {
+		case INST_POP:
+			m.Pop()
+		case INST_RETURN:
+			v := m.Pop()
+			i = m.Pop() - 1
+			m.Push(v)
 		case INST_GOTO:
-			i = int(m.Pop())
+			i = int(m.Pop()) - 1
+		case INST_GOSUB:
+			dest := int(m.Pop())
+			m.Push(i + 1)
+			i = dest - 1
+		case INST_IF:
+			cond := m.Pop()
+			t_sub := m.Pop()
+			if cond != 0 {
+				i = t_sub - 1
+			}
 		case INST_LITERAL:
 			i++
 			value := bytecode[i]
