@@ -13,11 +13,17 @@ type Spritesheet interface {
 }
 
 func New() Spritesheet {
-	return &spritesheet{}
+
+	return &spritesheet{
+		loadImage: LoadImage,
+		saveImage: SaveImage,
+	}
 }
 
 type spritesheet struct {
-	dest image.Image
+	dest      image.Image
+	loadImage func(string) image.Image
+	saveImage func(string, image.Image) error
 }
 
 func (s *spritesheet) Load(path string) {
@@ -36,7 +42,7 @@ func (s *spritesheet) Load(path string) {
 	var images []image.Image
 	var rect = image.Rect(0, 0, 0, 0)
 	for _, x := range files {
-		img := LoadImage(x)
+		img := s.loadImage(x)
 		rect = rect.Union(img.Bounds())
 		images = append(images, img)
 	}
@@ -51,7 +57,7 @@ func (s *spritesheet) Load(path string) {
 }
 
 func (s *spritesheet) Export(path string) {
-	err := SaveImage(path, s.dest)
+	err := s.saveImage(path, s.dest)
 	if err != nil {
 		panic(err)
 	}
