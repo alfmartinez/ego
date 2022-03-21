@@ -31,6 +31,8 @@ func TestFromContext(t *testing.T) {
 }
 
 func TestCreateConfiguration(t *testing.T) {
+	cfg := viper.New()
+	cfg.BindEnv("lang")
 	type args struct {
 		path string
 	}
@@ -44,7 +46,7 @@ func TestCreateConfiguration(t *testing.T) {
 			args{
 				path: "foo",
 			},
-			&configuration{viper.New(), "foo"},
+			&configuration{cfg, "foo"},
 		},
 	}
 	for _, tt := range tests {
