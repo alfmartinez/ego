@@ -63,6 +63,17 @@ func Test_interpreter_Interpret(t *testing.T) {
 				item: []int{int(ITEM_PICK), 27},
 			},
 		},
+		{
+			"Combine item 27 on 12",
+			args{
+				[]Instruction{INST_LITERAL, 27, INST_LITERAL, 12, INST_COMBINE},
+				&apiClient{},
+			},
+			[]int{},
+			called{
+				item: []int{int(ITEM_COMBINE), 27, 12},
+			},
+		},
 	}
 	for _, tt := range tests {
 

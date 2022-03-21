@@ -10,6 +10,7 @@ const (
 	ITEM_BREAK
 	ITEM_USE
 	ITEM_EXAMINE
+	ITEM_COMBINE
 )
 
 const (

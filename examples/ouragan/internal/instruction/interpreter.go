@@ -26,6 +26,10 @@ func (m *interpreter) Interpret(bytecode []Instruction, client ApiClient) {
 		case INST_PICK:
 			value := m.Pop()
 			client.Item(ITEM_PICK, value)
+		case INST_COMBINE:
+			v2 := m.Pop()
+			v1 := m.Pop()
+			client.Item(ITEM_COMBINE, v1, v2)
 		default:
 			panic(fmt.Errorf("unknown instruction %v", instruction))
 

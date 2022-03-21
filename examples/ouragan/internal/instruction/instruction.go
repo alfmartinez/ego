@@ -11,6 +11,7 @@ const (
 	INST_PICK                         // Pick item
 	INST_DROP                         // Drop item
 	INST_USE                          // Use item
+	INST_COMBINE                      // Use item with another item
 	INST_EXAMINE                      // Examine item
 	INST_BREAK                        // Break item
 	INST_LITERAL                      // Literal value
