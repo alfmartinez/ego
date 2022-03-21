@@ -3,33 +3,24 @@ package render
 import (
 	"ego/engine/display"
 	"ego/engine/layer"
+	"ego/engine/movement"
 	"ego/engine/terrain"
-	"ego/shared/object"
 	"image"
 	"log"
 )
 
-func ConvertObjectToDisplayable(i interface{}) display.Displayable {
-	var path string
-	var size uint
-	var position image.Point
-	var l layer.Layer
+type Convertible interface {
+	Path() string
+	Size() uint
+	Position() movement.Location
+	Layer() layer.Layer
+}
 
-	switch v := i.(type) {
-	case object.StateMob:
-		path = v.Path()
-		size = v.Size()
-		position = image.Pt(int(v.Position().X), int(v.Position().Y))
-		l = layer.FOREGROUND
-	case terrain.Tile:
-		path = v.Path()
-		size = v.Size()
-		position = image.Pt(int(v.Position().X), int(v.Position().Y))
-		l = layer.BACKGROUND
-	default:
-		log.Printf("Cannot convert from %+v, return nil", i)
-		return nil
-	}
+func ConvertObjectToDisplayable(c Convertible) display.Displayable {
+	var path = c.Path()
+	var size = c.Size()
+	var position = image.Pt(int(c.Position().X), int(c.Position().Y))
+	var l = c.Layer()
 
 	return display.CreateDisplayable(path, size, position, l)
 }

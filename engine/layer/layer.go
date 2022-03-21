@@ -3,7 +3,8 @@ package layer
 type Layer uint
 
 const (
-	FAR_BACKGROUND Layer = iota
+	NONE Layer = iota
+	FAR_BACKGROUND
 	BACKGROUND
 	MIDDLEGROUND
 	FOREGROUND

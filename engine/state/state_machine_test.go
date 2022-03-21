@@ -1,7 +1,6 @@
 package state
 
 import (
-	"ego/engine/motivator"
 	"testing"
 	"time"
 )
