@@ -1,17 +1,21 @@
 package console
 
 import (
+	"ego/engine/configuration"
 	"ego/engine/renderer"
-	"fmt"
+	"golang.org/x/text/language"
+	"golang.org/x/text/message"
 )
 
 func Register() {
 	renderer.RegisterRendererFactory("console", func() renderer.Renderer {
-		return &console{}
+		langKey := configuration.FromContext().GetString("renderer.lang")
+		return &console{language.Make(langKey)}
 	})
 }
 
 type console struct {
+	lang language.Tag
 }
 
 // Start implements renderer.Renderer
@@ -31,7 +35,8 @@ func (r *console) Init() {
 
 // Render implements renderer.Renderer
 func (r *console) Render(s interface{}) {
-	fmt.Print(s.(string))
+	p := message.NewPrinter(r.lang)
+	p.Print(s.(string))
 }
 
 // Refresh implements renderer.Renderer
