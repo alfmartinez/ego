@@ -7,8 +7,6 @@ package cmd
 import (
 	"ego/tools/spritesheet"
 	"fmt"
-	"os"
-
 	"github.com/spf13/cobra"
 )
 
@@ -20,9 +18,8 @@ var ssheetCmd = &cobra.Command{
 	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 
-		pwd, _ := os.Getwd()
-		var inPath = pwd + "/" + args[0]
-		var outPath = pwd
+		var inPath = args[0]
+		var outPath = ""
 		if len(args) > 1 {
 			outPath += "/" + args[1]
 		} else {

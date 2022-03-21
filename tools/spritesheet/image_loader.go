@@ -8,6 +8,7 @@ import (
 )
 
 func LoadImage(path string) image.Image {
+
 	f, err := os.Open(path)
 	if err != nil {
 		panic(err)

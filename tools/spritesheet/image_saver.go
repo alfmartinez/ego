@@ -8,7 +8,8 @@ import (
 )
 
 func SaveImage(path string, img image.Image) error {
-	f, err := os.Create(path)
+	pwd, _ := os.Getwd()
+	f, err := os.Create(pwd + path)
 	if err != nil {
 		panic(err)
 	}
