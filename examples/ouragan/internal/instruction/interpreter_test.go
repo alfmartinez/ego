@@ -117,6 +117,27 @@ func Test_interpreter_Interpret(t *testing.T) {
 			0,
 		},
 		{
+			"if / false",
+			args{
+				ByteCode{
+					INST_LITERAL, 56, // Previous value
+					INST_LITERAL, 15, // Finally
+					INST_LITERAL, 12, // True subroutine
+					INST_LITERAL, 0, // Condition
+					INST_IF, // THE IF !
+					INST_LITERAL, 13,
+					INST_RETURN,
+					INST_LITERAL, 42,
+					INST_RETURN,
+					INST_LITERAL, 24,
+				},
+				&apiClient{},
+			},
+			[]int{24, 13, 56},
+			[]byte{},
+			0,
+		},
+		{
 			"gosub/return",
 			args{
 				ByteCode{
