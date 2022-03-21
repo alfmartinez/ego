@@ -3,6 +3,7 @@ package template
 import (
 	"ego/engine/configuration"
 	"fmt"
+	"golang.org/x/text/language"
 	"golang.org/x/text/message"
 	"golang.org/x/text/message/catalog"
 )
@@ -36,7 +37,9 @@ func RegisterCatalog() {
 		dictMap[key] = value
 	}
 
-	cat, err := catalog.NewFromMap(dictMap)
+	defaultOption := catalog.Fallback(language.Make("en"))
+
+	cat, err := catalog.NewFromMap(dictMap, defaultOption)
 	if err != nil {
 		panic(err)
 	}

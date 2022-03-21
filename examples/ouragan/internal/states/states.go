@@ -36,7 +36,7 @@ func States(a any) state.States {
 		Default   defaultState
 	}{
 		Default: defaultState{
-			Items: []string{},
+			Items: []string{"key", "orange"},
 		},
 	}
 

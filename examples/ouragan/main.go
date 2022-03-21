@@ -18,12 +18,19 @@ func init() {
 }
 
 func main() {
+	var g game.Game
+	readConfiguration()
+
+	g = game.CreateGame("text")
+	g.Start()
+
+}
+
+func readConfiguration() {
 	ctx := context.CreateContext()
 	context.RegisterContext("ouragan", ctx)
 	cfg := configuration.CreateConfiguration("examples/ouragan/assets/config/")
 	cfg.Init()
 	context.Set("cfg", cfg.Get())
 	template.InitializeTemplates()
-	game := game.CreateGame("text")
-	game.Start()
 }
