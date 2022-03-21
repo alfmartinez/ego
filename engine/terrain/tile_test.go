@@ -8,7 +8,7 @@ import (
 )
 
 func TestTile(t *testing.T) {
-	tileType := CreateTileType("plain")
+	tileType := &tileType{}
 	tile := CreateTile(GridCoord{0, 0}, tileType, 10)
 
 	if !reflect.DeepEqual(tile.Position(), movement.Location{}) {

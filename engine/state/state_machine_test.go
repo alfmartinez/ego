@@ -6,13 +6,7 @@ import (
 	"time"
 )
 
-type fakeUpdatable struct {
-	N motivator.Need
-}
-
-func (f fakeUpdatable) TopNeed() motivator.Need {
-	return f.N
-}
+type fakeUpdatable struct{}
 
 func (f fakeUpdatable) Frame(x, y int) {}
 
@@ -26,8 +20,12 @@ func TestStateMachine(t *testing.T) {
 
 	t.Run("Update with no current state", func(t *testing.T) {
 		sm := CreateStateMachine()
+		sm.SetStates(States{
+			"default": func(dt time.Duration) string {
+				return ""
+			},
+		})
 		self := fakeUpdatable{}
-		self.N = motivator.Learn
 		sm.DoUpdate(self, time.Second)
 	})
 }
