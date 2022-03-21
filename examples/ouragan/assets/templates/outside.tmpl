@@ -1,0 +1,4 @@
+{{ template "header" . }}
+You are outside the building.
+{{if .DoorOpen}}The door to the building behind you seems to be unlocked.{{else}}The door behind you seems to be locked.{{end}}
+{{ template "footer" . }}

@@ -18,7 +18,7 @@ func FromContext() *template.Template {
 	return context.Get("template").(*template.Template)
 }
 
-func InitializeTemplates() {
+func InitializeTemplates(path string) {
 	RegisterCatalog()
 
 	var fns = template.FuncMap{
@@ -28,13 +28,11 @@ func InitializeTemplates() {
 		"translate": message.NewPrinter(getLanguage()).Sprintf,
 	}
 
-	strings := configuration.FromContext().GetStringMapString("templates")
-	tmpl := template.New("Main")
-	for name, content := range strings {
-		_, err := tmpl.New(name).Funcs(fns).Parse(content)
-		if err != nil {
-			panic(err)
-		}
+	tmpl, err := template.New("Main").Funcs(fns).ParseGlob(path)
+	if err != nil {
+		panic(err)
 	}
+	tmpl.Funcs(fns)
+
 	context.Set("template", tmpl)
 }

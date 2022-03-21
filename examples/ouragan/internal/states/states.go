@@ -43,7 +43,7 @@ func States(a any) state.States {
 	renderTemplate := func(name string) {
 		screen.Clear()
 		screen.MoveTopLeft()
-		tmpl.ExecuteTemplate(writer, "default", status)
+		tmpl.ExecuteTemplate(writer, name, status)
 		status.Feedback = ""
 		status.Error = ""
 	}
@@ -66,10 +66,15 @@ func States(a any) state.States {
 
 	return state.States{
 		"default": checkInput(func(getInput func() string) string {
-			renderTemplate("default")
+			return "office"
+		}),
+		"office": checkInput(func(getInput func() string) string {
+			renderTemplate("office.tmpl")
 			input := getInput()
 			var next string
 			switch {
+			case input == "sortir":
+				next = "outside"
 			case input == "go outside":
 				if status.Default.DoorUnlocked {
 					next = "outside"
@@ -86,7 +91,7 @@ func States(a any) state.States {
 			return next
 		}),
 		"outside": checkInput(func(getInput func() string) string {
-			renderTemplate("outside")
+			renderTemplate("outside.tmpl")
 			input := getInput()
 			var next string
 			switch {

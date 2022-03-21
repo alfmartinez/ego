@@ -1,0 +1,7 @@
+{{ define "header" }}
+------------------------------
+{{ end }}
+{{ define "footer" }}
+  {{if .Feedback}}{{.Feedback}}{{end}}
+  {{if .Error}}{{ translate "error_message" .Error}}{{end}}
+{{end}}

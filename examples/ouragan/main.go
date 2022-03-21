@@ -32,5 +32,5 @@ func readConfiguration() {
 	cfg := configuration.CreateConfiguration("examples/ouragan/assets/config/")
 	cfg.Init()
 	context.Set("cfg", cfg.Get())
-	template.InitializeTemplates()
+	template.InitializeTemplates("examples/ouragan/assets/templates/*")
 }

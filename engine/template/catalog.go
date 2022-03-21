@@ -2,7 +2,6 @@ package template
 
 import (
 	"ego/engine/configuration"
-	"fmt"
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"
 	"golang.org/x/text/message/catalog"
@@ -23,13 +22,10 @@ func RegisterCatalog() {
 
 	var dicts map[string]*dictionary
 	cfg := configuration.FromContext()
-	fmt.Printf("Dict data : \n%+v\n", cfg.Get("l10n"))
 	err := cfg.UnmarshalKey("l10n", &dicts)
 	if err != nil {
 		panic(err)
 	}
-
-	fmt.Printf("Dict map: \n%+v\n", dicts)
 
 	var dictMap = make(map[string]catalog.Dictionary)
 
