@@ -22,7 +22,7 @@ type Morris interface {
 
 func morrisStates(a any) state.States {
 	var m Morris = a.(Morris)
-	var inputHandler = input.FromContext()
+	var inputHandler = input.FromContext().(input.KeyHandler)
 	var direction movement.Direction
 	var frame int
 	var impulse, jumping bool
@@ -68,7 +68,7 @@ func morrisStates(a any) state.States {
 func bomberStates(a any) state.States {
 	var m Morris = a.(Morris)
 	var frame int
-	var inputHandler = input.FromContext()
+	var inputHandler = input.FromContext().(input.KeyHandler)
 	var direction movement.Direction
 
 	return state.States{

@@ -4,9 +4,7 @@ import (
 	"ego/engine/display"
 	"ego/engine/layer"
 	"ego/engine/movement"
-	"ego/engine/terrain"
 	"image"
-	"log"
 )
 
 type Convertible interface {

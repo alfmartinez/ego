@@ -78,7 +78,8 @@ func (g *glfwRenderer) Start() {
 
 // Render implements Renderer
 func (g *glfwRenderer) Render(i interface{}) {
-	s := render.ConvertObjectToDisplayable(i)
+	c := i.(render.Convertible)
+	s := render.ConvertObjectToDisplayable(c)
 	g.display.AddObject(s)
 }
 

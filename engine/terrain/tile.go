@@ -1,6 +1,7 @@
 package terrain
 
 import (
+	"ego/engine/layer"
 	"ego/engine/movement"
 	"ego/engine/observer"
 	"ego/engine/physics"
@@ -9,6 +10,7 @@ import (
 )
 
 type Tile interface {
+	layer.Layered
 	observer.Observer
 	movement.Positionnable
 	Surrounding() []Tile
@@ -20,6 +22,7 @@ type Tile interface {
 }
 
 type tile struct {
+	layer.Layered
 	TileType
 	Resources
 	rect        image.Rectangle
@@ -28,11 +31,13 @@ type tile struct {
 }
 
 func CreateTile(coord GridCoord, tileType TileType, tileSize int) Tile {
+	l := layer.CreateLayered()
+	l.SetLayer(layer.BACKGROUND)
 	surrounding := make([]Tile, 0)
 	rect := image.Rect(0, 0, tileSize, tileSize)
 	rect = rect.Add(image.Point(coord).Mul(tileSize))
 	res := CreateResources()
-	return &tile{tileType, res, rect, tileSize, surrounding}
+	return &tile{l, tileType, res, rect, tileSize, surrounding}
 }
 
 func (t *tile) OnNotify(e observer.Event) {

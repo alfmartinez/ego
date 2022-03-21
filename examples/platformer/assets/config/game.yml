@@ -1,3 +1,5 @@
+input:
+  type: key
 renderer: 
   type: glfw
   display: 

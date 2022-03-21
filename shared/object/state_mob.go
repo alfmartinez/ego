@@ -2,6 +2,7 @@ package object
 
 import (
 	"ego/engine/context"
+	"ego/engine/layer"
 	"ego/engine/movement"
 	"ego/engine/object"
 	"ego/engine/observer"
@@ -25,12 +26,14 @@ type StateMob interface {
 	state.StateMachine
 	movement.Movement
 	sprite.Sprite
+	layer.Layered
 }
 
 type stateMob struct {
 	state.StateMachine
 	movement.Movement
 	sprite.Sprite
+	layer.Layered
 }
 
 type MobData struct {
@@ -55,7 +58,10 @@ func CreateStateMob(key string) object.GameObject {
 	sprt := sprite.CreateSprite(mobData.Sprite.Path, mobData.Sprite.Size)
 	sm := state.CreateStateMachine()
 
-	m := &stateMob{sm, mvmnt, sprt}
+	l := layer.CreateLayered()
+	l.SetLayer(layer.FOREGROUND)
+
+	m := &stateMob{sm, mvmnt, sprt, l}
 	states := state.CreateStates(mobData.States, m)
 	sm.SetStates(states)
 	return m

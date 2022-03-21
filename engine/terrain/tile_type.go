@@ -2,6 +2,7 @@ package terrain
 
 import (
 	"ego/engine/configuration"
+	"ego/engine/layer"
 	"fmt"
 )
 
@@ -12,6 +13,7 @@ type TileType interface {
 }
 
 type tileType struct {
+	layer.Layered
 	Sprite   string
 	Movement int
 	Collide  bool
