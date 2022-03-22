@@ -6,7 +6,11 @@ import (
 )
 
 func Parse(filepath string) *Story {
-	parser := participle.MustBuild(&Story{}, participle.Lexer(def), participle.Unquote("String")) //, participle.Elide("Whitespace"))
+	parser := participle.MustBuild(
+		&Story{},
+		participle.Lexer(def),
+		participle.Unquote("Title"),
+	)
 
 	f, _ := os.Open(filepath)
 

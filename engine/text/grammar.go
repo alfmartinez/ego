@@ -5,16 +5,13 @@ import (
 )
 
 type Story struct {
-	Title string `@String`
+	Title string `@Title`
 }
 
 var (
 	def = lexer.MustStateful(lexer.Rules{
 		"Root": {
-			{"String", `"(\\"|[^"])*"`, lexer.Push("Story")},
-		},
-		"Story": {
-			{"Title", `\1`, nil},
+			{"Title", `"(\\"|[^"])*"`, nil},
 		},
 	})
 )
