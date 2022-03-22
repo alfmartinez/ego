@@ -1,1 +1,4 @@
 "Bic Example"
+
+La Chambre Verte est une pièce. "Des tentures émeraude sont suspendues aux murs."
+Un Miroir Doré est là.
