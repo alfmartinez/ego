@@ -1,3 +1,4 @@
 "Bic Example"
 
 Le Salon Pourpre est une pièce. 
+Le Canapé Confortable est là.

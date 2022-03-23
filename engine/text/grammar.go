@@ -17,7 +17,8 @@ type Define struct {
 }
 
 type Value struct {
-	Room bool `@Room`
+	Room bool `(@Room`
+	Prop bool `| @Prop)`
 }
 
 var (
@@ -29,6 +30,7 @@ var (
 			{"String", `"(\\"|[^"])*"`, nil},
 			{"Ident", `[A-Z][^\s]+`, nil},
 			{"Room", `est une pièce`, nil},
+			{"Prop", `est là`, nil},
 			{"CatchAll", `.*`, nil},
 		},
 	})
