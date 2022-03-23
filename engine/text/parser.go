@@ -9,7 +9,7 @@ func Parse(filepath string) *Story {
 	parser := participle.MustBuild(
 		&Story{},
 		participle.Lexer(def),
-		participle.Unquote("Title"),
+		participle.Unquote("String"),
 	)
 
 	f, _ := os.Open(filepath)

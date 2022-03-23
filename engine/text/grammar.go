@@ -5,14 +5,13 @@ import (
 )
 
 type Story struct {
-	Title string `@Title`
+	Title string `@String`
 	Rooms []Room `@@*`
 }
 
 type Room struct {
-	Name        string `@Room`
-	Description string `@Description`
-	Props       []Prop `@@*`
+	Ident string `@Room`
+	Props []Prop `@@*`
 }
 
 type Prop struct {
@@ -22,21 +21,9 @@ type Prop struct {
 var (
 	def = lexer.MustStateful(lexer.Rules{
 		"Root": {
-			lexer.Include("Discard"),
-			{"Title", `"(\\"|[^"])*"`, nil},
-			{"Room", `(.*) est une pièce.`, lexer.Push("Room")},
-		},
-		"Room": {
-			lexer.Include("Discard"),
-			{"Ident", `\1`, nil},
-			{"Description", `"(\\"|[^"])*"`, nil},
-			{"Prop", `(.*) est là.`, lexer.Push("Prop")},
-		},
-		"Prop": {
-			lexer.Include("Discard"),
-			{"Ident", `\1`, nil},
-		},
-		"Discard": {
+			{"Room", `(.+) est une pièce.`, nil},
+			{"Prop", `(.+) est là.`, nil},
+			{"String", `"(\\"|[^"])*"`, nil},
 			{"nl", `\n`, nil},
 			{"whitespace", `\s+`, nil},
 		},

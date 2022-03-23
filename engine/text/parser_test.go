@@ -21,7 +21,6 @@ func TestParse(t *testing.T) {
 			},
 			&Story{
 				Title: "Bic Example",
-				Rooms: []Room{},
 			},
 		},
 	}
