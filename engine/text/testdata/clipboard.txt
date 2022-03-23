@@ -1,6 +1,3 @@
+Le Canapé Confortable est là.
 
-[La Chambre Verte est une pièce.]
-[Un Miroir Doré est là.]
-
-[Le Salon est une pièce.]
-[Un Canapé Confortable est là.]
+Le personnage possède une orange, un stylo bic et une serviette en papier.

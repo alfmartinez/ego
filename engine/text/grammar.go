@@ -10,19 +10,21 @@ type Grammar struct {
 }
 
 type Definition struct {
-	Name string `@Ident`
+	Subject    []string `@Ident+`
+	Verb       string   `@Verb`
+	Complement []string `@Ident+`
 }
 
 var (
 	def = lexer.MustStateful(lexer.Rules{
 		"Root": {
-			{"comment", `\/\/.+\n`, nil},
-			{"punct", `[\.\,\s]+`, nil},
+			{"Comment", `\/\/.+\n`, nil},
+			{"newLine", `\n+`, nil},
 			{"whitespace", `\s+`, nil},
-			{"nl", `\n`, nil},
+			{"punct", `[\.]`, nil},
 			{"String", `"(\\"|[^"])*"`, nil},
-			{"Ident", `([\p{L}]+\s*)+`, nil},
-			{"DefinitionEnd", `\.`, lexer.Pop()},
+			{"Verb", `(est)`, nil},
+			{"Ident", `[\p{L}]+`, nil},
 		},
 	})
 )

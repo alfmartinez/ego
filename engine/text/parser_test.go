@@ -21,6 +21,9 @@ func TestParse(t *testing.T) {
 			},
 			&Grammar{
 				Title: "Bic Example",
+				Definitions: []Definition{
+					{[]string{"Le", "Salon", "Pourpre"}, "est", []string{"une", "pièce"}},
+				},
 			},
 		},
 	}
@@ -28,7 +31,7 @@ func TestParse(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			got := Parse(tt.args.filepath)
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Define = %+v, want %+v", got, tt.want)
+				t.Errorf("Define = %#v, want %#v", got, tt.want)
 			}
 		})
 	}
