@@ -10,9 +10,9 @@ type Grammar struct {
 }
 
 type Definition struct {
-	Subject    []string `@Ident+`
+	Subject    []string `@Ident*`
 	Verb       string   `@Verb`
-	Complement []string `@Ident+`
+	Complement []string `@Ident* "."`
 }
 
 var (
@@ -21,7 +21,7 @@ var (
 			{"Comment", `\/\/.+\n`, nil},
 			{"newLine", `\n+`, nil},
 			{"whitespace", `\s+`, nil},
-			{"punct", `[\.]`, nil},
+			{"Punct", `[\.]`, nil},
 			{"String", `"(\\"|[^"])*"`, nil},
 			{"Verb", `(est)`, nil},
 			{"Ident", `[\p{L}]+`, nil},

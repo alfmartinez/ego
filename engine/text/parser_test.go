@@ -23,6 +23,7 @@ func TestParse(t *testing.T) {
 				Title: "Bic Example",
 				Definitions: []Definition{
 					{[]string{"Le", "Salon", "Pourpre"}, "est", []string{"une", "pièce"}},
+					{[]string{"Le", "Canapé", "Confortable"}, "est", []string{"là"}},
 				},
 			},
 		},
