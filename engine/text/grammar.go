@@ -5,15 +5,26 @@ import (
 )
 
 type Grammar struct {
-	Title string `@String`
+	Pos    lexer.Position
+	Title  string   `@String`
+	Define []Define `@@*`
+}
+
+type Define struct {
+	Pos   lexer.Position
+	Ident []string `@Ident+`
+	All   string   `@CatchAll`
 }
 
 var (
 	def = lexer.MustStateful(lexer.Rules{
 		"Root": {
-			{"eol", `\n`, nil},
-			{"whitespace", `\s+`, nil},
+			{"punct", `\.`, nil},
+			{"nl", `\n`, nil},
 			{"String", `"(\\"|[^"])*"`, nil},
+			{"whitespace", `\s+`, nil},
+			{"Ident", `[A-Z][^\s]+`, nil},
+			{"CatchAll", `.*`, nil},
 		},
 	})
 )
