@@ -10,12 +10,14 @@ func Parse(filepath string) *Grammar {
 		&Grammar{},
 		participle.Lexer(def),
 		participle.Unquote("String"),
+		participle.UseLookahead(2),
 	)
 
 	f, _ := os.Open(filepath)
 
 	ast := &Grammar{}
-	err := parser.Parse(filepath, f, ast)
+	err := parser.Parse(filepath, f, ast) //	participle.AllowTrailing(true),
+
 	if err != nil {
 		panic(err)
 	}

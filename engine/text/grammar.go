@@ -13,16 +13,20 @@ type Grammar struct {
 type Define struct {
 	Pos   lexer.Position
 	Ident []string `@Ident+`
-	All   string   `@CatchAll`
+	Value Value    `@@`
+}
+
+type Value struct {
+	Room string `@CatchAll`
 }
 
 var (
 	def = lexer.MustStateful(lexer.Rules{
 		"Root": {
 			{"punct", `\.`, nil},
+			{"whitespace", `\s+`, nil},
 			{"nl", `\n`, nil},
 			{"String", `"(\\"|[^"])*"`, nil},
-			{"whitespace", `\s+`, nil},
 			{"Ident", `[A-Z][^\s]+`, nil},
 			{"CatchAll", `.*`, nil},
 		},
