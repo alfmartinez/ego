@@ -24,30 +24,28 @@ type Value struct {
 }
 
 type Inventory struct {
-	Pos       lexer.Position
-	Inventory []string `"Le personnage possède" @Item*`
+	Pos   lexer.Position
+	Items []string `"Le personnage possède " @Item* "."`
 }
 
 var (
 	def = lexer.MustStateful(lexer.Rules{
 		"Root": {
-			{"punct", `[\.\,]+`, nil},
+			{"punct", `[\.\,\s]+`, nil},
 			{"whitespace", `\s+`, nil},
 			{"nl", `\n`, nil},
 			{"String", `"(\\"|[^"])*"`, nil},
-			{"Inventory", "Le personnage possède", lexer.Push("Inventory")},
+			{"Inventory", "Le personnage possède ", lexer.Push("Inventory")},
 			{"Ident", `[A-Z][^\s]+`, nil},
 			{"Room", `est une pièce`, nil},
 			{"Prop", `est là`, nil},
 			{"CatchAll", `.*`, nil},
 		},
 		"Inventory": {
-			{"separatorVirgule", `\,`, nil},
-			{"separatorEt", `et`, nil},
-			{"Item", `[^\,]+`, nil},
+			{"separatorComma", `(\,|\s)`, nil},
+			{"And", `\bet\b`, nil},
+			{"Item", `[\p{L}\s]+`, nil},
 			{"InventoryEnd", `\.`, lexer.Pop()},
-			lexer.Include("Root"),
-			lexer.Return(),
 		},
 	})
 )
