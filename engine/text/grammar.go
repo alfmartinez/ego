@@ -10,8 +10,7 @@ type Grammar struct {
 }
 
 type Definition struct {
-	Subject    []string `@Ident*`
-	Verb       string   `@Verb`
+	Subject    []string `@Ident* "est":Verb`
 	Complement []string `@Ident* "."`
 }
 
