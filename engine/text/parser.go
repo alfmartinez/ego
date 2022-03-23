@@ -10,7 +10,7 @@ func Parse(filepath string) *Grammar {
 		&Grammar{},
 		participle.Lexer(def),
 		participle.Unquote("String"),
-		participle.UseLookahead(2),
+	//	participle.UseLookahead(2),
 	)
 
 	f, _ := os.Open(filepath)

@@ -17,7 +17,7 @@ type Define struct {
 }
 
 type Value struct {
-	Room string `@CatchAll`
+	Room bool `@Room`
 }
 
 var (
@@ -28,6 +28,7 @@ var (
 			{"nl", `\n`, nil},
 			{"String", `"(\\"|[^"])*"`, nil},
 			{"Ident", `[A-Z][^\s]+`, nil},
+			{"Room", `est une pièce`, nil},
 			{"CatchAll", `.*`, nil},
 		},
 	})
