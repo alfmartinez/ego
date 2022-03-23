@@ -12,14 +12,14 @@ func TestParse(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want *Story
+		want *Grammar
 	}{
 		{
 			"empty",
 			args{
 				"testdata/empty.txt",
 			},
-			&Story{
+			&Grammar{
 				Title: "Bic Example",
 			},
 		},

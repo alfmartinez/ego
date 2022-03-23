@@ -24,11 +24,11 @@ func (e *textEngine) AddText(path string) {
 	e.file = path
 }
 func (e *textEngine) Transcribe() state.States {
-	parser := participle.MustBuild(&Story{}, participle.Lexer(def)) //, participle.Elide("Whitespace"))
+	parser := participle.MustBuild(&Grammar{}, participle.Lexer(def)) //, participle.Elide("Whitespace"))
 
 	f, _ := os.Open(e.file)
 
-	ast := &Story{}
+	ast := &Grammar{}
 	err := parser.Parse(e.file, f, ast)
 	if err != nil {
 		panic(err)

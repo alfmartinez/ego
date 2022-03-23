@@ -5,16 +5,16 @@ import (
 	"os"
 )
 
-func Parse(filepath string) *Story {
+func Parse(filepath string) *Grammar {
 	parser := participle.MustBuild(
-		&Story{},
+		&Grammar{},
 		participle.Lexer(def),
 		participle.Unquote("String"),
 	)
 
 	f, _ := os.Open(filepath)
 
-	ast := &Story{}
+	ast := &Grammar{}
 	err := parser.Parse(filepath, f, ast)
 	if err != nil {
 		panic(err)
