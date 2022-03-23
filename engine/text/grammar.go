@@ -5,7 +5,12 @@ import (
 )
 
 type Grammar struct {
-	Title string `@String`
+	Title       string       `@String`
+	Definitions []Definition `@@*`
+}
+
+type Definition struct {
+	Name string `@Ident`
 }
 
 var (
@@ -17,6 +22,7 @@ var (
 			{"nl", `\n`, nil},
 			{"String", `"(\\"|[^"])*"`, nil},
 			{"Ident", `([\p{L}]+\s*)+`, nil},
+			{"DefinitionEnd", `\.`, lexer.Pop()},
 		},
 	})
 )
