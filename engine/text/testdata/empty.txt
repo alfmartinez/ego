@@ -1,4 +1,6 @@
 "Bic Example"
 
-Le Salon Pourpre est une pièce. 
+Le Salon Pourpre est une pièce.
 Le Canapé Confortable est là.
+
+Le personnage possède une orange, un stylo bic et une serviette en papier.
