@@ -2,12 +2,15 @@ package text
 
 import (
 	"reflect"
+	"strings"
 	"testing"
+
+	"github.com/alecthomas/participle/v2/lexer"
 )
 
-func TestParse(t *testing.T) {
+func TestParseReader(t *testing.T) {
 	type args struct {
-		filepath string
+		content string
 	}
 	tests := []struct {
 		name string
@@ -15,18 +18,18 @@ func TestParse(t *testing.T) {
 		want *Grammar
 	}{
 		{
-			"empty",
-			args{
-				"testdata/empty.txt",
-			},
+			"Empty",
+			args{`"Test"`},
 			&Grammar{
-				Title: "Bic Example",
+				Pos:   lexer.Position{"", 0, 1, 1},
+				World: World{"Test"},
 			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := Parse(tt.args.filepath)
+			reader := strings.NewReader(tt.args.content)
+			got := ParseReader(reader)
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Define = %#v, want %#v", got, tt.want)
 			}

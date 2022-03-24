@@ -2,22 +2,28 @@ package text
 
 import (
 	"github.com/alecthomas/participle/v2"
+	"io"
 	"os"
 )
 
-func Parse(filepath string) *Grammar {
-	parser := participle.MustBuild(
+var (
+	parser *participle.Parser = participle.MustBuild(
 		&Grammar{},
 		participle.Lexer(def),
 		participle.Unquote("String"),
-		participle.Elide("Comment", "Whitespace"),
-		participle.UseLookahead(2),
+		//	participle.Elide("Comment", "Whitespace"),
+		participle.UseLookahead(5),
 	)
+)
 
+func ParseFile(filepath string) *Grammar {
 	f, _ := os.Open(filepath)
+	return ParseReader(f)
+}
 
+func ParseReader(reader io.Reader) *Grammar {
 	ast := &Grammar{}
-	err := parser.Parse(filepath, f, ast) //	participle.AllowTrailing(true),
+	err := parser.Parse("", reader, ast) //	participle.AllowTrailing(true),
 
 	if err != nil {
 		panic(err)
