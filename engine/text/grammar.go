@@ -15,6 +15,7 @@ type World struct {
 }
 
 type Statement struct {
+	Pos   lexer.Position
 	Title string `( @String EOL`
 	Room  Room   ` | @@ EOL)`
 }

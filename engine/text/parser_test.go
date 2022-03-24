@@ -28,6 +28,7 @@ func TestParseReader(t *testing.T) {
 				Position(0, 1, 1),
 				[]Statement{
 					{
+						Pos:   Position(0, 1, 1),
 						Title: "Just a Title",
 					},
 				},
@@ -42,6 +43,7 @@ func TestParseReader(t *testing.T) {
 				Position(14, 2, 1),
 				[]Statement{
 					{
+						Pos:   Position(14, 2, 1),
 						Title: "Commenting Park",
 					},
 				},
@@ -56,9 +58,11 @@ Chambord est un lieu.
 				Position(0, 1, 1),
 				[]Statement{
 					{
+						Pos:   Position(0, 1, 1),
 						Title: "A Room With A View",
 					},
 					{
+						Pos:  Position(21, 2, 1),
 						Room: Room{"Chambord"},
 					},
 				},
