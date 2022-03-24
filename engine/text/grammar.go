@@ -46,7 +46,6 @@ var (
 		"Root": {
 			{"Comment", `//[^\n]*\n`, nil},
 			{"String", `"[^"]*"`, nil},
-			{"Item", `est ici\.`, nil},
 			{"Room", `est un lieu\.`, lexer.Push("Room")},
 			{"Ident", `\p{L}+`, nil},
 			{"Punct", `[\.]+`, nil},
@@ -54,6 +53,8 @@ var (
 			{"EOL", `\n+`, nil},
 		},
 		"Room": {
+			lexer.Include("Root"),
+			{"Item", `est ici\.`, nil},
 			lexer.Return(),
 		},
 	})
