@@ -27,14 +27,18 @@ type Statement struct {
 
 type Room struct {
 	Pos         lexer.Position
-	KeyWords    []string `@Ident+ Room`
-	Description string   `@String?`
+	KeyWords    Designator `@@ Room`
+	Description string     `@String?`
 }
 
 type Item struct {
 	Pos         lexer.Position
 	KeyWords    []string `@Ident+ Item`
 	Description string   `@String?`
+}
+
+type Designator struct {
+	KeyWords []string `@Ident+`
 }
 
 var (

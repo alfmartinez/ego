@@ -65,7 +65,7 @@ Chambord est un lieu.
 						Pos: Position(21, 2, 1),
 						Room: Room{
 							Pos:      Position(21, 2, 1),
-							KeyWords: []string{"Chambord"},
+							KeyWords: Designator{[]string{"Chambord"}},
 						},
 					},
 				},
@@ -87,7 +87,7 @@ Château Chambord est un lieu.
 						Pos: Position(21, 2, 1),
 						Room: Room{
 							Pos:      Position(21, 2, 1),
-							KeyWords: []string{"Château", "Chambord"},
+							KeyWords: Designator{[]string{"Château", "Chambord"}},
 						},
 					},
 				},
@@ -109,7 +109,7 @@ Le Château de Chambord est un lieu. "L'entrée du Château est majestueuse."
 						Pos: Position(21, 2, 1),
 						Room: Room{
 							Pos:         Position(21, 2, 1),
-							KeyWords:    []string{"Le", "Château", "de", "Chambord"},
+							KeyWords:    Designator{[]string{"Le", "Château", "de", "Chambord"}},
 							Description: "L'entrée du Château est majestueuse.",
 						},
 					},
@@ -133,7 +133,7 @@ Un livre déchiré est ici.
 						Pos: Position(21, 2, 1),
 						Room: Room{
 							Pos:         Position(21, 2, 1),
-							KeyWords:    []string{"Le", "Château", "de", "Chambord"},
+							KeyWords:    Designator{[]string{"Le", "Château", "de", "Chambord"}},
 							Description: "L'entrée du Château est majestueuse.",
 						},
 					},
@@ -164,7 +164,7 @@ Un livre déchiré est ici. "Un livre déchiré semble avoir été abandonné pa
 						Pos: Position(21, 2, 1),
 						Room: Room{
 							Pos:         Position(21, 2, 1),
-							KeyWords:    []string{"Le", "Château", "de", "Chambord"},
+							KeyWords:    Designator{[]string{"Le", "Château", "de", "Chambord"}},
 							Description: "L'entrée du Château est majestueuse.",
 						},
 					},
