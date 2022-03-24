@@ -62,8 +62,34 @@ Chambord est un lieu.
 						Title: "A Room With A View",
 					},
 					{
-						Pos:  Position(21, 2, 1),
-						Room: Room{"Chambord"},
+						Pos: Position(21, 2, 1),
+						Room: Room{
+							Pos:      Position(21, 2, 1),
+							KeyWords: []string{"Chambord"},
+						},
+					},
+				},
+			},
+		},
+
+		{
+			"A Simple Room - multiple token designator",
+			args{`"A Room With A View"
+Château Chambord est un lieu.
+`},
+			World{
+				Position(0, 1, 1),
+				[]Statement{
+					{
+						Pos:   Position(0, 1, 1),
+						Title: "A Room With A View",
+					},
+					{
+						Pos: Position(21, 2, 1),
+						Room: Room{
+							Pos:      Position(21, 2, 1),
+							KeyWords: []string{"Château", "Chambord"},
+						},
 					},
 				},
 			},

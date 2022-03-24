@@ -11,17 +11,18 @@ type Grammar struct {
 
 type World struct {
 	Pos       lexer.Position
-	Statement []Statement `@@*`
+	Statement []Statement `(@@ EOL)*`
 }
 
 type Statement struct {
 	Pos   lexer.Position
-	Title string `( @String EOL`
-	Room  Room   ` | @@ EOL)`
+	Title string `( @String`
+	Room  Room   ` | @@)`
 }
 
 type Room struct {
-	Name string `@Ident? "est" "un" "lieu" "."`
+	Pos      lexer.Position
+	KeyWords []string `@Ident+ Room`
 }
 
 var (
@@ -29,6 +30,7 @@ var (
 		"Root": {
 			{"Comment", `//[^\n]*\n`, nil},
 			{"String", `"[^"]*"`, nil},
+			{"Room", `est un lieu\.`, nil},
 			{"Ident", `\p{L}+`, nil},
 			{"Punct", `[\.]+`, nil},
 			{"Whitespace", `[ \t]+`, nil},

@@ -12,8 +12,8 @@ var (
 		participle.Lexer(def),
 		participle.Unquote("String"),
 		participle.Elide("Comment", "Whitespace"),
-		participle.CaseInsensitive("Ident"),
-	//	participle.UseLookahead(5),
+		//participle.CaseInsensitive("Ident"),
+		//participle.UseLookahead(1),
 	)
 )
 
