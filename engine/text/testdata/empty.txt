@@ -1,7 +1,7 @@
 "Bic Example"
 
-Le Salon Pourpre est une pièce.
-Le Canapé Confortable est là.
+Le Salon Pourpre est une pièce. "Un salon décoré."
+Le Canapé Confortable est là. "Un canapé avec de gros coussins."
 
 
 Le personnage porte une orange, un stylo bic, et une serviette en papier.

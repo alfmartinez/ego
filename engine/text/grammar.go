@@ -12,9 +12,10 @@ type Grammar struct {
 }
 
 type Definition struct {
-	Pos     lexer.Position
-	Subject Subject `@@ "est":Verb`
-	Thing   Thing   `@@ "." EOL?`
+	Pos          lexer.Position
+	Subject      Subject `@@ "est":Verb`
+	Thing        Thing   `@@ "." EOL?`
+	Descriptiion string  `@String EOL`
 }
 
 type Inventory struct {
