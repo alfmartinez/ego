@@ -14,13 +14,13 @@ type Grammar struct {
 type Definition struct {
 	Pos     lexer.Position
 	Subject Subject `@@ "est":Verb`
-	Thing   Thing   `@@ "." EOL`
+	Thing   Thing   `@@ "." EOL?`
 }
 
 type Inventory struct {
 	Pos        lexer.Position
 	Subject    Subject `@@ "porte":Verb`
-	Complement []Item  `("et"? @@ (",")?)+ "." EOL`
+	Complement []Item  `("et"? @@ (",")?)+ "." EOL?`
 }
 
 type Item struct {
