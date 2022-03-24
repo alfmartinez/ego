@@ -117,10 +117,10 @@ Le Château de Chambord est un lieu. "L'entrée du Château est majestueuse."
 			},
 		},
 		{
-			"A Room with complex designator and a description",
+			"Let's add an item",
 			args{`"A Room With A View"
 Le Château de Chambord est un lieu. "L'entrée du Château est majestueuse."
-Une plaque commémorative est là.
+Un livre déchiré est ici.
 `},
 			World{
 				Position(0, 1, 1),
@@ -135,6 +135,45 @@ Une plaque commémorative est là.
 							Pos:         Position(21, 2, 1),
 							KeyWords:    []string{"Le", "Château", "de", "Chambord"},
 							Description: "L'entrée du Château est majestueuse.",
+						},
+					},
+					{
+						Pos: Position(99, 3, 1),
+						Item: Item{
+							Pos:      Position(99, 3, 1),
+							KeyWords: []string{"Un", "livre", "déchiré"},
+						},
+					},
+				},
+			},
+		},
+		{
+			"Let's add an item - with description",
+			args{`"A Room With A View"
+Le Château de Chambord est un lieu. "L'entrée du Château est majestueuse."
+Un livre déchiré est ici. "Un livre déchiré semble avoir été abandonné par un lecteur peu soigneux."
+`},
+			World{
+				Position(0, 1, 1),
+				[]Statement{
+					{
+						Pos:   Position(0, 1, 1),
+						Title: "A Room With A View",
+					},
+					{
+						Pos: Position(21, 2, 1),
+						Room: Room{
+							Pos:         Position(21, 2, 1),
+							KeyWords:    []string{"Le", "Château", "de", "Chambord"},
+							Description: "L'entrée du Château est majestueuse.",
+						},
+					},
+					{
+						Pos: Position(99, 3, 1),
+						Item: Item{
+							Pos:         Position(99, 3, 1),
+							KeyWords:    []string{"Un", "livre", "déchiré"},
+							Description: "Un livre déchiré semble avoir été abandonné par un lecteur peu soigneux.",
 						},
 					},
 				},

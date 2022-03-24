@@ -13,7 +13,7 @@ var (
 		participle.Unquote("String"),
 		participle.Elide("Comment", "Whitespace"),
 		//participle.CaseInsensitive("Ident"),
-		//participle.UseLookahead(1),
+		participle.UseLookahead(16),
 	)
 )
 

@@ -14,10 +14,15 @@ type World struct {
 	Statement []Statement `(@@ EOL)*`
 }
 
+type Title struct {
+	Title string `@String`
+}
+
 type Statement struct {
 	Pos   lexer.Position
-	Title string `( @String`
-	Room  Room   ` | @@)`
+	Title string `(  @String`
+	Room  Room   ` | @@ `
+	Item  Item   ` | @@ )`
 }
 
 type Room struct {
@@ -26,11 +31,18 @@ type Room struct {
 	Description string   `@String?`
 }
 
+type Item struct {
+	Pos         lexer.Position
+	KeyWords    []string `@Ident+ Item`
+	Description string   `@String?`
+}
+
 var (
 	def = lexer.MustStateful(lexer.Rules{
 		"Root": {
 			{"Comment", `//[^\n]*\n`, nil},
 			{"String", `"[^"]*"`, nil},
+			{"Item", `est ici\.`, nil},
 			{"Room", `est un lieu\.`, nil},
 			{"Ident", `\p{L}+`, nil},
 			{"Punct", `[\.]+`, nil},
