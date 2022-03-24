@@ -21,8 +21,9 @@ type Statement struct {
 }
 
 type Room struct {
-	Pos      lexer.Position
-	KeyWords []string `@Ident+ Room`
+	Pos         lexer.Position
+	KeyWords    []string `@Ident+ Room`
+	Description string   `@String?`
 }
 
 var (

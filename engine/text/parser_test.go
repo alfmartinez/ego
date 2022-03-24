@@ -71,7 +71,6 @@ Chambord est un lieu.
 				},
 			},
 		},
-
 		{
 			"A Simple Room - multiple token designator",
 			args{`"A Room With A View"
@@ -89,6 +88,29 @@ Château Chambord est un lieu.
 						Room: Room{
 							Pos:      Position(21, 2, 1),
 							KeyWords: []string{"Château", "Chambord"},
+						},
+					},
+				},
+			},
+		},
+		{
+			"A Room with complex designator and a description",
+			args{`"A Room With A View"
+Le Château de Chambord est un lieu. "L'entrée du Château est majestueuse."
+`},
+			World{
+				Position(0, 1, 1),
+				[]Statement{
+					{
+						Pos:   Position(0, 1, 1),
+						Title: "A Room With A View",
+					},
+					{
+						Pos: Position(21, 2, 1),
+						Room: Room{
+							Pos:         Position(21, 2, 1),
+							KeyWords:    []string{"Le", "Château", "de", "Chambord"},
+							Description: "L'entrée du Château est majestueuse.",
 						},
 					},
 				},
