@@ -18,11 +18,22 @@ func TestParseReader(t *testing.T) {
 		want *Grammar
 	}{
 		{
-			"Empty",
-			args{`"Test"`},
+			"Title",
+			args{`"Just a Title"
+`},
 			&Grammar{
 				Pos:   lexer.Position{"", 0, 1, 1},
-				World: World{"Test"},
+				World: World{"Just a Title"},
+			},
+		},
+		{
+			"Comment",
+			args{`// My Comment
+"Commenting Park"
+`},
+			&Grammar{
+				Pos:   lexer.Position{"", 14, 2, 1},
+				World: World{"Commenting Park"},
 			},
 		},
 	}

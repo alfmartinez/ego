@@ -10,13 +10,16 @@ type Grammar struct {
 }
 
 type World struct {
-	Title string `@String`
+	Title string `@String EOL`
 }
 
 var (
 	def = lexer.MustStateful(lexer.Rules{
 		"Root": {
+			{"Comment", `//[^\n]*\n`, nil},
 			{"String", `"[^"]*"`, nil},
+			{"Whitespace", `[ \t]+`, nil},
+			{"EOL", `\n+`, nil},
 		},
 	})
 )

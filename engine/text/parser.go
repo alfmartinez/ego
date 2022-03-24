@@ -11,7 +11,7 @@ var (
 		&Grammar{},
 		participle.Lexer(def),
 		participle.Unquote("String"),
-		//	participle.Elide("Comment", "Whitespace"),
+		participle.Elide("Comment", "Whitespace"),
 		participle.UseLookahead(5),
 	)
 )
