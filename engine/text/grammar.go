@@ -10,6 +10,7 @@ type Grammar struct {
 }
 
 type World struct {
+	Pos   lexer.Position
 	Title string `@String EOL`
 }
 
@@ -18,6 +19,8 @@ var (
 		"Root": {
 			{"Comment", `//[^\n]*\n`, nil},
 			{"String", `"[^"]*"`, nil},
+			{"Ident", `\p{L}+`, nil},
+			{"Punct", `[\.]+`, nil},
 			{"Whitespace", `[ \t]+`, nil},
 			{"EOL", `\n+`, nil},
 		},

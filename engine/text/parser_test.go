@@ -8,6 +8,9 @@ import (
 	"github.com/alecthomas/participle/v2/lexer"
 )
 
+func Position(offset, line, col int) lexer.Position {
+	return lexer.Position{"", offset, line, col}
+}
 func TestParseReader(t *testing.T) {
 	type args struct {
 		content string
@@ -15,15 +18,15 @@ func TestParseReader(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want *Grammar
+		want World
 	}{
 		{
 			"Title",
 			args{`"Just a Title"
 `},
-			&Grammar{
-				Pos:   lexer.Position{"", 0, 1, 1},
-				World: World{"Just a Title"},
+			World{
+				Position(0, 1, 1),
+				"Just a Title",
 			},
 		},
 		{
@@ -31,9 +34,9 @@ func TestParseReader(t *testing.T) {
 			args{`// My Comment
 "Commenting Park"
 `},
-			&Grammar{
-				Pos:   lexer.Position{"", 14, 2, 1},
-				World: World{"Commenting Park"},
+			World{
+				Position(14, 1, 1),
+				"Commenting Park",
 			},
 		},
 	}
@@ -41,7 +44,7 @@ func TestParseReader(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			reader := strings.NewReader(tt.args.content)
 			got := ParseReader(reader)
-			if !reflect.DeepEqual(got, tt.want) {
+			if !reflect.DeepEqual(got.World, tt.want) {
 				t.Errorf("Define = %#v, want %#v", got, tt.want)
 			}
 		})
