@@ -10,8 +10,17 @@ type Grammar struct {
 }
 
 type World struct {
-	Pos   lexer.Position
-	Title string `@String EOL`
+	Pos       lexer.Position
+	Statement []Statement `@@*`
+}
+
+type Statement struct {
+	Title string `( @String EOL`
+	Room  Room   ` | @@ EOL)`
+}
+
+type Room struct {
+	Name string `@Ident? "est" "un" "lieu" "."`
 }
 
 var (

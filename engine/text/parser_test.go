@@ -26,7 +26,11 @@ func TestParseReader(t *testing.T) {
 `},
 			World{
 				Position(0, 1, 1),
-				"Just a Title",
+				[]Statement{
+					{
+						Title: "Just a Title",
+					},
+				},
 			},
 		},
 		{
@@ -35,8 +39,29 @@ func TestParseReader(t *testing.T) {
 "Commenting Park"
 `},
 			World{
-				Position(14, 1, 1),
-				"Commenting Park",
+				Position(14, 2, 1),
+				[]Statement{
+					{
+						Title: "Commenting Park",
+					},
+				},
+			},
+		},
+		{
+			"A Simple Room",
+			args{`"A Room With A View"
+Chambord est un lieu.
+`},
+			World{
+				Position(0, 1, 1),
+				[]Statement{
+					{
+						Title: "A Room With A View",
+					},
+					{
+						Room: Room{"Chambord"},
+					},
+				},
 			},
 		},
 	}
@@ -45,7 +70,7 @@ func TestParseReader(t *testing.T) {
 			reader := strings.NewReader(tt.args.content)
 			got := ParseReader(reader)
 			if !reflect.DeepEqual(got.World, tt.want) {
-				t.Errorf("Define = %#v, want %#v", got, tt.want)
+				t.Errorf("Define = \n%#v, want \n%#v", got.World, tt.want)
 			}
 		})
 	}
