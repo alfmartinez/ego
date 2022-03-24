@@ -27,14 +27,14 @@ type Statement struct {
 
 type Room struct {
 	Pos         lexer.Position
-	KeyWords    Designator `@@ Room`
+	Designator  Designator `@@ Room`
 	Description string     `@String?`
 }
 
 type Item struct {
 	Pos         lexer.Position
-	KeyWords    []string `@Ident+ Item`
-	Description string   `@String?`
+	Designator  Designator `@@ Item`
+	Description string     `@String?`
 }
 
 type Designator struct {
@@ -47,11 +47,14 @@ var (
 			{"Comment", `//[^\n]*\n`, nil},
 			{"String", `"[^"]*"`, nil},
 			{"Item", `est ici\.`, nil},
-			{"Room", `est un lieu\.`, nil},
+			{"Room", `est un lieu\.`, lexer.Push("Room")},
 			{"Ident", `\p{L}+`, nil},
 			{"Punct", `[\.]+`, nil},
 			{"Whitespace", `[ \t]+`, nil},
 			{"EOL", `\n+`, nil},
+		},
+		"Room": {
+			lexer.Return(),
 		},
 	})
 )

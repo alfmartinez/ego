@@ -64,8 +64,8 @@ Chambord est un lieu.
 					{
 						Pos: Position(21, 2, 1),
 						Room: Room{
-							Pos:      Position(21, 2, 1),
-							KeyWords: Designator{[]string{"Chambord"}},
+							Pos:        Position(21, 2, 1),
+							Designator: Designator{[]string{"Chambord"}},
 						},
 					},
 				},
@@ -86,8 +86,8 @@ Château Chambord est un lieu.
 					{
 						Pos: Position(21, 2, 1),
 						Room: Room{
-							Pos:      Position(21, 2, 1),
-							KeyWords: Designator{[]string{"Château", "Chambord"}},
+							Pos:        Position(21, 2, 1),
+							Designator: Designator{[]string{"Château", "Chambord"}},
 						},
 					},
 				},
@@ -109,7 +109,7 @@ Le Château de Chambord est un lieu. "L'entrée du Château est majestueuse."
 						Pos: Position(21, 2, 1),
 						Room: Room{
 							Pos:         Position(21, 2, 1),
-							KeyWords:    Designator{[]string{"Le", "Château", "de", "Chambord"}},
+							Designator:  Designator{[]string{"Le", "Château", "de", "Chambord"}},
 							Description: "L'entrée du Château est majestueuse.",
 						},
 					},
@@ -133,15 +133,15 @@ Un livre déchiré est ici.
 						Pos: Position(21, 2, 1),
 						Room: Room{
 							Pos:         Position(21, 2, 1),
-							KeyWords:    Designator{[]string{"Le", "Château", "de", "Chambord"}},
+							Designator:  Designator{[]string{"Le", "Château", "de", "Chambord"}},
 							Description: "L'entrée du Château est majestueuse.",
 						},
 					},
 					{
 						Pos: Position(99, 3, 1),
 						Item: Item{
-							Pos:      Position(99, 3, 1),
-							KeyWords: []string{"Un", "livre", "déchiré"},
+							Pos:        Position(99, 3, 1),
+							Designator: Designator{[]string{"Un", "livre", "déchiré"}},
 						},
 					},
 				},
@@ -164,7 +164,7 @@ Un livre déchiré est ici. "Un livre déchiré semble avoir été abandonné pa
 						Pos: Position(21, 2, 1),
 						Room: Room{
 							Pos:         Position(21, 2, 1),
-							KeyWords:    Designator{[]string{"Le", "Château", "de", "Chambord"}},
+							Designator:  Designator{[]string{"Le", "Château", "de", "Chambord"}},
 							Description: "L'entrée du Château est majestueuse.",
 						},
 					},
@@ -172,7 +172,7 @@ Un livre déchiré est ici. "Un livre déchiré semble avoir été abandonné pa
 						Pos: Position(99, 3, 1),
 						Item: Item{
 							Pos:         Position(99, 3, 1),
-							KeyWords:    []string{"Un", "livre", "déchiré"},
+							Designator:  Designator{[]string{"Un", "livre", "déchiré"}},
 							Description: "Un livre déchiré semble avoir été abandonné par un lecteur peu soigneux.",
 						},
 					},
