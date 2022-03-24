@@ -21,10 +21,6 @@ func TestParse(t *testing.T) {
 			},
 			&Grammar{
 				Title: "Bic Example",
-				Definitions: []Definition{
-					{[]string{"Le", "Salon", "Pourpre"}, []string{"une", "pièce"}},
-					{[]string{"Le", "Canapé", "Confortable"}, []string{"là"}},
-				},
 			},
 		},
 	}

@@ -10,6 +10,7 @@ func Parse(filepath string) *Grammar {
 		&Grammar{},
 		participle.Lexer(def),
 		participle.Unquote("String"),
+		participle.Elide("Comment", "Whitespace"),
 		participle.UseLookahead(2),
 	)
 
