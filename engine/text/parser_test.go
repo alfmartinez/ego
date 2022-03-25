@@ -1,17 +1,22 @@
 package text
 
 import (
-	"fmt"
 	"reflect"
 	"strings"
 	"testing"
 
 	"github.com/alecthomas/participle/v2/lexer"
 	"github.com/andreyvit/diff"
+	"github.com/davecgh/go-spew/spew"
 )
 
 func Position(offset, line, col int) lexer.Position {
-	return lexer.Position{"", offset, line, col}
+	return lexer.Position{
+		Filename: "",
+		Offset:   offset,
+		Line:     line,
+		Column:   col,
+	}
 }
 func TestParseReader(t *testing.T) {
 	type args struct {
@@ -226,12 +231,8 @@ La description de la table est "Une vieille table en bois ancien."
 			reader := strings.NewReader(tt.args.content)
 			got := ParseReader(reader)
 			if !reflect.DeepEqual(got.World, tt.want) {
-				t.Errorf("Result not as expected\n%v", diff.LineDiff(GoS(got.World), GoS(tt.want)))
+				t.Errorf("Result not as expected\n%v", diff.LineDiff(spew.Sprintln(got.World), spew.Sprintln(tt.want)))
 			}
 		})
 	}
-}
-
-func GoS(o any) string {
-	return strings.ReplaceAll(fmt.Sprintf("%#v", o), ",", ",\n")
 }
