@@ -1,11 +1,13 @@
 package text
 
 import (
+	"fmt"
 	"reflect"
 	"strings"
 	"testing"
 
 	"github.com/alecthomas/participle/v2/lexer"
+	"github.com/andreyvit/diff"
 )
 
 func Position(offset, line, col int) lexer.Position {
@@ -179,14 +181,57 @@ Un livre déchiré est ici. "Un livre déchiré semble avoir été abandonné pa
 				},
 			},
 		},
+		{
+			"Add description after an item is created",
+			args{`"A Room, a Table"
+La cuisine est un lieu.
+Une table est ici.
+La description de la table est "Une vieille table en bois ancien." 				
+`},
+			World{
+				Position(0, 1, 1),
+				[]Statement{
+					{
+						Pos:   Position(0, 1, 1),
+						Title: "A Room, a Table",
+					},
+					{
+						Pos: Position(18, 2, 1),
+						Room: Room{
+							Pos:        Position(18, 2, 1),
+							Designator: Designator{[]string{"La", "cuisine"}},
+						},
+					},
+					{
+						Pos: Position(42, 3, 1),
+						Item: Item{
+							Pos:        Position(42, 3, 1),
+							Designator: Designator{[]string{"Une", "table"}},
+						},
+					},
+					{
+						Pos: Position(61, 4, 1),
+						Describe: Describe{
+							Pos:         Position(61, 4, 1),
+							Designator:  Designator{[]string{"de", "la", "table"}},
+							Description: "Une vieille table en bois ancien.",
+						},
+					},
+				},
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			reader := strings.NewReader(tt.args.content)
 			got := ParseReader(reader)
 			if !reflect.DeepEqual(got.World, tt.want) {
-				t.Errorf("Define = \n%#v, want \n%#v", got.World, tt.want)
+				t.Errorf("Result not as expected\n%v", diff.LineDiff(GoS(got.World), GoS(tt.want)))
 			}
 		})
 	}
+}
+
+func GoS(o any) string {
+	return strings.ReplaceAll(fmt.Sprintf("%#v", o), ",", ",\n")
 }
