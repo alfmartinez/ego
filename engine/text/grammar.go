@@ -11,37 +11,33 @@ type Grammar struct {
 
 type World struct {
 	Pos        lexer.Position
-	Statements []Statement `(@@ EOL)*`
-}
-
-type Title struct {
-	Title string `@String`
+	Statements []*Statement `(@@ EOL)*`
 }
 
 type Statement struct {
 	Pos      lexer.Position
-	Title    string   `(  @String`
-	Room     Room     ` | @@ `
-	Item     Item     ` | @@ `
-	Describe Describe ` | @@ )`
+	Title    string    `(  @String`
+	Room     *Room     ` | @@ `
+	Item     *Item     ` | @@ `
+	Describe *Describe ` | @@ )`
 }
 
 type Room struct {
 	Pos         lexer.Position
-	Designator  Designator `@@ Is Room`
-	Description string     `@String?`
+	Designator  *Designator `@@ Is Room`
+	Description string      `@String?`
 }
 
 type Item struct {
 	Pos         lexer.Position
-	Designator  Designator `@@ Is Here`
-	Description string     `@String?`
+	Designator  *Designator `@@ Is Here`
+	Description string      `@String?`
 }
 
 type Describe struct {
 	Pos         lexer.Position
-	Designator  Designator `Describe @@ `
-	Description string     `Is @String`
+	Designator  *Designator `Describe @@ `
+	Description string      `Is @String`
 }
 
 type Designator struct {

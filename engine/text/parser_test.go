@@ -28,7 +28,7 @@ func TestParseReader(t *testing.T) {
 `},
 			World{
 				Position(0, 1, 1),
-				[]Statement{
+				[]*Statement{
 					{
 						Pos:   Position(0, 1, 1),
 						Title: "Just a Title",
@@ -43,7 +43,7 @@ func TestParseReader(t *testing.T) {
 `},
 			World{
 				Position(14, 2, 1),
-				[]Statement{
+				[]*Statement{
 					{
 						Pos:   Position(14, 2, 1),
 						Title: "Commenting Park",
@@ -58,16 +58,16 @@ Chambord est un lieu.
 `},
 			World{
 				Position(0, 1, 1),
-				[]Statement{
+				[]*Statement{
 					{
 						Pos:   Position(0, 1, 1),
 						Title: "A Room With A View",
 					},
 					{
 						Pos: Position(21, 2, 1),
-						Room: Room{
+						Room: &Room{
 							Pos:        Position(21, 2, 1),
-							Designator: Designator{[]string{"Chambord"}},
+							Designator: &Designator{[]string{"Chambord"}},
 						},
 					},
 				},
@@ -80,16 +80,16 @@ Château Chambord est un lieu.
 `},
 			World{
 				Position(0, 1, 1),
-				[]Statement{
+				[]*Statement{
 					{
 						Pos:   Position(0, 1, 1),
 						Title: "A Room With A View",
 					},
 					{
 						Pos: Position(21, 2, 1),
-						Room: Room{
+						Room: &Room{
 							Pos:        Position(21, 2, 1),
-							Designator: Designator{[]string{"Château", "Chambord"}},
+							Designator: &Designator{[]string{"Château", "Chambord"}},
 						},
 					},
 				},
@@ -102,16 +102,16 @@ Le Château de Chambord est un lieu. "L'entrée du Château est majestueuse."
 `},
 			World{
 				Position(0, 1, 1),
-				[]Statement{
+				[]*Statement{
 					{
 						Pos:   Position(0, 1, 1),
 						Title: "A Room With A View",
 					},
 					{
 						Pos: Position(21, 2, 1),
-						Room: Room{
+						Room: &Room{
 							Pos:         Position(21, 2, 1),
-							Designator:  Designator{[]string{"Le", "Château", "de", "Chambord"}},
+							Designator:  &Designator{[]string{"Le", "Château", "de", "Chambord"}},
 							Description: "L'entrée du Château est majestueuse.",
 						},
 					},
@@ -126,24 +126,24 @@ Un livre déchiré est ici.
 `},
 			World{
 				Position(0, 1, 1),
-				[]Statement{
+				[]*Statement{
 					{
 						Pos:   Position(0, 1, 1),
 						Title: "A Room With A View",
 					},
 					{
 						Pos: Position(21, 2, 1),
-						Room: Room{
+						Room: &Room{
 							Pos:         Position(21, 2, 1),
-							Designator:  Designator{[]string{"Le", "Château", "de", "Chambord"}},
+							Designator:  &Designator{[]string{"Le", "Château", "de", "Chambord"}},
 							Description: "L'entrée du Château est majestueuse.",
 						},
 					},
 					{
 						Pos: Position(99, 3, 1),
-						Item: Item{
+						Item: &Item{
 							Pos:        Position(99, 3, 1),
-							Designator: Designator{[]string{"Un", "livre", "déchiré"}},
+							Designator: &Designator{[]string{"Un", "livre", "déchiré"}},
 						},
 					},
 				},
@@ -157,24 +157,24 @@ Un livre déchiré est ici. "Un livre déchiré semble avoir été abandonné pa
 `},
 			World{
 				Position(0, 1, 1),
-				[]Statement{
+				[]*Statement{
 					{
 						Pos:   Position(0, 1, 1),
 						Title: "A Room With A View",
 					},
 					{
 						Pos: Position(21, 2, 1),
-						Room: Room{
+						Room: &Room{
 							Pos:         Position(21, 2, 1),
-							Designator:  Designator{[]string{"Le", "Château", "de", "Chambord"}},
+							Designator:  &Designator{[]string{"Le", "Château", "de", "Chambord"}},
 							Description: "L'entrée du Château est majestueuse.",
 						},
 					},
 					{
 						Pos: Position(99, 3, 1),
-						Item: Item{
+						Item: &Item{
 							Pos:         Position(99, 3, 1),
-							Designator:  Designator{[]string{"Un", "livre", "déchiré"}},
+							Designator:  &Designator{[]string{"Un", "livre", "déchiré"}},
 							Description: "Un livre déchiré semble avoir été abandonné par un lecteur peu soigneux.",
 						},
 					},
@@ -190,30 +190,30 @@ La description de la table est "Une vieille table en bois ancien."
 `},
 			World{
 				Position(0, 1, 1),
-				[]Statement{
+				[]*Statement{
 					{
 						Pos:   Position(0, 1, 1),
 						Title: "A Room, a Table",
 					},
 					{
 						Pos: Position(18, 2, 1),
-						Room: Room{
+						Room: &Room{
 							Pos:        Position(18, 2, 1),
-							Designator: Designator{[]string{"La", "cuisine"}},
+							Designator: &Designator{[]string{"La", "cuisine"}},
 						},
 					},
 					{
 						Pos: Position(42, 3, 1),
-						Item: Item{
+						Item: &Item{
 							Pos:        Position(42, 3, 1),
-							Designator: Designator{[]string{"Une", "table"}},
+							Designator: &Designator{[]string{"Une", "table"}},
 						},
 					},
 					{
 						Pos: Position(61, 4, 1),
-						Describe: Describe{
+						Describe: &Describe{
 							Pos:         Position(61, 4, 1),
-							Designator:  Designator{[]string{"de", "la", "table"}},
+							Designator:  &Designator{[]string{"de", "la", "table"}},
 							Description: "Une vieille table en bois ancien.",
 						},
 					},
