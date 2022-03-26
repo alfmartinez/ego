@@ -4,45 +4,43 @@ import (
 	"github.com/alecthomas/participle/v2/lexer"
 )
 
-type Grammar struct {
-	Pos   lexer.Position
-	World World `@@ EOF`
-}
+type (
+	// Define a Grammar for parsing
+	Grammar struct {
+		//
+		World World `@@ EOF`
+	}
 
-type World struct {
-	Pos        lexer.Position
-	Statements []*Statement `(@@ EOL)*`
-}
+	World struct {
+		Statements []*Statement `(@@ EOL)*`
+	}
 
-type Statement struct {
-	Pos      lexer.Position
-	Title    string    `(  @String`
-	Room     *Room     ` | @@ `
-	Item     *Item     ` | @@ `
-	Describe *Describe ` | @@ )`
-}
+	Statement struct {
+		Title    string    `(  @String`
+		Room     *Room     ` | @@ `
+		Item     *Item     ` | @@ `
+		Describe *Describe ` | @@ )`
+	}
 
-type Room struct {
-	Pos         lexer.Position
-	Designator  *Designator `@@ Is Room`
-	Description string      `@String?`
-}
+	Room struct {
+		Designator  *Designator `@@ Is Room`
+		Description string      `@String?`
+	}
 
-type Item struct {
-	Pos         lexer.Position
-	Designator  *Designator `@@ Is Here`
-	Description string      `@String?`
-}
+	Item struct {
+		Designator  *Designator `@@ Is Here`
+		Description string      `@String?`
+	}
 
-type Describe struct {
-	Pos         lexer.Position
-	Designator  *Designator `Describe @@ `
-	Description string      `Is @String`
-}
+	Describe struct {
+		Designator  *Designator `Describe @@ `
+		Description string      `Is @String`
+	}
 
-type Designator struct {
-	KeyWords []string `@Ident+`
-}
+	Designator struct {
+		KeyWords []string `@Ident+`
+	}
+)
 
 var (
 	def = lexer.MustStateful(lexer.Rules{
@@ -50,6 +48,7 @@ var (
 			{"Comment", `//[^\n]*\n`, nil},
 			{"String", `"[^"]*"`, nil},
 			{"Is", `est`, nil},
+			//	{"Article", `((U|u)n(e)?|(L|l)(a|e))`, nil},
 			{"Room", `un lieu\.`, nil},
 			{"Here", `ici\.`, nil},
 			{"Describe", `La description`, nil},
