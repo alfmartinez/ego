@@ -2,36 +2,42 @@ package text
 
 import (
 	"reflect"
+	"strings"
 	"testing"
+
+	"github.com/alecthomas/participle/v2/lexer"
+	"github.com/andreyvit/diff"
+	"github.com/davecgh/go-spew/spew"
 )
 
-func TestParse(t *testing.T) {
-	type args struct {
-		filepath string
+func Position(offset, line, col int) lexer.Position {
+	return lexer.Position{
+		Filename: "",
+		Offset:   offset,
+		Line:     line,
+		Column:   col,
 	}
-	tests := []struct {
-		name string
-		args args
-		want *Grammar
-	}{
-		{
-			"empty",
-			args{
-				"testdata/empty.txt",
-			},
-			&Grammar{
-				Title: "Bic Example",
-				Inventory: Inventory{
-					Items: []string{"une orange", "un stylo bic", "une serviette en papier"},
-				},
-			},
-		},
-	}
+}
+
+type args struct {
+	content string
+}
+
+type ParserCase struct {
+	name string
+	args args
+	want World
+}
+
+func TestParseReader(t *testing.T) {
+	tests := make([]ParserCase, 0)
+	tests = append(tests, roomCases...)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := Parse(tt.args.filepath)
-			if !reflect.DeepEqual(got.Inventory.Items, tt.want.Inventory.Items) {
-				t.Errorf("Parse() = %q, want %q", got.Inventory.Items, tt.want.Inventory.Items)
+			reader := strings.NewReader(tt.args.content)
+			got := ParseReader(reader)
+			if !reflect.DeepEqual(got.World, tt.want) {
+				t.Errorf("Result not as expected\n%v", diff.LineDiff(spew.Sprintln(got.World), spew.Sprintln(tt.want)))
 			}
 		})
 	}
