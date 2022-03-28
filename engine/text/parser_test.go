@@ -60,7 +60,7 @@ func TestParseReader(t *testing.T) {
 
 			got := ParseReader(reader)
 			if !reflect.DeepEqual(got.World, tt.want) {
-				t.Errorf("Result not as expected\n%v", diff.LineDiff(spew.Sprintln(got.World), spew.Sprintln(tt.want)))
+				t.Errorf("Result not as expected\n%v", diff.LineDiff(spew.Sprintf("%#v", got.World), spew.Sprintf("%#v", tt.want)))
 			}
 		})
 	}
