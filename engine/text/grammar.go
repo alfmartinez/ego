@@ -2,6 +2,7 @@ package text
 
 import (
 	"github.com/alecthomas/participle/v2/lexer"
+	"strings"
 )
 
 // Defines a grammar for natural text parsing.
@@ -22,50 +23,36 @@ type (
 	}
 
 	World struct {
-		Statements []*Statement `(@@ EOL)*`
+		Statements []*Statement `(@@ "." EOL)*`
 	}
 
 	Statement struct {
-		Title    string    `(  @String`
-		Room     *Room     ` | @@ `
-		Item     *Item     ` | @@ `
-		Describe *Describe ` | @@ )`
+		DP *DescriptionPhrase `@@`
+		VP *VerbPhrase        `@@`
 	}
 
-	Room struct {
-		Designator  *Designator `@@ Is Room`
-		Description string      `@String?`
+	DescriptionPhrase struct {
+		Content []string `@Ident+`
 	}
 
-	Item struct {
-		Designator  *Designator `@@ Is Here`
-		Description string      `@String?`
-	}
-
-	Describe struct {
-		Designator  *Designator `Describe @@ `
-		Description string      `Is @String`
-	}
-
-	Designator struct {
-		KeyWords []string `@Ident+`
+	VerbPhrase struct {
+		Verb string             `@Verb`
+		DP   *DescriptionPhrase `@@`
 	}
 )
 
 var (
+	verbs    = []string{"is"}
+	articles = []string{"a", "an", "the", "The", "An", "A"}
+
 	def = lexer.MustStateful(lexer.Rules{
 		"Root": {
-			{"Comment", `//[^\n]*\n`, nil},
-			{"String", `"[^"]*"`, nil},
-			{"Is", `est`, nil},
-			//	{"Article", `((U|u)n(e)?|(L|l)(a|e))`, nil},
-			{"Room", `un lieu\.`, nil},
-			{"Here", `ici\.`, nil},
-			{"Describe", `La description`, nil},
-			{"Ident", `\p{L}+`, nil},
-			{"Punct", `[\.]+`, nil},
-			{"Whitespace", `[ \t]+`, nil},
+			{"Punct", `\.`, nil},
 			{"EOL", `\n+`, nil},
+			{"Whitespace", `[ \t]+`, nil},
+			{"Article", "(" + strings.Join(articles, "|") + ")", nil},
+			{"Verb", "(" + strings.Join(verbs, "|") + ")", nil},
+			{"Ident", `[\p{L}]+`, nil},
 		},
 	})
 )

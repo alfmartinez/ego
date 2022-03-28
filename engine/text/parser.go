@@ -1,6 +1,7 @@
 package text
 
 import (
+	"fmt"
 	"github.com/alecthomas/participle/v2"
 	"io"
 	"os"
@@ -10,9 +11,9 @@ var (
 	parser *participle.Parser = participle.MustBuild(
 		&Grammar{},
 		participle.Lexer(def),
-		participle.Unquote("String"),
-		participle.Elide("Comment", "Whitespace"),
-		//participle.CaseInsensitive("Ident"),
+		//participle.Unquote("String"),
+		participle.Elide("Article", "Whitespace"),
+		participle.CaseInsensitive("Article"),
 		participle.UseLookahead(16),
 	)
 )
@@ -30,4 +31,12 @@ func ParseReader(reader io.Reader) *Grammar {
 		panic(err)
 	}
 	return ast
+}
+
+func ParseTokens(reader io.Reader) {
+	tokens, _ := parser.Lex("", reader)
+	fmt.Println("Tokens :")
+	for _, token := range tokens {
+		fmt.Printf("%#v\n", token)
+	}
 }
