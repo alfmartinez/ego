@@ -2,11 +2,9 @@ package context
 
 import (
 	"fmt"
-	"sync"
 )
 
 var (
-	mu             sync.Mutex
 	contexts       = make(map[string]Context)
 	currentContext Context
 )
@@ -35,23 +33,18 @@ func CreateContext() Context {
 }
 
 func RegisterContext(name string, ctx Context) {
-	mu.Lock()
 	contexts[name] = ctx
 	currentContext = ctx
-	mu.Unlock()
-	fmt.Printf("Current context %#v", currentContext)
 }
 
 func SwitchContext(name string) {
-	mu.Lock()
 	ctx := contexts[name]
 	currentContext = ctx
-	mu.Unlock()
 }
 
 func GetContext() Context {
 	if currentContext == nil {
-		panic(fmt.Errorf("Current context is not set !"))
+		panic(fmt.Errorf("No current context defined"))
 	}
 	return currentContext
 }
