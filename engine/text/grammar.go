@@ -32,7 +32,8 @@ type (
 	}
 
 	DescriptionPhrase struct {
-		Content []string `@Ident+`
+		Content []string    `@Ident+`
+		VP      *VerbPhrase //`Determiner @@`
 	}
 
 	VerbPhrase struct {
@@ -42,14 +43,16 @@ type (
 )
 
 var (
-	verbs    = []string{"is"}
-	articles = []string{"a", "an", "the", "The", "An", "A"}
+	verbs       = []string{"is"}
+	articles    = []string{"a", "an", "the", "The", "An", "A"}
+	determiners = []string{"which", "who"}
 
 	def = lexer.MustStateful(lexer.Rules{
 		"Root": {
 			{"Punct", `\.`, nil},
 			{"EOL", `\n+`, nil},
 			{"Whitespace", `[ \t]+`, nil},
+			{"Determiner", "(" + strings.Join(determiners, "|") + ")", nil},
 			{"Article", "(" + strings.Join(articles, "|") + ")", nil},
 			{"Verb", "(" + strings.Join(verbs, "|") + ")", nil},
 			{"Ident", `[\p{L}]+`, nil},
