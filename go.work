@@ -5,7 +5,6 @@ use (
 	./examples/bomber
 	./examples/ouragan
 	./examples/platformer
-	./examples/trogue
 	./shared
 	./tools
 )
