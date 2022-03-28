@@ -1,12 +1,12 @@
 package states
 
 import (
-	"ego/engine/input"
-	"ego/engine/observer"
-	"ego/engine/renderer"
-	"ego/engine/state"
-	"ego/engine/template"
-	"ego/shared/input/prompt"
+	"github.com/alfmartinez/ego/engine/input"
+	"github.com/alfmartinez/ego/engine/observer"
+	"github.com/alfmartinez/ego/engine/renderer"
+	"github.com/alfmartinez/ego/engine/state"
+	"github.com/alfmartinez/ego/engine/template"
+	"github.com/alfmartinez/ego/shared/input/prompt"
 	"github.com/inancgumus/screen"
 	"time"
 )

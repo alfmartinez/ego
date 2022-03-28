@@ -9,9 +9,9 @@ type States map[string]func(dt time.Duration) string
 
 type StatesClosure func(m any) States
 
-var statesFactories = make(map[string]StatesClosure)
+var statesFactories = make(map[string]func(m any) States)
 
-func RegisterStatesClosure(name string, states StatesClosure) {
+func RegisterStatesClosure(name string, states func(m any) States) {
 	statesFactories[name] = states
 }
 

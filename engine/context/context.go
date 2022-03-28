@@ -1,5 +1,9 @@
 package context
 
+import (
+	"fmt"
+)
+
 func Set(name string, value interface{}) {
 	GetContext().Set(name, value)
 }
@@ -48,5 +52,9 @@ func (c *context) Set(name string, value interface{}) {
 }
 
 func (c *context) Get(name string) interface{} {
-	return c.values[name]
+	comp, ok := c.values[name]
+	if !ok {
+		panic(fmt.Errorf("Missing component in context for key '%s'", name))
+	}
+	return comp
 }

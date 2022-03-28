@@ -1,17 +1,22 @@
 package main
 
 import (
-	"ego/engine/configuration"
-	"ego/engine/context"
-	"ego/engine/game"
-	"ego/engine/state"
-	"ego/engine/template"
-	"ego/examples/ouragan/internal/states"
-	"ego/shared/game/text"
-	"ego/shared/renderer/console"
+	"github.com/alfmartinez/ego/engine/configuration"
+	"github.com/alfmartinez/ego/engine/context"
+	"github.com/alfmartinez/ego/engine/game"
+	"github.com/alfmartinez/ego/engine/state"
+	"github.com/alfmartinez/ego/engine/template"
+	"github.com/alfmartinez/ego/examples/ouragan/internal/states"
+	"github.com/alfmartinez/ego/shared/game/text"
+	"github.com/alfmartinez/ego/shared/renderer/console"
 )
 
 func init() {
+	context.CreateAndRegisterContext("ouragan")
+	cfg := configuration.CreateConfiguration("examples/ouragan/assets/config/")
+	cfg.Init()
+	context.Set("cfg", cfg.Get())
+	template.InitializeTemplates("examples/ouragan/assets/templates/*")
 	text.Register()
 	console.Register()
 	state.RegisterStatesClosure("ouragan", states.States)
@@ -19,18 +24,8 @@ func init() {
 
 func main() {
 	var g game.Game
-	readConfiguration()
 
 	g = game.CreateGame("text")
 	g.Start()
 
-}
-
-func readConfiguration() {
-	ctx := context.CreateContext()
-	context.RegisterContext("ouragan", ctx)
-	cfg := configuration.CreateConfiguration("examples/ouragan/assets/config/")
-	cfg.Init()
-	context.Set("cfg", cfg.Get())
-	template.InitializeTemplates("examples/ouragan/assets/templates/*")
 }
