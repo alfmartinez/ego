@@ -23,12 +23,13 @@ type (
 	}
 
 	World struct {
-		Statements []*Statement `(@@ "." EOL)*`
+		Statements []*Statement `(@@ EOL)*`
 	}
 
 	Statement struct {
-		DP *DescriptionPhrase `@@`
-		VP *VerbPhrase        `@@`
+		DP    *DescriptionPhrase `(@@`
+		VP    *VerbPhrase        `@@ ".")`
+		Title string             `| @String`
 	}
 
 	DescriptionPhrase struct {
@@ -72,6 +73,7 @@ var (
 
 	def = lexer.MustStateful(lexer.Rules{
 		"Root": {
+			{"String", `"[^"]*"`, nil},
 			{"Relation", "(" + strings.Join(relations, "|") + `)\b`, nil},
 			{"Determiner", "(" + strings.Join(determiners, "|") + `)\b`, nil},
 			{"Article", "(" + strings.Join(articles, "|") + `)\b`, nil},
