@@ -1,6 +1,6 @@
 package memory
 
-import "ego/engine/movement"
+import "github.com/alfmartinez/ego/engine/movement"
 
 type Interested interface {
 	HasInterests() bool
