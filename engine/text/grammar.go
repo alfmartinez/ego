@@ -72,10 +72,10 @@ var (
 
 	def = lexer.MustStateful(lexer.Rules{
 		"Root": {
-			{"Relation", "(" + strings.Join(relations, "|") + ")", nil},
-			{"Determiner", "(" + strings.Join(determiners, "|") + ")", nil},
-			{"Article", "(" + strings.Join(articles, "|") + `)(?:\s)`, nil},
-			{"Verb", "(" + strings.Join(verbs, "|") + ")", nil},
+			{"Relation", "(" + strings.Join(relations, "|") + `)\b`, nil},
+			{"Determiner", "(" + strings.Join(determiners, "|") + `)\b`, nil},
+			{"Article", "(" + strings.Join(articles, "|") + `)\b`, nil},
+			{"Verb", "(" + strings.Join(verbs, "|") + `)\b`, nil},
 			{"Ident", `[\p{L}]+`, nil},
 			{"Punct", `\.`, nil},
 			{"EOL", `\n+`, nil},
