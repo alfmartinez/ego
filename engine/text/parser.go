@@ -8,7 +8,11 @@ import (
 )
 
 var (
-	parser *participle.Parser = participle.MustBuild(
+	parser *participle.Parser = BuildParser()
+)
+
+func BuildParser() *participle.Parser {
+	return participle.MustBuild(
 		&Grammar{},
 		participle.Lexer(def),
 		//participle.Unquote("String"),
@@ -16,7 +20,7 @@ var (
 		participle.CaseInsensitive("Article"),
 		participle.UseLookahead(16),
 	)
-)
+}
 
 func ParseFile(filepath string) *Grammar {
 	f, _ := os.Open(filepath)

@@ -19,15 +19,31 @@ func Position(offset, line, col int) lexer.Position {
 	}
 }
 
-type args struct {
-	content string
-}
+type (
+	args struct {
+		content string
+	}
+	ParserCase struct {
+		name    string
+		content string
+		want    World
+		tokens  bool
+	}
+)
 
-type ParserCase struct {
-	name    string
-	content string
-	want    World
-	tokens  bool
+func TestParserEbnf(t *testing.T) {
+	parser := BuildParser()
+	def := parser.String()
+	expected := `Grammar = World <eof> .
+World = (Statement \".\" <eol>)* .
+Statement = DescriptionPhrase VerbPhrase .
+DescriptionPhrase = ComplexPhrase | SimplePhrase .
+ComplexPhrase = <ident> <determiner> VerbPhrase .
+VerbPhrase = <verb> DescriptionPhrase .
+SimplePhrase = <ident> .`
+	if def != expected {
+		t.Errorf("Got EBNF Grammar \n%s", def)
+	}
 }
 
 func TestParseReader(t *testing.T) {

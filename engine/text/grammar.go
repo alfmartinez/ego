@@ -32,8 +32,17 @@ type (
 	}
 
 	DescriptionPhrase struct {
-		Content []string    `@Ident+`
-		VP      *VerbPhrase //`Determiner @@`
+		Complex *ComplexPhrase `  @@`
+		Simple  *SimplePhrase  `| @@`
+	}
+
+	SimplePhrase struct {
+		Content string `@Ident`
+	}
+
+	ComplexPhrase struct {
+		Simple *SimplePhrase `@@`
+		VP     *VerbPhrase   `Determiner @@`
 	}
 
 	VerbPhrase struct {
@@ -43,7 +52,7 @@ type (
 )
 
 var (
-	verbs       = []string{"is"}
+	verbs       = []string{"is", "has"}
 	articles    = []string{"a", "an", "the", "The", "An", "A"}
 	determiners = []string{"which", "who"}
 
