@@ -32,17 +32,30 @@ type (
 	}
 
 	DescriptionPhrase struct {
-		Complex *ComplexPhrase `  @@`
-		Simple  *SimplePhrase  `| @@`
+		Complex  *ComplexPhrase  `  @@`
+		AdjNoun  *AdjNoun        `| @@`
+		Relation *RelativePhrase `| @@`
+		Simple   *Noun           `| @@`
 	}
 
-	SimplePhrase struct {
+	AdjNoun struct {
+		Adjective string `@Ident`
+		Noun      *Noun  `@@`
+	}
+
+	Noun struct {
 		Content string `@Ident`
 	}
 
 	ComplexPhrase struct {
-		Simple *SimplePhrase `@@`
-		VP     *VerbPhrase   `Determiner @@`
+		Simple *Noun       `@@`
+		VP     *VerbPhrase `Determiner @@`
+	}
+
+	RelativePhrase struct {
+		Simple   *Noun  `@@`
+		Relation string `@Relation`
+		Related  *Noun  `@@`
 	}
 
 	VerbPhrase struct {
@@ -55,16 +68,18 @@ var (
 	verbs       = []string{"is", "has"}
 	articles    = []string{"a", "an", "the", "The", "An", "A"}
 	determiners = []string{"which", "who"}
+	relations   = []string{"of", "in"}
 
 	def = lexer.MustStateful(lexer.Rules{
 		"Root": {
+			{"Relation", "(" + strings.Join(relations, "|") + ")", nil},
+			{"Determiner", "(" + strings.Join(determiners, "|") + ")", nil},
+			{"Article", "(" + strings.Join(articles, "|") + `)(?:\s)`, nil},
+			{"Verb", "(" + strings.Join(verbs, "|") + ")", nil},
+			{"Ident", `[\p{L}]+`, nil},
 			{"Punct", `\.`, nil},
 			{"EOL", `\n+`, nil},
 			{"Whitespace", `[ \t]+`, nil},
-			{"Determiner", "(" + strings.Join(determiners, "|") + ")", nil},
-			{"Article", "(" + strings.Join(articles, "|") + ")", nil},
-			{"Verb", "(" + strings.Join(verbs, "|") + ")", nil},
-			{"Ident", `[\p{L}]+`, nil},
 		},
 	})
 )
