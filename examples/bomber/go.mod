@@ -1,4 +1,4 @@
-module ego/examples/platformer
+module github.com/alfmartinez/ego/examples/platformer
 
 go 1.18
 

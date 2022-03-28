@@ -1,4 +1,4 @@
-module ego/tools
+module github.com/alfmartinez/ego/tools
 
 go 1.18
 

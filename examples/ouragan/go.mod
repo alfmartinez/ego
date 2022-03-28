@@ -1,4 +1,4 @@
-module ego/examples/ouragan
+module github.com/alfmartinez/ego/examples/ouragan
 
 go 1.18
 

@@ -1,4 +1,4 @@
-module ego/shared
+module github.com/alfmartinez/ego/shared
 
 go 1.18
 
