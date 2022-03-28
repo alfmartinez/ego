@@ -1,7 +1,7 @@
 package memory
 
 import (
-	"ego/engine/movement"
+	"github.com/alfmartinez/ego/engine/movement"
 )
 
 type RemembersPlaces interface {

@@ -1,6 +1,6 @@
 package observer
 
-import "ego/engine/context"
+import "github.com/alfmartinez/ego/engine/context"
 
 type Subject interface {
 	Register(Observer)

@@ -1,8 +1,8 @@
 package template
 
 import (
-	"ego/engine/configuration"
-	"ego/engine/context"
+	"github.com/alfmartinez/ego/engine/configuration"
+	"github.com/alfmartinez/ego/engine/context"
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"
 	"reflect"

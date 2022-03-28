@@ -5,8 +5,8 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"ego/tools/spritesheet"
 	"fmt"
+	"github.com/alfmartinez/ego/tools/spritesheet"
 	"github.com/spf13/cobra"
 )
 

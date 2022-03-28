@@ -1,8 +1,8 @@
 package terrain
 
 import (
-	"ego/engine/context"
-	"ego/engine/movement"
+	"github.com/alfmartinez/ego/engine/context"
+	"github.com/alfmartinez/ego/engine/movement"
 )
 
 func FromContext() Terrain {

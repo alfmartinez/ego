@@ -1,8 +1,8 @@
 package text
 
 import (
-	"ego/engine/observer"
-	"ego/engine/renderer"
+	"github.com/alfmartinez/ego/engine/observer"
+	"github.com/alfmartinez/ego/engine/renderer"
 	"time"
 )
 

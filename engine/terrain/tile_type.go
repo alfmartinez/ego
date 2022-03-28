@@ -1,9 +1,9 @@
 package terrain
 
 import (
-	"ego/engine/configuration"
-	"ego/engine/layer"
 	"fmt"
+	"github.com/alfmartinez/ego/engine/configuration"
+	"github.com/alfmartinez/ego/engine/layer"
 )
 
 type TileType interface {

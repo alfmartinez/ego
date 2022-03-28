@@ -1,8 +1,8 @@
 package console
 
 import (
-	"ego/engine/renderer"
 	"fmt"
+	"github.com/alfmartinez/ego/engine/renderer"
 )
 
 func Register() {

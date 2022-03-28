@@ -1,16 +1,16 @@
 package object
 
 import (
-	"ego/engine/context"
-	"ego/engine/layer"
-	"ego/engine/movement"
-	"ego/engine/object"
-	"ego/engine/observer"
-	"ego/engine/physics"
-	"ego/engine/renderer"
-	"ego/engine/sprite"
-	"ego/engine/state"
 	"fmt"
+	"github.com/alfmartinez/ego/engine/context"
+	"github.com/alfmartinez/ego/engine/layer"
+	"github.com/alfmartinez/ego/engine/movement"
+	"github.com/alfmartinez/ego/engine/object"
+	"github.com/alfmartinez/ego/engine/observer"
+	"github.com/alfmartinez/ego/engine/physics"
+	"github.com/alfmartinez/ego/engine/renderer"
+	"github.com/alfmartinez/ego/engine/sprite"
+	"github.com/alfmartinez/ego/engine/state"
 	"image"
 	"time"
 

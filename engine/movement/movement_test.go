@@ -1,7 +1,7 @@
 package movement
 
 import (
-	"ego/engine/physics/matrix"
+	"github.com/alfmartinez/ego/engine/physics/matrix"
 	"reflect"
 	"testing"
 	"time"

@@ -2,9 +2,9 @@
 package state
 
 import (
-	"ego/engine/input"
-	"ego/engine/movement"
-	"ego/engine/state"
+	"github.com/alfmartinez/ego/engine/input"
+	"github.com/alfmartinez/ego/engine/movement"
+	"github.com/alfmartinez/ego/engine/state"
 	"time"
 )
 

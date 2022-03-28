@@ -1,11 +1,11 @@
 package glfw
 
 import (
-	"ego/engine/context"
-	"ego/engine/display"
-	"ego/engine/input"
-	"ego/engine/render"
-	"ego/engine/renderer"
+	"github.com/alfmartinez/ego/engine/context"
+	"github.com/alfmartinez/ego/engine/display"
+	"github.com/alfmartinez/ego/engine/input"
+	"github.com/alfmartinez/ego/engine/render"
+	"github.com/alfmartinez/ego/engine/renderer"
 
 	"github.com/go-gl/glfw/v3.3/glfw"
 	"github.com/spf13/viper"

@@ -1,9 +1,9 @@
 package render
 
 import (
-	"ego/engine/display"
-	"ego/engine/layer"
-	"ego/engine/movement"
+	"github.com/alfmartinez/ego/engine/display"
+	"github.com/alfmartinez/ego/engine/layer"
+	"github.com/alfmartinez/ego/engine/movement"
 	"image"
 )
 

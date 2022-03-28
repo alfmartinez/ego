@@ -1,7 +1,7 @@
 package terrain
 
 import (
-	"ego/engine/movement"
+	"github.com/alfmartinez/ego/engine/movement"
 	"image"
 	"reflect"
 	"testing"

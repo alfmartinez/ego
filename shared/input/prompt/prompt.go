@@ -2,7 +2,7 @@ package prompt
 
 import (
 	"bufio"
-	"ego/engine/input"
+	"github.com/alfmartinez/ego/engine/input"
 	"os"
 )
 

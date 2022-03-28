@@ -1,9 +1,9 @@
 package text
 
 import (
-	"ego/engine/state"
 	"fmt"
 	"github.com/alecthomas/participle/v2"
+	"github.com/alfmartinez/ego/engine/state"
 	"os"
 )
 

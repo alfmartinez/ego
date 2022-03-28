@@ -1,11 +1,11 @@
 package terrain
 
 import (
-	"ego/engine/layer"
-	"ego/engine/movement"
-	"ego/engine/observer"
-	"ego/engine/physics"
-	"ego/engine/renderer"
+	"github.com/alfmartinez/ego/engine/layer"
+	"github.com/alfmartinez/ego/engine/movement"
+	"github.com/alfmartinez/ego/engine/observer"
+	"github.com/alfmartinez/ego/engine/physics"
+	"github.com/alfmartinez/ego/engine/renderer"
 	"image"
 )
 

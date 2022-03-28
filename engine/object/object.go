@@ -1,9 +1,9 @@
 package object
 
 import (
-	"ego/engine/configuration"
-	"ego/engine/observer"
 	"fmt"
+	"github.com/alfmartinez/ego/engine/configuration"
+	"github.com/alfmartinez/ego/engine/observer"
 )
 
 type GameObject interface {

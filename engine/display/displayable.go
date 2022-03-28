@@ -1,7 +1,7 @@
 package display
 
 import (
-	"ego/engine/layer"
+	"github.com/alfmartinez/ego/engine/layer"
 	"image"
 )
 

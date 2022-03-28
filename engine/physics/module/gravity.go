@@ -1,8 +1,8 @@
 package module
 
 import (
-	"ego/engine/physics/mobile"
-	"ego/engine/slices"
+	"github.com/alfmartinez/ego/engine/physics/mobile"
+	"github.com/alfmartinez/ego/engine/slices"
 )
 
 func init() {

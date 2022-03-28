@@ -1,7 +1,7 @@
 package configuration
 
 import (
-	"ego/engine/context"
+	"github.com/alfmartinez/ego/engine/context"
 
 	"github.com/spf13/viper"
 )

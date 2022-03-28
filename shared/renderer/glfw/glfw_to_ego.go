@@ -1,7 +1,7 @@
 package glfw
 
 import (
-	"ego/engine/input"
+	"github.com/alfmartinez/ego/engine/input"
 
 	"github.com/go-gl/glfw/v3.3/glfw"
 )

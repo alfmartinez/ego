@@ -1,14 +1,14 @@
 package game
 
 import (
-	"ego/engine/configuration"
-	"ego/engine/context"
-	"ego/engine/input"
-	"ego/engine/object"
-	"ego/engine/observer"
-	"ego/engine/physics"
-	"ego/engine/renderer"
-	"ego/engine/terrain"
+	"github.com/alfmartinez/ego/engine/configuration"
+	"github.com/alfmartinez/ego/engine/context"
+	"github.com/alfmartinez/ego/engine/input"
+	"github.com/alfmartinez/ego/engine/object"
+	"github.com/alfmartinez/ego/engine/observer"
+	"github.com/alfmartinez/ego/engine/physics"
+	"github.com/alfmartinez/ego/engine/renderer"
+	"github.com/alfmartinez/ego/engine/terrain"
 )
 
 func generateGame(factory func(observer.Subject, renderer.Renderer) Game) Game {

@@ -1,8 +1,8 @@
 package display
 
 import (
-	"ego/engine/context"
 	"fmt"
+	"github.com/alfmartinez/ego/engine/context"
 	"image"
 
 	"github.com/spf13/viper"

@@ -1,8 +1,8 @@
 package renderer
 
 import (
-	"ego/engine/context"
 	"errors"
+	"github.com/alfmartinez/ego/engine/context"
 )
 
 type Renderer interface {

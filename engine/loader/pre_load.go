@@ -1,7 +1,7 @@
 package loader
 
 import (
-	"ego/engine/configuration"
+	"github.com/alfmartinez/ego/engine/configuration"
 	"image"
 	"strconv"
 	"strings"

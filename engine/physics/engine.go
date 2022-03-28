@@ -1,10 +1,10 @@
 package physics
 
 import (
-	"ego/engine/configuration"
-	"ego/engine/context"
-	"ego/engine/physics/module"
-	"ego/engine/slices"
+	"github.com/alfmartinez/ego/engine/configuration"
+	"github.com/alfmartinez/ego/engine/context"
+	"github.com/alfmartinez/ego/engine/physics/module"
+	"github.com/alfmartinez/ego/engine/slices"
 	"time"
 )
 

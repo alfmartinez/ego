@@ -1,7 +1,7 @@
 package template
 
 import (
-	"ego/engine/configuration"
+	"github.com/alfmartinez/ego/engine/configuration"
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"
 	"golang.org/x/text/message/catalog"

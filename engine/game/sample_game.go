@@ -1,11 +1,11 @@
 package game
 
 import (
-	"ego/engine/context"
-	"ego/engine/input"
-	"ego/engine/observer"
-	"ego/engine/physics"
-	"ego/engine/renderer"
+	"github.com/alfmartinez/ego/engine/context"
+	"github.com/alfmartinez/ego/engine/input"
+	"github.com/alfmartinez/ego/engine/observer"
+	"github.com/alfmartinez/ego/engine/physics"
+	"github.com/alfmartinez/ego/engine/renderer"
 	"log"
 	"time"
 )

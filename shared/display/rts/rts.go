@@ -1,11 +1,11 @@
 package rts
 
 import (
-	"ego/engine/context"
-	"ego/engine/display"
-	"ego/engine/layer"
-	"ego/engine/loader"
 	"fmt"
+	"github.com/alfmartinez/ego/engine/context"
+	"github.com/alfmartinez/ego/engine/display"
+	"github.com/alfmartinez/ego/engine/layer"
+	"github.com/alfmartinez/ego/engine/loader"
 	"image"
 	"image/color"
 	"image/draw"

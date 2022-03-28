@@ -1,7 +1,7 @@
 package mobile
 
 import (
-	"ego/engine/physics/matrix"
+	"github.com/alfmartinez/ego/engine/physics/matrix"
 	"image"
 )
 

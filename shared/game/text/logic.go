@@ -1,9 +1,9 @@
 package text
 
 import (
-	"ego/engine/object"
-	"ego/engine/observer"
-	"ego/engine/state"
+	"github.com/alfmartinez/ego/engine/object"
+	"github.com/alfmartinez/ego/engine/observer"
+	"github.com/alfmartinez/ego/engine/state"
 	"time"
 )
 

@@ -1,8 +1,8 @@
 package terrain
 
 import (
-	"ego/engine/motivator"
 	"fmt"
+	"github.com/alfmartinez/ego/engine/motivator"
 )
 
 func GetResourcesProviding(need motivator.Need) []Resource {
