@@ -1,0 +1,6 @@
+"The Simple Story"
+
+The Black Room is a room. "You see a room with walls black as coal."
+East of the Black Room is the White Room. "You see a room with its walls white as milk."
+
+Test me with "east"

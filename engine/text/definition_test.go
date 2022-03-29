@@ -1,6 +1,6 @@
 package text
 
-var definitions = []ParserCase{
+var sectionCases = []ParserCase{
 	{
 		"Section - title with space",
 		`Section 1 - "Testing descriptions"

@@ -49,7 +49,7 @@ SimplePhrase = <ident> .`
 func TestParseReader(t *testing.T) {
 	tests := make([]ParserCase, 0)
 	tests = append(tests, informerSentences...)
-	tests = append(tests, definitions...)
+	tests = append(tests, sectionCases...)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			reader := strings.NewReader(tt.content)
