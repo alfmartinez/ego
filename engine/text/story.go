@@ -5,7 +5,9 @@ type Story interface {
 }
 
 func CreateStory(path string) Story {
-	return &story{}
+	ast := ParseFile(path)
+	semantix := CreateSemantix()
+	return semantix.BuildStory(ast)
 }
 
 type story struct{}

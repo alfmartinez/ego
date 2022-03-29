@@ -30,6 +30,11 @@ type (
 		Sentence *Sentence `@@`
 		Title    string    `| @String`
 		Section  *Section  `| @@`
+		Test     *Test     `| @@`
+	}
+
+	Test struct {
+		Commands []string `Test {@String}`
 	}
 
 	Section struct {
@@ -86,6 +91,7 @@ var (
 			{"String", `"[^"]*"`, nil},
 			{"Separator", `(\,|and\b)`, nil},
 			{"Section", `Section\b`, nil},
+			{"Test", `Test me with`, nil},
 			{"Relation", "(" + strings.Join(relations, "|") + `)\b`, nil},
 			{"Determiner", "(" + strings.Join(determiners, "|") + `)\b`, nil},
 			{"Article", "(" + strings.Join(articles, "|") + `)\b`, nil},
