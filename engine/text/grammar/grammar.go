@@ -1,4 +1,4 @@
-package text
+package grammar
 
 import (
 	"github.com/alecthomas/participle/v2/lexer"
@@ -27,11 +27,17 @@ type (
 	}
 
 	Statement struct {
-		Title     string     `@String`
-		Direction *Connector `| @@`
-		Sentence  *Sentence  `| @@`
-		Section   *Section   `| @@`
-		Test      *Test      `| @@`
+		Title       string       `@String`
+		Direction   *Connector   `| @@`
+		Sentence    *Sentence    `| @@`
+		Section     *Section     `| @@`
+		Test        *Test        `| @@`
+		Description *Description `| @@`
+	}
+
+	Description struct {
+		Target      *Designator `"description" "of" @@`
+		Description string      `"is" @String "."?`
 	}
 
 	Connector struct {
@@ -93,7 +99,7 @@ type (
 )
 
 var (
-	verbs       = []string{"is", "has", "carries"}
+	verbs       = []string{"is", "has", "carries", "look"}
 	articles    = []string{"a", "an", "the", "The", "An", "A"}
 	determiners = []string{"which", "who"}
 	relations   = []string{"of", "in"}
@@ -115,9 +121,34 @@ var (
 			{"Verb", "(" + strings.Join(verbs, "|") + `)\b`, nil},
 			{"Ident", `[\p{L}]+`, nil},
 			{"Number", `[0-9]+`, nil},
-			{"Punct", `[\.\-]`, nil},
+			{"Punct", `[\.\-\(\)\:]`, nil},
 			{"EOL", `\n+`, nil},
 			{"Whitespace", `[ \t]+`, nil},
 		},
 	})
 )
+
+func (d *Designator) Get() string {
+	return strings.Join(d.Elements, " ")
+}
+
+func (d *Direction) Direct() string {
+	return d.Value
+}
+
+func (d *Direction) Reverse() string {
+	return DirectionReverse[d.Value]
+}
+
+var DirectionReverse = map[string]string{
+	"east":      "west",
+	"south":     "north",
+	"west":      "east",
+	"north":     "south",
+	"up":        "down",
+	"down":      "up",
+	"northeast": "southwest",
+	"northwest": "southeast",
+	"southwest": "northeast",
+	"southeast": "northwest",
+}

@@ -1,4 +1,4 @@
-package text
+package grammar
 
 var sectionCases = []ParserCase{
 	{
@@ -48,6 +48,20 @@ var sectionCases = []ParserCase{
 					Direction: &Direction{"East"},
 					Origin:    &Designator{[]string{"Black", "Rock"}},
 					Target:    &Designator{[]string{"Sunken", "Cove"}},
+				},
+			},
+		},
+		false,
+	},
+	{
+		"Description",
+		`The description of the orange is "A round fruit whose name is its color".
+`,
+		[]*Statement{
+			{
+				Description: &Description{
+					Target:      &Designator{[]string{"orange"}},
+					Description: "A round fruit whose name is its color",
 				},
 			},
 		},

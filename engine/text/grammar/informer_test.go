@@ -1,4 +1,4 @@
-package text
+package grammar
 
 var informerSentences = []ParserCase{
 	{
