@@ -7,10 +7,12 @@ var informerSentences = []ParserCase{
 		World{
 			Statements: []*Statement{
 				{
-					DP: &DescriptionPhrase{Simple: &Noun{"chamber"}},
-					VP: &VerbPhrase{
-						"is",
-						&DescriptionPhrase{Simple: &Noun{"room"}},
+					Sentence: &Sentence{
+						DP: &DescriptionPhrase{Simple: &Noun{"chamber"}},
+						VP: &VerbPhrase{
+							"is",
+							&DescriptionPhrase{Simple: &Noun{"room"}},
+						},
 					},
 				},
 			},
@@ -23,17 +25,21 @@ var informerSentences = []ParserCase{
 		World{
 			Statements: []*Statement{
 				{
-					DP: &DescriptionPhrase{Simple: &Noun{"chamber"}},
-					VP: &VerbPhrase{
-						"is",
-						&DescriptionPhrase{Simple: &Noun{"room"}},
+					Sentence: &Sentence{
+						DP: &DescriptionPhrase{Simple: &Noun{"chamber"}},
+						VP: &VerbPhrase{
+							"is",
+							&DescriptionPhrase{Simple: &Noun{"room"}},
+						},
 					},
 				},
 				{
-					DP: &DescriptionPhrase{Simple: &Noun{"cat"}},
-					VP: &VerbPhrase{
-						"is",
-						&DescriptionPhrase{Simple: &Noun{"here"}},
+					Sentence: &Sentence{
+						DP: &DescriptionPhrase{Simple: &Noun{"cat"}},
+						VP: &VerbPhrase{
+							"is",
+							&DescriptionPhrase{Simple: &Noun{"here"}},
+						},
 					},
 				},
 			},
@@ -46,16 +52,18 @@ var informerSentences = []ParserCase{
 		World{
 			Statements: []*Statement{
 				{
-					DP: &DescriptionPhrase{Simple: &Noun{"cart"}},
-					VP: &VerbPhrase{
-						"is",
-						&DescriptionPhrase{Complex: &ComplexPhrase{
-							Simple: &Noun{"vehicle"},
-							VP: &VerbPhrase{
-								"is",
-								&DescriptionPhrase{Simple: &Noun{"movable"}},
-							},
-						}},
+					Sentence: &Sentence{
+						DP: &DescriptionPhrase{Simple: &Noun{"cart"}},
+						VP: &VerbPhrase{
+							"is",
+							&DescriptionPhrase{Complex: &ComplexPhrase{
+								Simple: &Noun{"vehicle"},
+								VP: &VerbPhrase{
+									"is",
+									&DescriptionPhrase{Simple: &Noun{"movable"}},
+								},
+							}},
+						},
 					},
 				},
 			},
@@ -68,20 +76,22 @@ var informerSentences = []ParserCase{
 		World{
 			Statements: []*Statement{
 				{
-					DP: &DescriptionPhrase{
-						Simple: &Noun{"Janitor"},
-					},
-					VP: &VerbPhrase{
-						"is",
-						&DescriptionPhrase{
-							Complex: &ComplexPhrase{
-								Simple: &Noun{"person"},
-								VP: &VerbPhrase{
-									"has",
-									&DescriptionPhrase{
-										AdjNoun: &AdjNoun{
-											Adjective: "blue",
-											Noun:      &Noun{"key"},
+					Sentence: &Sentence{
+						DP: &DescriptionPhrase{
+							Simple: &Noun{"Janitor"},
+						},
+						VP: &VerbPhrase{
+							"is",
+							&DescriptionPhrase{
+								Complex: &ComplexPhrase{
+									Simple: &Noun{"person"},
+									VP: &VerbPhrase{
+										"has",
+										&DescriptionPhrase{
+											AdjNoun: &AdjNoun{
+												Adjective: "blue",
+												Noun:      &Noun{"key"},
+											},
 										},
 									},
 								},
@@ -99,16 +109,18 @@ var informerSentences = []ParserCase{
 		World{
 			Statements: []*Statement{
 				{
-					DP: &DescriptionPhrase{
-						Simple: &Noun{"cat"},
-					},
-					VP: &VerbPhrase{
-						"is",
-						&DescriptionPhrase{
-							Relation: &RelativePhrase{
-								Simple:   &Noun{"kind"},
-								Relation: "of",
-								Related:  &Noun{"animal"},
+					Sentence: &Sentence{
+						DP: &DescriptionPhrase{
+							Simple: &Noun{"cat"},
+						},
+						VP: &VerbPhrase{
+							"is",
+							&DescriptionPhrase{
+								Relation: &RelativePhrase{
+									Simple:   &Noun{"kind"},
+									Relation: "of",
+									Related:  &Noun{"animal"},
+								},
 							},
 						},
 					},
@@ -123,16 +135,18 @@ var informerSentences = []ParserCase{
 		World{
 			Statements: []*Statement{
 				{
-					DP: &DescriptionPhrase{
-						AdjNoun: &AdjNoun{
-							Adjective: "Blue",
-							Noun:      &Noun{"Fury"},
+					Sentence: &Sentence{
+						DP: &DescriptionPhrase{
+							AdjNoun: &AdjNoun{
+								Adjective: "Blue",
+								Noun:      &Noun{"Fury"},
+							},
 						},
-					},
-					VP: &VerbPhrase{
-						"is",
-						&DescriptionPhrase{
-							Simple: &Noun{"cat"},
+						VP: &VerbPhrase{
+							"is",
+							&DescriptionPhrase{
+								Simple: &Noun{"cat"},
+							},
 						},
 					},
 				},
@@ -160,19 +174,21 @@ var informerSentences = []ParserCase{
 		World{
 			Statements: []*Statement{
 				{
-					DP: &DescriptionPhrase{
-						AdjNoun: &AdjNoun{
-							Adjective: "Blue",
-							Noun:      &Noun{"Fury"},
+					Sentence: &Sentence{
+						DP: &DescriptionPhrase{
+							AdjNoun: &AdjNoun{
+								Adjective: "Blue",
+								Noun:      &Noun{"Fury"},
+							},
 						},
-					},
-					VP: &VerbPhrase{
-						"is",
-						&DescriptionPhrase{
-							Simple: &Noun{"cat"},
+						VP: &VerbPhrase{
+							"is",
+							&DescriptionPhrase{
+								Simple: &Noun{"cat"},
+							},
 						},
+						Description: "A big cat lies lazily on the couch.",
 					},
-					Description: "A big cat lies lazily on the couch.",
 				},
 			},
 		},

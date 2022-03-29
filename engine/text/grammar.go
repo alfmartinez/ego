@@ -27,10 +27,14 @@ type (
 	}
 
 	Statement struct {
-		DP          *DescriptionPhrase `(@@`
+		Sentence *Sentence `@@`
+		Title    string    `| @String`
+	}
+
+	Sentence struct {
+		DP          *DescriptionPhrase `@@`
 		VP          *VerbPhrase        `@@ "."`
-		Description string             `@String? )`
-		Title       string             `| @String`
+		Description string             `@String?`
 	}
 
 	DescriptionPhrase struct {
