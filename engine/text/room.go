@@ -9,7 +9,7 @@ type Room interface {
 	Description() string
 	SetDescription(string)
 	AddDirection(direction string, destination string)
-	Execute(cmd string) string
+	Execute(cmd *Command) string
 }
 
 func CreateRoomFromSentence(s *Sentence) Room {
@@ -49,8 +49,9 @@ func (r *room) AddDirection(direction string, destination string) {
 	r.directions[direction] = destination
 }
 
-func (r *room) Execute(cmd string) string {
-	if target, ok := r.directions[cmd]; ok {
+func (r *room) Execute(cmd *Command) string {
+	direction := cmd.Direction.Value
+	if target, ok := r.directions[direction]; ok {
 		return target
 	}
 	return ""

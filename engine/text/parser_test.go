@@ -32,7 +32,7 @@ type (
 )
 
 func TestParserEbnf(t *testing.T) {
-	parser := BuildParser()
+	parser := BuildInformerParser()
 	def := parser.String()
 	expected := `Grammar = World <eof> .
 World = (Statement \".\" <eol>)* .

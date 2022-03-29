@@ -8,12 +8,23 @@ import (
 )
 
 var (
-	parser *participle.Parser = BuildParser()
+	parser *participle.Parser = BuildInformerParser()
 )
 
-func BuildParser() *participle.Parser {
+func BuildInformerParser() *participle.Parser {
 	return participle.MustBuild(
 		&Grammar{},
+		participle.Lexer(def),
+		participle.Unquote("String"),
+		participle.Elide("Article", "Whitespace"),
+		participle.CaseInsensitive("Article", "Direction"),
+		participle.UseLookahead(16),
+	)
+}
+
+func BuildCommandParser() *participle.Parser {
+	return participle.MustBuild(
+		&Command{},
 		participle.Lexer(def),
 		participle.Unquote("String"),
 		participle.Elide("Article", "Whitespace"),

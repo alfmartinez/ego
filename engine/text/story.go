@@ -7,7 +7,7 @@ import (
 
 type Story interface {
 	Test()
-	Start() chan string
+	Start() chan *Command
 	SetWriter(io.Writer)
 }
 
@@ -35,13 +35,13 @@ func (s *story) SetWriter(w io.Writer) {
 	s.writer = w
 }
 
-func (s *story) Start() chan string {
-	cmdChan := make(chan string)
+func (s *story) Start() chan *Command {
+	cmdChan := make(chan *Command)
 	go func() {
 		s.Render()
 		for msg := range cmdChan {
 			if s.testMode {
-				s.println("> " + msg)
+				s.println("> " + msg.String())
 				s.println("")
 			}
 			s.Update(msg)
@@ -56,7 +56,8 @@ func (s *story) Test() {
 	s.testMode = true
 	cmdChan := s.Start()
 	for _, cmd := range s.tests {
-		cmdChan <- cmd
+		command := ParseCommand(cmd)
+		cmdChan <- command
 	}
 	close(cmdChan)
 	s.testMode = false
@@ -78,7 +79,7 @@ func (s *story) Render() {
 	s.println("")
 }
 
-func (s *story) Update(cmd string) {
+func (s *story) Update(cmd *Command) {
 	room := s.rooms[s.current]
 	if result := room.Execute(cmd); result != "" {
 		s.current = result
