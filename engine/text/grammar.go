@@ -38,7 +38,8 @@ type (
 	}
 
 	DescriptionPhrase struct {
-		Designator *Designator     `@@`
+		Designator *Designator     ` @@  `
+		List       *Designator     ` {Separator @@} `
 		Complex    *ComplexPhrase  `@@?`
 		Relation   *RelativePhrase `@@?`
 	}
@@ -71,6 +72,7 @@ var (
 	def = lexer.MustStateful(lexer.Rules{
 		"Root": {
 			{"String", `"[^"]*"`, nil},
+			{"Separator", `(\,|and\b)`, nil},
 			{"Relation", "(" + strings.Join(relations, "|") + `)\b`, nil},
 			{"Determiner", "(" + strings.Join(determiners, "|") + `)\b`, nil},
 			{"Article", "(" + strings.Join(articles, "|") + `)\b`, nil},

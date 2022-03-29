@@ -138,6 +138,27 @@ var informerSentences = []ParserCase{
 		},
 		false,
 	},
+
+	{
+		"Adjective - 2",
+		"The Big Blue Fury is a cat.\n",
+		[]*Statement{
+			{
+				Sentence: &Sentence{
+					DP: &DescriptionPhrase{
+						Designator: &Designator{[]string{"Big", "Blue", "Fury"}},
+					},
+					VP: &VerbPhrase{
+						"is",
+						&DescriptionPhrase{
+							Designator: &Designator{[]string{"cat"}},
+						},
+					},
+				},
+			},
+		},
+		false,
+	},
 	{
 		"Title",
 		`"The Blue Fury is a cat."
