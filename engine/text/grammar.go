@@ -27,10 +27,18 @@ type (
 	}
 
 	Statement struct {
-		Sentence *Sentence `@@`
-		Title    string    `| @String`
-		Section  *Section  `| @@`
-		Test     *Test     `| @@`
+		Title     string     `@String`
+		Direction *Direction `| @@`
+		Sentence  *Sentence  `| @@`
+		Section   *Section   `| @@`
+		Test      *Test      `| @@`
+	}
+
+	Direction struct {
+		Direction   string      `@Direction`
+		Origin      *Designator `"of" @@ "is"`
+		Target      *Designator `@@ "."`
+		Description string      `@String?`
 	}
 
 	Test struct {
@@ -85,6 +93,10 @@ var (
 	articles    = []string{"a", "an", "the", "The", "An", "A"}
 	determiners = []string{"which", "who"}
 	relations   = []string{"of", "in"}
+	directions  = []string{
+		"north", "south", "east", "west",
+		"North", "South", "East", "West",
+	}
 
 	def = lexer.MustStateful(lexer.Rules{
 		"Root": {
@@ -92,6 +104,7 @@ var (
 			{"Separator", `(\,|and\b)`, nil},
 			{"Section", `Section\b`, nil},
 			{"Test", `Test me with`, nil},
+			{"Direction", "(" + strings.Join(directions, "|") + `)\b`, nil},
 			{"Relation", "(" + strings.Join(relations, "|") + `)\b`, nil},
 			{"Determiner", "(" + strings.Join(determiners, "|") + `)\b`, nil},
 			{"Article", "(" + strings.Join(articles, "|") + `)\b`, nil},

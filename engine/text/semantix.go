@@ -2,6 +2,7 @@ package text
 
 import (
 	"fmt"
+	"strings"
 )
 
 type Semantix interface {
@@ -29,7 +30,7 @@ func (s *semantix) BuildStory(ast *Grammar) Story {
 	return &story{
 		title:   s.title,
 		rooms:   s.rooms,
-		startAt: s.startAt,
+		current: s.startAt,
 		tests:   s.tests,
 	}
 }
@@ -42,6 +43,8 @@ func (s *semantix) analyze(t *Statement) {
 		s.analyzeSentence(t.Sentence)
 	case t.Test != nil:
 		s.analyzeTest(t.Test)
+	case t.Direction != nil:
+		s.analyzeDirection(t.Direction)
 	}
 }
 
@@ -64,8 +67,30 @@ func (s *semantix) analyzeTest(t *Test) {
 	s.tests = append(s.tests, t.Commands...)
 }
 
+func (s *semantix) analyzeDirection(t *Direction) {
+	direction := strings.ToLower(t.Direction)
+	originKey := strings.Join(t.Origin.Elements, " ")
+	targetKey := strings.Join(t.Target.Elements, " ")
+	var origin, target Room
+	var ok bool
+	origin, ok = s.rooms[originKey]
+	if !ok {
+		origin = CreateRoomFromName(originKey)
+		s.rooms[originKey] = origin
+	}
+	target, ok = s.rooms[targetKey]
+	if !ok {
+		target = CreateRoomFromName(targetKey)
+		s.rooms[targetKey] = target
+	}
+	origin.AddDirection(direction, targetKey)
+	if t.Description != "" {
+		target.SetDescription(t.Description)
+	}
+}
+
 func (s *semantix) createRoom(value *Sentence) {
-	room := CreateRoom(value)
+	room := CreateRoomFromSentence(value)
 	name := room.Name()
 	s.rooms[name] = room
 	if s.startAt == "" {

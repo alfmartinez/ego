@@ -17,7 +17,7 @@ func BuildParser() *participle.Parser {
 		participle.Lexer(def),
 		participle.Unquote("String"),
 		participle.Elide("Article", "Whitespace"),
-		participle.CaseInsensitive("Article"),
+		participle.CaseInsensitive("Article", "Direction"),
 		participle.UseLookahead(16),
 	)
 }

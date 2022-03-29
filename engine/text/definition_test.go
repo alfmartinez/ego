@@ -38,4 +38,19 @@ var sectionCases = []ParserCase{
 		},
 		false,
 	},
+	{
+		"Room Connector - Direction",
+		`East of the Black Rock is the Sunken Cove.
+`,
+		[]*Statement{
+			{
+				Direction: &Direction{
+					Direction: "East",
+					Origin:    &Designator{[]string{"Black", "Rock"}},
+					Target:    &Designator{[]string{"Sunken", "Cove"}},
+				},
+			},
+		},
+		false,
+	},
 }

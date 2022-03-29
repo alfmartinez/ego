@@ -26,7 +26,7 @@ type story struct {
 	title    string
 	writer   io.Writer
 	rooms    map[string]Room
-	startAt  string
+	current  string
 	tests    []string
 	testMode bool
 }
@@ -72,12 +72,15 @@ func (s *story) Render() {
 		s.println("")
 		s.state.titleDisplayed = true
 	}
-	room := s.rooms[s.startAt]
+	room := s.rooms[s.current]
 	s.println(room.Name())
 	s.println(room.Description())
 	s.println("")
 }
 
 func (s *story) Update(cmd string) {
-
+	room := s.rooms[s.current]
+	if result := room.Execute(cmd); result != "" {
+		s.current = result
+	}
 }
