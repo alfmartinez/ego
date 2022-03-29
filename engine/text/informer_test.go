@@ -7,15 +7,14 @@ var informerSentences = []ParserCase{
 		[]*Statement{
 			{
 				Sentence: &Sentence{
-					DP: &DescriptionPhrase{Simple: &Noun{"chamber"}},
+					DP: &DescriptionPhrase{Designator: &Designator{[]string{"chamber"}}},
 					VP: &VerbPhrase{
 						"is",
-						&DescriptionPhrase{Simple: &Noun{"room"}},
+						&DescriptionPhrase{Designator: &Designator{[]string{"room"}}},
 					},
 				},
 			},
 		},
-
 		false,
 	},
 	{
@@ -24,19 +23,19 @@ var informerSentences = []ParserCase{
 		[]*Statement{
 			{
 				Sentence: &Sentence{
-					DP: &DescriptionPhrase{Simple: &Noun{"chamber"}},
+					DP: &DescriptionPhrase{Designator: &Designator{[]string{"chamber"}}},
 					VP: &VerbPhrase{
 						"is",
-						&DescriptionPhrase{Simple: &Noun{"room"}},
+						&DescriptionPhrase{Designator: &Designator{[]string{"room"}}},
 					},
 				},
 			},
 			{
 				Sentence: &Sentence{
-					DP: &DescriptionPhrase{Simple: &Noun{"cat"}},
+					DP: &DescriptionPhrase{Designator: &Designator{[]string{"cat"}}},
 					VP: &VerbPhrase{
 						"is",
-						&DescriptionPhrase{Simple: &Noun{"here"}},
+						&DescriptionPhrase{Designator: &Designator{[]string{"here"}}},
 					},
 				},
 			},
@@ -49,16 +48,18 @@ var informerSentences = []ParserCase{
 		[]*Statement{
 			{
 				Sentence: &Sentence{
-					DP: &DescriptionPhrase{Simple: &Noun{"cart"}},
+					DP: &DescriptionPhrase{Designator: &Designator{[]string{"cart"}}},
 					VP: &VerbPhrase{
 						"is",
-						&DescriptionPhrase{Complex: &ComplexPhrase{
-							Simple: &Noun{"vehicle"},
-							VP: &VerbPhrase{
-								"is",
-								&DescriptionPhrase{Simple: &Noun{"movable"}},
+						&DescriptionPhrase{
+							Designator: &Designator{[]string{"vehicle"}},
+							Complex: &ComplexPhrase{
+								VP: &VerbPhrase{
+									"is",
+									&DescriptionPhrase{Designator: &Designator{[]string{"movable"}}},
+								},
 							},
-						}},
+						},
 					},
 				},
 			},
@@ -71,20 +72,17 @@ var informerSentences = []ParserCase{
 		[]*Statement{
 			{
 				Sentence: &Sentence{
-					DP: &DescriptionPhrase{
-						Simple: &Noun{"Janitor"},
-					},
+					DP: &DescriptionPhrase{Designator: &Designator{[]string{"Janitor"}}},
 					VP: &VerbPhrase{
 						"is",
 						&DescriptionPhrase{
+							Designator: &Designator{[]string{"person"}},
 							Complex: &ComplexPhrase{
-								Simple: &Noun{"person"},
 								VP: &VerbPhrase{
 									"has",
 									&DescriptionPhrase{
-										AdjNoun: &AdjNoun{
-											Adjective: "blue",
-											Noun:      &Noun{"key"},
+										Designator: &Designator{
+											[]string{"blue", "key"},
 										},
 									},
 								},
@@ -103,15 +101,15 @@ var informerSentences = []ParserCase{
 			{
 				Sentence: &Sentence{
 					DP: &DescriptionPhrase{
-						Simple: &Noun{"cat"},
+						Designator: &Designator{[]string{"cat"}},
 					},
 					VP: &VerbPhrase{
 						"is",
 						&DescriptionPhrase{
+							Designator: &Designator{[]string{"kind"}},
 							Relation: &RelativePhrase{
-								Simple:   &Noun{"kind"},
 								Relation: "of",
-								Related:  &Noun{"animal"},
+								Related:  &Designator{[]string{"animal"}},
 							},
 						},
 					},
@@ -127,15 +125,12 @@ var informerSentences = []ParserCase{
 			{
 				Sentence: &Sentence{
 					DP: &DescriptionPhrase{
-						AdjNoun: &AdjNoun{
-							Adjective: "Blue",
-							Noun:      &Noun{"Fury"},
-						},
+						Designator: &Designator{[]string{"Blue", "Fury"}},
 					},
 					VP: &VerbPhrase{
 						"is",
 						&DescriptionPhrase{
-							Simple: &Noun{"cat"},
+							Designator: &Designator{[]string{"cat"}},
 						},
 					},
 				},
@@ -163,15 +158,12 @@ var informerSentences = []ParserCase{
 			{
 				Sentence: &Sentence{
 					DP: &DescriptionPhrase{
-						AdjNoun: &AdjNoun{
-							Adjective: "Blue",
-							Noun:      &Noun{"Fury"},
-						},
+						Designator: &Designator{[]string{"Blue", "Fury"}},
 					},
 					VP: &VerbPhrase{
 						"is",
 						&DescriptionPhrase{
-							Simple: &Noun{"cat"},
+							Designator: &Designator{[]string{"cat"}},
 						},
 					},
 					Description: "A big cat lies lazily on the couch.",

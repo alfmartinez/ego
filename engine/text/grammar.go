@@ -38,30 +38,22 @@ type (
 	}
 
 	DescriptionPhrase struct {
-		Complex  *ComplexPhrase  `  @@`
-		AdjNoun  *AdjNoun        `| @@`
-		Relation *RelativePhrase `| @@`
-		Simple   *Noun           `| @@`
+		Designator *Designator     `@@`
+		Complex    *ComplexPhrase  `@@?`
+		Relation   *RelativePhrase `@@?`
 	}
 
-	AdjNoun struct {
-		Adjective string `@Ident`
-		Noun      *Noun  `@@`
-	}
-
-	Noun struct {
-		Content string `@Ident`
+	Designator struct {
+		Elements []string `{ @Ident }`
 	}
 
 	ComplexPhrase struct {
-		Simple *Noun       `@@`
-		VP     *VerbPhrase `Determiner @@`
+		VP *VerbPhrase `Determiner @@`
 	}
 
 	RelativePhrase struct {
-		Simple   *Noun  `@@`
-		Relation string `@Relation`
-		Related  *Noun  `@@`
+		Relation string      `@Relation`
+		Related  *Designator `@@`
 	}
 
 	VerbPhrase struct {
