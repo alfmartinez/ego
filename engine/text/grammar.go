@@ -38,10 +38,15 @@ type (
 	}
 
 	DescriptionPhrase struct {
-		Designator *Designator     ` @@  `
-		List       *Designator     ` {Separator @@} `
-		Complex    *ComplexPhrase  `@@?`
-		Relation   *RelativePhrase `@@?`
+		Designator *Designator     ` @@ `
+		List       *List           ` @@?`
+		Complex    *ComplexPhrase  ` @@?`
+		Relation   *RelativePhrase ` @@?`
+	}
+
+	List struct {
+		Elements []*Designator `("," @@)*`
+		Last     *Designator   `"and" @@`
 	}
 
 	Designator struct {
@@ -64,7 +69,7 @@ type (
 )
 
 var (
-	verbs       = []string{"is", "has"}
+	verbs       = []string{"is", "has", "carries"}
 	articles    = []string{"a", "an", "the", "The", "An", "A"}
 	determiners = []string{"which", "who"}
 	relations   = []string{"of", "in"}

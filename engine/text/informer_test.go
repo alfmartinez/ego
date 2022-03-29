@@ -193,4 +193,100 @@ var informerSentences = []ParserCase{
 		},
 		false,
 	},
+	{
+		"Inventory- 3",
+		"The player carries a watch, a handcrafted napkin and a bic pen.\n",
+		[]*Statement{
+			{
+				Sentence: &Sentence{
+					DP: &DescriptionPhrase{
+						Designator: &Designator{[]string{"player"}},
+					},
+					VP: &VerbPhrase{
+						"carries",
+						&DescriptionPhrase{
+							Designator: &Designator{[]string{"watch"}},
+							List: &List{
+								Elements: []*Designator{
+									{Elements: []string{"handcrafted", "napkin"}},
+								},
+								Last: &Designator{[]string{"bic", "pen"}},
+							},
+						},
+					},
+				},
+			},
+		},
+		false,
+	},
+	{
+		"Inventory- 2",
+		"The player carries an orange and a purring cat.\n",
+		[]*Statement{
+			{
+				Sentence: &Sentence{
+					DP: &DescriptionPhrase{
+						Designator: &Designator{[]string{"player"}},
+					},
+					VP: &VerbPhrase{
+						"carries",
+						&DescriptionPhrase{
+							Designator: &Designator{[]string{"orange"}},
+							List: &List{
+								Last: &Designator{[]string{"purring", "cat"}},
+							},
+						},
+					},
+				},
+			},
+		},
+		false,
+	},
+	{
+		"Inventory- 4",
+		"The player carries a watch, a handcrafted napkin, a pint and a bic pen.\n",
+		[]*Statement{
+			{
+				Sentence: &Sentence{
+					DP: &DescriptionPhrase{
+						Designator: &Designator{[]string{"player"}},
+					},
+					VP: &VerbPhrase{
+						"carries",
+						&DescriptionPhrase{
+							Designator: &Designator{[]string{"watch"}},
+							List: &List{
+								Elements: []*Designator{
+									{Elements: []string{"handcrafted", "napkin"}},
+									{Elements: []string{"pint"}},
+								},
+								Last: &Designator{[]string{"bic", "pen"}},
+							},
+						},
+					},
+				},
+			},
+		},
+		false,
+	},
+	{
+		"Inventory- 1",
+		"The player carries a watch.\n",
+		[]*Statement{
+			{
+				Sentence: &Sentence{
+					DP: &DescriptionPhrase{
+						Designator: &Designator{[]string{"player"}},
+					},
+					VP: &VerbPhrase{
+						"carries",
+						&DescriptionPhrase{
+							Designator: &Designator{[]string{"watch"}},
+						},
+					},
+				},
+			},
+		},
+		false,
+	},
 }
