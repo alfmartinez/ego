@@ -26,7 +26,7 @@ type (
 	ParserCase struct {
 		name    string
 		content string
-		want    World
+		want    []*Statement
 		tokens  bool
 	}
 )
@@ -59,7 +59,7 @@ func TestParseReader(t *testing.T) {
 			}
 
 			got := ParseReader(reader)
-			if !reflect.DeepEqual(got.World, tt.want) {
+			if !reflect.DeepEqual(got.World.Statements, tt.want) {
 				t.Errorf("Result not as expected\n%v", diff.LineDiff(spew.Sprintf("%#v", got.World), spew.Sprintf("%#v", tt.want)))
 			}
 		})
