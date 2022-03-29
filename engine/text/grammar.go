@@ -29,6 +29,13 @@ type (
 	Statement struct {
 		Sentence *Sentence `@@`
 		Title    string    `| @String`
+		Section  *Section  `| @@`
+	}
+
+	Section struct {
+		Number int    `Section @Number`
+		Title  string `"-" (@String | @Ident)`
+		Tag    string `("-" (@String | @Ident*))? `
 	}
 
 	Sentence struct {
@@ -78,12 +85,14 @@ var (
 		"Root": {
 			{"String", `"[^"]*"`, nil},
 			{"Separator", `(\,|and\b)`, nil},
+			{"Section", `Section\b`, nil},
 			{"Relation", "(" + strings.Join(relations, "|") + `)\b`, nil},
 			{"Determiner", "(" + strings.Join(determiners, "|") + `)\b`, nil},
 			{"Article", "(" + strings.Join(articles, "|") + `)\b`, nil},
 			{"Verb", "(" + strings.Join(verbs, "|") + `)\b`, nil},
 			{"Ident", `[\p{L}]+`, nil},
-			{"Punct", `\.`, nil},
+			{"Number", `[0-9]+`, nil},
+			{"Punct", `[\.\-]`, nil},
 			{"EOL", `\n+`, nil},
 			{"Whitespace", `[ \t]+`, nil},
 		},
