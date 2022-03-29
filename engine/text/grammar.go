@@ -28,17 +28,21 @@ type (
 
 	Statement struct {
 		Title     string     `@String`
-		Direction *Direction `| @@`
+		Direction *Connector `| @@`
 		Sentence  *Sentence  `| @@`
 		Section   *Section   `| @@`
 		Test      *Test      `| @@`
 	}
 
-	Direction struct {
-		Direction   string      `@Direction`
+	Connector struct {
+		Direction   *Direction  `@@`
 		Origin      *Designator `"of" @@ "is"`
 		Target      *Designator `@@ "."`
 		Description string      `@String?`
+	}
+
+	Direction struct {
+		Value string `@Direction`
 	}
 
 	Test struct {

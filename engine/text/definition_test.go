@@ -44,8 +44,8 @@ var sectionCases = []ParserCase{
 `,
 		[]*Statement{
 			{
-				Direction: &Direction{
-					Direction: "East",
+				Direction: &Connector{
+					Direction: &Direction{"East"},
 					Origin:    &Designator{[]string{"Black", "Rock"}},
 					Target:    &Designator{[]string{"Sunken", "Cove"}},
 				},

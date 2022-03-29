@@ -67,8 +67,8 @@ func (s *semantix) analyzeTest(t *Test) {
 	s.tests = append(s.tests, t.Commands...)
 }
 
-func (s *semantix) analyzeDirection(t *Direction) {
-	direction := strings.ToLower(t.Direction)
+func (s *semantix) analyzeDirection(t *Connector) {
+	direction := strings.ToLower(t.Direction.Value)
 	originKey := strings.Join(t.Origin.Elements, " ")
 	targetKey := strings.Join(t.Target.Elements, " ")
 	var origin, target Room
