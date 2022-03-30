@@ -27,14 +27,21 @@ type (
 	}
 
 	Statement struct {
-		Title           string           `@String`
-		ValueDefinition *ValueDefinition `| @@`
-		KindDefinition  *KindDefinition  `| @@`
-		Direction       *Connector       `| @@`
-		Sentence        *Sentence        `| @@`
-		Section         *Section         `| @@`
-		Test            *Test            `| @@`
-		Description     *Description     `| @@`
+		Title           string               `@String`
+		Certainty       *CertaintyDefinition `| @@`
+		ValueDefinition *ValueDefinition     `| @@`
+		KindDefinition  *KindDefinition      `| @@`
+		Direction       *Connector           `| @@`
+		Sentence        *Sentence            `| @@`
+		Section         *Section             `| @@`
+		Test            *Test                `| @@`
+		Description     *Description         `| @@`
+	}
+
+	CertaintyDefinition struct {
+		Name      *Designator `@@ "is"`
+		Certainty string      `@Certainty`
+		Value     string      `@Ident "."`
 	}
 
 	ValueDefinition struct {
@@ -125,6 +132,9 @@ var (
 		"north", "south", "east", "west",
 		"North", "South", "East", "West",
 	}
+	certainties = []string{
+		"always", "usually", "seldom", "never",
+	}
 
 	def = lexer.MustStateful(lexer.Rules{
 		"Root": {
@@ -133,6 +143,7 @@ var (
 			{"Section", `Section\b`, nil},
 			{"Test", `Test me with`, nil},
 			{"Kind", `kind\b`, nil},
+			{"Certainty", "(" + strings.Join(certainties, "|") + `)\b`, nil},
 			{"Direction", "(" + strings.Join(directions, "|") + `)\b`, nil},
 			{"Relation", "(" + strings.Join(relations, "|") + `)\b`, nil},
 			{"Determiner", "(" + strings.Join(determiners, "|") + `)\b`, nil},

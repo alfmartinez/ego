@@ -15,6 +15,8 @@ type (
 
 	ValueKind interface {
 		SetValues([]string)
+		Values() []string
+		Name() string
 	}
 
 	objectKind struct {
@@ -54,4 +56,12 @@ func (k *objectKind) GetProperty(property string) string {
 
 func (v *valueKind) SetValues(values []string) {
 	v.values = values
+}
+
+func (v *valueKind) Values() []string {
+	return v.values
+}
+
+func (v *valueKind) Name() string {
+	return v.name
 }

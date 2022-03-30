@@ -3,10 +3,27 @@ package informer
 import (
 	"fmt"
 	"github.com/alfmartinez/ego/engine/text/grammar"
+	"golang.org/x/exp/slices"
 	"strings"
 )
 
 var semRules = []SemanticRule{
+	CreateSemanticRule(
+		"add certainty property to kind",
+		func(s *grammar.Statement) bool {
+			return s.Certainty != nil
+		},
+		func(s *grammar.Statement, r Semantix) {
+			def := s.Certainty
+			kindKey := strings.ToLower(def.Name.Get())
+			kind := kinds[kindKey].(ObjectKind)
+			for _, e := range values {
+				if slices.Contains(e.Values(), def.Value) {
+					kind.SetProperty(e.Name(), def.Value+":"+def.Certainty)
+				}
+			}
+		},
+	),
 	CreateSemanticRule(
 		"create a new object kind",
 		func(s *grammar.Statement) bool {
