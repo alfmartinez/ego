@@ -23,11 +23,12 @@ type (
 	}
 
 	World struct {
-		Statements []*Statement `(@@ EOL)*`
+		Statements []*Statement `(@@ EOL?)*`
 	}
 
 	Statement struct {
 		Title           string               `@String`
+		RelativeRoom    *RelativeRoom        `| @@`
 		Property        *PropertyDefinition  `| @@`
 		Certainty       *CertaintyDefinition `| @@`
 		ValueDefinition *ValueDefinition     `| @@`
@@ -37,6 +38,13 @@ type (
 		Section         *Section             `| @@`
 		Test            *Test                `| @@`
 		Description     *Description         `| @@`
+	}
+
+	RelativeRoom struct {
+		Direction *Direction  `@@ "is"`
+		Kind      *Designator `@@`
+		With      []*Property `("with" (@@ Separator?)*)?`
+		Name      *Designator `("called" @@)? "."?`
 	}
 
 	PropertyDefinition struct {
@@ -59,7 +67,7 @@ type (
 	KindDefinition struct {
 		Name   *Designator `@@ "is" Kind "of"`
 		Parent *Designator `@@`
-		With   []*Property `("with" (@@ Separator?)*)? "."`
+		With   []*Property `("with" (@@ Separator?)*)? "."?`
 	}
 
 	Property struct {
@@ -137,6 +145,8 @@ var (
 	relations   = []string{"of", "in", "with"}
 	directions  = []string{
 		"north", "south", "east", "west",
+		"northwest", "northeast", "southeast", "southwest",
+		"Northwest", "Northeast", "Southeast", "Southwest",
 		"North", "South", "East", "West",
 	}
 	certainties = []string{

@@ -57,7 +57,7 @@ func ExampleStory_common() {
 	filepaths = append(filepaths, paths...)
 	filepaths = append(filepaths, "testdata/common.txt")
 
-	story := CreateStory(filepaths, false, false)
+	story := CreateStory(filepaths, false, true)
 	story.SetWriter(os.Stdout)
 	story.Test()
 	// Output:

@@ -3,7 +3,6 @@ package informer
 import (
 	"fmt"
 	"github.com/alfmartinez/ego/engine/text/grammar"
-	"golang.org/x/exp/slices"
 	"strings"
 )
 
@@ -18,16 +17,11 @@ var semRules = []SemanticRule{
 			kindKey := strings.ToLower(def.Name.Get())
 			kind := kinds[kindKey].(ObjectKind)
 			for _, value := range def.Values {
-				var found bool = false
-				for _, e := range values {
-					if slices.Contains(e.Values(), value) {
-						found = true
-						kind.Set(e.Name(), value+":"+def.Certainty)
-					}
-				}
-				if !found {
+				e := FindPropertyByValue(value)
+				if e == nil {
 					panic(fmt.Errorf("can't find property with value %q", value))
 				}
+				kind.Set(e.Name(), value+":"+def.Certainty)
 			}
 		},
 	),
@@ -86,9 +80,26 @@ var semRules = []SemanticRule{
 			return s.Sentence != nil && s.Sentence.DP != nil && s.Sentence.DP.Designator != nil && s.Sentence.VP.Verb == "is"
 		},
 		func(s *grammar.Statement, r Semantix) {
-			kindKey := strings.ToLower(s.Sentence.VP.DP.Designator.Get())
+			designator := s.Sentence.VP.DP.Designator
+			elements := designator.Elements
+			var kindKey string
+			var properties = make(map[string]ValueKind)
+			if _, ok := kinds[designator.Get()]; !ok {
+				for _, tag := range elements {
+					kindKey = tag
+					if e := FindPropertyByValue(tag); e != nil {
+						properties[tag] = e
+					}
+				}
+			} else {
+				kindKey = designator.Get()
+			}
+
 			object := CreateObject(kindKey)
 			object.Set("name", s.Sentence.DP.Designator.Get())
+			for value, property := range properties {
+				object.Set(property.Name(), value)
+			}
 			if s.Sentence.Description != "" {
 				object.Set("description", s.Sentence.Description)
 			}

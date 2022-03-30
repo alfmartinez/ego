@@ -1,5 +1,9 @@
 package informer
 
+import (
+	"golang.org/x/exp/slices"
+)
+
 var (
 	kinds = map[string]ObjectKind{
 		"object": &objectKind{
@@ -12,3 +16,12 @@ var (
 
 	values = make(map[string]ValueKind)
 )
+
+func FindPropertyByValue(value string) ValueKind {
+	for _, e := range values {
+		if slices.Contains(e.Values(), value) {
+			return e
+		}
+	}
+	return nil
+}
