@@ -7,6 +7,7 @@ import (
 var paths = []string{
 	"data/values.txt",
 	"data/kinds.txt",
+	"data/objects.txt",
 }
 
 func ExampleStory_simple() {
