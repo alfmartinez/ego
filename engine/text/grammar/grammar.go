@@ -28,6 +28,7 @@ type (
 
 	Statement struct {
 		Title           string               `@String`
+		Property        *PropertyDefinition  `| @@`
 		Certainty       *CertaintyDefinition `| @@`
 		ValueDefinition *ValueDefinition     `| @@`
 		KindDefinition  *KindDefinition      `| @@`
@@ -36,6 +37,12 @@ type (
 		Section         *Section             `| @@`
 		Test            *Test                `| @@`
 		Description     *Description         `| @@`
+	}
+
+	PropertyDefinition struct {
+		Kind *Designator `@@`
+		Type string      `"has" "some" @Ident`
+		Name *Designator `"called" @@ "."`
 	}
 
 	CertaintyDefinition struct {
@@ -124,7 +131,7 @@ type (
 )
 
 var (
-	verbs       = []string{"is", "has", "carries", "look"}
+	verbs       = []string{"is", "has", "carries", "look", "called"}
 	articles    = []string{"a", "an", "the", "The", "An", "A"}
 	determiners = []string{"which", "who"}
 	relations   = []string{"of", "in", "with"}

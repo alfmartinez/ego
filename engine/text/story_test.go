@@ -4,7 +4,7 @@ import (
 	"os"
 )
 
-func _ExampleStory_simple() {
+func ExampleStory_simple() {
 	filepath := "testdata/simple.txt"
 	story := CreateStory(filepath, false, false)
 	story.SetWriter(os.Stdout)
@@ -23,7 +23,7 @@ func _ExampleStory_simple() {
 	//
 }
 
-func _ExampleStory_bic() {
+func ExampleStory_bic() {
 	filepath := "testdata/bic.txt"
 	story := CreateStory(filepath, false, false)
 	story.SetWriter(os.Stdout)
@@ -43,7 +43,7 @@ func _ExampleStory_bic() {
 
 func ExampleStory_common() {
 	filepath := "testdata/common.txt"
-	story := CreateStory(filepath, true, false)
+	story := CreateStory(filepath, true, true)
 	story.SetWriter(os.Stdout)
 	story.Test()
 	// Output:
