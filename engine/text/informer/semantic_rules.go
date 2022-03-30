@@ -18,10 +18,15 @@ var semRules = []SemanticRule{
 			kindKey := strings.ToLower(def.Name.Get())
 			kind := kinds[kindKey].(ObjectKind)
 			for _, value := range def.Values {
+				var found bool = false
 				for _, e := range values {
 					if slices.Contains(e.Values(), value) {
+						found = true
 						kind.SetProperty(e.Name(), value+":"+def.Certainty)
 					}
+				}
+				if !found {
+					panic(fmt.Errorf("can't find property with value %q", value))
 				}
 			}
 		},

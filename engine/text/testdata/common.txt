@@ -5,9 +5,18 @@ Lighting is a kind of value with values dark and lighted.
 Edible is a kind of value with values edible and inedible.
 Visitable is a kind of value with values visited and unvisited.
 Lightable is a kind of value with values lit and unlit.
-Portability is a kind of value with values fix and portable.
+Portability is a kind of value with values fixed and portable.
 Described is a kind of value with values described and undescribed.
 Mentionned is a kind of value with values mentionned and unmentionned. 
+Gender is a kind of value with values male, female and neutral.
+Opened is a kind of value with values open and closed.
+Openable is a kind of value with values openable and unopenable.
+Lock is a kind of value with values locked and unlocked.
+Lockable is a kind of value with values not-lockable and lockable.
+Tamed is a kind of value with values wild and tamed.
+Pushable is a kind of value with values pushable and unpushable.
+Transparancy is a kind of value with values opaque and transparent.
+Enterable is a kind of value with values enterable and not-enterable.
 
 Object is usually singular-named, improper-named and unambiguous.
 
@@ -18,14 +27,23 @@ Thing is a kind of object.
 Thing is usually unlit, inedible, undescribed, unmentionned and portable.
 
 Door is a kind of thing.
+Door is always fixed.
+Door is usually closed, openable, unlocked and not-lockable.
+Door is never pushable.
+
 Container is a kind of thing.
+Container is usually opaque, open, unopenable, unlocked, not-enterable, not-lockable.
+
 Vehicle is a kind of container.
 Supporter is a kind of thing.
 Backdrop is a kind of object.
 Person is a kind of thing.
 Man is a kind of person.
+A Man is always male.
 Woman is a kind of person.
+A Woman is always female.
 Animal is a kind of person.
+An Animal is usually neutral and wild.
 Device is a kind of thing.
 Direction is a kind of object.
 Region is a kind of object.
