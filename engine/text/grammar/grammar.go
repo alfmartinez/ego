@@ -27,20 +27,35 @@ type (
 	}
 
 	Statement struct {
-		Title           string               `@String`
-		EitherProperty  *EitherProperty      `| @@`
-		QuickProperty   *QuickProperty       `| @@`
-		CreateInPlace   *CreateInPlace       `| @@`
-		RelativeRoom    *RelativeRoom        `| @@`
-		Property        *PropertyDefinition  `| @@`
-		Certainty       *CertaintyDefinition `| @@`
-		ValueDefinition *ValueDefinition     `| @@`
-		KindDefinition  *KindDefinition      `| @@`
-		Direction       *Connector           `| @@`
-		Sentence        *Sentence            `| @@`
-		Section         *Section             `| @@`
-		Test            *Test                `| @@`
-		Description     *Description         `| @@`
+		Title              string                   `@String`
+		TextPropertyKind   *SetTextPropertyOfKind   `| @@`
+		TextPropertyObject *SetTextPropertyOfObject `| @@`
+		EitherProperty     *EitherProperty          `| @@`
+		QuickProperty      *QuickProperty           `| @@`
+		CreateInPlace      *CreateInPlace           `| @@`
+		RelativeRoom       *RelativeRoom            `| @@`
+		Property           *PropertyDefinition      `| @@`
+		Certainty          *CertaintyDefinition     `| @@`
+		ValueDefinition    *ValueDefinition         `| @@`
+		KindDefinition     *KindDefinition          `| @@`
+		Direction          *Connector               `| @@`
+		Sentence           *Sentence                `| @@`
+		Section            *Section                 `| @@`
+		Test               *Test                    `| @@`
+		Description        *Description             `| @@`
+	}
+
+	SetTextPropertyOfKind struct {
+		PropertyName *Designator `@@ "of"`
+		Target       *Designator `@@ "is"`
+		Certainty    string      `@Certainty`
+		Value        string      `@String "."`
+	}
+
+	SetTextPropertyOfObject struct {
+		Target       *Designator `@@ "has"`
+		PropertyName *Designator `@@`
+		Value        string      `@String "."?`
 	}
 
 	EitherProperty struct {

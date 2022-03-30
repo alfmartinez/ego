@@ -18,3 +18,7 @@ Breitlien is a tunnel.
 A high-up fixture is a kind of thing.
 
 A person is either awake or asleep. A person is usually awake.
+
+A dead end has some text called the river sound. 
+The river sound of a dead end is usually "a faint whispering of running water".
+The Tortuous Alcove has river sound "a gurgle of running water".
