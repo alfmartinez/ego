@@ -104,6 +104,9 @@ var semRules = []SemanticRule{
 				object.Set("description", s.Sentence.Description)
 			}
 			r.AddObject(object)
+			if object.IsKind("room") {
+				r.SetLastRoom(object)
+			}
 		},
 	),
 	CreateSemanticRule(
@@ -203,7 +206,13 @@ var semRules = []SemanticRule{
 			for _, property := range def.With {
 				room.Set(property.Property.Get(), property.Value)
 			}
-			// FIX Link rooms
+			origin := r.LastRoom()
+			direct := def.Direction.Direct()
+			inverse := def.Direction.Reverse()
+			rule1 := CreateConnectorRule(origin, room, direct)
+			rule2 := CreateConnectorRule(room, origin, inverse)
+			r.AddStoryRule(rule1)
+			r.AddStoryRule(rule2)
 		},
 	),
 }

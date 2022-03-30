@@ -9,6 +9,7 @@ type (
 		Set(string, string)
 		Get(string) string
 		Clone() ObjectKind
+		IsKind(string) bool
 	}
 
 	ValueKind interface {
@@ -33,6 +34,13 @@ func (k *objectKind) Clone() ObjectKind {
 		parent:     k,
 		properties: maps.Clone(k.properties),
 	}
+}
+
+func (k *objectKind) IsKind(kind string) bool {
+	if k.Get("name") == kind {
+		return true
+	}
+	return k.parent != nil && k.parent.IsKind(kind)
 }
 
 func (k *objectKind) Set(property, value string) {
