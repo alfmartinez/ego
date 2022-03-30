@@ -1,0 +1,36 @@
+Object is usually singular-named, improper-named and unambiguous.
+
+Room is a kind of object.
+Room is usually lighted and unvisited.
+
+Thing is a kind of object.
+Thing is usually unlit, inedible, undescribed, unmentionned and portable.
+
+Door is a kind of thing.
+Door is always fixed.
+Door is usually closed, openable, unlocked and not-lockable.
+Door is never pushable.
+
+Container is a kind of thing.
+Container is usually opaque, open, unopenable, unlocked, not-enterable, not-lockable.
+
+Vehicle is a kind of container.
+Vehicle is always enterable.
+Vehicle is usually fixed.
+
+Holdall is a kind of container.
+Holdall is always portable.
+Holdall is usually openable.
+
+Supporter is a kind of thing.
+Backdrop is a kind of object.
+Person is a kind of thing.
+Man is a kind of person.
+A Man is always male.
+Woman is a kind of person.
+A Woman is always female.
+Animal is a kind of person.
+An Animal is usually neutral and wild.
+Device is a kind of thing.
+Direction is a kind of object.
+Region is a kind of object.

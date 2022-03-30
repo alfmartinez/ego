@@ -4,11 +4,16 @@ import (
 	"os"
 )
 
+var paths = []string{
+	"data/values.txt",
+	"data/kinds.txt",
+}
+
 func ExampleStory_simple() {
-	filepaths := []string{
-		"testdata/common.txt",
-		"testdata/simple.txt",
-	}
+	filepaths := []string{}
+	filepaths = append(filepaths, paths...)
+	filepaths = append(filepaths, "testdata/simple.txt")
+
 	story := CreateStory(filepaths, false, false)
 	story.SetWriter(os.Stdout)
 	story.Test()
@@ -27,10 +32,10 @@ func ExampleStory_simple() {
 }
 
 func ExampleStory_bic() {
-	filepaths := []string{
-		"testdata/common.txt",
-		"testdata/bic.txt",
-	}
+	filepaths := []string{}
+	filepaths = append(filepaths, paths...)
+	filepaths = append(filepaths, "testdata/bic.txt")
+
 	story := CreateStory(filepaths, false, false)
 	story.SetWriter(os.Stdout)
 	story.Test()
@@ -48,9 +53,10 @@ func ExampleStory_bic() {
 }
 
 func ExampleStory_common() {
-	filepaths := []string{
-		"testdata/common.txt",
-	}
+	filepaths := []string{}
+	filepaths = append(filepaths, paths...)
+	filepaths = append(filepaths, "testdata/common.txt")
+
 	story := CreateStory(filepaths, true, true)
 	story.SetWriter(os.Stdout)
 	story.Test()
