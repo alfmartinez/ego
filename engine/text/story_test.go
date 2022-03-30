@@ -61,6 +61,5 @@ func ExampleStory_common() {
 	// Creating Device as kind of thing.
 	// Creating Direction as kind of object.
 	// Creating Region as kind of object.
-	//
 
 }

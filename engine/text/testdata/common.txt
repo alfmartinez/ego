@@ -12,3 +12,4 @@ Animal is a kind of person.
 Device is a kind of thing.
 Direction is a kind of object.
 Region is a kind of object.
+A dead end is a kind of room.

@@ -37,8 +37,14 @@ type (
 	}
 
 	KindDefinition struct {
-		Name   *Designator `@@ "is" "kind" "of"`
-		Parent *Designator `@@ "."`
+		Name   *Designator `@@ "is" Kind "of"`
+		Parent *Designator `@@`
+		With   *Property   `("with" @@)? "."`
+	}
+
+	Property struct {
+		Property *Designator `@@`
+		Value    string      `@String`
 	}
 
 	Description struct {
@@ -120,6 +126,7 @@ var (
 			{"Separator", `(\,|and\b)`, nil},
 			{"Section", `Section\b`, nil},
 			{"Test", `Test me with`, nil},
+			{"Kind", `kind\b`, nil},
 			{"Direction", "(" + strings.Join(directions, "|") + `)\b`, nil},
 			{"Relation", "(" + strings.Join(relations, "|") + `)\b`, nil},
 			{"Determiner", "(" + strings.Join(determiners, "|") + `)\b`, nil},

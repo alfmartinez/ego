@@ -48,7 +48,7 @@ var semRules = []SemanticRule{
 			return s.Sentence != nil && s.Sentence.DP != nil && s.Sentence.DP.Designator != nil && s.Sentence.VP.Verb == "is"
 		},
 		func(s *grammar.Statement, r Semantix) {
-			kindKey := s.Sentence.VP.DP.Designator.Get()
+			kindKey := strings.ToLower(s.Sentence.VP.DP.Designator.Get())
 			object := CreateObject(kindKey)
 			object.SetName(s.Sentence.DP.Designator.Get())
 			if s.Sentence.Description != "" {
