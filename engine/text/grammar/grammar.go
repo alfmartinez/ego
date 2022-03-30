@@ -149,7 +149,7 @@ var (
 			{"Determiner", "(" + strings.Join(determiners, "|") + `)\b`, nil},
 			{"Article", "(" + strings.Join(articles, "|") + `)\b`, nil},
 			{"Verb", "(" + strings.Join(verbs, "|") + `)\b`, nil},
-			{"Ident", `[\p{L}]+`, nil},
+			{"Ident", `[\p{L}\-]+`, nil},
 			{"Number", `[0-9]+`, nil},
 			{"Punct", `[\.\-\(\)\:]`, nil},
 			{"EOL", `\n+`, nil},

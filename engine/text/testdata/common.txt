@@ -1,4 +1,11 @@
+Plural-naming is a kind of value with values singular-named and plural-named.
+Proper-naming is a kind of value with values improper-named and proper-named.
+Ambiguous-plural is a kind of value with values ambiguous and unambiguous.
+Object is usually singular-named.
+Object is usually improper-named.
+Object is usually unambiguous.
 Lighting is a kind of value with values dark and lighted. 
+Edible is a kind of value with values edible and inedible.
 Room is a kind of object.
 Thing is a kind of object.
 Door is a kind of thing.
