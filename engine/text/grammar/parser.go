@@ -16,7 +16,7 @@ func BuildInformerParser() *participle.Parser {
 		&Grammar{},
 		participle.Lexer(def),
 		participle.Unquote("String"),
-		participle.Elide("Article", "Whitespace"),
+		participle.Elide("Article", "Whitespace", "Comment"),
 		participle.CaseInsensitive("Article", "Direction"),
 		participle.UseLookahead(16),
 	)

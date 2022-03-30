@@ -1,2 +1,6 @@
+"Common Story"
+
+[A Comment ! Nothing to see here]
+
 A dead end is a kind of room with printed name "A Dead End" and description "Pretty dark neh ?".
 A dead end is usually dark.

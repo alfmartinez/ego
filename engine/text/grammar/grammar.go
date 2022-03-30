@@ -150,6 +150,7 @@ var (
 			{"Section", `Section\b`, nil},
 			{"Test", `Test me with`, nil},
 			{"Kind", `kind\b`, nil},
+			{"Comment", `\[(.*?)\]\n+`, nil},
 			{"Certainty", "(" + strings.Join(certainties, "|") + `)\b`, nil},
 			{"Direction", "(" + strings.Join(directions, "|") + `)\b`, nil},
 			{"Relation", "(" + strings.Join(relations, "|") + `)\b`, nil},
