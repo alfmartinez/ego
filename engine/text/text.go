@@ -18,12 +18,18 @@ type Story interface {
 	SetWriter(io.Writer)
 }
 
-func CreateStory(filepath string, debug bool, tokens bool) Story {
-	if tokens {
-		f, _ := os.Open(filepath)
-		grammar.ParseTokens(f)
+func CreateStory(filepaths []string, debug bool, tokens bool) Story {
+	analyzer := informer.CreateRuleSemantix(debug)
+
+	for _, filepath := range filepaths {
+		if tokens {
+			f, _ := os.Open(filepath)
+			grammar.ParseTokens(f)
+		}
+		ast := grammar.ParseFile(filepath)
+		analyzer.BuildStory(ast)
 	}
-	ast := grammar.ParseFile(filepath)
-	story := informer.CreateRuleSemantix(debug).BuildStory(ast)
+
+	story := analyzer.GetStory()
 	return story
 }

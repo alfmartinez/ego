@@ -5,8 +5,11 @@ import (
 )
 
 func ExampleStory_simple() {
-	filepath := "testdata/simple.txt"
-	story := CreateStory(filepath, false, false)
+	filepaths := []string{
+		"testdata/common.txt",
+		"testdata/simple.txt",
+	}
+	story := CreateStory(filepaths, false, false)
 	story.SetWriter(os.Stdout)
 	story.Test()
 
@@ -24,8 +27,11 @@ func ExampleStory_simple() {
 }
 
 func ExampleStory_bic() {
-	filepath := "testdata/bic.txt"
-	story := CreateStory(filepath, false, false)
+	filepaths := []string{
+		"testdata/common.txt",
+		"testdata/bic.txt",
+	}
+	story := CreateStory(filepaths, false, false)
 	story.SetWriter(os.Stdout)
 	story.Test()
 	// Output:
@@ -42,8 +48,10 @@ func ExampleStory_bic() {
 }
 
 func ExampleStory_common() {
-	filepath := "testdata/common.txt"
-	story := CreateStory(filepath, true, true)
+	filepaths := []string{
+		"testdata/common.txt",
+	}
+	story := CreateStory(filepaths, true, true)
 	story.SetWriter(os.Stdout)
 	story.Test()
 	// Output:

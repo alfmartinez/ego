@@ -6,7 +6,8 @@ import (
 )
 
 type Semantix interface {
-	BuildStory(*grammar.Grammar) Story
+	BuildStory(*grammar.Grammar)
+	GetStory() Story
 	AddStoryRule(StoryRule)
 	AddObject(Object)
 	AddTest([]string)
@@ -34,8 +35,7 @@ func (r *semantix) Debug() bool {
 	return r.debug
 }
 
-func (r *semantix) BuildStory(g *grammar.Grammar) Story {
-	//r.initStory()
+func (r *semantix) BuildStory(g *grammar.Grammar) {
 	for _, statement := range g.World.Statements {
 
 		var matched bool
@@ -49,7 +49,10 @@ func (r *semantix) BuildStory(g *grammar.Grammar) Story {
 			panic(fmt.Errorf("%+v\n", statement))
 		}
 	}
-	return CreateRuleStory(r.storyRules, r.objects, r.tests)
+}
+
+func (s *semantix) GetStory() Story {
+	return CreateRuleStory(s.storyRules, s.objects, s.tests)
 }
 
 func (s *semantix) AddStoryRule(r StoryRule) {
