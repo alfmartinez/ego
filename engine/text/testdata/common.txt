@@ -9,18 +9,13 @@ Portability is a kind of value with values fix and portable.
 Described is a kind of value with values described and undescribed.
 Mentionned is a kind of value with values mentionned and unmentionned. 
 
-Object is usually singular-named.
-Object is usually improper-named.
-Object is usually unambiguous.
+Object is usually singular-named, improper-named and unambiguous.
 
 Room is a kind of object.
-Room is usually lighted.
-Room is usually unvisited.
+Room is usually lighted and unvisited.
 
 Thing is a kind of object.
-Thing is usually unlit.
-Thing is usually inedible.
-Thing is usually portable.
+Thing is usually unlit, inedible, undescribed, unmentionned and portable.
 
 Door is a kind of thing.
 Container is a kind of thing.

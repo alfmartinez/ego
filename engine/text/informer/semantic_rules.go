@@ -17,9 +17,11 @@ var semRules = []SemanticRule{
 			def := s.Certainty
 			kindKey := strings.ToLower(def.Name.Get())
 			kind := kinds[kindKey].(ObjectKind)
-			for _, e := range values {
-				if slices.Contains(e.Values(), def.Value) {
-					kind.SetProperty(e.Name(), def.Value+":"+def.Certainty)
+			for _, value := range def.Values {
+				for _, e := range values {
+					if slices.Contains(e.Values(), value) {
+						kind.SetProperty(e.Name(), value+":"+def.Certainty)
+					}
 				}
 			}
 		},

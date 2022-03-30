@@ -41,7 +41,7 @@ type (
 	CertaintyDefinition struct {
 		Name      *Designator `@@ "is"`
 		Certainty string      `@Certainty`
-		Value     string      `@Ident "."`
+		Values    []string    `(@Ident Separator?)* "."`
 	}
 
 	ValueDefinition struct {
