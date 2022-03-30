@@ -188,4 +188,22 @@ var semRules = []SemanticRule{
 			o.Set("description", s.Description.Description)
 		},
 	),
+	CreateSemanticRule(
+		"create room relative to current",
+		func(s *grammar.Statement) bool {
+			return s.RelativeRoom != nil
+		},
+		func(s *grammar.Statement, r Semantix) {
+			def := s.RelativeRoom
+			room := CreateObject(def.Kind.Get())
+			r.AddObject(room)
+			if def.Name != nil {
+				room.Set("name", def.Name.GetCase())
+			}
+			for _, property := range def.With {
+				room.Set(property.Property.Get(), property.Value)
+			}
+			// FIX Link rooms
+		},
+	),
 }
