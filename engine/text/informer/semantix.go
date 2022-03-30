@@ -60,13 +60,14 @@ func (s *semantix) AddStoryRule(r StoryRule) {
 }
 
 func (s *semantix) AddObject(o Object) {
+	//panic(fmt.Errorf("Adding object %v", o.Get("name")))
 	s.objects = append(s.objects, o)
 }
 
 func (s *semantix) GetObject(name string) Object {
-	for _, o := range s.objects {
+	for idx, o := range s.objects {
 		if o.Get("name") == name {
-			return o
+			return s.objects[idx]
 		}
 	}
 	return nil

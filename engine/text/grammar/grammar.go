@@ -166,7 +166,7 @@ var (
 )
 
 func (d *Designator) Get() string {
-	return strings.Join(d.Elements, " ")
+	return strings.ToLower(strings.Join(d.Elements, " "))
 }
 
 func (d *Direction) Direct() string {

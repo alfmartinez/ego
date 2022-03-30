@@ -20,7 +20,7 @@ func CreateObject(kindKey string) Object {
 		panic(fmt.Errorf("unknown kind %s", kindKey))
 	}
 	return &object{
-		kind.(ObjectKind),
+		kind.Clone(),
 	}
 }
 

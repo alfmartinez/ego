@@ -1,12 +1,14 @@
 package informer
 
-type (
-	Kind interface {
-	}
+import (
+	"golang.org/x/exp/maps"
+)
 
+type (
 	ObjectKind interface {
 		Set(string, string)
 		Get(string) string
+		Clone() ObjectKind
 	}
 
 	ValueKind interface {
@@ -16,7 +18,8 @@ type (
 	}
 
 	objectKind struct {
-		parent     Kind
+		parent     ObjectKind
+		name       string
 		properties map[string]string
 	}
 
@@ -25,6 +28,14 @@ type (
 		values []string
 	}
 )
+
+func (k *objectKind) Clone() ObjectKind {
+
+	return &objectKind{
+		parent:     k,
+		properties: maps.Clone(k.properties),
+	}
+}
 
 func (k *objectKind) Set(property, value string) {
 	k.properties[property] = value

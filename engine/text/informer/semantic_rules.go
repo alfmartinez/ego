@@ -62,13 +62,8 @@ var semRules = []SemanticRule{
 			if !ok {
 				panic(fmt.Errorf("cannot inherit from unknown kind %s", parentKey))
 			}
-			newKind := &objectKind{
-				parent: parent,
-				properties: map[string]string{
-					"name":        newKindKey,
-					"description": "",
-				},
-			}
+			newKind := parent.Clone()
+			newKind.Set("name", newKindKey)
 			kinds[newKindKey] = newKind
 			for _, property := range s.KindDefinition.With {
 				newKind.Set(property.Property.Get(), property.Value)
@@ -150,17 +145,19 @@ var semRules = []SemanticRule{
 			ids := make([]string, 0)
 			ids = append(ids, s.Sentence.VP.DP.Designator.Get())
 			for _, i := range s.Sentence.VP.DP.List.Elements {
-				ids = append(ids, i.Get())
+				key := i.Get()
+				if key != "" {
+					ids = append(ids, i.Get())
+				}
 			}
 			ids = append(ids, s.Sentence.VP.DP.List.Last.Get())
+
 			var objects []Object
 			for _, itemName := range ids {
-				if itemName != "" {
-					item := CreateObject("thing")
-					item.Set("name", itemName)
-					r.AddObject(item)
-					objects = append(objects, item)
-				}
+				item := CreateObject("thing")
+				item.Set("name", itemName)
+				r.AddObject(item)
+				objects = append(objects, item)
 			}
 			rule := CreatePlayerInventoryRule(objects)
 			r.AddStoryRule(rule)
@@ -173,11 +170,11 @@ var semRules = []SemanticRule{
 		},
 		func(s *grammar.Statement, r Semantix) {
 			name := s.Description.Target.Get()
-			object := r.GetObject(name)
-			if object == nil {
+			o := r.GetObject(name)
+			if o == nil {
 				panic(fmt.Errorf("object should have been created : %s", name))
 			}
-			object.Set("description", s.Description.Description)
+			o.Set("description", s.Description.Description)
 		},
 	),
 }
