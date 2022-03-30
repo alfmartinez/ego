@@ -31,15 +31,18 @@ type Story interface {
 	Say(string)
 	SetWriter(io.Writer)
 	AddToInventory([]Object)
+	AddItemToRoom(item Object, place Object)
 }
 
 func CreateRuleStory(storyRules []StoryRule, objects []Object, tests []string) Story {
 	return &story{
-		phase:   PRE_START_PHASE,
-		objects: objects,
-		rules:   storyRules,
-		cmdChan: make(chan *grammar.Command),
-		tests:   tests,
+		phase:    PRE_START_PHASE,
+		objects:  objects,
+		rules:    storyRules,
+		cmdChan:  make(chan *grammar.Command),
+		tests:    tests,
+		location: make(map[Object]Object),
+		contains: make(map[Object][]Object),
 	}
 }
 
@@ -53,10 +56,17 @@ type story struct {
 	command     *grammar.Command
 	writer      io.Writer
 	inventory   []Object
+	location    map[Object]Object
+	contains    map[Object][]Object
 }
 
 func (s *story) AddToInventory(objects []Object) {
 	s.inventory = append(s.inventory, objects...)
+}
+
+func (s *story) AddItemToRoom(item Object, place Object) {
+	s.location[item] = place
+	s.contains[place] = append(s.contains[place], item)
 }
 
 func (s *story) Phase() Phase {

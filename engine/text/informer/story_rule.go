@@ -63,6 +63,19 @@ func CreatePlayerInventoryRule(items []Object) StoryRule {
 	}
 }
 
+func CreateAddItemToRoomRule(dest Object, o Object) StoryRule {
+	return &storyRule{
+		name: "add item to place rule",
+		match: func(s Story) bool {
+			return s.Phase() == START_PHASE
+		},
+		exec: func(s Story) bool {
+			s.AddItemToRoom(o, dest)
+			return true
+		},
+	}
+}
+
 var defaultStoryRules = []StoryRule{
 	&storyRule{
 		name: "room display description and name on first visit",

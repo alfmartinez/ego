@@ -215,4 +215,33 @@ var semRules = []SemanticRule{
 			r.AddStoryRule(rule2)
 		},
 	),
+	CreateSemanticRule(
+		"Create Thing In Place",
+		func(s *grammar.Statement) bool {
+			return s.CreateInPlace != nil
+		},
+		func(s *grammar.Statement, r Semantix) {
+			def := s.CreateInPlace
+			o := CreateObject("thing")
+			o.Set("name", def.Thing.Get())
+			r.AddObject(o)
+			dest := r.GetObject(def.Place.Get())
+			rule := CreateAddItemToRoomRule(dest, o)
+			r.AddStoryRule(rule)
+		},
+	),
+	CreateSemanticRule(
+		"Add property to last added thing",
+		func(s *grammar.Statement) bool {
+			return s.QuickProperty != nil
+		},
+		func(s *grammar.Statement, r Semantix) {
+			def := s.QuickProperty
+			o := r.LastThing()
+			for _, value := range def.Values {
+				p := FindPropertyByValue(value)
+				o.Set(p.Name(), value)
+			}
+		},
+	),
 }

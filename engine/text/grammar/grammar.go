@@ -28,6 +28,7 @@ type (
 
 	Statement struct {
 		Title           string               `@String`
+		QuickProperty   *QuickProperty       `| @@`
 		CreateInPlace   *CreateInPlace       `| @@`
 		RelativeRoom    *RelativeRoom        `| @@`
 		Property        *PropertyDefinition  `| @@`
@@ -39,6 +40,10 @@ type (
 		Section         *Section             `| @@`
 		Test            *Test                `| @@`
 		Description     *Description         `| @@`
+	}
+
+	QuickProperty struct {
+		Values []string `Pronoun "is" (@Ident Separator?)+ "."`
 	}
 
 	CreateInPlace struct {
@@ -158,6 +163,9 @@ var (
 	certainties = []string{
 		"always", "usually", "seldom", "never",
 	}
+	pronouns = []string{
+		"he", "she", "it", "He", "She", "It",
+	}
 
 	def = lexer.MustStateful(lexer.Rules{
 		"Root": {
@@ -167,6 +175,7 @@ var (
 			{"Test", `Test me with`, nil},
 			{"Kind", `kind\b`, nil},
 			{"Comment", `\[(.*?)\]\n+`, nil},
+			{"Pronoun", "(" + strings.Join(pronouns, "|") + `)\b`, nil},
 			{"Certainty", "(" + strings.Join(certainties, "|") + `)\b`, nil},
 			{"Direction", "(" + strings.Join(directions, "|") + `)\b`, nil},
 			{"Relation", "(" + strings.Join(relations, "|") + `)\b`, nil},

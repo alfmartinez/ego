@@ -14,6 +14,7 @@ type Semantix interface {
 	GetObject(string) Object
 	SetLastRoom(Object)
 	LastRoom() Object
+	LastThing() Object
 	Debug() bool
 }
 
@@ -32,6 +33,7 @@ type semantix struct {
 	storyRules []StoryRule
 	tests      []string
 	lastRoom   Object
+	lastThing  Object
 }
 
 func (r *semantix) Debug() bool {
@@ -44,6 +46,10 @@ func (r *semantix) SetLastRoom(o Object) {
 
 func (r *semantix) LastRoom() Object {
 	return r.lastRoom
+}
+
+func (r *semantix) LastThing() Object {
+	return r.lastThing
 }
 
 func (r *semantix) BuildStory(g *grammar.Grammar) {
@@ -71,7 +77,9 @@ func (s *semantix) AddStoryRule(r StoryRule) {
 }
 
 func (s *semantix) AddObject(o Object) {
-	//panic(fmt.Errorf("Adding object %v", o.Get("name")))
+	if o.IsKind("thing") {
+		s.lastThing = o
+	}
 	s.objects = append(s.objects, o)
 }
 
