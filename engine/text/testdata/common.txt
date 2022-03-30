@@ -35,6 +35,13 @@ Container is a kind of thing.
 Container is usually opaque, open, unopenable, unlocked, not-enterable, not-lockable.
 
 Vehicle is a kind of container.
+Vehicle is always enterable.
+Vehicle is usually fixed.
+
+Holdall is a kind of container.
+Holdall is always portable.
+Holdall is usually openable.
+
 Supporter is a kind of thing.
 Backdrop is a kind of object.
 Person is a kind of thing.
