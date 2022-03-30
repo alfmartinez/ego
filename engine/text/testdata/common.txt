@@ -1,13 +1,27 @@
 Plural-naming is a kind of value with values singular-named and plural-named.
 Proper-naming is a kind of value with values improper-named and proper-named.
 Ambiguous-plural is a kind of value with values ambiguous and unambiguous.
+Lighting is a kind of value with values dark and lighted. 
+Edible is a kind of value with values edible and inedible.
+Visitable is a kind of value with values visited and unvisited.
+Lightable is a kind of value with values lit and unlit.
+Portability is a kind of value with values fix and portable.
+Described is a kind of value with values described and undescribed.
+Mentionned is a kind of value with values mentionned and unmentionned. 
+
 Object is usually singular-named.
 Object is usually improper-named.
 Object is usually unambiguous.
-Lighting is a kind of value with values dark and lighted. 
-Edible is a kind of value with values edible and inedible.
+
 Room is a kind of object.
+Room is usually lighted.
+Room is usually unvisited.
+
 Thing is a kind of object.
+Thing is usually unlit.
+Thing is usually inedible.
+Thing is usually portable.
+
 Door is a kind of thing.
 Container is a kind of thing.
 Vehicle is a kind of container.
