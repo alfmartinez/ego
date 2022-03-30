@@ -32,7 +32,7 @@ var semRules = []SemanticRule{
 		},
 	),
 	CreateSemanticRule(
-		"create a new object kind",
+		"create a new value kind",
 		func(s *grammar.Statement) bool {
 			return s.ValueDefinition != nil
 		},

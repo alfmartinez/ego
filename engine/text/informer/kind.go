@@ -19,7 +19,6 @@ type (
 
 	objectKind struct {
 		parent     ObjectKind
-		name       string
 		properties map[string]string
 	}
 
@@ -30,7 +29,6 @@ type (
 )
 
 func (k *objectKind) Clone() ObjectKind {
-
 	return &objectKind{
 		parent:     k,
 		properties: maps.Clone(k.properties),
