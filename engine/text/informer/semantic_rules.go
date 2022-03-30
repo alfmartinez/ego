@@ -295,4 +295,43 @@ var semRules = []SemanticRule{
 			valueKind.SetValues(def.Values)
 		},
 	),
+	CreateSemanticRule(
+		"Set text property of kind",
+		func(s *grammar.Statement) bool {
+			return s.TextPropertyKind != nil
+		},
+		func(s *grammar.Statement, r Semantix) {
+			def := s.TextPropertyKind
+			kind := kinds[def.Target.Get()]
+			kind.Set(def.PropertyName.Get(), def.Value+":"+def.Certainty)
+		},
+	),
+	CreateSemanticRule(
+		"Set text property of object",
+		func(s *grammar.Statement) bool {
+			return s.TextPropertyObject != nil
+		},
+		func(s *grammar.Statement, r Semantix) {
+			def := s.TextPropertyObject
+			o := r.GetObject(def.Target.Get())
+			o.Set(def.PropertyName.Get(), def.Value)
+		},
+	),
+	CreateSemanticRule(
+		"create text property",
+		func(s *grammar.Statement) bool {
+			return s.Property != nil
+		},
+		func(s *grammar.Statement, r Semantix) {
+			def := s.Property
+			pName := def.Name.Get()
+			var property ValueKind = &valueKind{
+				name:   pName,
+				values: []string{},
+			}
+			values[pName] = property
+			kind := kinds[def.Kind.Get()]
+			kind.Set(pName, "")
+		},
+	),
 }
