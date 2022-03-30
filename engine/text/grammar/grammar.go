@@ -28,6 +28,7 @@ type (
 
 	Statement struct {
 		Title           string               `@String`
+		EitherProperty  *EitherProperty      `| @@`
 		QuickProperty   *QuickProperty       `| @@`
 		CreateInPlace   *CreateInPlace       `| @@`
 		RelativeRoom    *RelativeRoom        `| @@`
@@ -40,6 +41,11 @@ type (
 		Section         *Section             `| @@`
 		Test            *Test                `| @@`
 		Description     *Description         `| @@`
+	}
+
+	EitherProperty struct {
+		Kind   *Designator `@@ "is" Either`
+		Values []string    `@Ident "or" @Ident "."`
 	}
 
 	QuickProperty struct {
@@ -175,6 +181,7 @@ var (
 			{"Test", `Test me with`, nil},
 			{"Kind", `kind\b`, nil},
 			{"Comment", `\[(.*?)\]\n+`, nil},
+			{"Either", `either\b`, nil},
 			{"Pronoun", "(" + strings.Join(pronouns, "|") + `)\b`, nil},
 			{"Certainty", "(" + strings.Join(certainties, "|") + `)\b`, nil},
 			{"Direction", "(" + strings.Join(directions, "|") + `)\b`, nil},

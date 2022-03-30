@@ -1,7 +1,6 @@
 package informer
 
 import (
-	"fmt"
 	"golang.org/x/exp/maps"
 	"strings"
 )
@@ -61,7 +60,6 @@ func (k *objectKind) Defaults() map[string]string {
 		var pValue string
 		if len(parts) > 1 {
 			pValue = parts[0]
-			fmt.Printf("Certainty %s\n", parts[1])
 			if parts[1] == "always" {
 				defaults[key+"!"] = parts[0]
 			}

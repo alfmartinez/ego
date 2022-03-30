@@ -280,4 +280,19 @@ var semRules = []SemanticRule{
 			}
 		},
 	),
+	CreateSemanticRule(
+		"Add either or property to kind",
+		func(s *grammar.Statement) bool {
+			return s.EitherProperty != nil
+		},
+		func(s *grammar.Statement, r Semantix) {
+			def := s.EitherProperty
+			parts := []string{def.Kind.Get()}
+			parts = append(parts, def.Values...)
+			valueKey := strings.Join(parts, "|")
+			valueKind := CreateValue(valueKey)
+			values[valueKey] = valueKind
+			valueKind.SetValues(def.Values)
+		},
+	),
 }

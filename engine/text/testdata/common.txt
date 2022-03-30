@@ -14,3 +14,7 @@ The tunnel is a kind of room.
 The tunnel is always dark.
 
 Breitlien is a tunnel.
+
+A high-up fixture is a kind of thing.
+
+A person is either awake or asleep. A person is usually awake.
