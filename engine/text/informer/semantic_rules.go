@@ -201,7 +201,8 @@ var semRules = []SemanticRule{
 			room := CreateObject(def.Kind.Get())
 			r.AddObject(room)
 			if def.Name != nil {
-				room.Set("name", def.Name.GetCase())
+				room.Set("printed name", def.Name.GetCase())
+				room.Set("name", def.Name.Get())
 			}
 			for _, property := range def.With {
 				room.Set(property.Property.Get(), property.Value)
@@ -222,10 +223,35 @@ var semRules = []SemanticRule{
 		},
 		func(s *grammar.Statement, r Semantix) {
 			def := s.CreateInPlace
-			o := CreateObject("thing")
-			o.Set("name", def.Thing.Get())
+			elements := def.Thing.Elements
+			var kindKey string
+			var properties = make(map[string]ValueKind)
+			for _, value := range elements {
+				p := FindPropertyByValue(value)
+				if p != nil {
+					properties[value] = p
+				} else {
+					kindKey = value
+				}
+			}
+			if kindKey == "" {
+				panic("Missing kind key")
+			}
+			var o Object
+			if _, ok := kinds[kindKey]; !ok {
+				o = CreateObject("thing")
+				o.Set("name", def.Thing.Get())
+			} else {
+				o = CreateObject(kindKey)
+				for value, p := range properties {
+					o.Set(p.Name(), value)
+				}
+			}
 			r.AddObject(o)
 			dest := r.GetObject(def.Place.Get())
+			if dest == nil {
+				panic(fmt.Errorf("missing place %s", def.Place.Get()))
+			}
 			rule := CreateAddItemToRoomRule(dest, o)
 			r.AddStoryRule(rule)
 		},
