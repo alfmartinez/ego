@@ -1,7 +1,9 @@
 package informer
 
 import (
+	"fmt"
 	"golang.org/x/exp/maps"
+	"strings"
 )
 
 type (
@@ -9,6 +11,7 @@ type (
 		Set(string, string)
 		Get(string) string
 		Clone() ObjectKind
+		Defaults() map[string]string
 		IsKind(string) bool
 	}
 
@@ -49,6 +52,25 @@ func (k *objectKind) Set(property, value string) {
 
 func (k *objectKind) Get(property string) string {
 	return k.properties[property]
+}
+
+func (k *objectKind) Defaults() map[string]string {
+	var defaults = make(map[string]string)
+	for key, value := range k.properties {
+		parts := strings.Split(value, ":")
+		var pValue string
+		if len(parts) > 1 {
+			pValue = parts[0]
+			fmt.Printf("Certainty %s\n", parts[1])
+			if parts[1] == "always" {
+				defaults[key+"!"] = parts[0]
+			}
+		} else {
+			pValue = value
+		}
+		defaults[key] = pValue
+	}
+	return defaults
 }
 
 func (v *valueKind) SetValues(values []string) {

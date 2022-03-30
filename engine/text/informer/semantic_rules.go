@@ -75,7 +75,7 @@ var semRules = []SemanticRule{
 		},
 	),
 	CreateSemanticRule(
-		"create object",
+		"create object / set property",
 		func(s *grammar.Statement) bool {
 			return s.Sentence != nil && s.Sentence.DP != nil && s.Sentence.DP.Designator != nil && s.Sentence.VP.Verb == "is"
 		},
@@ -86,24 +86,34 @@ var semRules = []SemanticRule{
 			var properties = make(map[string]ValueKind)
 			if _, ok := kinds[designator.Get()]; !ok {
 				for _, tag := range elements {
-					kindKey = tag
+					if _, ok := kinds[tag]; ok {
+						kindKey = tag
+
+					}
 					if e := FindPropertyByValue(tag); e != nil {
 						properties[tag] = e
 					}
 				}
 			} else {
-				kindKey = designator.Get()
+				if _, ok := kinds[designator.Get()]; ok {
+					kindKey = designator.Get()
+				}
 			}
+			var object Object
+			if kindKey == "" {
+				object = r.GetObject(s.Sentence.DP.Designator.Get())
 
-			object := CreateObject(kindKey)
-			object.Set("name", s.Sentence.DP.Designator.Get())
+			} else {
+				object = CreateObject(kindKey)
+				object.Set("name", s.Sentence.DP.Designator.Get())
+				r.AddObject(object)
+			}
 			for value, property := range properties {
 				object.Set(property.Name(), value)
 			}
 			if s.Sentence.Description != "" {
 				object.Set("description", s.Sentence.Description)
 			}
-			r.AddObject(object)
 			if object.IsKind("room") {
 				r.SetLastRoom(object)
 			}

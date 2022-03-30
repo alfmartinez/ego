@@ -9,3 +9,8 @@ East is a dead end. South is a dead end with printed name "Collapsed Dead End". 
 In the Undertomb is the candle lantern. It is lit.
 
 A coffer is a kind of container. In the Crypt is a open coffer.
+
+The tunnel is a kind of room.
+The tunnel is always dark.
+
+Breitlien is a tunnel.
