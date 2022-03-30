@@ -6,7 +6,7 @@ import (
 
 func _ExampleStory_simple() {
 	filepath := "testdata/simple.txt"
-	story := CreateStory(filepath, false)
+	story := CreateStory(filepath, false, false)
 	story.SetWriter(os.Stdout)
 	story.Test()
 
@@ -25,7 +25,7 @@ func _ExampleStory_simple() {
 
 func _ExampleStory_bic() {
 	filepath := "testdata/bic.txt"
-	story := CreateStory(filepath, false)
+	story := CreateStory(filepath, false, false)
 	story.SetWriter(os.Stdout)
 	story.Test()
 	// Output:
@@ -43,7 +43,7 @@ func _ExampleStory_bic() {
 
 func ExampleStory_common() {
 	filepath := "testdata/common.txt"
-	story := CreateStory(filepath, true)
+	story := CreateStory(filepath, true, false)
 	story.SetWriter(os.Stdout)
 	story.Test()
 	// Output:
@@ -61,5 +61,6 @@ func ExampleStory_common() {
 	// Creating Device as kind of thing.
 	// Creating Direction as kind of object.
 	// Creating Region as kind of object.
+	// Creating dead end as kind of room.
 
 }

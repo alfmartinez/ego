@@ -8,7 +8,23 @@ import (
 
 var semRules = []SemanticRule{
 	CreateSemanticRule(
-		"create a new kind",
+		"create a new object kind",
+		func(s *grammar.Statement) bool {
+			return s.ValueDefinition != nil
+		},
+		func(s *grammar.Statement, r Semantix) {
+			def := s.ValueDefinition
+			if r.Debug() {
+				fmt.Printf("Creating %s as kind of value. \n", def.Name.Get())
+			}
+			valueKey := strings.ToLower(def.Name.Get())
+			newValue := CreateValue(valueKey)
+			values[valueKey] = newValue
+			newValue.SetValues(def.With)
+		},
+	),
+	CreateSemanticRule(
+		"create a new object kind",
 		func(s *grammar.Statement) bool {
 			return s.KindDefinition != nil
 		},
@@ -22,7 +38,7 @@ var semRules = []SemanticRule{
 			if !ok {
 				panic(fmt.Errorf("cannot inherit from unknown kind %s", parentKey))
 			}
-			newKind := &kind{
+			newKind := &objectKind{
 				parent: parent,
 				properties: map[string]string{
 					"name":        newKindKey,
@@ -30,6 +46,9 @@ var semRules = []SemanticRule{
 				},
 			}
 			kinds[newKindKey] = newKind
+			for _, property := range s.KindDefinition.With {
+				newKind.SetProperty(property.Property.Get(), property.Value)
+			}
 		},
 	),
 	CreateSemanticRule(

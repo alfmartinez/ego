@@ -27,19 +27,25 @@ type (
 	}
 
 	Statement struct {
-		Title          string          `@String`
-		KindDefinition *KindDefinition `| @@`
-		Direction      *Connector      `| @@`
-		Sentence       *Sentence       `| @@`
-		Section        *Section        `| @@`
-		Test           *Test           `| @@`
-		Description    *Description    `| @@`
+		Title           string           `@String`
+		ValueDefinition *ValueDefinition `| @@`
+		KindDefinition  *KindDefinition  `| @@`
+		Direction       *Connector       `| @@`
+		Sentence        *Sentence        `| @@`
+		Section         *Section         `| @@`
+		Test            *Test            `| @@`
+		Description     *Description     `| @@`
+	}
+
+	ValueDefinition struct {
+		Name *Designator `@@ "is" Kind "of" "value"`
+		With []string    `("with" "values" (@Ident Separator?)+)? "."`
 	}
 
 	KindDefinition struct {
 		Name   *Designator `@@ "is" Kind "of"`
 		Parent *Designator `@@`
-		With   *Property   `("with" @@)? "."`
+		With   []*Property `("with" (@@ Separator?)*)? "."`
 	}
 
 	Property struct {
@@ -114,7 +120,7 @@ var (
 	verbs       = []string{"is", "has", "carries", "look"}
 	articles    = []string{"a", "an", "the", "The", "An", "A"}
 	determiners = []string{"which", "who"}
-	relations   = []string{"of", "in"}
+	relations   = []string{"of", "in", "with"}
 	directions  = []string{
 		"north", "south", "east", "west",
 		"North", "South", "East", "West",

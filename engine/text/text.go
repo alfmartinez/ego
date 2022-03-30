@@ -9,6 +9,7 @@ import (
 	"github.com/alfmartinez/ego/engine/text/grammar"
 	"github.com/alfmartinez/ego/engine/text/informer"
 	"io"
+	"os"
 )
 
 type Story interface {
@@ -17,7 +18,11 @@ type Story interface {
 	SetWriter(io.Writer)
 }
 
-func CreateStory(filepath string, debug bool) Story {
+func CreateStory(filepath string, debug bool, tokens bool) Story {
+	if tokens {
+		f, _ := os.Open(filepath)
+		grammar.ParseTokens(f)
+	}
 	ast := grammar.ParseFile(filepath)
 	story := informer.CreateRuleSemantix(debug).BuildStory(ast)
 	return story

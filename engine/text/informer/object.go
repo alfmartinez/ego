@@ -6,11 +6,11 @@ import (
 
 type (
 	Object interface {
-		Kind
+		ObjectKind
 	}
 
 	object struct {
-		Kind
+		ObjectKind
 	}
 )
 
@@ -20,6 +20,12 @@ func CreateObject(kindKey string) Object {
 		panic(fmt.Errorf("unknown kind %s", kindKey))
 	}
 	return &object{
-		kind,
+		kind.(ObjectKind),
+	}
+}
+
+func CreateValue(valueKey string) ValueKind {
+	return &valueKind{
+		name: valueKey,
 	}
 }

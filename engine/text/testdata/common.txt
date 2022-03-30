@@ -1,3 +1,4 @@
+Lighting is a kind of value with values dark and lighted. 
 Room is a kind of object.
 Thing is a kind of object.
 Door is a kind of thing.
@@ -12,4 +13,5 @@ Animal is a kind of person.
 Device is a kind of thing.
 Direction is a kind of object.
 Region is a kind of object.
-A dead end is a kind of room.
+A dead end is a kind of room with printed name "A Dead End" and description "Pretty dark neh ?".
+A dead end is usually dark.
