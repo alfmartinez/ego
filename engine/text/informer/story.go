@@ -31,13 +31,14 @@ type Story interface {
 	AddToInventory([]Object)
 }
 
-func CreateRuleStory(objects []Object, rules []ObjectRule, tests []string) Story {
+func CreateRuleStory(storyRules []StoryRule, objects []Object, rules []ObjectRule, tests []string) Story {
 	return &story{
-		phase:   PRE_START_PHASE,
-		objects: objects,
-		rules:   rules,
-		cmdChan: make(chan *grammar.Command),
-		tests:   tests,
+		phase:      PRE_START_PHASE,
+		objects:    objects,
+		rules:      rules,
+		storyRules: storyRules,
+		cmdChan:    make(chan *grammar.Command),
+		tests:      tests,
 	}
 }
 
@@ -45,6 +46,7 @@ type story struct {
 	phase       Phase
 	objects     []Object
 	rules       []ObjectRule
+	storyRules  []StoryRule
 	tests       []string
 	cmdChan     chan *grammar.Command
 	currentRoom Object
@@ -81,6 +83,9 @@ func (s *story) Command() *grammar.Command {
 }
 
 func (s *story) Start() {
+	s.ApplyStoryRules()
+	s.AdvancePhase()
+	s.ApplyStoryRules()
 	go func() {
 		for cmd := range s.cmdChan {
 			s.handle(cmd)
@@ -114,4 +119,12 @@ func (s *story) SetWriter(writer io.Writer) {
 
 func (s *story) Say(say string) {
 	fmt.Fprintln(s.writer, say)
+}
+
+func (s *story) ApplyStoryRules() {
+	for _, rule := range s.storyRules {
+		if rule.Matches(s) {
+			rule.Execute(s)
+		}
+	}
 }
