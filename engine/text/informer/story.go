@@ -31,22 +31,20 @@ type Story interface {
 	AddToInventory([]Object)
 }
 
-func CreateRuleStory(storyRules []StoryRule, objects []Object, rules []ObjectRule, tests []string) Story {
+func CreateRuleStory(storyRules []StoryRule, objects []Object, tests []string) Story {
 	return &story{
-		phase:      PRE_START_PHASE,
-		objects:    objects,
-		rules:      rules,
-		storyRules: storyRules,
-		cmdChan:    make(chan *grammar.Command),
-		tests:      tests,
+		phase:   PRE_START_PHASE,
+		objects: objects,
+		rules:   storyRules,
+		cmdChan: make(chan *grammar.Command),
+		tests:   tests,
 	}
 }
 
 type story struct {
 	phase       Phase
 	objects     []Object
-	rules       []ObjectRule
-	storyRules  []StoryRule
+	rules       []StoryRule
 	tests       []string
 	cmdChan     chan *grammar.Command
 	currentRoom Object
@@ -88,7 +86,7 @@ func (s *story) Start() {
 	s.ApplyStoryRules()
 	go func() {
 		for cmd := range s.cmdChan {
-			s.handle(cmd)
+			s.command = cmd
 		}
 	}()
 }
@@ -102,17 +100,6 @@ func (s *story) Test() {
 	close(s.cmdChan)
 }
 
-func (s *story) handle(cmd *grammar.Command) {
-	s.command = cmd
-	for _, rule := range s.rules {
-		for _, o := range s.objects {
-			if rule.Matches(o) {
-				rule.Execute(o)
-			}
-		}
-	}
-}
-
 func (s *story) SetWriter(writer io.Writer) {
 	s.writer = writer
 }
@@ -122,7 +109,7 @@ func (s *story) Say(say string) {
 }
 
 func (s *story) ApplyStoryRules() {
-	for _, rule := range s.storyRules {
+	for _, rule := range s.rules {
 		if rule.Matches(s) {
 			rule.Execute(s)
 		}

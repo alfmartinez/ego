@@ -3,7 +3,6 @@ package informer
 import (
 	"fmt"
 	"github.com/alfmartinez/ego/engine/text/grammar"
-	"strings"
 )
 
 var semRules = []SemanticRule{
@@ -20,11 +19,11 @@ var semRules = []SemanticRule{
 	CreateSemanticRule(
 		"create room",
 		func(s *grammar.Statement) bool {
-			return s.Sentence != nil && s.Sentence.VP.Verb == "is" && s.Sentence.VP.DP.Designator.Elements[0] == "room"
+			return s.Sentence != nil && s.Sentence.DP != nil && s.Sentence.DP.Designator != nil && s.Sentence.VP.Verb == "is" && s.Sentence.VP.DP.Designator.Elements[0] == "room"
 		},
 		func(s *grammar.Statement, r Semantix) {
 			object := CreateObject("room")
-			object.SetName(strings.Join(s.Sentence.DP.Designator.Elements, " "))
+			object.SetName(s.Sentence.DP.Designator.Get())
 			if s.Sentence.Description != "" {
 				object.SetDescription(s.Sentence.Description)
 			}
@@ -111,12 +110,4 @@ var semRules = []SemanticRule{
 			object.SetDescription(s.Description.Description)
 		},
 	),
-}
-
-func CreateRuleSemantix() Semantix {
-	return &semantix{
-		semRules:    semRules,
-		objects:     make([]Object, 0),
-		objectRules: make([]ObjectRule, 0),
-	}
 }

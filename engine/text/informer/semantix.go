@@ -13,15 +13,22 @@ type Semantix interface {
 	GetObject(string) Object
 }
 
+func CreateRuleSemantix() Semantix {
+	return &semantix{
+		semRules:   semRules,
+		storyRules: defaultStoryRules,
+	}
+}
+
 type semantix struct {
-	semRules    []SemanticRule
-	objects     []Object
-	objectRules []ObjectRule
-	storyRules  []StoryRule
-	tests       []string
+	semRules   []SemanticRule
+	objects    []Object
+	storyRules []StoryRule
+	tests      []string
 }
 
 func (r *semantix) BuildStory(g *grammar.Grammar) Story {
+	//r.initStory()
 	for _, statement := range g.World.Statements {
 
 		var matched bool
@@ -35,7 +42,7 @@ func (r *semantix) BuildStory(g *grammar.Grammar) Story {
 			panic(fmt.Errorf("%#v\n", statement))
 		}
 	}
-	return CreateRuleStory(r.storyRules, r.objects, r.objectRules, r.tests)
+	return CreateRuleStory(r.storyRules, r.objects, r.tests)
 }
 
 func (s *semantix) AddStoryRule(r StoryRule) {
@@ -48,9 +55,6 @@ func (s *semantix) AddObject(o Object) {
 
 func (s *semantix) GetObject(name string) Object {
 	for _, o := range s.objects {
-		if o.Name() == "" {
-			panic(fmt.Errorf("object should have name : %#v", o.Kind()))
-		}
 		if o.Name() == name {
 			return o
 		}
