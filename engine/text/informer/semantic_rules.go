@@ -22,7 +22,7 @@ var semRules = []SemanticRule{
 				for _, e := range values {
 					if slices.Contains(e.Values(), value) {
 						found = true
-						kind.SetProperty(e.Name(), value+":"+def.Certainty)
+						kind.Set(e.Name(), value+":"+def.Certainty)
 					}
 				}
 				if !found {
@@ -71,7 +71,7 @@ var semRules = []SemanticRule{
 			}
 			kinds[newKindKey] = newKind
 			for _, property := range s.KindDefinition.With {
-				newKind.SetProperty(property.Property.Get(), property.Value)
+				newKind.Set(property.Property.Get(), property.Value)
 			}
 		},
 	),
@@ -93,9 +93,9 @@ var semRules = []SemanticRule{
 		func(s *grammar.Statement, r Semantix) {
 			kindKey := strings.ToLower(s.Sentence.VP.DP.Designator.Get())
 			object := CreateObject(kindKey)
-			object.SetName(s.Sentence.DP.Designator.Get())
+			object.Set("name", s.Sentence.DP.Designator.Get())
 			if s.Sentence.Description != "" {
-				object.SetDescription(s.Sentence.Description)
+				object.Set("description", s.Sentence.Description)
 			}
 			r.AddObject(object)
 		},
@@ -108,9 +108,9 @@ var semRules = []SemanticRule{
 		func(s *grammar.Statement, r Semantix) {
 			dir := s.Direction
 			target := CreateObject("room")
-			target.SetName(dir.Target.Get())
+			target.Set("name", dir.Target.Get())
 			if dir.Description != "" {
-				target.SetDescription(dir.Description)
+				target.Set("description", dir.Description)
 			}
 			r.AddObject(target)
 		},
@@ -157,7 +157,7 @@ var semRules = []SemanticRule{
 			for _, itemName := range ids {
 				if itemName != "" {
 					item := CreateObject("thing")
-					item.SetName(itemName)
+					item.Set("name", itemName)
 					r.AddObject(item)
 					objects = append(objects, item)
 				}
@@ -177,7 +177,7 @@ var semRules = []SemanticRule{
 			if object == nil {
 				panic(fmt.Errorf("object should have been created : %s", name))
 			}
-			object.SetDescription(s.Description.Description)
+			object.Set("description", s.Description.Description)
 		},
 	),
 }

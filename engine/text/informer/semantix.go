@@ -65,7 +65,7 @@ func (s *semantix) AddObject(o Object) {
 
 func (s *semantix) GetObject(name string) Object {
 	for _, o := range s.objects {
-		if o.Name() == name {
+		if o.Get("name") == name {
 			return o
 		}
 	}

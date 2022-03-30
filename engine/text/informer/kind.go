@@ -5,12 +5,8 @@ type (
 	}
 
 	ObjectKind interface {
-		SetName(string)
-		Name() string
-		SetDescription(string)
-		Description() string
-		SetProperty(string, string)
-		GetProperty(string) string
+		Set(string, string)
+		Get(string) string
 	}
 
 	ValueKind interface {
@@ -30,27 +26,11 @@ type (
 	}
 )
 
-func (k *objectKind) SetName(s string) {
-	k.properties["name"] = s
-}
-
-func (k *objectKind) Name() string {
-	return k.properties["name"]
-}
-
-func (k *objectKind) SetDescription(s string) {
-	k.properties["description"] = s
-}
-
-func (k *objectKind) Description() string {
-	return k.properties["description"]
-}
-
-func (k *objectKind) SetProperty(property, value string) {
+func (k *objectKind) Set(property, value string) {
 	k.properties[property] = value
 }
 
-func (k *objectKind) GetProperty(property string) string {
+func (k *objectKind) Get(property string) string {
 	return k.properties[property]
 }
 
