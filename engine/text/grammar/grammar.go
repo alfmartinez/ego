@@ -28,6 +28,7 @@ type (
 
 	Statement struct {
 		Title           string               `@String`
+		CreateInPlace   *CreateInPlace       `| @@`
 		RelativeRoom    *RelativeRoom        `| @@`
 		Property        *PropertyDefinition  `| @@`
 		Certainty       *CertaintyDefinition `| @@`
@@ -38,6 +39,11 @@ type (
 		Section         *Section             `| @@`
 		Test            *Test                `| @@`
 		Description     *Description         `| @@`
+	}
+
+	CreateInPlace struct {
+		Place *Designator `"In" @@`
+		Thing *Designator `"is" @@ "."`
 	}
 
 	RelativeRoom struct {
@@ -142,7 +148,7 @@ var (
 	verbs       = []string{"is", "has", "carries", "look", "called"}
 	articles    = []string{"a", "an", "the", "The", "An", "A"}
 	determiners = []string{"which", "who"}
-	relations   = []string{"of", "in", "with"}
+	relations   = []string{"of", "in", "with", "In"}
 	directions  = []string{
 		"north", "south", "east", "west",
 		"northwest", "northeast", "southeast", "southwest",
