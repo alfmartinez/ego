@@ -1,0 +1,14 @@
+Room is a kind of object.
+Thing is a kind of object.
+Door is a kind of thing.
+Container is a kind of thing.
+Vehicle is a kind of container.
+Supporter is a kind of thing.
+Backdrop is a kind of object.
+Person is a kind of thing.
+Man is a kind of person.
+Woman is a kind of person.
+Animal is a kind of person.
+Device is a kind of thing.
+Direction is a kind of object.
+Region is a kind of object.

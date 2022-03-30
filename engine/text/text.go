@@ -17,8 +17,8 @@ type Story interface {
 	SetWriter(io.Writer)
 }
 
-func CreateStory(filepath string) Story {
+func CreateStory(filepath string, debug bool) Story {
 	ast := grammar.ParseFile(filepath)
-	story := informer.CreateRuleSemantix().BuildStory(ast)
+	story := informer.CreateRuleSemantix(debug).BuildStory(ast)
 	return story
 }

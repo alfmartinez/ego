@@ -11,20 +11,27 @@ type Semantix interface {
 	AddObject(Object)
 	AddTest([]string)
 	GetObject(string) Object
+	Debug() bool
 }
 
-func CreateRuleSemantix() Semantix {
+func CreateRuleSemantix(debug bool) Semantix {
 	return &semantix{
+		debug:      debug,
 		semRules:   semRules,
 		storyRules: defaultStoryRules,
 	}
 }
 
 type semantix struct {
+	debug      bool
 	semRules   []SemanticRule
 	objects    []Object
 	storyRules []StoryRule
 	tests      []string
+}
+
+func (r *semantix) Debug() bool {
+	return r.debug
 }
 
 func (r *semantix) BuildStory(g *grammar.Grammar) Story {
@@ -39,7 +46,7 @@ func (r *semantix) BuildStory(g *grammar.Grammar) Story {
 			}
 		}
 		if !matched {
-			panic(fmt.Errorf("%#v\n", statement))
+			panic(fmt.Errorf("%+v\n", statement))
 		}
 	}
 	return CreateRuleStory(r.storyRules, r.objects, r.tests)

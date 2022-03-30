@@ -27,12 +27,18 @@ type (
 	}
 
 	Statement struct {
-		Title       string       `@String`
-		Direction   *Connector   `| @@`
-		Sentence    *Sentence    `| @@`
-		Section     *Section     `| @@`
-		Test        *Test        `| @@`
-		Description *Description `| @@`
+		Title          string          `@String`
+		KindDefinition *KindDefinition `| @@`
+		Direction      *Connector      `| @@`
+		Sentence       *Sentence       `| @@`
+		Section        *Section        `| @@`
+		Test           *Test           `| @@`
+		Description    *Description    `| @@`
+	}
+
+	KindDefinition struct {
+		Name   *Designator `@@ "is" "kind" "of"`
+		Parent *Designator `@@ "."`
 	}
 
 	Description struct {

@@ -1,5 +1,9 @@
 package informer
 
+import (
+	"fmt"
+)
+
 type (
 	Object interface {
 		Kind
@@ -10,8 +14,12 @@ type (
 	}
 )
 
-func CreateObject(kind string) Object {
+func CreateObject(kindKey string) Object {
+	kind, ok := kinds[kindKey]
+	if !ok {
+		panic(fmt.Errorf("unknown kind %s", kindKey))
+	}
 	return &object{
-		kinds[kind],
+		kind,
 	}
 }

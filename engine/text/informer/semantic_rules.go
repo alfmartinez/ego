@@ -3,9 +3,35 @@ package informer
 import (
 	"fmt"
 	"github.com/alfmartinez/ego/engine/text/grammar"
+	"strings"
 )
 
 var semRules = []SemanticRule{
+	CreateSemanticRule(
+		"create a new kind",
+		func(s *grammar.Statement) bool {
+			return s.KindDefinition != nil
+		},
+		func(s *grammar.Statement, r Semantix) {
+			if r.Debug() {
+				fmt.Printf("Creating %s as kind of %s. \n", s.KindDefinition.Name.Get(), s.KindDefinition.Parent.Get())
+			}
+			parentKey := strings.ToLower(s.KindDefinition.Parent.Get())
+			newKindKey := strings.ToLower(s.KindDefinition.Name.Get())
+			parent, ok := kinds[parentKey]
+			if !ok {
+				panic(fmt.Errorf("cannot inherit from unknown kind %s", parentKey))
+			}
+			newKind := &kind{
+				parent: parent,
+				properties: map[string]string{
+					"name":        newKindKey,
+					"description": "",
+				},
+			}
+			kinds[newKindKey] = newKind
+		},
+	),
 	CreateSemanticRule(
 		"display title on start",
 		func(s *grammar.Statement) bool {
@@ -17,12 +43,13 @@ var semRules = []SemanticRule{
 		},
 	),
 	CreateSemanticRule(
-		"create room",
+		"create object",
 		func(s *grammar.Statement) bool {
-			return s.Sentence != nil && s.Sentence.DP != nil && s.Sentence.DP.Designator != nil && s.Sentence.VP.Verb == "is" && s.Sentence.VP.DP.Designator.Elements[0] == "room"
+			return s.Sentence != nil && s.Sentence.DP != nil && s.Sentence.DP.Designator != nil && s.Sentence.VP.Verb == "is"
 		},
 		func(s *grammar.Statement, r Semantix) {
-			object := CreateObject("room")
+			kindKey := s.Sentence.VP.DP.Designator.Get()
+			object := CreateObject(kindKey)
 			object.SetName(s.Sentence.DP.Designator.Get())
 			if s.Sentence.Description != "" {
 				object.SetDescription(s.Sentence.Description)

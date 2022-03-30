@@ -8,17 +8,5 @@ var (
 				"plural": "objects",
 			},
 		},
-		"room": &kind{
-			properties: map[string]string{
-				"name":   "object",
-				"plural": "objects",
-			},
-		},
-		"thing": &kind{
-			properties: map[string]string{
-				"name":   "object",
-				"plural": "objects",
-			},
-		},
 	}
 )

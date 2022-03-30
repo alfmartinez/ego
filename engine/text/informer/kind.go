@@ -9,6 +9,7 @@ type (
 	}
 
 	kind struct {
+		parent     Kind
 		properties map[string]string
 	}
 )
