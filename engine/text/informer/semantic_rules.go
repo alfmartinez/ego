@@ -72,7 +72,7 @@ var semRules = []SemanticRule{
 			return s.Title != ""
 		},
 		func(s *grammar.Statement, r Semantix) {
-			rule := CreateWhenRule("display title on start rule", START_PHASE, Say(s.Title+"\n\n"))
+			rule := CreateWhenRule(START_PHASE, Say(s.Title+"\n\n")).SetName("display title on start rule")
 			r.AddStoryRule(rule)
 		},
 	),
@@ -145,8 +145,8 @@ var semRules = []SemanticRule{
 			target := r.GetObject(s.Direction.Target.Get())
 			direct := s.Direction.Direction.Direct()
 			inverse := s.Direction.Direction.Reverse()
-			rule1 := CreateConnectorRule("connect direct rule", origin, target, direct)
-			rule2 := CreateConnectorRule("connect inverse rule", target, origin, inverse)
+			rule1 := CreateConnectorRule(origin, target, direct).SetName("connect direct rule")
+			rule2 := CreateConnectorRule(target, origin, inverse).SetName("connect inverse rule")
 			r.AddStoryRule(rule1)
 			r.AddStoryRule(rule2)
 
@@ -183,10 +183,10 @@ var semRules = []SemanticRule{
 				r.AddObject(item)
 				objects = append(objects, item)
 			}
-			rule := CreateWhenRule("add items to inventory rule", START_PHASE, func(s Story) bool {
+			rule := CreateWhenRule(START_PHASE, func(s Story) bool {
 				s.AddToInventory(objects)
 				return true
-			})
+			}).SetName("add items to inventory rule")
 			r.AddStoryRule(rule)
 		},
 	),
@@ -223,8 +223,8 @@ var semRules = []SemanticRule{
 			origin := r.LastRoom()
 			direct := def.Direction.Direct()
 			inverse := def.Direction.Reverse()
-			rule1 := CreateConnectorRule("connect direct rule", origin, room, direct)
-			rule2 := CreateConnectorRule("connect reverse rule", room, origin, inverse)
+			rule1 := CreateConnectorRule(origin, room, direct).SetName("connect direct relative rule")
+			rule2 := CreateConnectorRule(room, origin, inverse).SetName("connect inverse relative rule")
 			r.AddStoryRule(rule1)
 			r.AddStoryRule(rule2)
 		},
@@ -265,11 +265,11 @@ var semRules = []SemanticRule{
 			if dest == nil {
 				panic(fmt.Errorf("missing place %s", def.Place.Get()))
 			}
-			rule := CreateWhenRule("Add Item to Room", START_PHASE,
+			rule := CreateWhenRule(START_PHASE,
 				func(s Story) bool {
 					s.AddItemToRoom(o, dest)
 					return true
-				})
+				}).SetName("Add Item to Room")
 			r.AddStoryRule(rule)
 		},
 	),
@@ -359,7 +359,7 @@ var semRules = []SemanticRule{
 				}
 				if o.IsKind("action") {
 					ruleFactory = func(act Activity) StoryRule {
-						return CreateActivityRule("when action rule", o, act)
+						return CreateActivityRule(o, act)
 					}
 				} else {
 					panic(fmt.Errorf("Dont know what to do with condition %s", def.Condition.Rule.Get()))
@@ -367,30 +367,12 @@ var semRules = []SemanticRule{
 
 			} else {
 				ruleFactory = func(act Activity) StoryRule {
-					return CreateWhenRule("when phase rule", phase, act)
+					return CreateWhenRule(phase, act)
 				}
 			}
-			var rule StoryRule
 
-			var process func(activity *grammar.Activity)
-
-			process = func(activity *grammar.Activity) {
-				switch {
-				case activity.Say != "":
-					rule = ruleFactory(Say(def.Activity.Say))
-				case activity.Enter != nil:
-					rule = ruleFactory(Enter(def.Activity.Enter.Get()))
-				case len(activity.Activities) > 0:
-					for _, a := range activity.Activities {
-						process(a)
-					}
-				default:
-					panic(fmt.Errorf("Don't know %+v", def.Activity))
-				}
-
-				r.AddStoryRule(rule)
-			}
-			process(def.Activity)
+			rule := ruleFactory(CreateStoryActivity(def.Activity)).SetName(fmt.Sprintf("%s", def.Activity))
+			r.AddStoryRule(rule)
 		},
 	),
 	CreateSemanticRule(
@@ -418,4 +400,26 @@ var semRules = []SemanticRule{
 			r.AddObject(o)
 		},
 	),
+}
+
+func CreateStoryActivity(activity *grammar.Activity) Activity {
+	var act Activity
+	switch {
+	case activity.Say != "":
+		act = Say(activity.Say)
+	case activity.Launch != nil:
+		launch := activity.Launch
+		action := Action(launch.Action)
+		argument := launch.Argument.Get()
+		act = Launch(action, argument)
+	case len(activity.Activities) > 0:
+		var activities []Activity
+		for _, a := range activity.Activities {
+			activities = append(activities, CreateStoryActivity(a))
+		}
+		act = Sequence(activities)
+	default:
+		panic(fmt.Errorf("Don't know %+v", activity))
+	}
+	return act
 }

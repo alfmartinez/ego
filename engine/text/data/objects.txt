@@ -4,8 +4,8 @@ Command prompt has printed name "> ".
 When turn starts, say "[command prompt]".
 Entering is an action applying to a room.
 Understand "enter" as entering.
-When play begins, enter location.
+When play ready, enter location.
 When entering somewhere:
-    say "[printed name of location]"
-    say "[description of location]"
+    say "[printed name of location]\n"
+    say "[description of location]\n"
 

@@ -69,8 +69,13 @@ type (
 
 	Activity struct {
 		Say        string      `( "say" @String`
-		Enter      *Designator `| "enter" @@  `
+		Launch     *Launch     `|  @@  `
 		Activities []*Activity `| (EOL @@)* EOL)`
+	}
+
+	Launch struct {
+		Action   string      `@Ident`
+		Argument *Designator `@@`
 	}
 
 	SetTextPropertyOfKind struct {

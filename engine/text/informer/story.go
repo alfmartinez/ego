@@ -12,6 +12,7 @@ type Phase int
 const (
 	NONE Phase = iota
 	START_PHASE
+	READY_PHASE
 	START_TURN_PHASE
 	UPDATE_PHASE
 	RENDER_PHASE
@@ -20,6 +21,7 @@ const (
 
 var phaseLexic = map[string]Phase{
 	"play begins": START_PHASE,
+	"play ready":  READY_PHASE,
 	"turn starts": START_TURN_PHASE,
 }
 
@@ -34,6 +36,8 @@ type Story interface {
 	Debug() bool
 	SetDebug(bool)
 	AdvancePhase()
+	IsSame(string, string) bool
+	Publish(Message)
 	CurrentRoom() Object
 	SetCurrentRoom(Object)
 	Command() *grammar.Command
@@ -110,10 +114,14 @@ func (s *story) AdvancePhase() {
 	if s.phase == TURN_ENDED {
 		s.phase = START_TURN_PHASE
 	}
-	s.publisher.Publish(Message{
-		Story: s,
+	s.Publish(Message{
 		Phase: s.phase,
 	})
+}
+
+func (s *story) Publish(msg Message) {
+	msg.Story = s
+	s.publisher.Publish(msg)
 }
 
 func (s *story) SetCurrentRoom(o Object) {
@@ -157,6 +165,13 @@ func (s *story) Test() {
 	s.Start()
 }
 
+func (s *story) IsSame(a, b string) bool {
+	if a == "somewhere" || b == "somewhere" {
+		return true
+	}
+	return s.GetObject(a) == s.GetObject(b)
+}
+
 func (s *story) SetWriter(writer io.Writer) {
 	s.writer = writer
 }
@@ -173,6 +188,8 @@ func (s *story) buildReplacer() *strings.Replacer {
 			panic(fmt.Errorf("Object %s has no printed name", o))
 		}
 		oldNew = append(oldNew, "["+key+"]", o.Get("printed name"))
+		oldNew = append(oldNew, "[printed name of "+key+"]", o.Get("printed name"))
+		oldNew = append(oldNew, "[description of "+key+"]", o.Get("description"))
 	}
 	return strings.NewReplacer(oldNew...)
 }

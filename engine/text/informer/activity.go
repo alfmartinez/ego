@@ -23,13 +23,23 @@ func Say(value string) Activity {
 	}
 }
 
-func Enter(value string) Activity {
+func Launch(action Action, value string) Activity {
 	return func(s Story) bool {
-		o := s.GetObject(value)
-		if o != nil {
-			s.SetCurrentRoom(o)
-			return true
+		s.Publish(Message{
+			Action:   action,
+			Argument: value,
+		})
+		return true
+	}
+}
+
+func Sequence(activities []Activity) Activity {
+	return func(s Story) bool {
+		for _, act := range activities {
+			if !act(s) {
+				return false
+			}
 		}
-		return false
+		return true
 	}
 }
