@@ -12,6 +12,12 @@ var (
 				"plural": "objects",
 			},
 		},
+		"action": &objectKind{
+			properties: map[string]string{
+				"name":   "action",
+				"plural": "actions",
+			},
+		},
 	}
 
 	values = make(map[string]ValueKind)

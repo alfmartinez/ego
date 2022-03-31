@@ -6,6 +6,8 @@ import (
 	"strings"
 )
 
+var locationSet bool
+
 var semRules = []SemanticRule{
 	CreateSemanticRule(
 		"add certainty property to kind",
@@ -361,7 +363,31 @@ var semRules = []SemanticRule{
 				r.AddStoryRule(rule)
 			}
 			process(def.Activity)
-
+		},
+	),
+	CreateSemanticRule(
+		"Define Alias with Understand",
+		func(s *grammar.Statement) bool {
+			return s.Understand != nil
+		},
+		func(s *grammar.Statement, r Semantix) {
+			def := s.Understand
+			o := r.GetObject(def.Target.Get())
+			o.AddAlias(def.Alias)
+		},
+	),
+	CreateSemanticRule(
+		"Define Action",
+		func(s *grammar.Statement) bool {
+			return s.ActionDefinition != nil
+		},
+		func(s *grammar.Statement, r Semantix) {
+			def := s.ActionDefinition
+			o := CreateObject("action", def.Name.Get(), def.Name.GetCase())
+			if def.Target != nil {
+				o.Set("applies to", def.Target.Get())
+			}
+			r.AddObject(o)
 		},
 	),
 }

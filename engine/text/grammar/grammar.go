@@ -28,6 +28,8 @@ type (
 
 	Statement struct {
 		Title              string                   `@String`
+		ActionDefinition   *ActionDefinition        `| @@`
+		Understand         *Understand              `| @@`
 		WhenDeClaration    *WhenDeClaration         `| @@`
 		TextPropertyKind   *SetTextPropertyOfKind   `| @@`
 		TextPropertyObject *SetTextPropertyOfObject `| @@`
@@ -44,6 +46,16 @@ type (
 		Section            *Section                 `| @@`
 		Test               *Test                    `| @@`
 		Description        *Description             `| @@`
+	}
+
+	ActionDefinition struct {
+		Name   *Designator `@@ "is" "action"`
+		Target *Designator `("applying" "to" @@ )?"."`
+	}
+
+	Understand struct {
+		Alias  string      `"Understand" @String`
+		Target *Designator `"as" @@ "."`
 	}
 
 	WhenDeClaration struct {

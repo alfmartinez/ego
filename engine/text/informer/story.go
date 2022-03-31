@@ -50,6 +50,9 @@ func CreateRuleStory(storyRules []StoryRule, objects []Object, tests []string) S
 	index := make(map[string]Object)
 	for _, o := range objects {
 		index[o.Get("name")] = o
+		for _, alias := range o.Aliases() {
+			index[alias] = o
+		}
 	}
 	return &story{
 		phase:    PRE_START_PHASE,
@@ -63,19 +66,18 @@ func CreateRuleStory(storyRules []StoryRule, objects []Object, tests []string) S
 }
 
 type story struct {
-	phase       Phase
-	index       map[string]Object
-	rules       []StoryRule
-	tests       []string
-	cmdChan     chan *grammar.Command
-	currentRoom Object
-	command     *grammar.Command
-	writer      io.Writer
-	inventory   []Object
-	location    map[Object]Object
-	contains    map[Object][]Object
-	test        bool
-	cmdText     string
+	phase     Phase
+	index     map[string]Object
+	rules     []StoryRule
+	tests     []string
+	cmdChan   chan *grammar.Command
+	command   *grammar.Command
+	writer    io.Writer
+	inventory []Object
+	location  map[Object]Object
+	contains  map[Object][]Object
+	test      bool
+	cmdText   string
 }
 
 func (s *story) GetObject(key string) Object {
@@ -104,11 +106,11 @@ func (s *story) AdvancePhase() {
 }
 
 func (s *story) SetCurrentRoom(o Object) {
-	s.currentRoom = o
+	s.index["location"] = o
 }
 
 func (s *story) CurrentRoom() Object {
-	return s.currentRoom
+	return s.index["location"]
 }
 
 func (s *story) Command() *grammar.Command {

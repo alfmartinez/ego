@@ -31,6 +31,12 @@ type (
 	}
 )
 
+func CreateValue(valueKey string) ValueKind {
+	return &valueKind{
+		name: valueKey,
+	}
+}
+
 func (k *objectKind) Clone() ObjectKind {
 	return &objectKind{
 		parent:     k,

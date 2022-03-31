@@ -1,9 +1,9 @@
 The player is a person.
-Location is an object.
 Command prompt is an object.
 Command prompt has printed name "> ".
 When turn starts, say "[command prompt]".
-When play begins, enter location.
+Entering is an action applying to a room.
+Understand "enter" as entering.
 When entering somewhere:
     say "[printed name of location]"
     say "[description of location]"

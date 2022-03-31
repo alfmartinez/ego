@@ -28,7 +28,8 @@ func CreateConnectorRule(o Object, t Object, direction string) StoryRule {
 	return &storyRule{
 		name: "move between rooms rule",
 		match: func(s Story) bool {
-			return s.Phase() == UPDATE_PHASE && s.CurrentRoom() == o && s.Command().Direction.Value == direction
+			cmd := s.Command()
+			return cmd != nil && s.Phase() == UPDATE_PHASE && s.CurrentRoom() == o && cmd.Direction.Value == direction
 		},
 		exec: func(s Story) bool {
 			s.SetCurrentRoom(t)

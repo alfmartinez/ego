@@ -9,12 +9,16 @@ type (
 		Set(string, string)
 		Get(string) string
 		IsKind(string) bool
+		Kind() ObjectKind
 		Has(string) bool
+		AddAlias(string)
+		Aliases() []string
 	}
 
 	object struct {
 		kind       ObjectKind
 		properties map[string]string
+		aliases    []string
 	}
 )
 
@@ -23,6 +27,7 @@ func CreateObject(kindKey string, name string, printed string) Object {
 	if !ok {
 		panic(fmt.Errorf("unknown kind %s", kindKey))
 	}
+
 	defaults := kind.Defaults()
 	o := &object{
 		kind:       kind.Clone(),
@@ -34,6 +39,12 @@ func CreateObject(kindKey string, name string, printed string) Object {
 	if printed != "" {
 		o.Set("printed name", printed)
 	}
+
+	if o.IsKind("room") && !locationSet {
+		o.AddAlias("location")
+		locationSet = true
+	}
+
 	return o
 }
 
@@ -52,13 +63,19 @@ func (o *object) IsKind(kind string) bool {
 	return o.kind.IsKind(kind)
 }
 
+func (o *object) Kind() ObjectKind {
+	return o.kind
+}
+
 func (o *object) Has(property string) bool {
 	_, ok := o.properties[property]
 	return ok
 }
 
-func CreateValue(valueKey string) ValueKind {
-	return &valueKind{
-		name: valueKey,
-	}
+func (o *object) Aliases() []string {
+	return o.aliases
+}
+
+func (o *object) AddAlias(alias string) {
+	o.aliases = append(o.aliases, alias)
 }
