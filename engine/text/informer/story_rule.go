@@ -46,6 +46,10 @@ func CreateConnectorRule(o Object, t Object, direction Object) StoryRule {
 		},
 		exec: func(s Story) bool {
 			s.SetCurrentRoom(t)
+			s.Publish(Message{
+				Action:   "enter",
+				Argument: "location",
+			})
 			return true
 		},
 	}
