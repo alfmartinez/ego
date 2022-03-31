@@ -56,7 +56,8 @@ type (
 	}
 
 	Activity struct {
-		Say string `"say" @String`
+		Say   string      `("say" @String`
+		Enter *Designator `| "enter" @@ )`
 	}
 
 	SetTextPropertyOfKind struct {

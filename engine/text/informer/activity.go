@@ -15,3 +15,14 @@ func Say(value string) Activity {
 		return true
 	}
 }
+
+func Enter(value string) Activity {
+	return func(s Story) bool {
+		o := s.GetObject(value)
+		if o != nil {
+			s.SetCurrentRoom(o)
+			return true
+		}
+		return false
+	}
+}

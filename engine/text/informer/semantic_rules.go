@@ -340,7 +340,16 @@ var semRules = []SemanticRule{
 		func(s *grammar.Statement, r Semantix) {
 			def := s.WhenDeClaration
 			phase := GetPhase(def.Condition.Rule.Get())
-			rule := CreateWhenRule(phase, Say(def.Activity.Say))
+			var rule StoryRule
+			switch {
+			case def.Activity.Say != "":
+				rule = CreateWhenRule(phase, Say(def.Activity.Say))
+			case def.Activity.Enter != nil:
+				rule = CreateWhenRule(phase, Enter(def.Activity.Enter.Get()))
+			default:
+				panic(fmt.Errorf("Don't know %s", def.Activity))
+			}
+
 			r.AddStoryRule(rule)
 		},
 	),

@@ -43,12 +43,17 @@ type Story interface {
 	SetWriter(io.Writer)
 	AddToInventory([]Object)
 	AddItemToRoom(item Object, place Object)
+	GetObject(string) Object
 }
 
 func CreateRuleStory(storyRules []StoryRule, objects []Object, tests []string) Story {
+	index := make(map[string]Object)
+	for _, o := range objects {
+		index[o.Get("name")] = o
+	}
 	return &story{
 		phase:    PRE_START_PHASE,
-		objects:  objects,
+		index:    index,
 		rules:    storyRules,
 		cmdChan:  make(chan *grammar.Command),
 		tests:    tests,
@@ -59,7 +64,7 @@ func CreateRuleStory(storyRules []StoryRule, objects []Object, tests []string) S
 
 type story struct {
 	phase       Phase
-	objects     []Object
+	index       map[string]Object
 	rules       []StoryRule
 	tests       []string
 	cmdChan     chan *grammar.Command
@@ -71,6 +76,10 @@ type story struct {
 	contains    map[Object][]Object
 	test        bool
 	cmdText     string
+}
+
+func (s *story) GetObject(key string) Object {
+	return s.index[key]
 }
 
 func (s *story) AddToInventory(objects []Object) {
@@ -156,11 +165,11 @@ func (s *story) ApplyStoryRules() {
 
 func (s *story) buildReplacer() *strings.Replacer {
 	var oldNew = []string{}
-	for _, o := range s.objects {
+	for key, o := range s.index {
 		if !o.Has("printed name") {
 			panic(fmt.Errorf("Object %s has no printed name", o))
 		}
-		oldNew = append(oldNew, "["+o.Get("name")+"]", o.Get("printed name"))
+		oldNew = append(oldNew, "["+key+"]", o.Get("printed name"))
 	}
 	return strings.NewReplacer(oldNew...)
 }
