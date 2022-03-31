@@ -15,7 +15,7 @@ func ExampleStory_simple() {
 	filepaths = append(filepaths, paths...)
 	filepaths = append(filepaths, "testdata/simple.txt")
 
-	story := CreateStory(filepaths, false, false)
+	story := CreateStory(filepaths, true, false)
 	story.SetWriter(os.Stdout)
 	story.SetDebug(false)
 	story.Test()

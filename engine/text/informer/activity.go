@@ -1,9 +1,5 @@
 package informer
 
-import (
-	"fmt"
-)
-
 type ActivityType int
 
 const (
@@ -15,9 +11,6 @@ type Activity func(s Story) bool
 
 func Say(value string) Activity {
 	return func(s Story) bool {
-		if s.Debug() {
-			fmt.Printf("Saying %q", value)
-		}
 		s.Say(value)
 		return true
 	}

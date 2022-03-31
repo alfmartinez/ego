@@ -48,9 +48,6 @@ var semRules = []SemanticRule{
 		},
 		func(s *grammar.Statement, r Semantix) {
 			def := s.ValueDefinition
-			if r.Debug() {
-				fmt.Printf("Creating %s as kind of value. \n", def.Name.Get())
-			}
 			valueKey := strings.ToLower(def.Name.Get())
 			newValue := CreateValue(valueKey)
 			values[valueKey] = newValue
@@ -63,9 +60,6 @@ var semRules = []SemanticRule{
 			return s.KindDefinition != nil
 		},
 		func(s *grammar.Statement, r Semantix) {
-			if r.Debug() {
-				fmt.Printf("Creating %s as kind of %s. \n", s.KindDefinition.Name.Get(), s.KindDefinition.Parent.Get())
-			}
 			parentKey := strings.ToLower(s.KindDefinition.Parent.Get())
 			newKindKey := strings.ToLower(s.KindDefinition.Name.Get())
 			parent, ok := kinds[parentKey]
