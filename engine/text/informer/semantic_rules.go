@@ -70,7 +70,7 @@ var semRules = []SemanticRule{
 			return s.Title != ""
 		},
 		func(s *grammar.Statement, r Semantix) {
-			rule := CreateWhenRule(START_PHASE, Say(s.Title))
+			rule := CreateWhenRule(START_PHASE, Say(s.Title+"\n\n"))
 			r.AddStoryRule(rule)
 		},
 	),

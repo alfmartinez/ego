@@ -69,6 +69,8 @@ type story struct {
 	inventory   []Object
 	location    map[Object]Object
 	contains    map[Object][]Object
+	test        bool
+	cmdText     string
 }
 
 func (s *story) AddToInventory(objects []Object) {
@@ -111,22 +113,28 @@ func (s *story) Start() {
 		for more {
 			s.AdvancePhase()              // START TURN
 			s.command, more = <-s.cmdChan // CMD
-			s.AdvancePhase()              // PRE_UPDATE
-			s.AdvancePhase()              // UPDATE
-			s.AdvancePhase()              // POST_UPDATE
-			s.AdvancePhase()              // RENDER
-			s.AdvancePhase()              // TURN ENDED
+			if s.test {
+				s.Say(s.cmdText + "\n")
+			}
+			s.AdvancePhase() // PRE_UPDATE
+			s.AdvancePhase() // UPDATE
+			s.AdvancePhase() // POST_UPDATE
+			s.AdvancePhase() // RENDER
+			s.AdvancePhase() // TURN ENDED
 		}
 	}()
 }
 
 func (s *story) Test() {
+	s.test = true
 	s.Start()
 	for _, cmd := range s.tests {
+		s.cmdText = cmd
 		command := grammar.ParseCommand(cmd)
 		s.cmdChan <- command
 	}
 	close(s.cmdChan)
+	s.test = false
 }
 
 func (s *story) SetWriter(writer io.Writer) {
