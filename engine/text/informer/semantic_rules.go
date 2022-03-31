@@ -341,16 +341,27 @@ var semRules = []SemanticRule{
 			def := s.WhenDeClaration
 			phase := GetPhase(def.Condition.Rule.Get())
 			var rule StoryRule
-			switch {
-			case def.Activity.Say != "":
-				rule = CreateWhenRule(phase, Say(def.Activity.Say))
-			case def.Activity.Enter != nil:
-				rule = CreateWhenRule(phase, Enter(def.Activity.Enter.Get()))
-			default:
-				panic(fmt.Errorf("Don't know %s", def.Activity))
-			}
 
-			r.AddStoryRule(rule)
+			var process func(activity *grammar.Activity)
+
+			process = func(activity *grammar.Activity) {
+				switch {
+				case activity.Say != "":
+					rule = CreateWhenRule(phase, Say(def.Activity.Say))
+				case activity.Enter != nil:
+					rule = CreateWhenRule(phase, Enter(def.Activity.Enter.Get()))
+				case len(activity.Activities) > 0:
+					for _, a := range activity.Activities {
+						process(a)
+					}
+				default:
+					panic(fmt.Errorf("Don't know %+v", def.Activity))
+				}
+
+				r.AddStoryRule(rule)
+			}
+			process(def.Activity)
+
 		},
 	),
 }

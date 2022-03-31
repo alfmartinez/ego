@@ -47,7 +47,7 @@ type (
 	}
 
 	WhenDeClaration struct {
-		Condition *Condition `"When" @@ ","`
+		Condition *Condition `"When" @@ (","|":")`
 		Activity  *Activity  `@@ "."?`
 	}
 
@@ -56,8 +56,9 @@ type (
 	}
 
 	Activity struct {
-		Say   string      `("say" @String`
-		Enter *Designator `| "enter" @@ )`
+		Say        string      `( "say" @String`
+		Enter      *Designator `| "enter" @@  `
+		Activities []*Activity `| (EOL @@)* EOL)`
 	}
 
 	SetTextPropertyOfKind struct {

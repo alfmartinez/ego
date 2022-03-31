@@ -4,7 +4,7 @@ Command prompt is an object.
 Command prompt has printed name "> ".
 When turn starts, say "[command prompt]".
 When play begins, enter location.
-[When entering somewhere:]
-    [say "[printed name of location]\n"]
-    [say "[description of location]\n"]
+When entering somewhere:
+    say "[printed name of location]"
+    say "[description of location]"
 
