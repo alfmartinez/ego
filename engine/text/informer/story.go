@@ -142,10 +142,18 @@ func (s *story) Start() {
 
 func (s *story) startLoop() {
 	var more = true
+	var command *grammar.Command
 	s.AdvancePhase() // START PLAY
+	s.AdvancePhase() // READY PLAY
 	for more {
 		s.AdvancePhase() // START TURN
-		s.command, more = <-s.cmdChan
+		command, more = <-s.cmdChan
+		if s.test {
+			s.Say(s.cmdText + "\n\n")
+		}
+		s.Publish(Message{
+			Command: command,
+		})
 		s.AdvancePhase() // UPDATE
 		s.AdvancePhase() // RENDER
 	}

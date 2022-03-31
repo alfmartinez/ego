@@ -7,5 +7,5 @@ Understand "enter" as entering.
 When play ready, enter location.
 When entering somewhere:
     say "[printed name of location]\n"
-    say "[description of location]\n"
+    say "[description of location]\n\n"
 
