@@ -153,9 +153,9 @@ func (s *story) startLoop() {
 		if s.test {
 			s.Say(s.cmdText + "\n\n")
 		}
-		s.Publish(Message{
-			Command: command,
-		})
+		if command != nil {
+			s.Publish(s.processCommand(command))
+		}
 		s.AdvancePhase() // UPDATE
 		s.AdvancePhase() // RENDER
 	}
@@ -202,4 +202,17 @@ func (s *story) buildReplacer() *strings.Replacer {
 		oldNew = append(oldNew, "[description of "+key+"]", o.Get("description"))
 	}
 	return strings.NewReplacer(oldNew...)
+}
+
+func (s *story) processCommand(cmd *grammar.Command) Message {
+	msg := Message{}
+	if cmd != nil && cmd.Direction != nil {
+		key := cmd.Direction.Get()
+		direction := s.GetObject(key)
+		if direction != nil && direction.IsKind("direction") {
+			msg.Action = "going"
+			msg.Argument = direction.Get("name")
+		}
+	}
+	return msg
 }
