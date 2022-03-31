@@ -1,10 +1,10 @@
 "Bic" 
 
-The Staff Break Room is a room.
+The Staff Break Room is a room. "A nice break room. To take breaks."
 
 The player carries an orange, a Bic pen, and a napkin. 
 The description of the orange is "It's as samll hard pinch-skinned thing from the lunch room, probably with lots of pips and no juice."
 
 The description of the napkin is "Slightly crumpled".
 
-Test me with "look at orange" "look at pen" "look at napkin" "look around"
+Test me with "examine orange" "examine pen" "examine napkin" "look"

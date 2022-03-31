@@ -33,7 +33,7 @@ func ExampleStory_simple() {
 	//
 }
 
-func _ExampleStory_bic() {
+func ExampleStory_bic() {
 	filepaths := []string{}
 	filepaths = append(filepaths, paths...)
 	filepaths = append(filepaths, "testdata/bic.txt")

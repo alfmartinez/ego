@@ -206,13 +206,18 @@ func (s *story) buildReplacer() *strings.Replacer {
 
 func (s *story) processCommand(cmd *grammar.Command) Message {
 	msg := Message{}
-	if cmd != nil && cmd.Direction != nil {
+	switch {
+	case cmd.Direction != nil:
 		key := cmd.Direction.Get()
 		direction := s.GetObject(key)
 		if direction != nil && direction.IsKind("direction") {
 			msg.Action = "going"
 			msg.Argument = direction.Get("name")
 		}
+	case cmd.Action != nil:
+		msg.Action = Action(cmd.Action.Verb)
+		msg.Argument = cmd.Action.Target.Get()
 	}
+
 	return msg
 }

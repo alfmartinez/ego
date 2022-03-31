@@ -7,8 +7,8 @@ import (
 
 type (
 	Command struct {
-		Direction *Designator `  @@`
-		Action    *Action     `| @@`
+		Action    *Action     `  @@`
+		Direction *Designator `| @@`
 	}
 	Action struct {
 		Verb   string      `@Verb`
