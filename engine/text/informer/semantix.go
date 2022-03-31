@@ -63,7 +63,7 @@ func (r *semantix) BuildStory(g *grammar.Grammar) {
 			}
 		}
 		if !matched {
-			panic(fmt.Errorf("%q\n", statement))
+			panic(fmt.Errorf("%v\n", statement))
 		}
 	}
 }
