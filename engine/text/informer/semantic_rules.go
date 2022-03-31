@@ -340,8 +340,29 @@ var semRules = []SemanticRule{
 			return s.WhenDeClaration != nil
 		},
 		func(s *grammar.Statement, r Semantix) {
+			var ruleFactory func(Activity) StoryRule
 			def := s.WhenDeClaration
 			phase := GetPhase(def.Condition.Rule.Get())
+			if phase == 0 {
+				// Not a phase...
+				// May be an action ?
+				o := r.GetObject(def.Condition.Rule.Elements[0])
+				if o == nil {
+					panic(fmt.Errorf("Dont know what %q is", def.Condition.Rule.Elements[0]))
+				}
+				if o.IsKind("action") {
+					ruleFactory = func(act Activity) StoryRule {
+						return CreateActivityRule(o, act)
+					}
+				} else {
+					panic(fmt.Errorf("Dont know what to do with condition %s", def.Condition.Rule.Get()))
+				}
+
+			} else {
+				ruleFactory = func(act Activity) StoryRule {
+					return CreateWhenRule(phase, act)
+				}
+			}
 			var rule StoryRule
 
 			var process func(activity *grammar.Activity)
@@ -349,9 +370,9 @@ var semRules = []SemanticRule{
 			process = func(activity *grammar.Activity) {
 				switch {
 				case activity.Say != "":
-					rule = CreateWhenRule(phase, Say(def.Activity.Say))
+					rule = ruleFactory(Say(def.Activity.Say))
 				case activity.Enter != nil:
-					rule = CreateWhenRule(phase, Enter(def.Activity.Enter.Get()))
+					rule = ruleFactory(Enter(def.Activity.Enter.Get()))
 				case len(activity.Activities) > 0:
 					for _, a := range activity.Activities {
 						process(a)

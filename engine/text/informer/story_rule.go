@@ -48,6 +48,16 @@ func CreateWhenRule(when Phase, f Activity) StoryRule {
 	}
 }
 
+func CreateActivityRule(o Object, f Activity) StoryRule {
+	return &storyRule{
+		name: "when activity say rule",
+		match: func(s Story) bool {
+			return true
+		},
+		exec: f,
+	}
+}
+
 func CreatePlayerInventoryRule(items []Object) StoryRule {
 	return &storyRule{
 		name: "put items in inventory rule",
