@@ -1,7 +1,7 @@
 package informer
 
 type Publisher interface {
-	Subscribe(chan Message)
+	Subscribe(func(Message))
 	Publish(Message)
 }
 
@@ -10,15 +10,15 @@ func CreatePublisher() Publisher {
 }
 
 type publisher struct {
-	observers []chan Message
+	observers []func(Message)
 }
 
-func (p *publisher) Subscribe(c chan Message) {
-	p.observers = append(p.observers, c)
+func (p *publisher) Subscribe(listener func(Message)) {
+	p.observers = append(p.observers, listener)
 }
 
 func (p *publisher) Publish(msg Message) {
 	for _, c := range p.observers {
-		c <- msg
+		c(msg)
 	}
 }

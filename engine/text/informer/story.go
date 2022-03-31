@@ -13,12 +13,8 @@ const (
 	NONE Phase = iota
 	START_PHASE
 	START_TURN_PHASE
-	//CMD_PHASE
-	PRE_UPDATE_PHASE
 	UPDATE_PHASE
-	POST_UPDATE_PHASE
 	RENDER_PHASE
-	POST_TURN_PHASE
 	TURN_ENDED
 )
 
@@ -122,36 +118,32 @@ func (s *story) Command() *grammar.Command {
 }
 
 func (s *story) Start() {
-	s.startLoop()
+	go s.startLoop()
 }
 
 func (s *story) startLoop() {
-	go func() {
-		var more = true
-		s.AdvancePhase()
-		s.AdvancePhase()
-		for more {
-			s.command, more = <-s.cmdChan
-			s.AdvancePhase()
-			s.AdvancePhase()
-			s.AdvancePhase()
-			s.AdvancePhase()
-			s.AdvancePhase()
-			s.AdvancePhase()
-		}
-	}()
+	var more = true
+	s.AdvancePhase() // START PLAY
+	for more {
+		s.AdvancePhase() // START TURN
+		s.command, more = <-s.cmdChan
+		s.AdvancePhase() // UPDATE
+		s.AdvancePhase() // RENDER
+	}
 }
 
 func (s *story) Test() {
 	s.test = true
+	go func() {
+		for _, cmd := range s.tests {
+			s.cmdText = cmd
+			command := grammar.ParseCommand(cmd)
+			s.cmdChan <- command
+		}
+		close(s.cmdChan)
+	}()
+
 	s.Start()
-	for _, cmd := range s.tests {
-		s.cmdText = cmd
-		command := grammar.ParseCommand(cmd)
-		s.cmdChan <- command
-	}
-	close(s.cmdChan)
-	s.test = false
 }
 
 func (s *story) SetWriter(writer io.Writer) {

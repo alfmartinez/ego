@@ -74,8 +74,7 @@ func (s *semantix) GetStory() Story {
 }
 
 func (s *semantix) AddStoryRule(r StoryRule) {
-	//s.publisher.Subscribe(r.Observer())
-	//r.Listen()
+	s.publisher.Subscribe(r.OnNotify)
 }
 
 func (s *semantix) AddObject(o Object) {

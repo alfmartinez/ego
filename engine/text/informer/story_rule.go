@@ -1,39 +1,21 @@
 package informer
 
-import (
-	"fmt"
-)
-
 type StoryRule interface {
 	Name() string
-	Observer() chan Message
-	Listen()
+	OnNotify(Message)
 }
 
 type storyRule struct {
 	name  string
 	match func(Message) bool
 	exec  func(Story) bool
-	c     chan Message
 }
 
-func (r *storyRule) Observer() chan Message {
-	r.c = make(chan Message)
-	return r.c
-}
-
-func (r *storyRule) Listen() {
-	go func() {
-		for {
-			message := <-r.c
-			fmt.Printf("Trying rule %q \n", r.name)
-			if r.match(message) {
-				fmt.Printf("Applying rule %q \n", r.name)
-				s := message.Story
-				r.exec(s)
-			}
-		}
-	}()
+func (r *storyRule) OnNotify(msg Message) {
+	if r.match(msg) {
+		s := msg.Story
+		r.exec(s)
+	}
 }
 
 func (r *storyRule) Name() string {
