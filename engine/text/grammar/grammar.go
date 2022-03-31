@@ -28,6 +28,7 @@ type (
 
 	Statement struct {
 		Title              string                   `@String`
+		Instanciate        *Instanciate             `| @@`
 		ActionDefinition   *ActionDefinition        `| @@`
 		Understand         *Understand              `| @@`
 		WhenDeClaration    *WhenDeClaration         `| @@`
@@ -45,6 +46,12 @@ type (
 		Section            *Section                 `| @@`
 		Test               *Test                    `| @@`
 		Description        *Description             `| @@`
+	}
+
+	Instanciate struct {
+		Name *Designator `@@ "is"`
+		Kind *Designator `@@`
+		With *Property   `("with" @@)? "."`
 	}
 
 	ActionDefinition struct {

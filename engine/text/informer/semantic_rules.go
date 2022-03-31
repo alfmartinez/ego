@@ -10,6 +10,20 @@ var locationSet bool
 
 var semRules = []SemanticRule{
 	CreateSemanticRule(
+		"Instanciate object",
+		func(s *grammar.Statement) bool {
+			return s.Instanciate != nil
+		},
+		func(s *grammar.Statement, r Semantix) {
+			def := s.Instanciate
+			o := CreateObject(def.Kind.Get(), def.Name.Get(), def.Name.GetCase())
+			r.AddObject(o)
+			if def.With != nil {
+				o.Set(def.With.Property.Get(), def.With.Value)
+			}
+		},
+	),
+	CreateSemanticRule(
 		"add certainty property to kind",
 		func(s *grammar.Statement) bool {
 			return s.Certainty != nil
