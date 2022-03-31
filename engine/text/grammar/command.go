@@ -7,8 +7,8 @@ import (
 
 type (
 	Command struct {
-		Direction *Direction `  @@`
-		Action    *Action    `| @@`
+		Direction *Designator `  @@`
+		Action    *Action     `| @@`
 	}
 	Action struct {
 		Verb   string      `@Verb`
@@ -18,7 +18,7 @@ type (
 
 func (c *Command) String() string {
 	if c.Direction != nil {
-		return c.Direction.Value
+		return c.Direction.GetCase()
 	}
 	if c.Action != nil {
 		return c.Action.Verb + " " + strings.Join(c.Action.Target.Elements, " ")

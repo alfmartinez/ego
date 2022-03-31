@@ -143,8 +143,8 @@ var semRules = []SemanticRule{
 		func(s *grammar.Statement, r Semantix) {
 			origin := r.GetObject(s.Direction.Origin.Get())
 			target := r.GetObject(s.Direction.Target.Get())
-			direct := s.Direction.Direction.Direct()
-			inverse := s.Direction.Direction.Reverse()
+			direct := r.GetObject(s.Direction.Direction.Get())
+			inverse := r.GetObject(direct.Get("opposite"))
 			rule1 := CreateConnectorRule(origin, target, direct).SetName("connect direct rule")
 			rule2 := CreateConnectorRule(target, origin, inverse).SetName("connect inverse rule")
 			r.AddStoryRule(rule1)
@@ -202,31 +202,6 @@ var semRules = []SemanticRule{
 				panic(fmt.Errorf("object should have been created : %s", name))
 			}
 			o.Set("description", s.Description.Description)
-		},
-	),
-	CreateSemanticRule(
-		"create room relative to current",
-		func(s *grammar.Statement) bool {
-			return s.RelativeRoom != nil
-		},
-		func(s *grammar.Statement, r Semantix) {
-			def := s.RelativeRoom
-			room := CreateObject(def.Kind.Get(), "", "")
-			r.AddObject(room)
-			if def.Name != nil {
-				room.Set("printed name", def.Name.GetCase())
-				room.Set("name", def.Name.Get())
-			}
-			for _, property := range def.With {
-				room.Set(property.Property.Get(), property.Value)
-			}
-			origin := r.LastRoom()
-			direct := def.Direction.Direct()
-			inverse := def.Direction.Reverse()
-			rule1 := CreateConnectorRule(origin, room, direct).SetName("connect direct relative rule")
-			rule2 := CreateConnectorRule(room, origin, inverse).SetName("connect inverse relative rule")
-			r.AddStoryRule(rule1)
-			r.AddStoryRule(rule2)
 		},
 	),
 	CreateSemanticRule(

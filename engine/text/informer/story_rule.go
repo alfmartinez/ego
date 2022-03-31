@@ -38,12 +38,11 @@ func (r *storyRule) Name() string {
 	return r.name
 }
 
-func CreateConnectorRule(o Object, t Object, direction string) StoryRule {
+func CreateConnectorRule(o Object, t Object, direction Object) StoryRule {
 	return &storyRule{
 		match: func(msg Message) bool {
 			s := msg.Story
-			cmd := s.Command()
-			return cmd != nil && s.Phase() == UPDATE_PHASE && s.CurrentRoom() == o && cmd.Direction.Value == direction
+			return msg.Action == "going" && s.CurrentRoom() == o && s.IsSame(msg.Argument, direction.Get("name"))
 		},
 		exec: func(s Story) bool {
 			s.SetCurrentRoom(t)

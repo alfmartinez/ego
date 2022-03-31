@@ -36,7 +36,6 @@ type (
 		EitherProperty     *EitherProperty          `| @@`
 		QuickProperty      *QuickProperty           `| @@`
 		CreateInPlace      *CreateInPlace           `| @@`
-		RelativeRoom       *RelativeRoom            `| @@`
 		Property           *PropertyDefinition      `| @@`
 		Certainty          *CertaintyDefinition     `| @@`
 		ValueDefinition    *ValueDefinition         `| @@`
@@ -105,13 +104,6 @@ type (
 		Thing *Designator `"is" @@ "."`
 	}
 
-	RelativeRoom struct {
-		Direction *Direction  `@@ "is"`
-		Kind      *Designator `@@`
-		With      []*Property `("with" (@@ Separator?)*)?`
-		Name      *Designator `("called" @@)? "."?`
-	}
-
 	PropertyDefinition struct {
 		Kind *Designator `@@`
 		Type string      `"has" "some" @Ident`
@@ -146,14 +138,10 @@ type (
 	}
 
 	Connector struct {
-		Direction   *Direction  `@@`
+		Direction   *Designator `@@`
 		Origin      *Designator `"of" @@ "is"`
 		Target      *Designator `@@ "."`
 		Description string      `@String?`
-	}
-
-	Direction struct {
-		Value string `@Direction`
 	}
 
 	Test struct {
@@ -208,12 +196,6 @@ var (
 	articles    = []string{"a", "an", "the", "The", "An", "A"}
 	determiners = []string{"which", "who"}
 	relations   = []string{"of", "in", "with", "In"}
-	directions  = []string{
-		"north", "south", "east", "west",
-		"northwest", "northeast", "southeast", "southwest",
-		"Northwest", "Northeast", "Southeast", "Southwest",
-		"North", "South", "East", "West",
-	}
 	certainties = []string{
 		"always", "usually", "seldom", "never",
 	}
@@ -232,7 +214,6 @@ var (
 			{"Either", `either\b`, nil},
 			{"Pronoun", "(" + strings.Join(pronouns, "|") + `)\b`, nil},
 			{"Certainty", "(" + strings.Join(certainties, "|") + `)\b`, nil},
-			{"Direction", "(" + strings.Join(directions, "|") + `)\b`, nil},
 			{"Relation", "(" + strings.Join(relations, "|") + `)\b`, nil},
 			{"Determiner", "(" + strings.Join(determiners, "|") + `)\b`, nil},
 			{"Article", "(" + strings.Join(articles, "|") + `)\b`, nil},
@@ -252,25 +233,4 @@ func (d *Designator) Get() string {
 
 func (d *Designator) GetCase() string {
 	return strings.Join(d.Elements, " ")
-}
-
-func (d *Direction) Direct() string {
-	return d.Value
-}
-
-func (d *Direction) Reverse() string {
-	return DirectionReverse[d.Value]
-}
-
-var DirectionReverse = map[string]string{
-	"east":      "west",
-	"south":     "north",
-	"west":      "east",
-	"north":     "south",
-	"up":        "down",
-	"down":      "up",
-	"northeast": "southwest",
-	"northwest": "southeast",
-	"southwest": "northeast",
-	"southeast": "northwest",
 }
