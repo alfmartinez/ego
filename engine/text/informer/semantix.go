@@ -20,9 +20,9 @@ type Semantix interface {
 
 func CreateRuleSemantix(debug bool) Semantix {
 	return &semantix{
-		debug:      debug,
-		semRules:   semRules,
-		storyRules: defaultStoryRules,
+		debug:     debug,
+		semRules:  semRules,
+		publisher: CreatePublisher(),
 	}
 }
 
@@ -34,6 +34,7 @@ type semantix struct {
 	tests      []string
 	lastRoom   Object
 	lastThing  Object
+	publisher  Publisher
 }
 
 func (r *semantix) Debug() bool {
@@ -69,11 +70,12 @@ func (r *semantix) BuildStory(g *grammar.Grammar) {
 }
 
 func (s *semantix) GetStory() Story {
-	return CreateRuleStory(s.storyRules, s.objects, s.tests)
+	return CreateRuleStory(s.publisher, s.objects, s.tests)
 }
 
 func (s *semantix) AddStoryRule(r StoryRule) {
-	s.storyRules = append(s.storyRules, r)
+	//s.publisher.Subscribe(r.Observer())
+	//r.Listen()
 }
 
 func (s *semantix) AddObject(o Object) {

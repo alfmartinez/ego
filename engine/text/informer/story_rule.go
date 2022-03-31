@@ -1,33 +1,50 @@
 package informer
 
+import (
+	"fmt"
+)
+
 type StoryRule interface {
 	Name() string
-	Matches(Story) bool
-	Execute(Story) bool
+	Observer() chan Message
+	Listen()
 }
 
 type storyRule struct {
 	name  string
-	match func(Story) bool
+	match func(Message) bool
 	exec  func(Story) bool
+	c     chan Message
+}
+
+func (r *storyRule) Observer() chan Message {
+	r.c = make(chan Message)
+	return r.c
+}
+
+func (r *storyRule) Listen() {
+	go func() {
+		for {
+			message := <-r.c
+			fmt.Printf("Trying rule %q \n", r.name)
+			if r.match(message) {
+				fmt.Printf("Applying rule %q \n", r.name)
+				s := message.Story
+				r.exec(s)
+			}
+		}
+	}()
 }
 
 func (r *storyRule) Name() string {
 	return r.name
 }
 
-func (r *storyRule) Matches(s Story) bool {
-	return r.match(s)
-}
-
-func (r *storyRule) Execute(s Story) bool {
-	return r.exec(s)
-}
-
 func CreateConnectorRule(o Object, t Object, direction string) StoryRule {
 	return &storyRule{
 		name: "move between rooms rule",
-		match: func(s Story) bool {
+		match: func(msg Message) bool {
+			s := msg.Story
 			cmd := s.Command()
 			return cmd != nil && s.Phase() == UPDATE_PHASE && s.CurrentRoom() == o && cmd.Direction.Value == direction
 		},
@@ -41,8 +58,8 @@ func CreateConnectorRule(o Object, t Object, direction string) StoryRule {
 func CreateWhenRule(when Phase, f Activity) StoryRule {
 	return &storyRule{
 		name: "when phase say rule",
-		match: func(s Story) bool {
-			return s.Phase() == when
+		match: func(msg Message) bool {
+			return msg.Phase == when
 		},
 		exec: f,
 	}
@@ -51,8 +68,8 @@ func CreateWhenRule(when Phase, f Activity) StoryRule {
 func CreateActivityRule(o Object, f Activity) StoryRule {
 	return &storyRule{
 		name: "when activity say rule",
-		match: func(s Story) bool {
-			return true
+		match: func(msg Message) bool {
+			return false
 		},
 		exec: f,
 	}
@@ -61,8 +78,8 @@ func CreateActivityRule(o Object, f Activity) StoryRule {
 func CreatePlayerInventoryRule(items []Object) StoryRule {
 	return &storyRule{
 		name: "put items in inventory rule",
-		match: func(s Story) bool {
-			return s.Phase() == START_PHASE
+		match: func(msg Message) bool {
+			return msg.Phase == START_PHASE
 		},
 		exec: func(s Story) bool {
 			s.AddToInventory(items)
@@ -74,25 +91,12 @@ func CreatePlayerInventoryRule(items []Object) StoryRule {
 func CreateAddItemToRoomRule(dest Object, o Object) StoryRule {
 	return &storyRule{
 		name: "add item to place rule",
-		match: func(s Story) bool {
-			return s.Phase() == START_PHASE
+		match: func(msg Message) bool {
+			return msg.Phase == START_PHASE
 		},
 		exec: func(s Story) bool {
 			s.AddItemToRoom(o, dest)
 			return true
 		},
 	}
-}
-
-var defaultStoryRules = []StoryRule{
-	&storyRule{
-		name: "room display description and name on first visit",
-		match: func(s Story) bool {
-			return s.Phase() == RENDER_PHASE
-		},
-		exec: func(s Story) bool {
-			// FIX
-			return false
-		},
-	},
 }

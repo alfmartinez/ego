@@ -10,7 +10,7 @@ import (
 type Phase int
 
 const (
-	PRE_START_PHASE Phase = iota
+	NONE Phase = iota
 	START_PHASE
 	START_TURN_PHASE
 	//CMD_PHASE
@@ -46,7 +46,7 @@ type Story interface {
 	GetObject(string) Object
 }
 
-func CreateRuleStory(storyRules []StoryRule, objects []Object, tests []string) Story {
+func CreateRuleStory(publisher Publisher, objects []Object, tests []string) Story {
 	index := make(map[string]Object)
 	for _, o := range objects {
 		index[o.Get("name")] = o
@@ -55,20 +55,20 @@ func CreateRuleStory(storyRules []StoryRule, objects []Object, tests []string) S
 		}
 	}
 	return &story{
-		phase:    PRE_START_PHASE,
-		index:    index,
-		rules:    storyRules,
-		cmdChan:  make(chan *grammar.Command),
-		tests:    tests,
-		location: make(map[Object]Object),
-		contains: make(map[Object][]Object),
+		phase:     NONE,
+		index:     index,
+		publisher: publisher,
+		cmdChan:   make(chan *grammar.Command),
+		tests:     tests,
+		location:  make(map[Object]Object),
+		contains:  make(map[Object][]Object),
 	}
 }
 
 type story struct {
 	phase     Phase
 	index     map[string]Object
-	rules     []StoryRule
+	publisher Publisher
 	tests     []string
 	cmdChan   chan *grammar.Command
 	command   *grammar.Command
@@ -78,6 +78,7 @@ type story struct {
 	contains  map[Object][]Object
 	test      bool
 	cmdText   string
+	stop      bool
 }
 
 func (s *story) GetObject(key string) Object {
@@ -102,7 +103,10 @@ func (s *story) AdvancePhase() {
 	if s.phase == TURN_ENDED {
 		s.phase = START_TURN_PHASE
 	}
-	s.ApplyStoryRules()
+	s.publisher.Publish(Message{
+		Story: s,
+		Phase: s.phase,
+	})
 }
 
 func (s *story) SetCurrentRoom(o Object) {
@@ -118,20 +122,22 @@ func (s *story) Command() *grammar.Command {
 }
 
 func (s *story) Start() {
-	var more = true
-	s.AdvancePhase() // START PHASE
+	s.startLoop()
+}
+
+func (s *story) startLoop() {
 	go func() {
+		var more = true
+		s.AdvancePhase()
+		s.AdvancePhase()
 		for more {
-			s.AdvancePhase()              // START TURN
-			s.command, more = <-s.cmdChan // CMD
-			if s.test {
-				s.Say(s.cmdText + "\n")
-			}
-			s.AdvancePhase() // PRE_UPDATE
-			s.AdvancePhase() // UPDATE
-			s.AdvancePhase() // POST_UPDATE
-			s.AdvancePhase() // RENDER
-			s.AdvancePhase() // TURN ENDED
+			s.command, more = <-s.cmdChan
+			s.AdvancePhase()
+			s.AdvancePhase()
+			s.AdvancePhase()
+			s.AdvancePhase()
+			s.AdvancePhase()
+			s.AdvancePhase()
 		}
 	}()
 }
@@ -155,14 +161,6 @@ func (s *story) SetWriter(writer io.Writer) {
 func (s *story) Say(say string) {
 	replacer := s.buildReplacer()
 	replacer.WriteString(s.writer, say)
-}
-
-func (s *story) ApplyStoryRules() {
-	for _, rule := range s.rules {
-		if rule.Matches(s) {
-			rule.Execute(s)
-		}
-	}
 }
 
 func (s *story) buildReplacer() *strings.Replacer {
