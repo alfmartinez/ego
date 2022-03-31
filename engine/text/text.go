@@ -15,6 +15,7 @@ import (
 type Story interface {
 	Start()
 	Test()
+	SetDebug(bool)
 	SetWriter(io.Writer)
 }
 

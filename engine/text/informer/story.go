@@ -31,6 +31,8 @@ type Story interface {
 	Start()
 	Test()
 	Phase() Phase
+	Debug() bool
+	SetDebug(bool)
 	AdvancePhase()
 	CurrentRoom() Object
 	SetCurrentRoom(Object)
@@ -75,6 +77,15 @@ type story struct {
 	test      bool
 	cmdText   string
 	stop      bool
+	debug     bool
+}
+
+func (s *story) Debug() bool {
+	return s.debug
+}
+
+func (s *story) SetDebug(value bool) {
+	s.debug = value
 }
 
 func (s *story) GetObject(key string) Object {
@@ -118,7 +129,7 @@ func (s *story) Command() *grammar.Command {
 }
 
 func (s *story) Start() {
-	go s.startLoop()
+	s.startLoop()
 }
 
 func (s *story) startLoop() {
@@ -156,7 +167,7 @@ func (s *story) Say(say string) {
 }
 
 func (s *story) buildReplacer() *strings.Replacer {
-	var oldNew = []string{}
+	var oldNew = []string{".", ".\n"}
 	for key, o := range s.index {
 		if !o.Has("printed name") {
 			panic(fmt.Errorf("Object %s has no printed name", o))

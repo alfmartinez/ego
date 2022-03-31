@@ -1,5 +1,9 @@
 package informer
 
+import (
+	"fmt"
+)
+
 type StoryRule interface {
 	Name() string
 	OnNotify(Message)
@@ -12,8 +16,14 @@ type storyRule struct {
 }
 
 func (r *storyRule) OnNotify(msg Message) {
+	s := msg.Story
+	if s.Debug() {
+		fmt.Printf("Checking if %s matches\n", r.name)
+	}
 	if r.match(msg) {
-		s := msg.Story
+		if s.Debug() {
+			fmt.Printf("Applying rule %s\n", r.name)
+		}
 		r.exec(s)
 	}
 }
@@ -51,34 +61,9 @@ func CreateActivityRule(name string, o Object, f Activity) StoryRule {
 	return &storyRule{
 		name: "when activity say rule",
 		match: func(msg Message) bool {
-			return false
+			action := msg.Action
+			return o.Get("name") == string(action)
 		},
 		exec: f,
-	}
-}
-
-func CreatePlayerInventoryRule(items []Object) StoryRule {
-	return &storyRule{
-		name: "put items in inventory rule",
-		match: func(msg Message) bool {
-			return msg.Phase == START_PHASE
-		},
-		exec: func(s Story) bool {
-			s.AddToInventory(items)
-			return true
-		},
-	}
-}
-
-func CreateAddItemToRoomRule(dest Object, o Object) StoryRule {
-	return &storyRule{
-		name: "add item to place rule",
-		match: func(msg Message) bool {
-			return msg.Phase == START_PHASE
-		},
-		exec: func(s Story) bool {
-			s.AddItemToRoom(o, dest)
-			return true
-		},
 	}
 }

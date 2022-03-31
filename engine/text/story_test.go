@@ -17,6 +17,7 @@ func ExampleStory_simple() {
 
 	story := CreateStory(filepaths, false, false)
 	story.SetWriter(os.Stdout)
+	//story.SetDebug(true)
 	story.Test()
 
 	// Output:
@@ -32,7 +33,7 @@ func ExampleStory_simple() {
 	//
 }
 
-func ExampleStory_bic() {
+func _ExampleStory_bic() {
 	filepaths := []string{}
 	filepaths = append(filepaths, paths...)
 	filepaths = append(filepaths, "testdata/bic.txt")
@@ -53,7 +54,7 @@ func ExampleStory_bic() {
 
 }
 
-func ExampleStory_common() {
+func _ExampleStory_common() {
 	filepaths := []string{}
 	filepaths = append(filepaths, paths...)
 	filepaths = append(filepaths, "testdata/common.txt")
