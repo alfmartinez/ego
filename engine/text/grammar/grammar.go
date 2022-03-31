@@ -28,8 +28,8 @@ type (
 
 	Statement struct {
 		Title              string                   `@String`
-		Instanciate        *Instanciate             `| @@`
 		ActionDefinition   *ActionDefinition        `| @@`
+		Instanciate        *Instanciate             `| @@`
 		Understand         *Understand              `| @@`
 		WhenDeClaration    *WhenDeClaration         `| @@`
 		TextPropertyKind   *SetTextPropertyOfKind   `| @@`
