@@ -48,11 +48,13 @@ type Story interface {
 	GetObject(string) Object
 }
 
-func CreateRuleStory(publisher Publisher, objects []Object, tests []string) Story {
-	index := make(map[string]Object)
-	for _, o := range objects {
-		index[o.Get("name")] = o
+func CreateRuleStory(publisher Publisher, index map[string]Object, tests []string) Story {
+	for _, o := range index {
 		for _, alias := range o.Aliases() {
+			if value, ok := index[alias]; ok && value != o {
+				panic(fmt.Errorf("index already has key %q with value %#v", alias, value))
+			}
+
 			index[alias] = o
 		}
 	}

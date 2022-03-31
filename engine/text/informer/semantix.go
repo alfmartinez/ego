@@ -23,13 +23,14 @@ func CreateRuleSemantix(debug bool) Semantix {
 		debug:     debug,
 		semRules:  semRules,
 		publisher: CreatePublisher(),
+		index:     make(map[string]Object),
 	}
 }
 
 type semantix struct {
 	debug      bool
 	semRules   []SemanticRule
-	objects    []Object
+	index      map[string]Object
 	storyRules []StoryRule
 	tests      []string
 	lastRoom   Object
@@ -70,7 +71,7 @@ func (r *semantix) BuildStory(g *grammar.Grammar) {
 }
 
 func (s *semantix) GetStory() Story {
-	return CreateRuleStory(s.publisher, s.objects, s.tests)
+	return CreateRuleStory(s.publisher, s.index, s.tests)
 }
 
 func (s *semantix) AddStoryRule(r StoryRule) {
@@ -81,16 +82,15 @@ func (s *semantix) AddObject(o Object) {
 	if o.IsKind("thing") {
 		s.lastThing = o
 	}
-	s.objects = append(s.objects, o)
+	key := o.Get("name")
+	if _, ok := s.index[key]; ok {
+		panic(fmt.Errorf("index already has key %q", key))
+	}
+	s.index[key] = o
 }
 
 func (s *semantix) GetObject(name string) Object {
-	for idx, o := range s.objects {
-		if o.Get("name") == name {
-			return s.objects[idx]
-		}
-	}
-	return nil
+	return s.index[name]
 }
 
 func (s *semantix) AddTest(t []string) {
