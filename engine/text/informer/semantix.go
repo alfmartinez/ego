@@ -19,6 +19,7 @@ type Semantix interface {
 }
 
 func CreateRuleSemantix(debug bool) Semantix {
+	locationSet = false
 	return &semantix{
 		debug:     debug,
 		semRules:  semRules,

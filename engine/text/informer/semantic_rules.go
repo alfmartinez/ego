@@ -341,8 +341,10 @@ var semRules = []SemanticRule{
 					panic(fmt.Errorf("Dont know what %q is", def.Condition.Rule.Elements[0]))
 				}
 				if o.IsKind("action") {
+					fmt.Printf("Action detected ! %s \n", o.Get("name"))
+					alias := def.Condition.Rule.Elements[1]
 					ruleFactory = func(act Activity) StoryRule {
-						return CreateActivityRule(o, act)
+						return CreateActivityRule(o, act, alias)
 					}
 				} else {
 					panic(fmt.Errorf("Dont know what to do with condition %s", def.Condition.Rule.Get()))

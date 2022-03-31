@@ -64,14 +64,22 @@ func CreateWhenRule(when Phase, f Activity) StoryRule {
 	}
 }
 
-func CreateActivityRule(o Object, f Activity) StoryRule {
+func CreateActivityRule(o Object, f Activity, alias string) StoryRule {
 	if !o.IsKind("action") {
 		panic(fmt.Errorf("Cannot create activity rule with non-action %q", o.Get("name")))
 	}
 	return &storyRule{
 		match: func(msg Message) bool {
 			s := msg.Story
-			return s.IsSame(o.Get("name"), string(msg.Action))
+			matches := s.IsSame(o.Get("name"), string(msg.Action))
+			if matches {
+				argument := s.GetObject(msg.Argument)
+				if argument == nil {
+					panic(fmt.Errorf("index does not know %q", msg.Argument))
+				}
+				s.SetAlias(alias, argument)
+			}
+			return matches
 		},
 		exec: f,
 	}

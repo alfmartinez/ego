@@ -6,5 +6,7 @@ The player carries an orange, a Bic pen, and a napkin.
 The description of the orange is "It's as samll hard pinch-skinned thing from the lunch room, probably with lots of pips and no juice."
 
 The description of the napkin is "Slightly crumpled".
+Understand "pen" as bic pen.
+
 
 Test me with "examine orange" "examine pen" "examine napkin" "look"

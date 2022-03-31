@@ -16,7 +16,7 @@ Understand "look" as looking.
 Examining is an action applying to a thing.
 Understand "examine" as examining.
 Understand "x" as examining.
-When examining thing, say "[description of thing]".
+When examining thing, say "[description of thing]\n".
 Going is an action applying to a direction.
 Understand "go" as going.
 When turn starts, say "[command prompt]".

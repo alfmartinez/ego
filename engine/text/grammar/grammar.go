@@ -199,7 +199,7 @@ type (
 )
 
 var (
-	verbs       = []string{"is", "has", "carries", "look", "called"}
+	verbs       = []string{"is", "has", "carries", "called"}
 	articles    = []string{"a", "an", "the", "The", "An", "A"}
 	determiners = []string{"which", "who"}
 	relations   = []string{"of", "in", "with", "In"}

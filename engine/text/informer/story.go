@@ -46,6 +46,7 @@ type Story interface {
 	AddToInventory([]Object)
 	AddItemToRoom(item Object, place Object)
 	GetObject(string) Object
+	SetAlias(string, Object)
 }
 
 func CreateRuleStory(publisher Publisher, index map[string]Object, tests []string) Story {
@@ -92,6 +93,10 @@ func (s *story) Debug() bool {
 
 func (s *story) SetDebug(value bool) {
 	s.debug = value
+}
+
+func (s *story) SetAlias(alias string, o Object) {
+	s.index[alias] = o
 }
 
 func (s *story) GetObject(key string) Object {
@@ -207,16 +212,16 @@ func (s *story) buildReplacer() *strings.Replacer {
 func (s *story) processCommand(cmd *grammar.Command) Message {
 	msg := Message{}
 	switch {
-	case cmd.Direction != nil:
-		key := cmd.Direction.Get()
+	case cmd.Verb != "" && cmd.Target == "":
+		key := cmd.Verb
 		direction := s.GetObject(key)
 		if direction != nil && direction.IsKind("direction") {
 			msg.Action = "going"
 			msg.Argument = direction.Get("name")
 		}
-	case cmd.Action != nil:
-		msg.Action = Action(cmd.Action.Verb)
-		msg.Argument = cmd.Action.Target.Get()
+	case cmd.Verb != "" && cmd.Target != "":
+		msg.Action = Action(cmd.Verb)
+		msg.Argument = cmd.Target
 	}
 
 	return msg
