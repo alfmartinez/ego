@@ -22,7 +22,7 @@ func (r *storyRule) Name() string {
 	return r.name
 }
 
-func CreateConnectorRule(o Object, t Object, direction string) StoryRule {
+func CreateConnectorRule(name string, o Object, t Object, direction string) StoryRule {
 	return &storyRule{
 		name: "move between rooms rule",
 		match: func(msg Message) bool {
@@ -37,7 +37,7 @@ func CreateConnectorRule(o Object, t Object, direction string) StoryRule {
 	}
 }
 
-func CreateWhenRule(when Phase, f Activity) StoryRule {
+func CreateWhenRule(name string, when Phase, f Activity) StoryRule {
 	return &storyRule{
 		name: "when phase say rule",
 		match: func(msg Message) bool {
@@ -47,7 +47,7 @@ func CreateWhenRule(when Phase, f Activity) StoryRule {
 	}
 }
 
-func CreateActivityRule(o Object, f Activity) StoryRule {
+func CreateActivityRule(name string, o Object, f Activity) StoryRule {
 	return &storyRule{
 		name: "when activity say rule",
 		match: func(msg Message) bool {

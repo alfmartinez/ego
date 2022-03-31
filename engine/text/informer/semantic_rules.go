@@ -72,7 +72,7 @@ var semRules = []SemanticRule{
 			return s.Title != ""
 		},
 		func(s *grammar.Statement, r Semantix) {
-			rule := CreateWhenRule(START_PHASE, Say(s.Title+"\n\n"))
+			rule := CreateWhenRule("display title on start rule", START_PHASE, Say(s.Title+"\n\n"))
 			r.AddStoryRule(rule)
 		},
 	),
@@ -145,8 +145,8 @@ var semRules = []SemanticRule{
 			target := r.GetObject(s.Direction.Target.Get())
 			direct := s.Direction.Direction.Direct()
 			inverse := s.Direction.Direction.Reverse()
-			rule1 := CreateConnectorRule(origin, target, direct)
-			rule2 := CreateConnectorRule(target, origin, inverse)
+			rule1 := CreateConnectorRule("connect direct rule", origin, target, direct)
+			rule2 := CreateConnectorRule("connect inverse rule", target, origin, inverse)
 			r.AddStoryRule(rule1)
 			r.AddStoryRule(rule2)
 
@@ -183,7 +183,10 @@ var semRules = []SemanticRule{
 				r.AddObject(item)
 				objects = append(objects, item)
 			}
-			rule := CreatePlayerInventoryRule(objects)
+			rule := CreateWhenRule("add items to inventory rule", START_PHASE, func(s Story) bool {
+				s.AddToInventory(objects)
+				return true
+			})
 			r.AddStoryRule(rule)
 		},
 	),
@@ -220,8 +223,8 @@ var semRules = []SemanticRule{
 			origin := r.LastRoom()
 			direct := def.Direction.Direct()
 			inverse := def.Direction.Reverse()
-			rule1 := CreateConnectorRule(origin, room, direct)
-			rule2 := CreateConnectorRule(room, origin, inverse)
+			rule1 := CreateConnectorRule("connect direct rule", origin, room, direct)
+			rule2 := CreateConnectorRule("connect reverse rule", room, origin, inverse)
 			r.AddStoryRule(rule1)
 			r.AddStoryRule(rule2)
 		},
@@ -262,7 +265,11 @@ var semRules = []SemanticRule{
 			if dest == nil {
 				panic(fmt.Errorf("missing place %s", def.Place.Get()))
 			}
-			rule := CreateAddItemToRoomRule(dest, o)
+			rule := CreateWhenRule("Add Item to Room", START_PHASE,
+				func(s Story) bool {
+					s.AddItemToRoom(o, dest)
+					return true
+				})
 			r.AddStoryRule(rule)
 		},
 	),
@@ -352,7 +359,7 @@ var semRules = []SemanticRule{
 				}
 				if o.IsKind("action") {
 					ruleFactory = func(act Activity) StoryRule {
-						return CreateActivityRule(o, act)
+						return CreateActivityRule("when action rule", o, act)
 					}
 				} else {
 					panic(fmt.Errorf("Dont know what to do with condition %s", def.Condition.Rule.Get()))
@@ -360,7 +367,7 @@ var semRules = []SemanticRule{
 
 			} else {
 				ruleFactory = func(act Activity) StoryRule {
-					return CreateWhenRule(phase, act)
+					return CreateWhenRule("when phase rule", phase, act)
 				}
 			}
 			var rule StoryRule
