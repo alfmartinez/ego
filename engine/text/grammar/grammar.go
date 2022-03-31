@@ -28,6 +28,7 @@ type (
 
 	Statement struct {
 		Title              string                   `@String`
+		WhenDeClaration    *WhenDeClaration         `| @@`
 		TextPropertyKind   *SetTextPropertyOfKind   `| @@`
 		TextPropertyObject *SetTextPropertyOfObject `| @@`
 		EitherProperty     *EitherProperty          `| @@`
@@ -43,6 +44,19 @@ type (
 		Section            *Section                 `| @@`
 		Test               *Test                    `| @@`
 		Description        *Description             `| @@`
+	}
+
+	WhenDeClaration struct {
+		Condition *Condition `"When" @@ ","`
+		Activity  *Activity  `@@ "."?`
+	}
+
+	Condition struct {
+		Rule *Designator `@@`
+	}
+
+	Activity struct {
+		Say string `"say" @String`
 	}
 
 	SetTextPropertyOfKind struct {

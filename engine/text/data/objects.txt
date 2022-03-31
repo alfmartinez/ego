@@ -1,1 +1,5 @@
 The player is a person.
+Location is an object.
+Command prompt is an object.
+Command prompt has printed name "> ".
+When turn starts, say "[command prompt]".

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/alfmartinez/ego/engine/text/grammar"
 	"io"
+	"strings"
 )
 
 type Phase int
@@ -12,6 +13,7 @@ const (
 	PRE_START_PHASE Phase = iota
 	START_PHASE
 	START_TURN_PHASE
+	//CMD_PHASE
 	PRE_UPDATE_PHASE
 	UPDATE_PHASE
 	POST_UPDATE_PHASE
@@ -19,6 +21,15 @@ const (
 	POST_TURN_PHASE
 	TURN_ENDED
 )
+
+var phaseLexic = map[string]Phase{
+	"play begins": START_PHASE,
+	"turn starts": START_TURN_PHASE,
+}
+
+func GetPhase(value string) Phase {
+	return phaseLexic[value]
+}
 
 type Story interface {
 	Start()
@@ -78,6 +89,7 @@ func (s *story) AdvancePhase() {
 	if s.phase == TURN_ENDED {
 		s.phase = START_TURN_PHASE
 	}
+	s.ApplyStoryRules()
 }
 
 func (s *story) SetCurrentRoom(o Object) {
@@ -93,12 +105,17 @@ func (s *story) Command() *grammar.Command {
 }
 
 func (s *story) Start() {
-	s.ApplyStoryRules()
-	s.AdvancePhase()
-	s.ApplyStoryRules()
+	var more = true
+	s.AdvancePhase() // START PHASE
 	go func() {
-		for cmd := range s.cmdChan {
-			s.command = cmd
+		for more {
+			s.AdvancePhase()              // START TURN
+			s.command, more = <-s.cmdChan // CMD
+			s.AdvancePhase()              // PRE_UPDATE
+			s.AdvancePhase()              // UPDATE
+			s.AdvancePhase()              // POST_UPDATE
+			s.AdvancePhase()              // RENDER
+			s.AdvancePhase()              // TURN ENDED
 		}
 	}()
 }
@@ -117,7 +134,8 @@ func (s *story) SetWriter(writer io.Writer) {
 }
 
 func (s *story) Say(say string) {
-	fmt.Fprintln(s.writer, say)
+	replacer := s.buildReplacer()
+	replacer.WriteString(s.writer, say)
 }
 
 func (s *story) ApplyStoryRules() {
@@ -126,4 +144,15 @@ func (s *story) ApplyStoryRules() {
 			rule.Execute(s)
 		}
 	}
+}
+
+func (s *story) buildReplacer() *strings.Replacer {
+	var oldNew = []string{}
+	for _, o := range s.objects {
+		if !o.Has("printed name") {
+			panic(fmt.Errorf("Object %s has no printed name", o))
+		}
+		oldNew = append(oldNew, "["+o.Get("name")+"]", o.Get("printed name"))
+	}
+	return strings.NewReplacer(oldNew...)
 }

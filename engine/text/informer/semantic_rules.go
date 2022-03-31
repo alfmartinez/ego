@@ -70,7 +70,7 @@ var semRules = []SemanticRule{
 			return s.Title != ""
 		},
 		func(s *grammar.Statement, r Semantix) {
-			rule := CreateWhenSayRule(START_PHASE, s.Title)
+			rule := CreateWhenRule(START_PHASE, Say(s.Title))
 			r.AddStoryRule(rule)
 		},
 	),
@@ -104,8 +104,8 @@ var semRules = []SemanticRule{
 				object = r.GetObject(s.Sentence.DP.Designator.Get())
 
 			} else {
-				object = CreateObject(kindKey)
-				object.Set("name", s.Sentence.DP.Designator.Get())
+				name := s.Sentence.DP.Designator
+				object = CreateObject(kindKey, name.Get(), name.GetCase())
 				r.AddObject(object)
 			}
 			for value, property := range properties {
@@ -126,8 +126,7 @@ var semRules = []SemanticRule{
 		},
 		func(s *grammar.Statement, r Semantix) {
 			dir := s.Direction
-			target := CreateObject("room")
-			target.Set("name", dir.Target.Get())
+			target := CreateObject("room", dir.Target.Get(), dir.Target.GetCase())
 			if dir.Description != "" {
 				target.Set("description", dir.Description)
 			}
@@ -178,8 +177,7 @@ var semRules = []SemanticRule{
 
 			var objects []Object
 			for _, itemName := range ids {
-				item := CreateObject("thing")
-				item.Set("name", itemName)
+				item := CreateObject("thing", itemName, itemName)
 				r.AddObject(item)
 				objects = append(objects, item)
 			}
@@ -208,7 +206,7 @@ var semRules = []SemanticRule{
 		},
 		func(s *grammar.Statement, r Semantix) {
 			def := s.RelativeRoom
-			room := CreateObject(def.Kind.Get())
+			room := CreateObject(def.Kind.Get(), "", "")
 			r.AddObject(room)
 			if def.Name != nil {
 				room.Set("printed name", def.Name.GetCase())
@@ -249,10 +247,10 @@ var semRules = []SemanticRule{
 			}
 			var o Object
 			if _, ok := kinds[kindKey]; !ok {
-				o = CreateObject("thing")
+				o = CreateObject("thing", def.Thing.Get(), def.Thing.GetCase())
 				o.Set("name", def.Thing.Get())
 			} else {
-				o = CreateObject(kindKey)
+				o = CreateObject(kindKey, kindKey, kindKey)
 				for value, p := range properties {
 					o.Set(p.Name(), value)
 				}
@@ -332,6 +330,18 @@ var semRules = []SemanticRule{
 			values[pName] = property
 			kind := kinds[def.Kind.Get()]
 			kind.Set(pName, "")
+		},
+	),
+	CreateSemanticRule(
+		"create when activity",
+		func(s *grammar.Statement) bool {
+			return s.WhenDeClaration != nil
+		},
+		func(s *grammar.Statement, r Semantix) {
+			def := s.WhenDeClaration
+			phase := GetPhase(def.Condition.Rule.Get())
+			rule := CreateWhenRule(phase, Say(def.Activity.Say))
+			r.AddStoryRule(rule)
 		},
 	),
 }

@@ -9,6 +9,7 @@ type (
 		Set(string, string)
 		Get(string) string
 		IsKind(string) bool
+		Has(string) bool
 	}
 
 	object struct {
@@ -17,16 +18,23 @@ type (
 	}
 )
 
-func CreateObject(kindKey string) Object {
+func CreateObject(kindKey string, name string, printed string) Object {
 	kind, ok := kinds[kindKey]
 	if !ok {
 		panic(fmt.Errorf("unknown kind %s", kindKey))
 	}
 	defaults := kind.Defaults()
-	return &object{
+	o := &object{
 		kind:       kind.Clone(),
 		properties: defaults,
 	}
+	if name != "" {
+		o.Set("name", name)
+	}
+	if printed != "" {
+		o.Set("printed name", printed)
+	}
+	return o
 }
 
 func (o *object) Set(name string, value string) {
@@ -42,6 +50,11 @@ func (o *object) Get(name string) string {
 
 func (o *object) IsKind(kind string) bool {
 	return o.kind.IsKind(kind)
+}
+
+func (o *object) Has(property string) bool {
+	_, ok := o.properties[property]
+	return ok
 }
 
 func CreateValue(valueKey string) ValueKind {

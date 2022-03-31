@@ -37,16 +37,13 @@ func CreateConnectorRule(o Object, t Object, direction string) StoryRule {
 	}
 }
 
-func CreateWhenSayRule(when Phase, say string) StoryRule {
+func CreateWhenRule(when Phase, f Activity) StoryRule {
 	return &storyRule{
 		name: "when phase say rule",
 		match: func(s Story) bool {
 			return s.Phase() == when
 		},
-		exec: func(s Story) bool {
-			s.Say(say)
-			return true
-		},
+		exec: f,
 	}
 }
 
