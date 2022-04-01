@@ -191,9 +191,9 @@ var semRules = []SemanticRule{
 				r.AddObject(item)
 				objects = append(objects, item)
 			}
-			rule := CreateWhenRule(START_PHASE, func(s Story) bool {
+			rule := CreateWhenRule(START_PHASE, func(s Story) (success, cont bool) {
 				s.AddToInventory(objects)
-				return true
+				return true, false
 			}).SetName("add items to inventory rule")
 			r.AddStoryRule(rule)
 		},
@@ -249,9 +249,9 @@ var semRules = []SemanticRule{
 				panic(fmt.Errorf("missing place %s", def.Place.Get()))
 			}
 			rule := CreateWhenRule(START_PHASE,
-				func(s Story) bool {
+				func(s Story) (success, cont bool) {
 					s.AddItemToRoom(o, dest)
-					return true
+					return true, true
 				}).SetName("Add Item to Room")
 			r.AddStoryRule(rule)
 		},

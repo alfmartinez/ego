@@ -7,17 +7,17 @@ import (
 type StoryRule interface {
 	SetName(string) StoryRule
 	Name() string
-	Try(Message) bool
+	Try(Message) (success, cont bool)
 }
 
 type storyRule struct {
 	name  string
 	books []string
 	match func(Message) bool
-	exec  func(Story) bool
+	exec  func(Story) (success, cont bool)
 }
 
-func (r *storyRule) Try(msg Message) bool {
+func (r *storyRule) Try(msg Message) (success, cont bool) {
 	s := msg.Story
 	if s.Debug() {
 		//fmt.Printf("Checking if %s matches\n", r.name)
@@ -28,7 +28,7 @@ func (r *storyRule) Try(msg Message) bool {
 		}
 		return r.exec(s)
 	}
-	return true
+	return true, true
 }
 
 func (r *storyRule) SetName(name string) StoryRule {
@@ -46,13 +46,13 @@ func CreateConnectorRule(o Object, t Object, direction Object) StoryRule {
 			s := msg.Story
 			return msg.Action == "going" && s.CurrentRoom() == o && s.IsSame(msg.Argument, direction.Get("name"))
 		},
-		exec: func(s Story) bool {
+		exec: func(s Story) (success, cont bool) {
 			s.SetCurrentRoom(t)
 			s.Publish(Message{
 				Action:   "enter",
 				Argument: "location",
 			})
-			return true
+			return true, false
 		},
 	}
 }

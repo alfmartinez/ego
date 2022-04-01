@@ -19,7 +19,7 @@ func (p *publisher) Register(rule StoryRule) {
 
 func (p *publisher) Publish(msg Message) {
 	for _, c := range p.observers {
-		if ok := c.Try(msg); !ok {
+		if _, ok := c.Try(msg); !ok {
 			break
 		}
 	}
