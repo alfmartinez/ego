@@ -9,7 +9,7 @@ import (
 type Semantix interface {
 	BuildStory(*grammar.Grammar)
 	GetStory() Story
-	AddRulebook(string)
+	AddRulebook(RuleBook)
 	AddStoryRule(StoryRule)
 	AddObject(Object)
 	AddTest([]string)
@@ -88,7 +88,7 @@ func (s *semantix) AddStoryRule(r StoryRule) {
 	s.rulebooks.Register(r)
 }
 
-func (s *semantix) AddRulebook(book string) {
+func (s *semantix) AddRulebook(book RuleBook) {
 	s.rulebooks.AddRulebook(book)
 }
 

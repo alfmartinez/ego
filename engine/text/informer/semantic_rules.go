@@ -16,9 +16,9 @@ var semRules = []SemanticRule{
 		},
 		func(s *grammar.Statement, r Semantix) {
 			name := s.Activity.Name.Get()
-			r.AddRulebook(fmt.Sprintf("before %s", name))
-			r.AddRulebook(fmt.Sprintf("%s", name))
-			r.AddRulebook(fmt.Sprintf("after %s", name))
+			r.AddRulebook(CreateRuleBook(fmt.Sprintf("before %s", name)))
+			r.AddRulebook(CreateRuleBook(fmt.Sprintf("%s", name)))
+			r.AddRulebook(CreateRuleBook(fmt.Sprintf("after %s", name)))
 		},
 	),
 	CreateSemanticRule(
@@ -28,10 +28,11 @@ var semRules = []SemanticRule{
 		},
 		func(s *grammar.Statement, r Semantix) {
 			name := s.Rulebook.Name.Get()
-			if s.Rulebook.Kind != "" {
-				name += "(" + s.Rulebook.Kind + ")"
-			}
-			r.AddRulebook(name)
+			kind := s.Rulebook.Kind
+			r.AddRulebook(&rulebook{
+				name: name,
+				kind: kind,
+			})
 		},
 	),
 	CreateSemanticRule(
@@ -413,9 +414,9 @@ var semRules = []SemanticRule{
 			def := s.ActionDefinition
 			o := CreateObject("action", def.Name.Get(), def.Name.GetCase())
 			key := def.Name.Get()
-			r.AddRulebook(fmt.Sprintf("check %s", key))
-			r.AddRulebook(fmt.Sprintf("carry out %s", key))
-			r.AddRulebook(fmt.Sprintf("report %s", key))
+			r.AddRulebook(CreateRuleBook(fmt.Sprintf("check %s", key)))
+			r.AddRulebook(CreateRuleBook(fmt.Sprintf("carry out %s", key)))
+			r.AddRulebook(CreateRuleBook(fmt.Sprintf("report %s", key)))
 			if def.Target != nil {
 				o.Set("applies to", def.Target.Get())
 			}
