@@ -10,13 +10,38 @@ var locationSet bool
 
 var semRules = []SemanticRule{
 	CreateSemanticRule(
+		"Create activity",
+		func(s *grammar.Statement) bool {
+			return s.Activity != nil
+		},
+		func(s *grammar.Statement, r Semantix) {
+			name := s.Activity.Name.Get()
+			r.AddRulebook(fmt.Sprintf("before %s", name))
+			r.AddRulebook(fmt.Sprintf("%s", name))
+			r.AddRulebook(fmt.Sprintf("after %s", name))
+		},
+	),
+	CreateSemanticRule(
+		"Create rulebook",
+		func(s *grammar.Statement) bool {
+			return s.Rulebook != nil
+		},
+		func(s *grammar.Statement, r Semantix) {
+			name := s.Rulebook.Name.Get()
+			if s.Rulebook.Kind != "" {
+				name += "(" + s.Rulebook.Kind + ")"
+			}
+			r.AddRulebook(name)
+		},
+	),
+	CreateSemanticRule(
 		"Instanciate object",
 		func(s *grammar.Statement) bool {
 			return s.Instanciate != nil
 		},
 		func(s *grammar.Statement, r Semantix) {
 			def := s.Instanciate
-			o := CreateObject(def.Kind.Get(), def.Name.Get(), def.Name.GetCase())
+			o := CreateObject(def.Kind, def.Name.Get(), def.Name.GetCase())
 			r.AddObject(o)
 			if def.With != nil {
 				o.Set(def.With.Property.Get(), def.With.Value)
@@ -80,7 +105,7 @@ var semRules = []SemanticRule{
 			return s.Title != ""
 		},
 		func(s *grammar.Statement, r Semantix) {
-			rule := CreateWhenRule(START_PHASE, Say(s.Title+"\n\n")).SetName("display title on start rule")
+			rule := CreateWhenRule("when play begins", START_PHASE, Say(s.Title+"\n\n")).SetName("display title on start rule")
 			r.AddStoryRule(rule)
 		},
 	),
@@ -90,34 +115,55 @@ var semRules = []SemanticRule{
 			return s.Sentence != nil && s.Sentence.DP != nil && s.Sentence.DP.Designator != nil && s.Sentence.VP.Verb == "is"
 		},
 		func(s *grammar.Statement, r Semantix) {
-			designator := s.Sentence.VP.DP.Designator
-			elements := designator.Elements
-			var kindKey string
+			def := s.Sentence
+			var subject, relativeTo *grammar.Designator
 			var properties = make(map[string]ValueKind)
-			if _, ok := kinds[designator.Get()]; !ok {
-				for _, tag := range elements {
-					if _, ok := kinds[tag]; ok {
-						kindKey = tag
-
-					}
-					if e := FindPropertyByValue(tag); e != nil {
-						properties[tag] = e
-					}
-				}
+			var kindKey string
+			elements := def.DP.Designator.Elements
+			if r.IsDirection(elements[0]) {
+				// Relative room creation
+				kindKey = "room"
+				relativeTo = &grammar.Designator{elements[2:]}
+				subject = def.VP.DP.Designator
 			} else {
-				if _, ok := kinds[designator.Get()]; ok {
-					kindKey = designator.Get()
+				designator := s.Sentence.VP.DP.Designator
+				elements := designator.Elements
+				if _, ok := kinds[designator.Get()]; !ok {
+					for _, tag := range elements {
+						if _, ok := kinds[tag]; ok {
+							kindKey = tag
+
+						}
+						if e := FindPropertyByValue(tag); e != nil {
+							properties[tag] = e
+						}
+					}
+				} else {
+					if _, ok := kinds[designator.Get()]; ok {
+						kindKey = designator.Get()
+					}
 				}
 			}
+
 			var object Object
 			if kindKey == "" {
-				object = r.GetObject(s.Sentence.DP.Designator.Get())
-
+				key := s.Sentence.DP.Designator.Get()
+				object = r.GetObject(key)
+				if object == nil {
+					panic(fmt.Errorf("Object unknown %q", key))
+				}
 			} else {
-				name := s.Sentence.DP.Designator
+				name := subject
 				object = CreateObject(kindKey, name.Get(), name.GetCase())
 				r.AddObject(object)
+				if object == nil {
+					panic(fmt.Errorf("Cant create object of kind %q", kindKey))
+				}
+				if relativeTo != nil {
+					//	Create connection
+				}
 			}
+
 			for value, property := range properties {
 				object.Set(property.Name(), value)
 			}
@@ -191,7 +237,7 @@ var semRules = []SemanticRule{
 				r.AddObject(item)
 				objects = append(objects, item)
 			}
-			rule := CreateWhenRule(START_PHASE, func(s Story) (success, cont bool) {
+			rule := CreateWhenRule("when play begins", START_PHASE, func(s Story) (success, cont bool) {
 				s.AddToInventory(objects)
 				return true, false
 			}).SetName("add items to inventory rule")
@@ -248,7 +294,7 @@ var semRules = []SemanticRule{
 			if dest == nil {
 				panic(fmt.Errorf("missing place %s", def.Place.Get()))
 			}
-			rule := CreateWhenRule(START_PHASE,
+			rule := CreateWhenRule("when play begins", START_PHASE,
 				func(s Story) (success, cont bool) {
 					s.AddItemToRoom(o, dest)
 					return true, true
@@ -341,7 +387,6 @@ var semRules = []SemanticRule{
 					panic(fmt.Errorf("Dont know what %q is", def.Condition.Rule.Elements[0]))
 				}
 				if o.IsKind("action") {
-					fmt.Printf("Action detected ! %s \n", o.Get("name"))
 					alias := def.Condition.Rule.Elements[1]
 					ruleFactory = func(act Activity) StoryRule {
 						return CreateActivityRule(o, act, alias)
@@ -352,7 +397,7 @@ var semRules = []SemanticRule{
 
 			} else {
 				ruleFactory = func(act Activity) StoryRule {
-					return CreateWhenRule(phase, act)
+					return CreateWhenRule("every turn", phase, act)
 				}
 			}
 

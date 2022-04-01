@@ -5,6 +5,7 @@ import (
 )
 
 var paths = []string{
+	"data/rulebooks.txt",
 	"data/values.txt",
 	"data/kinds.txt",
 	"data/objects.txt",

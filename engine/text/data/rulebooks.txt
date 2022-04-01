@@ -1,0 +1,66 @@
+[Rules for sequence of play]
+When play begins is a rulebook.
+Every turn is a rulebook.
+When play ends is a rulebook.
+
+[Actions rulebooks]
+Persuasion is a rulebook.
+Unsuccessful attempt is a rulebook.
+Before is a rulebook.
+Instead is a rulebook.
+Check is a rulebook. 
+Carry out is a rulebook.
+After is a rulebook.
+Report is a rulebook.
+
+[Commands rulebooks]
+Does the player mean is a rulebook.
+Reading a command is an activity.
+Deciding the scope is an activity.
+Deciding the concealed possessions is an activity.
+Deciding whether all includes is an activity.
+Clarifying the parser choice is an activity.
+Asking which do you mean is an activity.
+Printing a parse error is an activity.
+Supplying a missing noun is an activity.
+Supplying a missing second noun is an activity.
+Implicitly taking is an activity.
+
+[Accessibility]
+Reaching inside is an object based rulebook.
+Reaching outside is an object based rulebook.
+Visibility is a rulebook.
+
+[How things are described]
+Printing the name is an activity.
+Printing the plural name is an activity.
+Printing a number is an activity.
+Printing room description details is an activity.
+Printing inventory details is an activity.
+Listing contents is an activity.
+Grouping together is an activity.
+Writing a paragraph about is an activity.
+Listing nondescript items is an activity.
+Printing the locale description is an activity.
+Choosing notable locale objects is an activity.
+Printing a locale paragraph about is an activity.
+
+[Light and darkness]
+Printing the name of a dark room is an activity.
+Printing the description of a dark room is an activity.
+Printing the annoncement of darkness is an activity.
+Printing the announcement of light is an activity.
+Printing a refusal to act in the dark is an activity.
+
+[Top level]
+Startup rules is a rulebook.
+Turn sequence rules is a rulebook.
+Shutdown rules is a rulebook.
+
+[How actions are processed]
+Action-processing rules is a rulebook.
+Specific action-processing rules is a rulebook.
+Player action awareness rules is a rulebook.
+
+[How responses are printed - Use activity instead]
+Issuing the response text is an activity.

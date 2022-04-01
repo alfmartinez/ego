@@ -1,7 +1,6 @@
 package informer
 
 import (
-	//	"fmt"
 	"github.com/alfmartinez/ego/engine/slices"
 )
 
@@ -13,7 +12,7 @@ type Rulebooks interface {
 
 func CreateRulebooks() Rulebooks {
 	return &rulebooks{
-		books: []string{"when play begins", "when", "action"},
+		books: []string{},
 	}
 }
 
@@ -32,7 +31,6 @@ func (p *rulebooks) Register(rule StoryRule) {
 
 func (p *rulebooks) Publish(msg Message) {
 	for _, book := range p.books {
-		//fmt.Printf("Checking rulebook %q \n", book)
 		rules := slices.Filter(p.observers, func(rule StoryRule) bool {
 			return rule.IsInBook(book)
 		})

@@ -28,8 +28,10 @@ type (
 
 	Statement struct {
 		Title              string                   `@String`
-		ActionDefinition   *ActionDefinition        `| @@`
+		Rulebook           *Rulebook                `| @@`
+		Activity           *ActivityDefinition      `| @@`
 		Instanciate        *Instanciate             `| @@`
+		ActionDefinition   *ActionDefinition        `| @@`
 		Understand         *Understand              `| @@`
 		WhenDeClaration    *WhenDeClaration         `| @@`
 		TextPropertyKind   *SetTextPropertyOfKind   `| @@`
@@ -48,9 +50,18 @@ type (
 		Description        *Description             `| @@`
 	}
 
+	ActivityDefinition struct {
+		Name *Designator `@@ "is" "activity" "."`
+	}
+
+	Rulebook struct {
+		Name *Designator `@@ "is"`
+		Kind string      `(@Ident "based")? "rulebook" "."`
+	}
+
 	Instanciate struct {
 		Name *Designator `@@ "is"`
-		Kind *Designator `@@`
+		Kind string      `@Ident`
 		With *Property   `("with" @@)? "."`
 	}
 
@@ -184,11 +195,11 @@ type (
 	}
 
 	ComplexPhrase struct {
-		VP *VerbPhrase `Determiner @@`
+		VP *VerbPhrase `("which"|"who") @@`
 	}
 
 	RelativePhrase struct {
-		Relation string      `@Relation`
+		Relation string      `@Ident`
 		Related  *Designator `@@`
 	}
 
@@ -201,8 +212,6 @@ type (
 var (
 	verbs       = []string{"is", "has", "carries", "called"}
 	articles    = []string{"a", "an", "the", "The", "An", "A"}
-	determiners = []string{"which", "who"}
-	relations   = []string{"of", "in", "with", "In"}
 	certainties = []string{
 		"always", "usually", "seldom", "never",
 	}
@@ -221,8 +230,6 @@ var (
 			{"Either", `either\b`, nil},
 			{"Pronoun", "(" + strings.Join(pronouns, "|") + `)\b`, nil},
 			{"Certainty", "(" + strings.Join(certainties, "|") + `)\b`, nil},
-			{"Relation", "(" + strings.Join(relations, "|") + `)\b`, nil},
-			{"Determiner", "(" + strings.Join(determiners, "|") + `)\b`, nil},
 			{"Article", "(" + strings.Join(articles, "|") + `)\b`, nil},
 			{"Verb", "(" + strings.Join(verbs, "|") + `)\b`, nil},
 			{"Ident", `[\p{L}\-]+`, nil},

@@ -67,9 +67,9 @@ func CreateConnectorRule(o Object, t Object, direction Object) StoryRule {
 	}
 }
 
-func CreateWhenRule(when Phase, f Activity) StoryRule {
+func CreateWhenRule(book string, when Phase, f Activity) StoryRule {
 	return &storyRule{
-		books: []string{"when"},
+		books: []string{book},
 		match: func(msg Message) bool {
 			return msg.Phase == when
 		},

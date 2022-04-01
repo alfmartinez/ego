@@ -3,6 +3,7 @@ package informer
 import (
 	"fmt"
 	"github.com/alfmartinez/ego/engine/text/grammar"
+	"strings"
 )
 
 type Semantix interface {
@@ -16,6 +17,7 @@ type Semantix interface {
 	SetLastRoom(Object)
 	LastRoom() Object
 	LastThing() Object
+	IsDirection(string) bool
 	Debug() bool
 }
 
@@ -54,6 +56,12 @@ func (r *semantix) LastRoom() Object {
 
 func (r *semantix) LastThing() Object {
 	return r.lastThing
+}
+
+func (r *semantix) IsDirection(value string) bool {
+	key := strings.ToLower(value)
+	o := r.GetObject(key)
+	return o != nil && o.IsKind("direction")
 }
 
 func (r *semantix) BuildStory(g *grammar.Grammar) {
