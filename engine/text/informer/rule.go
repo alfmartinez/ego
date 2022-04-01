@@ -8,12 +8,6 @@ type SemanticRule interface {
 	Execute(*grammar.Statement, Semantix)
 }
 
-type ObjectRule interface {
-	Name() string
-	Matches(Object) bool
-	Execute(Object)
-}
-
 func CreateSemanticRule(name string, match func(*grammar.Statement) bool, exec func(*grammar.Statement, Semantix)) SemanticRule {
 	return &semanticRule{
 		name:  name,
