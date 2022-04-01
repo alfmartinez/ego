@@ -11,20 +11,6 @@ Southeast is a direction with opposite "northwest".
 Northwest is a direction with opposite "southeast".
 Command prompt is an object.
 Command prompt has printed name "> ".
-Looking is an action applying to a room.
-Understand "look" as looking.
-Examining is an action applying to a thing.
-Understand "examine" as examining.
-Understand "x" as examining.
-When examining thing, say "[description of thing]\n".
-Going is an action applying to a direction.
-Understand "go" as going.
 When turn starts, say "[command prompt]".
-Entering is an action applying to a room.
-Understand "enter" as entering.
-When play ready, enter location.
-When entering somewhere:
-    say "[printed name of location]\n"
-    say "[description of location]\n\n"
 
 
