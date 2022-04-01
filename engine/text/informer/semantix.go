@@ -8,6 +8,7 @@ import (
 type Semantix interface {
 	BuildStory(*grammar.Grammar)
 	GetStory() Story
+	AddRulebook(string)
 	AddStoryRule(StoryRule)
 	AddObject(Object)
 	AddTest([]string)
@@ -77,6 +78,10 @@ func (s *semantix) GetStory() Story {
 
 func (s *semantix) AddStoryRule(r StoryRule) {
 	s.rulebooks.Register(r)
+}
+
+func (s *semantix) AddRulebook(book string) {
+	s.rulebooks.AddRulebook(book)
 }
 
 func (s *semantix) AddObject(o Object) {

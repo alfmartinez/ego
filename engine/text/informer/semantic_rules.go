@@ -379,6 +379,10 @@ var semRules = []SemanticRule{
 		func(s *grammar.Statement, r Semantix) {
 			def := s.ActionDefinition
 			o := CreateObject("action", def.Name.Get(), def.Name.GetCase())
+			key := def.Name.Get()
+			r.AddRulebook(fmt.Sprintf("check %s", key))
+			r.AddRulebook(fmt.Sprintf("carry out %s", key))
+			r.AddRulebook(fmt.Sprintf("report %s", key))
 			if def.Target != nil {
 				o.Set("applies to", def.Target.Get())
 			}

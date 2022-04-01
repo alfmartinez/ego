@@ -2,12 +2,14 @@ package informer
 
 import (
 	"fmt"
+	"golang.org/x/exp/slices"
 )
 
 type StoryRule interface {
 	SetName(string) StoryRule
 	Name() string
 	Try(Message) (success, cont bool)
+	IsInBook(string) bool
 }
 
 type storyRule struct {
@@ -15,6 +17,13 @@ type storyRule struct {
 	books []string
 	match func(Message) bool
 	exec  func(Story) (success, cont bool)
+}
+
+func (r *storyRule) IsInBook(book string) bool {
+	if len(r.books) == 0 {
+		panic(fmt.Errorf("Rule has no book %v", r))
+	}
+	return slices.Contains(r.books, book)
 }
 
 func (r *storyRule) Try(msg Message) (success, cont bool) {
@@ -42,6 +51,7 @@ func (r *storyRule) Name() string {
 
 func CreateConnectorRule(o Object, t Object, direction Object) StoryRule {
 	return &storyRule{
+		books: []string{"actions"},
 		match: func(msg Message) bool {
 			s := msg.Story
 			return msg.Action == "going" && s.CurrentRoom() == o && s.IsSame(msg.Argument, direction.Get("name"))
@@ -59,6 +69,7 @@ func CreateConnectorRule(o Object, t Object, direction Object) StoryRule {
 
 func CreateWhenRule(when Phase, f Activity) StoryRule {
 	return &storyRule{
+		books: []string{"when"},
 		match: func(msg Message) bool {
 			return msg.Phase == when
 		},
@@ -71,6 +82,7 @@ func CreateActivityRule(o Object, f Activity, alias string) StoryRule {
 		panic(fmt.Errorf("Cannot create activity rule with non-action %q", o.Get("name")))
 	}
 	return &storyRule{
+		books: []string{fmt.Sprintf("carry out %s", o.Get("name"))},
 		match: func(msg Message) bool {
 			s := msg.Story
 			matches := s.IsSame(o.Get("name"), string(msg.Action))
