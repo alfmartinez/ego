@@ -49,7 +49,7 @@ type Story interface {
 	SetAlias(string, Object)
 }
 
-func CreateRuleStory(publisher Publisher, index map[string]Object, tests []string) Story {
+func CreateRuleStory(publisher Rulebooks, index map[string]Object, tests []string) Story {
 	for _, o := range index {
 		for _, alias := range o.Aliases() {
 			if value, ok := index[alias]; ok && value != o {
@@ -62,7 +62,7 @@ func CreateRuleStory(publisher Publisher, index map[string]Object, tests []strin
 	return &story{
 		phase:     NONE,
 		index:     index,
-		publisher: publisher,
+		rulebooks: publisher,
 		cmdChan:   make(chan *grammar.Command),
 		tests:     tests,
 		location:  make(map[Object]Object),
@@ -73,7 +73,7 @@ func CreateRuleStory(publisher Publisher, index map[string]Object, tests []strin
 type story struct {
 	phase     Phase
 	index     map[string]Object
-	publisher Publisher
+	rulebooks Rulebooks
 	tests     []string
 	cmdChan   chan *grammar.Command
 	command   *grammar.Command
@@ -128,7 +128,7 @@ func (s *story) AdvancePhase() {
 
 func (s *story) Publish(msg Message) {
 	msg.Story = s
-	s.publisher.Publish(msg)
+	s.rulebooks.Publish(msg)
 }
 
 func (s *story) SetCurrentRoom(o Object) {

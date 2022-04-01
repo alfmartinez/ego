@@ -23,7 +23,7 @@ func CreateRuleSemantix(debug bool) Semantix {
 	return &semantix{
 		debug:     debug,
 		semRules:  semRules,
-		publisher: CreatePublisher(),
+		rulebooks: CreatePublisher(),
 		index:     make(map[string]Object),
 	}
 }
@@ -36,7 +36,7 @@ type semantix struct {
 	tests      []string
 	lastRoom   Object
 	lastThing  Object
-	publisher  Publisher
+	rulebooks  Rulebooks
 }
 
 func (r *semantix) Debug() bool {
@@ -72,11 +72,11 @@ func (r *semantix) BuildStory(g *grammar.Grammar) {
 }
 
 func (s *semantix) GetStory() Story {
-	return CreateRuleStory(s.publisher, s.index, s.tests)
+	return CreateRuleStory(s.rulebooks, s.index, s.tests)
 }
 
 func (s *semantix) AddStoryRule(r StoryRule) {
-	s.publisher.Subscribe(r.OnNotify)
+	s.rulebooks.Register(r)
 }
 
 func (s *semantix) AddObject(o Object) {
