@@ -7,16 +7,17 @@ import (
 type StoryRule interface {
 	SetName(string) StoryRule
 	Name() string
-	OnNotify(Message)
+	OnNotify(Message) bool
 }
 
 type storyRule struct {
 	name  string
+	books []string
 	match func(Message) bool
 	exec  func(Story) bool
 }
 
-func (r *storyRule) OnNotify(msg Message) {
+func (r *storyRule) OnNotify(msg Message) bool {
 	s := msg.Story
 	if s.Debug() {
 		//fmt.Printf("Checking if %s matches\n", r.name)
@@ -25,8 +26,9 @@ func (r *storyRule) OnNotify(msg Message) {
 		if s.Debug() {
 			fmt.Printf("Applying rule %s\n", r.name)
 		}
-		r.exec(s)
+		return r.exec(s)
 	}
+	return true
 }
 
 func (r *storyRule) SetName(name string) StoryRule {

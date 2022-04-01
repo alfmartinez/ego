@@ -19,6 +19,8 @@ func (p *publisher) Register(rule StoryRule) {
 
 func (p *publisher) Publish(msg Message) {
 	for _, c := range p.observers {
-		c.OnNotify(msg)
+		if ok := c.OnNotify(msg); !ok {
+			break
+		}
 	}
 }
