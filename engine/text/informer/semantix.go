@@ -23,7 +23,7 @@ func CreateRuleSemantix(debug bool) Semantix {
 	return &semantix{
 		debug:     debug,
 		semRules:  semRules,
-		rulebooks: CreatePublisher(),
+		rulebooks: CreateRulebooks(),
 		index:     make(map[string]Object),
 	}
 }
