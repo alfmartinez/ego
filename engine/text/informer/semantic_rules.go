@@ -115,33 +115,24 @@ var semRules = []SemanticRule{
 			return s.Sentence != nil && s.Sentence.DP != nil && s.Sentence.DP.Designator != nil && s.Sentence.VP.Verb == "is"
 		},
 		func(s *grammar.Statement, r Semantix) {
-			def := s.Sentence
-			var subject, relativeTo *grammar.Designator
 			var properties = make(map[string]ValueKind)
 			var kindKey string
-			elements := def.DP.Designator.Elements
-			if r.IsDirection(elements[0]) {
-				// Relative room creation
-				kindKey = "room"
-				relativeTo = &grammar.Designator{elements[2:]}
-				subject = def.VP.DP.Designator
-			} else {
-				designator := s.Sentence.VP.DP.Designator
-				elements := designator.Elements
-				if _, ok := kinds[designator.Get()]; !ok {
-					for _, tag := range elements {
-						if _, ok := kinds[tag]; ok {
-							kindKey = tag
 
-						}
-						if e := FindPropertyByValue(tag); e != nil {
-							properties[tag] = e
-						}
+			designator := s.Sentence.VP.DP.Designator
+			elements := designator.Elements
+			if _, ok := kinds[designator.Get()]; !ok {
+				for _, tag := range elements {
+					if _, ok := kinds[tag]; ok {
+						kindKey = tag
+
 					}
-				} else {
-					if _, ok := kinds[designator.Get()]; ok {
-						kindKey = designator.Get()
+					if e := FindPropertyByValue(tag); e != nil {
+						properties[tag] = e
 					}
+				}
+			} else {
+				if _, ok := kinds[designator.Get()]; ok {
+					kindKey = designator.Get()
 				}
 			}
 
@@ -153,14 +144,11 @@ var semRules = []SemanticRule{
 					panic(fmt.Errorf("Object unknown %q", key))
 				}
 			} else {
-				name := subject
+				name := s.Sentence.DP.Designator
 				object = CreateObject(kindKey, name.Get(), name.GetCase())
 				r.AddObject(object)
 				if object == nil {
 					panic(fmt.Errorf("Cant create object of kind %q", kindKey))
-				}
-				if relativeTo != nil {
-					//	Create connection
 				}
 			}
 
@@ -197,7 +185,7 @@ var semRules = []SemanticRule{
 		func(s *grammar.Statement, r Semantix) {
 			origin := r.GetObject(s.Direction.Origin.Get())
 			target := r.GetObject(s.Direction.Target.Get())
-			direct := r.GetObject(s.Direction.Direction.Get())
+			direct := r.GetObject(strings.ToLower(s.Direction.Direction))
 			inverse := r.GetObject(direct.Get("opposite"))
 			rule1 := CreateConnectorRule(origin, target, direct).SetName("connect direct rule")
 			rule2 := CreateConnectorRule(target, origin, inverse).SetName("connect inverse rule")

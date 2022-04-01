@@ -156,7 +156,7 @@ type (
 	}
 
 	Connector struct {
-		Direction   *Designator `@@`
+		Direction   string      `@Ident`
 		Origin      *Designator `"of" @@ "is"`
 		Target      *Designator `@@ "."`
 		Description string      `@String?`
