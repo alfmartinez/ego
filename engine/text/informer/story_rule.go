@@ -7,7 +7,7 @@ import (
 type StoryRule interface {
 	SetName(string) StoryRule
 	Name() string
-	OnNotify(Message) bool
+	Try(Message) bool
 }
 
 type storyRule struct {
@@ -17,7 +17,7 @@ type storyRule struct {
 	exec  func(Story) bool
 }
 
-func (r *storyRule) OnNotify(msg Message) bool {
+func (r *storyRule) Try(msg Message) bool {
 	s := msg.Story
 	if s.Debug() {
 		//fmt.Printf("Checking if %s matches\n", r.name)
