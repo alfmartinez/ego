@@ -11,6 +11,6 @@ Southeast is a direction with opposite "northwest".
 Northwest is a direction with opposite "southeast".
 Command prompt is an object.
 Command prompt has printed name "> ".
-When turn starts, say "[command prompt]".
+Every turn, say "[command prompt]".
 
 

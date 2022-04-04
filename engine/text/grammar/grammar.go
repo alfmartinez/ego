@@ -76,12 +76,12 @@ type (
 	}
 
 	WhenDeClaration struct {
-		Condition *Condition `"When" @@ (","|":")`
+		Condition *Condition `@@ (","|":")`
 		Activity  *Activity  `@@ "."?`
 	}
 
 	Condition struct {
-		Rule *Designator `@@`
+		Rulebook *Designator `@@`
 	}
 
 	Activity struct {

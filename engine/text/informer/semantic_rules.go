@@ -106,7 +106,7 @@ var semRules = []SemanticRule{
 			return s.Title != ""
 		},
 		func(s *grammar.Statement, r Semantix) {
-			rule := CreateWhenRule("when play begins", START_PHASE, Say(s.Title+"\n\n")).SetName("display title on start rule")
+			rule := CreateWhenRule("when play begins", CreateSay(s.Title+"\n\n")).SetName("display title on start rule")
 			r.AddStoryRule(rule)
 		},
 	),
@@ -184,15 +184,7 @@ var semRules = []SemanticRule{
 			return s.Direction != nil
 		},
 		func(s *grammar.Statement, r Semantix) {
-			origin := r.GetObject(s.Direction.Origin.Get())
-			target := r.GetObject(s.Direction.Target.Get())
-			direct := r.GetObject(strings.ToLower(s.Direction.Direction))
-			inverse := r.GetObject(direct.Get("opposite"))
-			rule1 := CreateConnectorRule(origin, target, direct).SetName("connect direct rule")
-			rule2 := CreateConnectorRule(target, origin, inverse).SetName("connect inverse rule")
-			r.AddStoryRule(rule1)
-			r.AddStoryRule(rule2)
-
+			// REWRITE GOING RULES
 		},
 	),
 	CreateSemanticRule(
@@ -219,18 +211,7 @@ var semRules = []SemanticRule{
 				}
 			}
 			ids = append(ids, s.Sentence.VP.DP.List.Last.Get())
-
-			var objects []Object
-			for _, itemName := range ids {
-				item := CreateObject("thing", itemName, itemName)
-				r.AddObject(item)
-				objects = append(objects, item)
-			}
-			rule := CreateWhenRule("when play begins", START_PHASE, func(s Story) RuleResult {
-				s.AddToInventory(objects)
-				return RULE_SUCCESS
-			}).SetName("add items to inventory rule")
-			r.AddStoryRule(rule)
+			// REWRITE INVENTORY
 		},
 	),
 	CreateSemanticRule(
@@ -283,9 +264,9 @@ var semRules = []SemanticRule{
 			if dest == nil {
 				panic(fmt.Errorf("missing place %s", def.Place.Get()))
 			}
-			rule := CreateWhenRule("when play begins", START_PHASE,
-				func(s Story) RuleResult {
-					s.AddItemToRoom(o, dest)
+			rule := CreateWhenRule("when play begins",
+				func() RuleResult {
+					// REWRITE ADD THING TO ROOM
 					return RULE_UNDECIDED
 				}).SetName("Add Item to Room")
 			r.AddStoryRule(rule)
@@ -365,32 +346,14 @@ var semRules = []SemanticRule{
 			return s.WhenDeClaration != nil
 		},
 		func(s *grammar.Statement, r Semantix) {
-			var ruleFactory func(Activity) StoryRule
 			def := s.WhenDeClaration
-			phase := GetPhase(def.Condition.Rule.Get())
-			if phase == 0 {
-				// Not a phase...
-				// May be an action ?
-				o := r.GetObject(def.Condition.Rule.Elements[0])
-				if o == nil {
-					panic(fmt.Errorf("Dont know what %q is", def.Condition.Rule.Elements[0]))
-				}
-				if o.IsKind("action") {
-					alias := def.Condition.Rule.Elements[1]
-					ruleFactory = func(act Activity) StoryRule {
-						return CreateActivityRule(o, act, alias)
-					}
-				} else {
-					panic(fmt.Errorf("Dont know what to do with condition %s", def.Condition.Rule.Get()))
-				}
-
-			} else {
-				ruleFactory = func(act Activity) StoryRule {
-					return CreateWhenRule("every turn", phase, act)
-				}
+			condition := s.WhenDeClaration.Condition.Rulebook.Get()
+			book := r.GetRuleBook(condition)
+			if book == nil {
+				panic(fmt.Errorf("unknown rulebook %q", condition))
 			}
 
-			rule := ruleFactory(CreateStoryActivity(def.Activity)).SetName(fmt.Sprintf("%s", def.Activity))
+			rule := CreateWhenRule(book.Name(), CreateStoryActivity(def.Activity)).SetName(fmt.Sprintf("%s", def.Activity))
 			r.AddStoryRule(rule)
 		},
 	),
@@ -429,7 +392,7 @@ func CreateStoryActivity(activity *grammar.Activity) Activity {
 	var act Activity
 	switch {
 	case activity.Say != "":
-		act = Say(activity.Say)
+		act = CreateSay(activity.Say)
 	case activity.Launch != nil:
 		launch := activity.Launch
 		action := Action(launch.Action)

@@ -10,6 +10,7 @@ type Semantix interface {
 	BuildStory(*grammar.Grammar)
 	GetStory() Story
 	AddRulebook(RuleBook)
+	GetRuleBook(string) RuleBook
 	AddStoryRule(StoryRule)
 	AddObject(Object)
 	AddTest([]string)
@@ -90,6 +91,10 @@ func (s *semantix) AddStoryRule(r StoryRule) {
 
 func (s *semantix) AddRulebook(book RuleBook) {
 	s.rulebooks.AddRulebook(book)
+}
+
+func (s *semantix) GetRuleBook(name string) RuleBook {
+	return s.rulebooks.GetRuleBook(name)
 }
 
 func (s *semantix) AddObject(o Object) {

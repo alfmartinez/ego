@@ -3,12 +3,10 @@ Understand "look" as looking.
 Examining is an action applying to a thing.
 Understand "examine" as examining.
 Understand "x" as examining.
-When examining thing, say "[description of thing]\n".
-Going is an action applying to a direction.
+When report examining thing, say "[description of thing]\n".
+Going is an action.
 Understand "go" as going.
-Entering is an action applying to a room.
-Understand "enter" as entering.
-When play ready, enter location.
-When entering somewhere:
+When play begins, try going location.
+When report going somewhere:
     say "[printed name of location]\n"
     say "[description of location]\n\n"

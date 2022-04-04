@@ -24,7 +24,7 @@ type storyRule struct {
 	name  string
 	books []string
 	match func(Message) bool
-	exec  func(Story) RuleResult
+	exec  func() RuleResult
 }
 
 func (r *storyRule) IsInBook(book string) bool {
@@ -34,16 +34,19 @@ func (r *storyRule) IsInBook(book string) bool {
 	return slices.Contains(r.books, book)
 }
 
-func (r *storyRule) Try(msg Message) RuleResult {
-	s := msg.Story
-	if s.Debug() {
+func (r *storyRule) Try(message Message) RuleResult {
+	msg, ok := message.(Try)
+	if !ok {
+		return RULE_UNDECIDED
+	}
+	if Debug() {
 		//fmt.Printf("Checking if %s matches\n", r.name)
 	}
 	if r.match(msg) {
-		if s.Debug() {
+		if Debug() {
 			fmt.Printf("Applying rule %s\n", r.name)
 		}
-		return r.exec(s)
+		return r.exec()
 	}
 	return RULE_UNDECIDED
 }
@@ -57,29 +60,11 @@ func (r *storyRule) Name() string {
 	return r.name
 }
 
-func CreateConnectorRule(o Object, t Object, direction Object) StoryRule {
-	return &storyRule{
-		books: []string{"actions"},
-		match: func(msg Message) bool {
-			s := msg.Story
-			return msg.Action == "going" && s.CurrentRoom() == o && s.IsSame(msg.Argument, direction.Get("name"))
-		},
-		exec: func(s Story) RuleResult {
-			s.SetCurrentRoom(t)
-			s.Publish(Message{
-				Action:   "enter",
-				Argument: "location",
-			})
-			return RULE_SUCCESS
-		},
-	}
-}
-
-func CreateWhenRule(book string, when Phase, f Activity) StoryRule {
+func CreateWhenRule(book string, f Activity) StoryRule {
 	return &storyRule{
 		books: []string{book},
 		match: func(msg Message) bool {
-			return msg.Phase == when
+			return true
 		},
 		exec: f,
 	}
@@ -91,15 +76,15 @@ func CreateActivityRule(o Object, f Activity, alias string) StoryRule {
 	}
 	return &storyRule{
 		books: []string{fmt.Sprintf("carry out %s", o.Get("name"))},
-		match: func(msg Message) bool {
-			s := msg.Story
-			matches := s.IsSame(o.Get("name"), string(msg.Action))
+		match: func(message Message) bool {
+			msg := message.(Try)
+			matches := IsSame(o.Get("name"), string(msg.Action))
 			if matches {
-				argument := s.GetObject(msg.Argument)
+				argument := GetObject(msg.Argument)
 				if argument == nil {
 					panic(fmt.Errorf("index does not know %q", msg.Argument))
 				}
-				s.SetAlias(alias, argument)
+				SetAlias(alias, argument)
 			}
 			return matches
 		},

@@ -9,6 +9,8 @@ import (
 
 type Phase int
 
+var currentStory Story
+
 const (
 	NONE Phase = iota
 	START_PHASE
@@ -36,8 +38,7 @@ type Story interface {
 	Debug() bool
 	SetDebug(bool)
 	AdvancePhase()
-	IsSame(string, string) bool
-	Publish(Message)
+	Publish(Message) RuleResult
 	CurrentRoom() Object
 	SetCurrentRoom(Object)
 	Command() *grammar.Command
@@ -121,14 +122,11 @@ func (s *story) AdvancePhase() {
 	if s.phase == TURN_ENDED {
 		s.phase = START_TURN_PHASE
 	}
-	s.Publish(Message{
-		Phase: s.phase,
-	})
+	s.Publish(Event{})
 }
 
-func (s *story) Publish(msg Message) {
-	msg.Story = s
-	s.rulebooks.Publish(msg)
+func (s *story) Publish(msg Message) RuleResult {
+	return s.rulebooks.Publish(msg)
 }
 
 func (s *story) SetCurrentRoom(o Object) {
@@ -144,6 +142,7 @@ func (s *story) Command() *grammar.Command {
 }
 
 func (s *story) Start() {
+	currentStory = s
 	s.startLoop()
 }
 
@@ -180,13 +179,6 @@ func (s *story) Test() {
 	s.Start()
 }
 
-func (s *story) IsSame(a, b string) bool {
-	if a == "somewhere" || b == "somewhere" {
-		return true
-	}
-	return s.GetObject(a) == s.GetObject(b)
-}
-
 func (s *story) SetWriter(writer io.Writer) {
 	s.writer = writer
 }
@@ -210,19 +202,7 @@ func (s *story) buildReplacer() *strings.Replacer {
 }
 
 func (s *story) processCommand(cmd *grammar.Command) Message {
-	msg := Message{}
-	switch {
-	case cmd.Verb != "" && cmd.Target == "":
-		key := cmd.Verb
-		direction := s.GetObject(key)
-		if direction != nil && direction.IsKind("direction") {
-			msg.Action = "going"
-			msg.Argument = direction.Get("name")
-		}
-	case cmd.Verb != "" && cmd.Target != "":
-		msg.Action = Action(cmd.Verb)
-		msg.Argument = cmd.Target
-	}
+	msg := &Command{}
 
 	return msg
 }

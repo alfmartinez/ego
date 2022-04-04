@@ -7,29 +7,29 @@ const (
 	ROOM_CHANGE_ACTIVITY
 )
 
-type Activity func(s Story) RuleResult
+type Activity func() RuleResult
 
-func Say(value string) Activity {
-	return func(s Story) RuleResult {
-		s.Say(value)
+func CreateSay(value string) Activity {
+	return func() RuleResult {
+		Say(value)
 		return RULE_UNDECIDED
 	}
 }
 
 func Launch(action Action, value string) Activity {
-	return func(s Story) RuleResult {
-		s.Publish(Message{
+	return func() RuleResult {
+		msg := Try{
 			Action:   action,
 			Argument: value,
-		})
-		return RULE_UNDECIDED
+		}
+		return Publish(msg)
 	}
 }
 
 func Sequence(activities []Activity) Activity {
-	return func(s Story) RuleResult {
+	return func() RuleResult {
 		for _, act := range activities {
-			if result := act(s); result != RULE_UNDECIDED {
+			if result := act(); result != RULE_UNDECIDED {
 				return result
 			}
 		}

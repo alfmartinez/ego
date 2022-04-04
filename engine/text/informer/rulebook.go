@@ -1,7 +1,12 @@
 package informer
 
+import (
+	"strings"
+)
+
 type RuleBook interface {
 	Name() string
+	Matches(string) bool
 	Applies(o Object) bool
 }
 
@@ -23,6 +28,10 @@ type rulebook struct {
 
 func (b *rulebook) Name() string {
 	return b.name
+}
+
+func (b *rulebook) Matches(search string) bool {
+	return strings.Contains(search, b.name)
 }
 
 func (b *rulebook) Applies(o Object) bool {

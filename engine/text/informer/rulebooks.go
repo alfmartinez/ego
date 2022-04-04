@@ -8,7 +8,10 @@ type Rulebooks interface {
 	Register(StoryRule)
 	Publish(Message) RuleResult
 	AddRulebook(RuleBook)
+	GetRuleBook(string) RuleBook
 }
+
+var books Rulebooks
 
 func CreateRulebooks() Rulebooks {
 	return &rulebooks{
@@ -23,6 +26,15 @@ type rulebooks struct {
 
 func (p *rulebooks) AddRulebook(book RuleBook) {
 	p.books = append(p.books, book)
+}
+
+func (p *rulebooks) GetRuleBook(name string) RuleBook {
+	for _, book := range p.books {
+		if book.Matches(name) {
+			return book
+		}
+	}
+	return nil
 }
 
 func (p *rulebooks) Register(rule StoryRule) {
