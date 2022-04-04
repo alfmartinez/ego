@@ -6,7 +6,7 @@ import (
 
 type Rulebooks interface {
 	Register(StoryRule)
-	Publish(Message)
+	Publish(Message) RuleResult
 	AddRulebook(RuleBook)
 }
 
@@ -29,7 +29,7 @@ func (p *rulebooks) Register(rule StoryRule) {
 	p.observers = append(p.observers, rule)
 }
 
-func (p *rulebooks) Publish(msg Message) {
+func (p *rulebooks) Publish(msg Message) RuleResult {
 
 	// Rulebook object should be able to tell if its rules apply
 	// - Kind based answer to queries about object of given kind
@@ -42,10 +42,10 @@ func (p *rulebooks) Publish(msg Message) {
 			return rule.IsInBook(book.Name())
 		})
 		for _, c := range rules {
-			if _, ok := c.Try(msg); !ok {
-				break
+			if result := c.Try(msg); result != RULE_UNDECIDED {
+				return result
 			}
 		}
 	}
-
+	return RULE_UNDECIDED
 }

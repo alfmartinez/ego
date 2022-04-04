@@ -5,10 +5,18 @@ import (
 	"golang.org/x/exp/slices"
 )
 
+type RuleResult int
+
+const (
+	RULE_SUCCESS RuleResult = iota
+	RULE_FAILURE
+	RULE_UNDECIDED
+)
+
 type StoryRule interface {
 	SetName(string) StoryRule
 	Name() string
-	Try(Message) (success, cont bool)
+	Try(Message) RuleResult
 	IsInBook(string) bool
 }
 
@@ -16,7 +24,7 @@ type storyRule struct {
 	name  string
 	books []string
 	match func(Message) bool
-	exec  func(Story) (success, cont bool)
+	exec  func(Story) RuleResult
 }
 
 func (r *storyRule) IsInBook(book string) bool {
@@ -26,7 +34,7 @@ func (r *storyRule) IsInBook(book string) bool {
 	return slices.Contains(r.books, book)
 }
 
-func (r *storyRule) Try(msg Message) (success, cont bool) {
+func (r *storyRule) Try(msg Message) RuleResult {
 	s := msg.Story
 	if s.Debug() {
 		//fmt.Printf("Checking if %s matches\n", r.name)
@@ -37,7 +45,7 @@ func (r *storyRule) Try(msg Message) (success, cont bool) {
 		}
 		return r.exec(s)
 	}
-	return true, true
+	return RULE_UNDECIDED
 }
 
 func (r *storyRule) SetName(name string) StoryRule {
@@ -56,13 +64,13 @@ func CreateConnectorRule(o Object, t Object, direction Object) StoryRule {
 			s := msg.Story
 			return msg.Action == "going" && s.CurrentRoom() == o && s.IsSame(msg.Argument, direction.Get("name"))
 		},
-		exec: func(s Story) (success, cont bool) {
+		exec: func(s Story) RuleResult {
 			s.SetCurrentRoom(t)
 			s.Publish(Message{
 				Action:   "enter",
 				Argument: "location",
 			})
-			return true, false
+			return RULE_SUCCESS
 		},
 	}
 }
