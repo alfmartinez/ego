@@ -7,6 +7,6 @@ The description of the orange is "It's as samll hard pinch-skinned thing from th
 
 The description of the napkin is "Slightly crumpled".
 Understand "pen" as bic pen.
-
+The description of the bic pen is "A good old bic pen. Slightly gnarled cap."
 
 Test me with "examine orange" "examine pen" "examine napkin" "look"
