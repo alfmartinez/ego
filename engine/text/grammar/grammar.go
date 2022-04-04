@@ -27,7 +27,9 @@ type (
 	}
 
 	Statement struct {
-		Title              string                   `@String`
+		Test               *Test                    `  @@`
+		Title              *Title                   `| @@`
+		Carry              *Carry                   `| @@`
 		Rulebook           *Rulebook                `| @@`
 		Activity           *ActivityDefinition      `| @@`
 		Instanciate        *Instanciate             `| @@`
@@ -44,10 +46,24 @@ type (
 		ValueDefinition    *ValueDefinition         `| @@`
 		KindDefinition     *KindDefinition          `| @@`
 		Direction          *Connector               `| @@`
-		Sentence           *Sentence                `| @@`
 		Section            *Section                 `| @@`
-		Test               *Test                    `| @@`
+		SubjectIsObject    *SubjectIsObject         `| @@`
 		Description        *Description             `| @@`
+	}
+
+	SubjectIsObject struct {
+		Subject *Designator `@@ "is"`
+		Object  *Designator `@@`
+	}
+
+	Carry struct {
+		Subject *Designator   `@@ "carries"`
+		Items   []*Designator `(@@ Separator?)* "."`
+	}
+
+	Title struct {
+		Title  string      `@String | @Ident+`
+		Author *Designator `"by" @@`
 	}
 
 	ActivityDefinition struct {
@@ -172,40 +188,8 @@ type (
 		Tag    string `("-" (@String | @Ident*))? `
 	}
 
-	Sentence struct {
-		DP          *DescriptionPhrase `@@`
-		VP          *VerbPhrase        `@@ "."`
-		Description string             `@String?`
-	}
-
-	DescriptionPhrase struct {
-		Designator *Designator     ` @@ `
-		List       *List           ` @@?`
-		Complex    *ComplexPhrase  ` @@?`
-		Relation   *RelativePhrase ` @@?`
-	}
-
-	List struct {
-		Elements []*Designator `("," @@)*`
-		Last     *Designator   `"and" @@`
-	}
-
 	Designator struct {
 		Elements []string `{ @Ident }`
-	}
-
-	ComplexPhrase struct {
-		VP *VerbPhrase `("which"|"who") @@`
-	}
-
-	RelativePhrase struct {
-		Relation string      `@Ident`
-		Related  *Designator `@@`
-	}
-
-	VerbPhrase struct {
-		Verb string             `@Verb`
-		DP   *DescriptionPhrase `@@`
 	}
 )
 

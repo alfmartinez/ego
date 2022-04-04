@@ -1,5 +1,9 @@
 package informer
 
+import (
+	"fmt"
+)
+
 func Publish(message Message) RuleResult {
 	return currentStory.Publish(message)
 }
@@ -25,4 +29,10 @@ func Say(message string) {
 
 func SetAlias(alias string, o Object) {
 	currentStory.SetAlias(alias, o)
+}
+
+func Carry(subject Object, items ...Object) {
+	for _, item := range items {
+		fmt.Printf("Give %s to %s", subject, item)
+	}
 }

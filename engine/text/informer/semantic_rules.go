@@ -103,65 +103,43 @@ var semRules = []SemanticRule{
 	CreateSemanticRule(
 		"display title on start",
 		func(s *grammar.Statement) bool {
-			return s.Title != ""
+			return s.Title != nil
 		},
 		func(s *grammar.Statement, r Semantix) {
-			rule := CreateWhenRule("when play begins", CreateSay(s.Title+"\n\n")).SetName("display title on start rule")
+			rule := CreateWhenRule("when play begins", CreateSay(s.Title.Title+"\n\n")).SetName("display title on start rule")
 			r.AddStoryRule(rule)
 		},
 	),
 	CreateSemanticRule(
-		"create object / set property",
+		"set property",
 		func(s *grammar.Statement) bool {
-			return s.Sentence != nil && s.Sentence.DP != nil && s.Sentence.DP.Designator != nil && s.Sentence.VP.Verb == "is"
+			if s.SubjectIsObject == nil {
+				return false
+			}
+			o := GetObject(s.SubjectIsObject.Subject.Get())
+			if o == nil {
+				return false
+			}
+			return true
 		},
 		func(s *grammar.Statement, r Semantix) {
-			var properties = make(map[string]ValueKind)
-			var kindKey string
-
-			designator := s.Sentence.VP.DP.Designator
-			elements := designator.Elements
-			if _, ok := kinds[designator.Get()]; !ok {
-				for _, tag := range elements {
-					if _, ok := kinds[tag]; ok {
-						kindKey = tag
-
-					}
-					if e := FindPropertyByValue(tag); e != nil {
-						properties[tag] = e
-					}
-				}
-			} else {
-				if _, ok := kinds[designator.Get()]; ok {
-					kindKey = designator.Get()
-				}
+			// SET PROPERTY
+		},
+	),
+	CreateSemanticRule(
+		"create object",
+		func(s *grammar.Statement) bool {
+			if s.SubjectIsObject == nil {
+				return false
 			}
-
-			var object Object
-			if kindKey == "" {
-				key := s.Sentence.DP.Designator.Get()
-				object = r.GetObject(key)
-				if object == nil {
-					panic(fmt.Errorf("Object unknown %q", key))
-				}
-			} else {
-				name := s.Sentence.DP.Designator
-				object = CreateObject(kindKey, name.Get(), name.GetCase())
-				r.AddObject(object)
-				if object == nil {
-					panic(fmt.Errorf("Cant create object of kind %q", kindKey))
-				}
+			o := GetObject(s.SubjectIsObject.Subject.Get())
+			if o != nil {
+				return false
 			}
-
-			for value, property := range properties {
-				object.Set(property.Name(), value)
-			}
-			if s.Sentence.Description != "" {
-				object.Set("description", s.Sentence.Description)
-			}
-			if object.IsKind("room") {
-				r.SetLastRoom(object)
-			}
+			return true
+		},
+		func(s *grammar.Statement, r Semantix) {
+			// CREATE OBJECT
 		},
 	),
 	CreateSemanticRule(
@@ -197,21 +175,25 @@ var semRules = []SemanticRule{
 		},
 	),
 	CreateSemanticRule(
-		"player inventory",
+		"create person's objects",
 		func(s *grammar.Statement) bool {
-			return s.Sentence != nil && s.Sentence.DP.Designator.Get() == "player" && s.Sentence.VP.Verb == "carries"
+			return s.Carry != nil
 		},
 		func(s *grammar.Statement, r Semantix) {
-			ids := make([]string, 0)
-			ids = append(ids, s.Sentence.VP.DP.Designator.Get())
-			for _, i := range s.Sentence.VP.DP.List.Elements {
+			def := s.Carry
+			subject := GetObject(def.Subject.Get())
+			objects := make([]Object, 0)
+			for _, i := range def.Items {
 				key := i.Get()
 				if key != "" {
-					ids = append(ids, i.Get())
+					o := CreateObject("thing", i.Get(), i.GetCase())
+					objects = append(objects, o)
+					r.AddObject(o)
 				}
 			}
-			ids = append(ids, s.Sentence.VP.DP.List.Last.Get())
 			// REWRITE INVENTORY
+			Carry(subject, objects...)
+
 		},
 	),
 	CreateSemanticRule(
