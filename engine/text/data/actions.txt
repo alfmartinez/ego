@@ -4,8 +4,11 @@ Examining is an action applying to a thing.
 Understand "examine" as examining.
 Understand "x" as examining.
 When report examining thing, say "[description of thing]\n".
-Going is an action.
+Going is an action applying to something.
 Understand "go" as going.
+Check going direction:
+    if location has no connection in direction, instead say "Nowhere to go".
+
 When play begins, try going location.
 When report going somewhere:
     say "[printed name of location]\n"
