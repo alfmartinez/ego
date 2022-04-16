@@ -5,6 +5,7 @@ import __yyfmt__ "fmt"
 
 import (
 	"fmt"
+	"unicode"
 )
 
 type InformerSymType struct {
@@ -12,10 +13,15 @@ type InformerSymType struct {
 	val int
 }
 
+const DIGIT = 57346
+const LETTER = 57347
+
 var InformerToknames = [...]string{
 	"$end",
 	"error",
 	"$unk",
+	"DIGIT",
+	"LETTER",
 }
 
 var InformerStatenames = [...]string{}
@@ -23,6 +29,35 @@ var InformerStatenames = [...]string{}
 const InformerEofCode = 1
 const InformerErrCode = 2
 const InformerInitialStackSize = 16
+
+type InformerLex struct {
+	s   string
+	pos int
+}
+
+func (l *InformerLex) Lex(lval *InformerSymType) int {
+	var c rune = ' '
+	for c == ' ' {
+		if l.pos == len(l.s) {
+			return 0
+		}
+		c = rune(l.s[l.pos])
+		l.pos += 1
+	}
+
+	if unicode.IsDigit(c) {
+		lval.val = int(c) - '0'
+		return DIGIT
+	} else if unicode.IsLower(c) {
+		lval.val = int(c) - 'a'
+		return LETTER
+	}
+	return int(c)
+}
+
+func (l *InformerLex) Error(s string) {
+	fmt.Printf("syntax error: %s\n", s)
+}
 
 var InformerExca = [...]int{
 	-1, 1,
@@ -67,7 +102,7 @@ var InformerTok1 = [...]int{
 }
 
 var InformerTok2 = [...]int{
-	2, 3,
+	2, 3, 4, 5,
 }
 
 var InformerTok3 = [...]int{

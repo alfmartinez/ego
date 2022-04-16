@@ -5,6 +5,9 @@ Understand "examine" as examining.
 Understand "x" as examining.
 When report examining thing, say "[description of thing]\n".
 Going is an action applying to something.
+The going action has an object called the room gone from.
+The going action has an object called the room gone to.
+The going action has an object called the door gone through.
 Understand "go" as going.
 Check going direction:
     if location has no connection in direction, instead say "Nowhere to go".

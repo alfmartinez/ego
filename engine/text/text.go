@@ -6,7 +6,6 @@
 package text
 
 import (
-	"github.com/alfmartinez/ego/engine/text/grammar"
 	"github.com/alfmartinez/ego/engine/text/informer"
 	"io"
 	"os"
@@ -23,10 +22,6 @@ func CreateStory(filepaths []string, debug bool, tokens bool) Story {
 	analyzer := informer.CreateRuleSemantix(debug)
 
 	for _, filepath := range filepaths {
-		if tokens {
-			f, _ := os.Open(filepath)
-			grammar.ParseTokens(f)
-		}
 		ast := grammar.ParseFile(filepath)
 		analyzer.BuildStory(ast)
 	}
