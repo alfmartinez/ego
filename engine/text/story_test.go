@@ -6,16 +6,16 @@ import (
 
 var paths = []string{
 	"data/rulebooks.txt",
-	"data/values.txt",
-	"data/kinds.txt",
-	"data/objects.txt",
-	"data/actions.txt",
+	//	"data/values.txt",
+	//	"data/kinds.txt",
+	//	"data/objects.txt",
+	//	"data/actions.txt",
 }
 
 func ExampleStory_simple() {
 	filepaths := []string{}
 	filepaths = append(filepaths, paths...)
-	filepaths = append(filepaths, "testdata/simple.txt")
+	//	filepaths = append(filepaths, "testdata/simple.txt")
 
 	story := CreateStory(filepaths, false, false)
 	story.SetWriter(os.Stdout)
@@ -37,7 +37,7 @@ func ExampleStory_simple() {
 func _ExampleStory_bic() {
 	filepaths := []string{}
 	filepaths = append(filepaths, paths...)
-	filepaths = append(filepaths, "testdata/bic.txt")
+	//	filepaths = append(filepaths, "testdata/bic.txt")
 
 	story := CreateStory(filepaths, false, false)
 	story.SetWriter(os.Stdout)

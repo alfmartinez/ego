@@ -27,7 +27,6 @@ func CreateStory(filepaths []string, debug bool, tokens bool) Story {
 	l := &calcListener{}
 	for _, filepath := range filepaths {
 		is, _ := antlr.NewFileStream(filepath)
-
 		// Create the Lexer
 		lexer := parser.NewInformerLexer(is)
 		stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
