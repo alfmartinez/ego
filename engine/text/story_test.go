@@ -19,7 +19,6 @@ func ExampleStory_simple() {
 
 	story := CreateStory(filepaths, false, false)
 	story.SetWriter(os.Stdout)
-	story.SetDebug(false)
 	story.Test()
 
 	// Output:

@@ -6,26 +6,41 @@
 package text
 
 import (
-	"github.com/alfmartinez/ego/engine/text/informer"
+	"ego/engine/text/informer"
+	"ego/engine/text/parser"
 	"io"
-	"os"
+
+	"github.com/antlr/antlr4/runtime/Go/antlr"
 )
+
+type calcListener struct {
+	parser.BaseCalcListener
+}
 
 type Story interface {
 	Start()
-	Test()
-	SetDebug(bool)
 	SetWriter(io.Writer)
+	Test()
 }
 
 func CreateStory(filepaths []string, debug bool, tokens bool) Story {
-	analyzer := informer.CreateRuleSemantix(debug)
-
+	l := &calcListener{}
 	for _, filepath := range filepaths {
-		ast := grammar.ParseFile(filepath)
-		analyzer.BuildStory(ast)
+		is, _ := antlr.NewFileStream(filepath)
+
+		// Create the Lexer
+		lexer := parser.NewCalcLexer(is)
+		stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
+
+		// Create the Parser
+		p := parser.NewCalcParser(stream)
+
+		// Finally parse the expression
+		antlr.ParseTreeWalkerDefault.Walk(l, p.Start())
+
 	}
 
-	story := analyzer.GetStory()
-	return story
+	sem := informer.CreateRuleSemantix(true)
+
+	return sem.GetStory()
 }

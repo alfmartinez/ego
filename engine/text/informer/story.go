@@ -1,208 +1,22 @@
 package informer
 
-import (
-	"fmt"
-	"github.com/alfmartinez/ego/engine/text/grammar"
-	"io"
-	"strings"
-)
-
-type Phase int
-
-var currentStory Story
-
-const (
-	NONE Phase = iota
-	START_PHASE
-	READY_PHASE
-	START_TURN_PHASE
-	UPDATE_PHASE
-	RENDER_PHASE
-	TURN_ENDED
-)
-
-var phaseLexic = map[string]Phase{
-	"play begins": START_PHASE,
-	"play ready":  READY_PHASE,
-	"turn starts": START_TURN_PHASE,
-}
-
-func GetPhase(value string) Phase {
-	return phaseLexic[value]
-}
+import "io"
 
 type Story interface {
 	Start()
-	Test()
-	Phase() Phase
-	Debug() bool
-	SetDebug(bool)
-	AdvancePhase()
-	Publish(Message) RuleResult
-	CurrentRoom() Object
-	SetCurrentRoom(Object)
-	Command() *grammar.Command
-	Say(string)
 	SetWriter(io.Writer)
-	AddToInventory([]Object)
-	AddItemToRoom(item Object, place Object)
-	GetObject(string) Object
-	SetAlias(string, Object)
-}
-
-func CreateRuleStory(publisher Rulebooks, index map[string]Object, tests []string) Story {
-	for _, o := range index {
-		for _, alias := range o.Aliases() {
-			if value, ok := index[alias]; ok && value != o {
-				panic(fmt.Errorf("index already has key %q with value %#v", alias, value))
-			}
-
-			index[alias] = o
-		}
-	}
-	return &story{
-		phase:     NONE,
-		index:     index,
-		rulebooks: publisher,
-		cmdChan:   make(chan *grammar.Command),
-		tests:     tests,
-		location:  make(map[Object]Object),
-		contains:  make(map[Object][]Object),
-	}
+	Test()
 }
 
 type story struct {
-	phase     Phase
-	index     map[string]Object
-	rulebooks Rulebooks
-	tests     []string
-	cmdChan   chan *grammar.Command
-	command   *grammar.Command
-	writer    io.Writer
-	inventory []Object
-	location  map[Object]Object
-	contains  map[Object][]Object
-	test      bool
-	cmdText   string
-	stop      bool
-	debug     bool
+	writer io.Writer
 }
 
-func (s *story) Debug() bool {
-	return s.debug
-}
-
-func (s *story) SetDebug(value bool) {
-	s.debug = value
-}
-
-func (s *story) SetAlias(alias string, o Object) {
-	s.index[alias] = o
-}
-
-func (s *story) GetObject(key string) Object {
-	return s.index[key]
-}
-
-func (s *story) AddToInventory(objects []Object) {
-	s.inventory = append(s.inventory, objects...)
-}
-
-func (s *story) AddItemToRoom(item Object, place Object) {
-	s.location[item] = place
-	s.contains[place] = append(s.contains[place], item)
-}
-
-func (s *story) Phase() Phase {
-	return s.phase
-}
-
-func (s *story) AdvancePhase() {
-	s.phase = s.phase + 1
-	if s.phase == TURN_ENDED {
-		s.phase = START_TURN_PHASE
-	}
-	s.Publish(Event{})
-}
-
-func (s *story) Publish(msg Message) RuleResult {
-	return s.rulebooks.Publish(msg)
-}
-
-func (s *story) SetCurrentRoom(o Object) {
-	s.index["location"] = o
-}
-
-func (s *story) CurrentRoom() Object {
-	return s.index["location"]
-}
-
-func (s *story) Command() *grammar.Command {
-	return s.command
-}
-
-func (s *story) Start() {
-	currentStory = s
-	s.startLoop()
-}
-
-func (s *story) startLoop() {
-	var more = true
-	var command *grammar.Command
-	s.AdvancePhase() // START PLAY
-	s.AdvancePhase() // READY PLAY
-	for more {
-		s.AdvancePhase() // START TURN
-		command, more = <-s.cmdChan
-		if s.test {
-			s.Say(s.cmdText + "\n\n")
-		}
-		if command != nil {
-			s.Publish(s.processCommand(command))
-		}
-		s.AdvancePhase() // UPDATE
-		s.AdvancePhase() // RENDER
-	}
-}
-
-func (s *story) Test() {
-	s.test = true
-	go func() {
-		for _, cmd := range s.tests {
-			s.cmdText = cmd
-			command := grammar.ParseCommand(cmd)
-			s.cmdChan <- command
-		}
-		close(s.cmdChan)
-	}()
-
-	s.Start()
-}
-
+func (s *story) Start() {}
 func (s *story) SetWriter(writer io.Writer) {
 	s.writer = writer
 }
 
-func (s *story) Say(say string) {
-	replacer := s.buildReplacer()
-	replacer.WriteString(s.writer, say)
-}
+func (s *story) Test() {
 
-func (s *story) buildReplacer() *strings.Replacer {
-	var oldNew = []string{".", ".\n"}
-	for key, o := range s.index {
-		if !o.Has("printed name") {
-			panic(fmt.Errorf("Object %s has no printed name", o))
-		}
-		oldNew = append(oldNew, "["+key+"]", o.Get("printed name"))
-		oldNew = append(oldNew, "[printed name of "+key+"]", o.Get("printed name"))
-		oldNew = append(oldNew, "[description of "+key+"]", o.Get("description"))
-	}
-	return strings.NewReplacer(oldNew...)
-}
-
-func (s *story) processCommand(cmd *grammar.Command) Message {
-	msg := &Command{}
-
-	return msg
 }
