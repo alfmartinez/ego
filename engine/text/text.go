@@ -14,7 +14,7 @@ import (
 )
 
 type calcListener struct {
-	parser.BaseCalcListener
+	parser.BaseInformerListener
 }
 
 type Story interface {
@@ -29,11 +29,11 @@ func CreateStory(filepaths []string, debug bool, tokens bool) Story {
 		is, _ := antlr.NewFileStream(filepath)
 
 		// Create the Lexer
-		lexer := parser.NewCalcLexer(is)
+		lexer := parser.NewInformerLexer(is)
 		stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 
 		// Create the Parser
-		p := parser.NewCalcParser(stream)
+		p := parser.NewInformerParser(stream)
 
 		// Finally parse the expression
 		antlr.ParseTreeWalkerDefault.Walk(l, p.Start())

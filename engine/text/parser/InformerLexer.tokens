@@ -1,0 +1,14 @@
+T__0=1
+T__1=2
+T__2=3
+T__3=4
+NUMBER=5
+IDENT=6
+PUNCT=7
+STRING=8
+COMMENT=9
+WHITESPACE=10
+'is'=1
+'a'=2
+'rulebook'=3
+'.'=4
