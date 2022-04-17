@@ -13,7 +13,7 @@ import (
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 )
 
-type calcListener struct {
+type informerListener struct {
 	parser.BaseInformerListener
 }
 
@@ -24,13 +24,12 @@ type Story interface {
 }
 
 func CreateStory(filepaths []string, debug bool, tokens bool) Story {
-	l := &calcListener{}
+	l := &informerListener{}
 	for _, filepath := range filepaths {
 		is, _ := antlr.NewFileStream(filepath)
 		// Create the Lexer
 		lexer := parser.NewInformerLexer(is)
 		stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
-
 		// Create the Parser
 		p := parser.NewInformerParser(stream)
 

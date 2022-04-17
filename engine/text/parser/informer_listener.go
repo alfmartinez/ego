@@ -1,7 +1,6 @@
-// Code generated from Informer.g4 by ANTLR 4.10.1. DO NOT EDIT.
+// Code generated from /Users/alex/Projects/ego/engine/text/Informer.g4 by ANTLR 4.10.1. DO NOT EDIT.
 
 package parser // Informer
-
 import "github.com/antlr/antlr4/runtime/Go/antlr"
 
 // InformerListener is a complete listener for a parse tree produced by InformerParser.
@@ -11,26 +10,14 @@ type InformerListener interface {
 	// EnterStart is called when entering the start production.
 	EnterStart(c *StartContext)
 
-	// EnterDefinition is called when entering the definition production.
-	EnterDefinition(c *DefinitionContext)
+	// EnterStatement is called when entering the statement production.
+	EnterStatement(c *StatementContext)
 
-	// EnterTitle is called when entering the title production.
-	EnterTitle(c *TitleContext)
+	// EnterRulebook is called when entering the rulebook production.
+	EnterRulebook(c *RulebookContext)
 
-	// EnterGenericRulebook is called when entering the GenericRulebook production.
-	EnterGenericRulebook(c *GenericRulebookContext)
-
-	// EnterSpecificRulebook is called when entering the SpecificRulebook production.
-	EnterSpecificRulebook(c *SpecificRulebookContext)
-
-	// EnterActivityDeclaration is called when entering the activityDeclaration production.
-	EnterActivityDeclaration(c *ActivityDeclarationContext)
-
-	// EnterActionDeclaration is called when entering the actionDeclaration production.
-	EnterActionDeclaration(c *ActionDeclarationContext)
-
-	// EnterAliasDeclaration is called when entering the aliasDeclaration production.
-	EnterAliasDeclaration(c *AliasDeclarationContext)
+	// EnterActivity is called when entering the activity production.
+	EnterActivity(c *ActivityContext)
 
 	// EnterDesignator is called when entering the designator production.
 	EnterDesignator(c *DesignatorContext)
@@ -38,26 +25,14 @@ type InformerListener interface {
 	// ExitStart is called when exiting the start production.
 	ExitStart(c *StartContext)
 
-	// ExitDefinition is called when exiting the definition production.
-	ExitDefinition(c *DefinitionContext)
+	// ExitStatement is called when exiting the statement production.
+	ExitStatement(c *StatementContext)
 
-	// ExitTitle is called when exiting the title production.
-	ExitTitle(c *TitleContext)
+	// ExitRulebook is called when exiting the rulebook production.
+	ExitRulebook(c *RulebookContext)
 
-	// ExitGenericRulebook is called when exiting the GenericRulebook production.
-	ExitGenericRulebook(c *GenericRulebookContext)
-
-	// ExitSpecificRulebook is called when exiting the SpecificRulebook production.
-	ExitSpecificRulebook(c *SpecificRulebookContext)
-
-	// ExitActivityDeclaration is called when exiting the activityDeclaration production.
-	ExitActivityDeclaration(c *ActivityDeclarationContext)
-
-	// ExitActionDeclaration is called when exiting the actionDeclaration production.
-	ExitActionDeclaration(c *ActionDeclarationContext)
-
-	// ExitAliasDeclaration is called when exiting the aliasDeclaration production.
-	ExitAliasDeclaration(c *AliasDeclarationContext)
+	// ExitActivity is called when exiting the activity production.
+	ExitActivity(c *ActivityContext)
 
 	// ExitDesignator is called when exiting the designator production.
 	ExitDesignator(c *DesignatorContext)

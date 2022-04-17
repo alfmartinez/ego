@@ -2,44 +2,30 @@
 grammar Informer;
 
 // Tokens
-NUMBER: DIGIT+;
-PUNCT: [\\.,:];
-STRING: '"' (ESC|.)*? '"';
+ARTICLE: ('an'|'a');
+WORD: [\p{L}]+;
+PUNCT: [\\.,:-];
 COMMENT: '[' .*? ']\n' -> skip;
 WHITESPACE: [ \r\t]+ -> skip;
 EOL: [\n]+;
-WORD: LETTER+;
-ANY: . ;
 
-fragment ESC: '\\"' | '\\\\';
-fragment LETTER: [\p{L}];
-fragment DIGIT: [0-9];
 
 // Rules
-start : (definition)+ EOF;
+start : (statement '.'? EOL)+ EOF;
 
-definition
-   : activityDeclaration 
-   | rulebookDeclaration 
-   | actionDeclaration 
-   | aliasDeclaration
-   | title  
-   ;
+statement: 
+   rulebook
+   | activity;
 
-title: STRING EOL;
+rulebook:
+   designator 'is' ARTICLE 'rulebook'
+   | designator 'is' ARTICLE designator 'based' 'rulebook';
 
-rulebookDeclaration
-   : designator 'is' 'a' 'rulebook' '.' EOL  # GenericRulebook
-   | designator 'is' ('an'|'a') WORD 'based' 'rulebook' '.' EOL # SpecificRulebook
-   ;
+activity:
+   designator 'is' ARTICLE 'activity';
 
-activityDeclaration: designator 'is' 'an' 'activity' '.' EOL;
-
-actionDeclaration: designator 'is' 'an' 'action' 'applying' 'to' 'a' WORD '.' EOL;
-
-aliasDeclaration: 'Understand' STRING 'as' WORD '.' EOL;
-
-designator: 
-   designator WORD
-   | designator '-' WORD
-   | WORD;
+designator:
+   WORD
+   | ARTICLE
+   | designator '-' designator
+   | designator designator;

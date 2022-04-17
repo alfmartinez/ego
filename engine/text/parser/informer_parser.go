@@ -1,7 +1,6 @@
-// Code generated from Informer.g4 by ANTLR 4.10.1. DO NOT EDIT.
+// Code generated from /Users/alex/Projects/ego/engine/text/Informer.g4 by ANTLR 4.10.1. DO NOT EDIT.
 
 package parser // Informer
-
 import (
 	"fmt"
 	"strconv"
@@ -33,54 +32,41 @@ var informerParserStaticData struct {
 func informerParserInit() {
 	staticData := &informerParserStaticData
 	staticData.literalNames = []string{
-		"", "'is'", "'a'", "'rulebook'", "'.'", "'an'", "'based'", "'activity'",
-		"'action'", "'applying'", "'to'", "'Understand'", "'as'", "'-'",
+		"", "'.'", "'is'", "'rulebook'", "'based'", "'activity'", "'-'",
 	}
 	staticData.symbolicNames = []string{
-		"", "", "", "", "", "", "", "", "", "", "", "", "", "", "NUMBER", "PUNCT",
-		"STRING", "COMMENT", "WHITESPACE", "EOL", "WORD", "ANY",
+		"", "", "", "", "", "", "", "ARTICLE", "WORD", "PUNCT", "COMMENT", "WHITESPACE",
+		"EOL",
 	}
 	staticData.ruleNames = []string{
-		"start", "definition", "title", "rulebookDeclaration", "activityDeclaration",
-		"actionDeclaration", "aliasDeclaration", "designator",
+		"start", "statement", "rulebook", "activity", "designator",
 	}
 	staticData.predictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 21, 90, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
-		4, 2, 5, 7, 5, 2, 6, 7, 6, 2, 7, 7, 7, 1, 0, 4, 0, 18, 8, 0, 11, 0, 12,
-		0, 19, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 29, 8, 1, 1, 2,
-		1, 2, 1, 2, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3,
-		1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 3, 3, 50, 8, 3, 1, 4, 1, 4, 1, 4, 1,
-		4, 1, 4, 1, 4, 1, 4, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1, 5, 1,
-		5, 1, 5, 1, 5, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 1, 7, 1, 7, 1,
-		7, 1, 7, 1, 7, 1, 7, 1, 7, 1, 7, 5, 7, 85, 8, 7, 10, 7, 12, 7, 88, 9, 7,
-		1, 7, 0, 1, 14, 8, 0, 2, 4, 6, 8, 10, 12, 14, 0, 1, 2, 0, 2, 2, 5, 5, 89,
-		0, 17, 1, 0, 0, 0, 2, 28, 1, 0, 0, 0, 4, 30, 1, 0, 0, 0, 6, 49, 1, 0, 0,
-		0, 8, 51, 1, 0, 0, 0, 10, 58, 1, 0, 0, 0, 12, 69, 1, 0, 0, 0, 14, 76, 1,
-		0, 0, 0, 16, 18, 3, 2, 1, 0, 17, 16, 1, 0, 0, 0, 18, 19, 1, 0, 0, 0, 19,
-		17, 1, 0, 0, 0, 19, 20, 1, 0, 0, 0, 20, 21, 1, 0, 0, 0, 21, 22, 5, 0, 0,
-		1, 22, 1, 1, 0, 0, 0, 23, 29, 3, 8, 4, 0, 24, 29, 3, 6, 3, 0, 25, 29, 3,
-		10, 5, 0, 26, 29, 3, 12, 6, 0, 27, 29, 3, 4, 2, 0, 28, 23, 1, 0, 0, 0,
-		28, 24, 1, 0, 0, 0, 28, 25, 1, 0, 0, 0, 28, 26, 1, 0, 0, 0, 28, 27, 1,
-		0, 0, 0, 29, 3, 1, 0, 0, 0, 30, 31, 5, 16, 0, 0, 31, 32, 5, 19, 0, 0, 32,
-		5, 1, 0, 0, 0, 33, 34, 3, 14, 7, 0, 34, 35, 5, 1, 0, 0, 35, 36, 5, 2, 0,
-		0, 36, 37, 5, 3, 0, 0, 37, 38, 5, 4, 0, 0, 38, 39, 5, 19, 0, 0, 39, 50,
-		1, 0, 0, 0, 40, 41, 3, 14, 7, 0, 41, 42, 5, 1, 0, 0, 42, 43, 7, 0, 0, 0,
-		43, 44, 5, 20, 0, 0, 44, 45, 5, 6, 0, 0, 45, 46, 5, 3, 0, 0, 46, 47, 5,
-		4, 0, 0, 47, 48, 5, 19, 0, 0, 48, 50, 1, 0, 0, 0, 49, 33, 1, 0, 0, 0, 49,
-		40, 1, 0, 0, 0, 50, 7, 1, 0, 0, 0, 51, 52, 3, 14, 7, 0, 52, 53, 5, 1, 0,
-		0, 53, 54, 5, 5, 0, 0, 54, 55, 5, 7, 0, 0, 55, 56, 5, 4, 0, 0, 56, 57,
-		5, 19, 0, 0, 57, 9, 1, 0, 0, 0, 58, 59, 3, 14, 7, 0, 59, 60, 5, 1, 0, 0,
-		60, 61, 5, 5, 0, 0, 61, 62, 5, 8, 0, 0, 62, 63, 5, 9, 0, 0, 63, 64, 5,
-		10, 0, 0, 64, 65, 5, 2, 0, 0, 65, 66, 5, 20, 0, 0, 66, 67, 5, 4, 0, 0,
-		67, 68, 5, 19, 0, 0, 68, 11, 1, 0, 0, 0, 69, 70, 5, 11, 0, 0, 70, 71, 5,
-		16, 0, 0, 71, 72, 5, 12, 0, 0, 72, 73, 5, 20, 0, 0, 73, 74, 5, 4, 0, 0,
-		74, 75, 5, 19, 0, 0, 75, 13, 1, 0, 0, 0, 76, 77, 6, 7, -1, 0, 77, 78, 5,
-		20, 0, 0, 78, 86, 1, 0, 0, 0, 79, 80, 10, 3, 0, 0, 80, 85, 5, 20, 0, 0,
-		81, 82, 10, 2, 0, 0, 82, 83, 5, 13, 0, 0, 83, 85, 5, 20, 0, 0, 84, 79,
-		1, 0, 0, 0, 84, 81, 1, 0, 0, 0, 85, 88, 1, 0, 0, 0, 86, 84, 1, 0, 0, 0,
-		86, 87, 1, 0, 0, 0, 87, 15, 1, 0, 0, 0, 88, 86, 1, 0, 0, 0, 5, 19, 28,
-		49, 84, 86,
+		4, 1, 12, 61, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
+		4, 1, 0, 1, 0, 3, 0, 13, 8, 0, 1, 0, 1, 0, 4, 0, 17, 8, 0, 11, 0, 12, 0,
+		18, 1, 0, 1, 0, 1, 1, 1, 1, 3, 1, 25, 8, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1,
+		2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 3, 2, 39, 8, 2, 1, 3, 1, 3,
+		1, 3, 1, 3, 1, 3, 1, 4, 1, 4, 1, 4, 3, 4, 49, 8, 4, 1, 4, 1, 4, 1, 4, 1,
+		4, 1, 4, 5, 4, 56, 8, 4, 10, 4, 12, 4, 59, 9, 4, 1, 4, 0, 1, 8, 5, 0, 2,
+		4, 6, 8, 0, 0, 62, 0, 16, 1, 0, 0, 0, 2, 24, 1, 0, 0, 0, 4, 38, 1, 0, 0,
+		0, 6, 40, 1, 0, 0, 0, 8, 48, 1, 0, 0, 0, 10, 12, 3, 2, 1, 0, 11, 13, 5,
+		1, 0, 0, 12, 11, 1, 0, 0, 0, 12, 13, 1, 0, 0, 0, 13, 14, 1, 0, 0, 0, 14,
+		15, 5, 12, 0, 0, 15, 17, 1, 0, 0, 0, 16, 10, 1, 0, 0, 0, 17, 18, 1, 0,
+		0, 0, 18, 16, 1, 0, 0, 0, 18, 19, 1, 0, 0, 0, 19, 20, 1, 0, 0, 0, 20, 21,
+		5, 0, 0, 1, 21, 1, 1, 0, 0, 0, 22, 25, 3, 4, 2, 0, 23, 25, 3, 6, 3, 0,
+		24, 22, 1, 0, 0, 0, 24, 23, 1, 0, 0, 0, 25, 3, 1, 0, 0, 0, 26, 27, 3, 8,
+		4, 0, 27, 28, 5, 2, 0, 0, 28, 29, 5, 7, 0, 0, 29, 30, 5, 3, 0, 0, 30, 39,
+		1, 0, 0, 0, 31, 32, 3, 8, 4, 0, 32, 33, 5, 2, 0, 0, 33, 34, 5, 7, 0, 0,
+		34, 35, 3, 8, 4, 0, 35, 36, 5, 4, 0, 0, 36, 37, 5, 3, 0, 0, 37, 39, 1,
+		0, 0, 0, 38, 26, 1, 0, 0, 0, 38, 31, 1, 0, 0, 0, 39, 5, 1, 0, 0, 0, 40,
+		41, 3, 8, 4, 0, 41, 42, 5, 2, 0, 0, 42, 43, 5, 7, 0, 0, 43, 44, 5, 5, 0,
+		0, 44, 7, 1, 0, 0, 0, 45, 46, 6, 4, -1, 0, 46, 49, 5, 8, 0, 0, 47, 49,
+		5, 7, 0, 0, 48, 45, 1, 0, 0, 0, 48, 47, 1, 0, 0, 0, 49, 57, 1, 0, 0, 0,
+		50, 51, 10, 2, 0, 0, 51, 52, 5, 6, 0, 0, 52, 56, 3, 8, 4, 3, 53, 54, 10,
+		1, 0, 0, 54, 56, 3, 8, 4, 2, 55, 50, 1, 0, 0, 0, 55, 53, 1, 0, 0, 0, 56,
+		59, 1, 0, 0, 0, 57, 55, 1, 0, 0, 0, 57, 58, 1, 0, 0, 0, 58, 9, 1, 0, 0,
+		0, 59, 57, 1, 0, 0, 0, 7, 12, 18, 24, 38, 48, 55, 57,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -125,33 +111,21 @@ const (
 	InformerParserT__3       = 4
 	InformerParserT__4       = 5
 	InformerParserT__5       = 6
-	InformerParserT__6       = 7
-	InformerParserT__7       = 8
-	InformerParserT__8       = 9
-	InformerParserT__9       = 10
-	InformerParserT__10      = 11
-	InformerParserT__11      = 12
-	InformerParserT__12      = 13
-	InformerParserNUMBER     = 14
-	InformerParserPUNCT      = 15
-	InformerParserSTRING     = 16
-	InformerParserCOMMENT    = 17
-	InformerParserWHITESPACE = 18
-	InformerParserEOL        = 19
-	InformerParserWORD       = 20
-	InformerParserANY        = 21
+	InformerParserARTICLE    = 7
+	InformerParserWORD       = 8
+	InformerParserPUNCT      = 9
+	InformerParserCOMMENT    = 10
+	InformerParserWHITESPACE = 11
+	InformerParserEOL        = 12
 )
 
 // InformerParser rules.
 const (
-	InformerParserRULE_start               = 0
-	InformerParserRULE_definition          = 1
-	InformerParserRULE_title               = 2
-	InformerParserRULE_rulebookDeclaration = 3
-	InformerParserRULE_activityDeclaration = 4
-	InformerParserRULE_actionDeclaration   = 5
-	InformerParserRULE_aliasDeclaration    = 6
-	InformerParserRULE_designator          = 7
+	InformerParserRULE_start      = 0
+	InformerParserRULE_statement  = 1
+	InformerParserRULE_rulebook   = 2
+	InformerParserRULE_activity   = 3
+	InformerParserRULE_designator = 4
 )
 
 // IStartContext is an interface to support dynamic dispatch.
@@ -196,20 +170,20 @@ func (s *StartContext) EOF() antlr.TerminalNode {
 	return s.GetToken(InformerParserEOF, 0)
 }
 
-func (s *StartContext) AllDefinition() []IDefinitionContext {
+func (s *StartContext) AllStatement() []IStatementContext {
 	children := s.GetChildren()
 	len := 0
 	for _, ctx := range children {
-		if _, ok := ctx.(IDefinitionContext); ok {
+		if _, ok := ctx.(IStatementContext); ok {
 			len++
 		}
 	}
 
-	tst := make([]IDefinitionContext, len)
+	tst := make([]IStatementContext, len)
 	i := 0
 	for _, ctx := range children {
-		if t, ok := ctx.(IDefinitionContext); ok {
-			tst[i] = t.(IDefinitionContext)
+		if t, ok := ctx.(IStatementContext); ok {
+			tst[i] = t.(IStatementContext)
 			i++
 		}
 	}
@@ -217,11 +191,11 @@ func (s *StartContext) AllDefinition() []IDefinitionContext {
 	return tst
 }
 
-func (s *StartContext) Definition(i int) IDefinitionContext {
+func (s *StartContext) Statement(i int) IStatementContext {
 	var t antlr.RuleContext
 	j := 0
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IDefinitionContext); ok {
+		if _, ok := ctx.(IStatementContext); ok {
 			if j == i {
 				t = ctx.(antlr.RuleContext)
 				break
@@ -234,7 +208,15 @@ func (s *StartContext) Definition(i int) IDefinitionContext {
 		return nil
 	}
 
-	return t.(IDefinitionContext)
+	return t.(IStatementContext)
+}
+
+func (s *StartContext) AllEOL() []antlr.TerminalNode {
+	return s.GetTokens(InformerParserEOL)
+}
+
+func (s *StartContext) EOL(i int) antlr.TerminalNode {
+	return s.GetToken(InformerParserEOL, i)
 }
 
 func (s *StartContext) GetRuleContext() antlr.RuleContext {
@@ -282,70 +264,85 @@ func (p *InformerParser) Start() (localctx IStartContext) {
 	}()
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(17)
+	p.SetState(16)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	for ok := true; ok; ok = (((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<InformerParserT__10)|(1<<InformerParserSTRING)|(1<<InformerParserWORD))) != 0) {
+	for ok := true; ok; ok = _la == InformerParserARTICLE || _la == InformerParserWORD {
 		{
-			p.SetState(16)
-			p.Definition()
+			p.SetState(10)
+			p.Statement()
+		}
+		p.SetState(12)
+		p.GetErrorHandler().Sync(p)
+		_la = p.GetTokenStream().LA(1)
+
+		if _la == InformerParserT__0 {
+			{
+				p.SetState(11)
+				p.Match(InformerParserT__0)
+			}
+
+		}
+		{
+			p.SetState(14)
+			p.Match(InformerParserEOL)
 		}
 
-		p.SetState(19)
+		p.SetState(18)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 	}
 	{
-		p.SetState(21)
+		p.SetState(20)
 		p.Match(InformerParserEOF)
 	}
 
 	return localctx
 }
 
-// IDefinitionContext is an interface to support dynamic dispatch.
-type IDefinitionContext interface {
+// IStatementContext is an interface to support dynamic dispatch.
+type IStatementContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsDefinitionContext differentiates from other interfaces.
-	IsDefinitionContext()
+	// IsStatementContext differentiates from other interfaces.
+	IsStatementContext()
 }
 
-type DefinitionContext struct {
+type StatementContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyDefinitionContext() *DefinitionContext {
-	var p = new(DefinitionContext)
+func NewEmptyStatementContext() *StatementContext {
+	var p = new(StatementContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = InformerParserRULE_definition
+	p.RuleIndex = InformerParserRULE_statement
 	return p
 }
 
-func (*DefinitionContext) IsDefinitionContext() {}
+func (*StatementContext) IsStatementContext() {}
 
-func NewDefinitionContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *DefinitionContext {
-	var p = new(DefinitionContext)
+func NewStatementContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *StatementContext {
+	var p = new(StatementContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = InformerParserRULE_definition
+	p.RuleIndex = InformerParserRULE_statement
 
 	return p
 }
 
-func (s *DefinitionContext) GetParser() antlr.Parser { return s.parser }
+func (s *StatementContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *DefinitionContext) ActivityDeclaration() IActivityDeclarationContext {
+func (s *StatementContext) Rulebook() IRulebookContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IActivityDeclarationContext); ok {
+		if _, ok := ctx.(IRulebookContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -355,13 +352,13 @@ func (s *DefinitionContext) ActivityDeclaration() IActivityDeclarationContext {
 		return nil
 	}
 
-	return t.(IActivityDeclarationContext)
+	return t.(IRulebookContext)
 }
 
-func (s *DefinitionContext) RulebookDeclaration() IRulebookDeclarationContext {
+func (s *StatementContext) Activity() IActivityContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IRulebookDeclarationContext); ok {
+		if _, ok := ctx.(IActivityContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -371,83 +368,35 @@ func (s *DefinitionContext) RulebookDeclaration() IRulebookDeclarationContext {
 		return nil
 	}
 
-	return t.(IRulebookDeclarationContext)
+	return t.(IActivityContext)
 }
 
-func (s *DefinitionContext) ActionDeclaration() IActionDeclarationContext {
-	var t antlr.RuleContext
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IActionDeclarationContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
-		}
-	}
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(IActionDeclarationContext)
-}
-
-func (s *DefinitionContext) AliasDeclaration() IAliasDeclarationContext {
-	var t antlr.RuleContext
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IAliasDeclarationContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
-		}
-	}
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(IAliasDeclarationContext)
-}
-
-func (s *DefinitionContext) Title() ITitleContext {
-	var t antlr.RuleContext
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(ITitleContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
-		}
-	}
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(ITitleContext)
-}
-
-func (s *DefinitionContext) GetRuleContext() antlr.RuleContext {
+func (s *StatementContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *DefinitionContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *StatementContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *DefinitionContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *StatementContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(InformerListener); ok {
-		listenerT.EnterDefinition(s)
+		listenerT.EnterStatement(s)
 	}
 }
 
-func (s *DefinitionContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *StatementContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(InformerListener); ok {
-		listenerT.ExitDefinition(s)
+		listenerT.ExitStatement(s)
 	}
 }
 
-func (p *InformerParser) Definition() (localctx IDefinitionContext) {
+func (p *InformerParser) Statement() (localctx IStatementContext) {
 	this := p
 	_ = this
 
-	localctx = NewDefinitionContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 2, InformerParserRULE_definition)
+	localctx = NewStatementContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 2, InformerParserRULE_statement)
 
 	defer func() {
 		p.ExitRule()
@@ -465,42 +414,21 @@ func (p *InformerParser) Definition() (localctx IDefinitionContext) {
 		}
 	}()
 
-	p.SetState(28)
+	p.SetState(24)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 1, p.GetParserRuleContext()) {
+	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 2, p.GetParserRuleContext()) {
 	case 1:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(23)
-			p.ActivityDeclaration()
+			p.SetState(22)
+			p.Rulebook()
 		}
 
 	case 2:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(24)
-			p.RulebookDeclaration()
-		}
-
-	case 3:
-		p.EnterOuterAlt(localctx, 3)
-		{
-			p.SetState(25)
-			p.ActionDeclaration()
-		}
-
-	case 4:
-		p.EnterOuterAlt(localctx, 4)
-		{
-			p.SetState(26)
-			p.AliasDeclaration()
-		}
-
-	case 5:
-		p.EnterOuterAlt(localctx, 5)
-		{
-			p.SetState(27)
-			p.Title()
+			p.SetState(23)
+			p.Activity()
 		}
 
 	}
@@ -508,78 +436,115 @@ func (p *InformerParser) Definition() (localctx IDefinitionContext) {
 	return localctx
 }
 
-// ITitleContext is an interface to support dynamic dispatch.
-type ITitleContext interface {
+// IRulebookContext is an interface to support dynamic dispatch.
+type IRulebookContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsTitleContext differentiates from other interfaces.
-	IsTitleContext()
+	// IsRulebookContext differentiates from other interfaces.
+	IsRulebookContext()
 }
 
-type TitleContext struct {
+type RulebookContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyTitleContext() *TitleContext {
-	var p = new(TitleContext)
+func NewEmptyRulebookContext() *RulebookContext {
+	var p = new(RulebookContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = InformerParserRULE_title
+	p.RuleIndex = InformerParserRULE_rulebook
 	return p
 }
 
-func (*TitleContext) IsTitleContext() {}
+func (*RulebookContext) IsRulebookContext() {}
 
-func NewTitleContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *TitleContext {
-	var p = new(TitleContext)
+func NewRulebookContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *RulebookContext {
+	var p = new(RulebookContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = InformerParserRULE_title
+	p.RuleIndex = InformerParserRULE_rulebook
 
 	return p
 }
 
-func (s *TitleContext) GetParser() antlr.Parser { return s.parser }
+func (s *RulebookContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *TitleContext) STRING() antlr.TerminalNode {
-	return s.GetToken(InformerParserSTRING, 0)
+func (s *RulebookContext) AllDesignator() []IDesignatorContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IDesignatorContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IDesignatorContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IDesignatorContext); ok {
+			tst[i] = t.(IDesignatorContext)
+			i++
+		}
+	}
+
+	return tst
 }
 
-func (s *TitleContext) EOL() antlr.TerminalNode {
-	return s.GetToken(InformerParserEOL, 0)
+func (s *RulebookContext) Designator(i int) IDesignatorContext {
+	var t antlr.RuleContext
+	j := 0
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IDesignatorContext); ok {
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IDesignatorContext)
 }
 
-func (s *TitleContext) GetRuleContext() antlr.RuleContext {
+func (s *RulebookContext) ARTICLE() antlr.TerminalNode {
+	return s.GetToken(InformerParserARTICLE, 0)
+}
+
+func (s *RulebookContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *TitleContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *RulebookContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *TitleContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *RulebookContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(InformerListener); ok {
-		listenerT.EnterTitle(s)
+		listenerT.EnterRulebook(s)
 	}
 }
 
-func (s *TitleContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *RulebookContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(InformerListener); ok {
-		listenerT.ExitTitle(s)
+		listenerT.ExitRulebook(s)
 	}
 }
 
-func (p *InformerParser) Title() (localctx ITitleContext) {
+func (p *InformerParser) Rulebook() (localctx IRulebookContext) {
 	this := p
 	_ = this
 
-	localctx = NewTitleContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 4, InformerParserRULE_title)
+	localctx = NewRulebookContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 4, InformerParserRULE_rulebook)
 
 	defer func() {
 		p.ExitRule()
@@ -597,315 +562,99 @@ func (p *InformerParser) Title() (localctx ITitleContext) {
 		}
 	}()
 
-	p.EnterOuterAlt(localctx, 1)
-	{
-		p.SetState(30)
-		p.Match(InformerParserSTRING)
-	}
-	{
-		p.SetState(31)
-		p.Match(InformerParserEOL)
-	}
-
-	return localctx
-}
-
-// IRulebookDeclarationContext is an interface to support dynamic dispatch.
-type IRulebookDeclarationContext interface {
-	antlr.ParserRuleContext
-
-	// GetParser returns the parser.
-	GetParser() antlr.Parser
-
-	// IsRulebookDeclarationContext differentiates from other interfaces.
-	IsRulebookDeclarationContext()
-}
-
-type RulebookDeclarationContext struct {
-	*antlr.BaseParserRuleContext
-	parser antlr.Parser
-}
-
-func NewEmptyRulebookDeclarationContext() *RulebookDeclarationContext {
-	var p = new(RulebookDeclarationContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = InformerParserRULE_rulebookDeclaration
-	return p
-}
-
-func (*RulebookDeclarationContext) IsRulebookDeclarationContext() {}
-
-func NewRulebookDeclarationContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *RulebookDeclarationContext {
-	var p = new(RulebookDeclarationContext)
-
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
-
-	p.parser = parser
-	p.RuleIndex = InformerParserRULE_rulebookDeclaration
-
-	return p
-}
-
-func (s *RulebookDeclarationContext) GetParser() antlr.Parser { return s.parser }
-
-func (s *RulebookDeclarationContext) CopyFrom(ctx *RulebookDeclarationContext) {
-	s.BaseParserRuleContext.CopyFrom(ctx.BaseParserRuleContext)
-}
-
-func (s *RulebookDeclarationContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *RulebookDeclarationContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
-	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-type GenericRulebookContext struct {
-	*RulebookDeclarationContext
-}
-
-func NewGenericRulebookContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *GenericRulebookContext {
-	var p = new(GenericRulebookContext)
-
-	p.RulebookDeclarationContext = NewEmptyRulebookDeclarationContext()
-	p.parser = parser
-	p.CopyFrom(ctx.(*RulebookDeclarationContext))
-
-	return p
-}
-
-func (s *GenericRulebookContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *GenericRulebookContext) Designator() IDesignatorContext {
-	var t antlr.RuleContext
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IDesignatorContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
-		}
-	}
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(IDesignatorContext)
-}
-
-func (s *GenericRulebookContext) EOL() antlr.TerminalNode {
-	return s.GetToken(InformerParserEOL, 0)
-}
-
-func (s *GenericRulebookContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(InformerListener); ok {
-		listenerT.EnterGenericRulebook(s)
-	}
-}
-
-func (s *GenericRulebookContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(InformerListener); ok {
-		listenerT.ExitGenericRulebook(s)
-	}
-}
-
-type SpecificRulebookContext struct {
-	*RulebookDeclarationContext
-}
-
-func NewSpecificRulebookContext(parser antlr.Parser, ctx antlr.ParserRuleContext) *SpecificRulebookContext {
-	var p = new(SpecificRulebookContext)
-
-	p.RulebookDeclarationContext = NewEmptyRulebookDeclarationContext()
-	p.parser = parser
-	p.CopyFrom(ctx.(*RulebookDeclarationContext))
-
-	return p
-}
-
-func (s *SpecificRulebookContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *SpecificRulebookContext) Designator() IDesignatorContext {
-	var t antlr.RuleContext
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IDesignatorContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
-		}
-	}
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(IDesignatorContext)
-}
-
-func (s *SpecificRulebookContext) WORD() antlr.TerminalNode {
-	return s.GetToken(InformerParserWORD, 0)
-}
-
-func (s *SpecificRulebookContext) EOL() antlr.TerminalNode {
-	return s.GetToken(InformerParserEOL, 0)
-}
-
-func (s *SpecificRulebookContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(InformerListener); ok {
-		listenerT.EnterSpecificRulebook(s)
-	}
-}
-
-func (s *SpecificRulebookContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(InformerListener); ok {
-		listenerT.ExitSpecificRulebook(s)
-	}
-}
-
-func (p *InformerParser) RulebookDeclaration() (localctx IRulebookDeclarationContext) {
-	this := p
-	_ = this
-
-	localctx = NewRulebookDeclarationContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 6, InformerParserRULE_rulebookDeclaration)
-	var _la int
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
-	p.SetState(49)
+	p.SetState(38)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 2, p.GetParserRuleContext()) {
+	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 3, p.GetParserRuleContext()) {
 	case 1:
-		localctx = NewGenericRulebookContext(p, localctx)
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(33)
+			p.SetState(26)
 			p.designator(0)
 		}
 		{
+			p.SetState(27)
+			p.Match(InformerParserT__1)
+		}
+		{
+			p.SetState(28)
+			p.Match(InformerParserARTICLE)
+		}
+		{
+			p.SetState(29)
+			p.Match(InformerParserT__2)
+		}
+
+	case 2:
+		p.EnterOuterAlt(localctx, 2)
+		{
+			p.SetState(31)
+			p.designator(0)
+		}
+		{
+			p.SetState(32)
+			p.Match(InformerParserT__1)
+		}
+		{
+			p.SetState(33)
+			p.Match(InformerParserARTICLE)
+		}
+		{
 			p.SetState(34)
-			p.Match(InformerParserT__0)
+			p.designator(0)
 		}
 		{
 			p.SetState(35)
-			p.Match(InformerParserT__1)
+			p.Match(InformerParserT__3)
 		}
 		{
 			p.SetState(36)
 			p.Match(InformerParserT__2)
 		}
-		{
-			p.SetState(37)
-			p.Match(InformerParserT__3)
-		}
-		{
-			p.SetState(38)
-			p.Match(InformerParserEOL)
-		}
-
-	case 2:
-		localctx = NewSpecificRulebookContext(p, localctx)
-		p.EnterOuterAlt(localctx, 2)
-		{
-			p.SetState(40)
-			p.designator(0)
-		}
-		{
-			p.SetState(41)
-			p.Match(InformerParserT__0)
-		}
-		{
-			p.SetState(42)
-			_la = p.GetTokenStream().LA(1)
-
-			if !(_la == InformerParserT__1 || _la == InformerParserT__4) {
-				p.GetErrorHandler().RecoverInline(p)
-			} else {
-				p.GetErrorHandler().ReportMatch(p)
-				p.Consume()
-			}
-		}
-		{
-			p.SetState(43)
-			p.Match(InformerParserWORD)
-		}
-		{
-			p.SetState(44)
-			p.Match(InformerParserT__5)
-		}
-		{
-			p.SetState(45)
-			p.Match(InformerParserT__2)
-		}
-		{
-			p.SetState(46)
-			p.Match(InformerParserT__3)
-		}
-		{
-			p.SetState(47)
-			p.Match(InformerParserEOL)
-		}
 
 	}
 
 	return localctx
 }
 
-// IActivityDeclarationContext is an interface to support dynamic dispatch.
-type IActivityDeclarationContext interface {
+// IActivityContext is an interface to support dynamic dispatch.
+type IActivityContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
-	// IsActivityDeclarationContext differentiates from other interfaces.
-	IsActivityDeclarationContext()
+	// IsActivityContext differentiates from other interfaces.
+	IsActivityContext()
 }
 
-type ActivityDeclarationContext struct {
+type ActivityContext struct {
 	*antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyActivityDeclarationContext() *ActivityDeclarationContext {
-	var p = new(ActivityDeclarationContext)
+func NewEmptyActivityContext() *ActivityContext {
+	var p = new(ActivityContext)
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = InformerParserRULE_activityDeclaration
+	p.RuleIndex = InformerParserRULE_activity
 	return p
 }
 
-func (*ActivityDeclarationContext) IsActivityDeclarationContext() {}
+func (*ActivityContext) IsActivityContext() {}
 
-func NewActivityDeclarationContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ActivityDeclarationContext {
-	var p = new(ActivityDeclarationContext)
+func NewActivityContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ActivityContext {
+	var p = new(ActivityContext)
 
 	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = InformerParserRULE_activityDeclaration
+	p.RuleIndex = InformerParserRULE_activity
 
 	return p
 }
 
-func (s *ActivityDeclarationContext) GetParser() antlr.Parser { return s.parser }
+func (s *ActivityContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *ActivityDeclarationContext) Designator() IDesignatorContext {
+func (s *ActivityContext) Designator() IDesignatorContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IDesignatorContext); ok {
@@ -921,36 +670,36 @@ func (s *ActivityDeclarationContext) Designator() IDesignatorContext {
 	return t.(IDesignatorContext)
 }
 
-func (s *ActivityDeclarationContext) EOL() antlr.TerminalNode {
-	return s.GetToken(InformerParserEOL, 0)
+func (s *ActivityContext) ARTICLE() antlr.TerminalNode {
+	return s.GetToken(InformerParserARTICLE, 0)
 }
 
-func (s *ActivityDeclarationContext) GetRuleContext() antlr.RuleContext {
+func (s *ActivityContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *ActivityDeclarationContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *ActivityContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *ActivityDeclarationContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *ActivityContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(InformerListener); ok {
-		listenerT.EnterActivityDeclaration(s)
+		listenerT.EnterActivity(s)
 	}
 }
 
-func (s *ActivityDeclarationContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *ActivityContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(InformerListener); ok {
-		listenerT.ExitActivityDeclaration(s)
+		listenerT.ExitActivity(s)
 	}
 }
 
-func (p *InformerParser) ActivityDeclaration() (localctx IActivityDeclarationContext) {
+func (p *InformerParser) Activity() (localctx IActivityContext) {
 	this := p
 	_ = this
 
-	localctx = NewActivityDeclarationContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 8, InformerParserRULE_activityDeclaration)
+	localctx = NewActivityContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 6, InformerParserRULE_activity)
 
 	defer func() {
 		p.ExitRule()
@@ -970,300 +719,20 @@ func (p *InformerParser) ActivityDeclaration() (localctx IActivityDeclarationCon
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(51)
+		p.SetState(40)
 		p.designator(0)
 	}
 	{
-		p.SetState(52)
-		p.Match(InformerParserT__0)
-	}
-	{
-		p.SetState(53)
-		p.Match(InformerParserT__4)
-	}
-	{
-		p.SetState(54)
-		p.Match(InformerParserT__6)
-	}
-	{
-		p.SetState(55)
-		p.Match(InformerParserT__3)
-	}
-	{
-		p.SetState(56)
-		p.Match(InformerParserEOL)
-	}
-
-	return localctx
-}
-
-// IActionDeclarationContext is an interface to support dynamic dispatch.
-type IActionDeclarationContext interface {
-	antlr.ParserRuleContext
-
-	// GetParser returns the parser.
-	GetParser() antlr.Parser
-
-	// IsActionDeclarationContext differentiates from other interfaces.
-	IsActionDeclarationContext()
-}
-
-type ActionDeclarationContext struct {
-	*antlr.BaseParserRuleContext
-	parser antlr.Parser
-}
-
-func NewEmptyActionDeclarationContext() *ActionDeclarationContext {
-	var p = new(ActionDeclarationContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = InformerParserRULE_actionDeclaration
-	return p
-}
-
-func (*ActionDeclarationContext) IsActionDeclarationContext() {}
-
-func NewActionDeclarationContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ActionDeclarationContext {
-	var p = new(ActionDeclarationContext)
-
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
-
-	p.parser = parser
-	p.RuleIndex = InformerParserRULE_actionDeclaration
-
-	return p
-}
-
-func (s *ActionDeclarationContext) GetParser() antlr.Parser { return s.parser }
-
-func (s *ActionDeclarationContext) Designator() IDesignatorContext {
-	var t antlr.RuleContext
-	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IDesignatorContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
-		}
-	}
-
-	if t == nil {
-		return nil
-	}
-
-	return t.(IDesignatorContext)
-}
-
-func (s *ActionDeclarationContext) WORD() antlr.TerminalNode {
-	return s.GetToken(InformerParserWORD, 0)
-}
-
-func (s *ActionDeclarationContext) EOL() antlr.TerminalNode {
-	return s.GetToken(InformerParserEOL, 0)
-}
-
-func (s *ActionDeclarationContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *ActionDeclarationContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
-	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *ActionDeclarationContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(InformerListener); ok {
-		listenerT.EnterActionDeclaration(s)
-	}
-}
-
-func (s *ActionDeclarationContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(InformerListener); ok {
-		listenerT.ExitActionDeclaration(s)
-	}
-}
-
-func (p *InformerParser) ActionDeclaration() (localctx IActionDeclarationContext) {
-	this := p
-	_ = this
-
-	localctx = NewActionDeclarationContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 10, InformerParserRULE_actionDeclaration)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
-	p.EnterOuterAlt(localctx, 1)
-	{
-		p.SetState(58)
-		p.designator(0)
-	}
-	{
-		p.SetState(59)
-		p.Match(InformerParserT__0)
-	}
-	{
-		p.SetState(60)
-		p.Match(InformerParserT__4)
-	}
-	{
-		p.SetState(61)
-		p.Match(InformerParserT__7)
-	}
-	{
-		p.SetState(62)
-		p.Match(InformerParserT__8)
-	}
-	{
-		p.SetState(63)
-		p.Match(InformerParserT__9)
-	}
-	{
-		p.SetState(64)
+		p.SetState(41)
 		p.Match(InformerParserT__1)
 	}
 	{
-		p.SetState(65)
-		p.Match(InformerParserWORD)
+		p.SetState(42)
+		p.Match(InformerParserARTICLE)
 	}
 	{
-		p.SetState(66)
-		p.Match(InformerParserT__3)
-	}
-	{
-		p.SetState(67)
-		p.Match(InformerParserEOL)
-	}
-
-	return localctx
-}
-
-// IAliasDeclarationContext is an interface to support dynamic dispatch.
-type IAliasDeclarationContext interface {
-	antlr.ParserRuleContext
-
-	// GetParser returns the parser.
-	GetParser() antlr.Parser
-
-	// IsAliasDeclarationContext differentiates from other interfaces.
-	IsAliasDeclarationContext()
-}
-
-type AliasDeclarationContext struct {
-	*antlr.BaseParserRuleContext
-	parser antlr.Parser
-}
-
-func NewEmptyAliasDeclarationContext() *AliasDeclarationContext {
-	var p = new(AliasDeclarationContext)
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
-	p.RuleIndex = InformerParserRULE_aliasDeclaration
-	return p
-}
-
-func (*AliasDeclarationContext) IsAliasDeclarationContext() {}
-
-func NewAliasDeclarationContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *AliasDeclarationContext {
-	var p = new(AliasDeclarationContext)
-
-	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
-
-	p.parser = parser
-	p.RuleIndex = InformerParserRULE_aliasDeclaration
-
-	return p
-}
-
-func (s *AliasDeclarationContext) GetParser() antlr.Parser { return s.parser }
-
-func (s *AliasDeclarationContext) STRING() antlr.TerminalNode {
-	return s.GetToken(InformerParserSTRING, 0)
-}
-
-func (s *AliasDeclarationContext) WORD() antlr.TerminalNode {
-	return s.GetToken(InformerParserWORD, 0)
-}
-
-func (s *AliasDeclarationContext) EOL() antlr.TerminalNode {
-	return s.GetToken(InformerParserEOL, 0)
-}
-
-func (s *AliasDeclarationContext) GetRuleContext() antlr.RuleContext {
-	return s
-}
-
-func (s *AliasDeclarationContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
-	return antlr.TreesStringTree(s, ruleNames, recog)
-}
-
-func (s *AliasDeclarationContext) EnterRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(InformerListener); ok {
-		listenerT.EnterAliasDeclaration(s)
-	}
-}
-
-func (s *AliasDeclarationContext) ExitRule(listener antlr.ParseTreeListener) {
-	if listenerT, ok := listener.(InformerListener); ok {
-		listenerT.ExitAliasDeclaration(s)
-	}
-}
-
-func (p *InformerParser) AliasDeclaration() (localctx IAliasDeclarationContext) {
-	this := p
-	_ = this
-
-	localctx = NewAliasDeclarationContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 12, InformerParserRULE_aliasDeclaration)
-
-	defer func() {
-		p.ExitRule()
-	}()
-
-	defer func() {
-		if err := recover(); err != nil {
-			if v, ok := err.(antlr.RecognitionException); ok {
-				localctx.SetException(v)
-				p.GetErrorHandler().ReportError(p, v)
-				p.GetErrorHandler().Recover(p, v)
-			} else {
-				panic(err)
-			}
-		}
-	}()
-
-	p.EnterOuterAlt(localctx, 1)
-	{
-		p.SetState(69)
-		p.Match(InformerParserT__10)
-	}
-	{
-		p.SetState(70)
-		p.Match(InformerParserSTRING)
-	}
-	{
-		p.SetState(71)
-		p.Match(InformerParserT__11)
-	}
-	{
-		p.SetState(72)
-		p.Match(InformerParserWORD)
-	}
-	{
-		p.SetState(73)
-		p.Match(InformerParserT__3)
-	}
-	{
-		p.SetState(74)
-		p.Match(InformerParserEOL)
+		p.SetState(43)
+		p.Match(InformerParserT__4)
 	}
 
 	return localctx
@@ -1311,12 +780,41 @@ func (s *DesignatorContext) WORD() antlr.TerminalNode {
 	return s.GetToken(InformerParserWORD, 0)
 }
 
-func (s *DesignatorContext) Designator() IDesignatorContext {
+func (s *DesignatorContext) ARTICLE() antlr.TerminalNode {
+	return s.GetToken(InformerParserARTICLE, 0)
+}
+
+func (s *DesignatorContext) AllDesignator() []IDesignatorContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IDesignatorContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IDesignatorContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IDesignatorContext); ok {
+			tst[i] = t.(IDesignatorContext)
+			i++
+		}
+	}
+
+	return tst
+}
+
+func (s *DesignatorContext) Designator(i int) IDesignatorContext {
 	var t antlr.RuleContext
+	j := 0
 	for _, ctx := range s.GetChildren() {
 		if _, ok := ctx.(IDesignatorContext); ok {
-			t = ctx.(antlr.RuleContext)
-			break
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
 		}
 	}
 
@@ -1360,8 +858,8 @@ func (p *InformerParser) designator(_p int) (localctx IDesignatorContext) {
 	localctx = NewDesignatorContext(p, p.GetParserRuleContext(), _parentState)
 	var _prevctx IDesignatorContext = localctx
 	var _ antlr.ParserRuleContext = _prevctx // TODO: To prevent unused variable warning.
-	_startState := 14
-	p.EnterRecursionRule(localctx, 14, InformerParserRULE_designator, _p)
+	_startState := 8
+	p.EnterRecursionRule(localctx, 8, InformerParserRULE_designator, _p)
 
 	defer func() {
 		p.UnrollRecursionContexts(_parentctx)
@@ -1382,15 +880,29 @@ func (p *InformerParser) designator(_p int) (localctx IDesignatorContext) {
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
-	{
-		p.SetState(77)
-		p.Match(InformerParserWORD)
-	}
-
-	p.GetParserRuleContext().SetStop(p.GetTokenStream().LT(-1))
-	p.SetState(86)
+	p.SetState(48)
 	p.GetErrorHandler().Sync(p)
-	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 4, p.GetParserRuleContext())
+
+	switch p.GetTokenStream().LA(1) {
+	case InformerParserWORD:
+		{
+			p.SetState(46)
+			p.Match(InformerParserWORD)
+		}
+
+	case InformerParserARTICLE:
+		{
+			p.SetState(47)
+			p.Match(InformerParserARTICLE)
+		}
+
+	default:
+		panic(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+	}
+	p.GetParserRuleContext().SetStop(p.GetTokenStream().LT(-1))
+	p.SetState(57)
+	p.GetErrorHandler().Sync(p)
+	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 6, p.GetParserRuleContext())
 
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
@@ -1398,45 +910,45 @@ func (p *InformerParser) designator(_p int) (localctx IDesignatorContext) {
 				p.TriggerExitRuleEvent()
 			}
 			_prevctx = localctx
-			p.SetState(84)
+			p.SetState(55)
 			p.GetErrorHandler().Sync(p)
-			switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 3, p.GetParserRuleContext()) {
+			switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 5, p.GetParserRuleContext()) {
 			case 1:
 				localctx = NewDesignatorContext(p, _parentctx, _parentState)
 				p.PushNewRecursionContext(localctx, _startState, InformerParserRULE_designator)
-				p.SetState(79)
-
-				if !(p.Precpred(p.GetParserRuleContext(), 3)) {
-					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 3)", ""))
-				}
-				{
-					p.SetState(80)
-					p.Match(InformerParserWORD)
-				}
-
-			case 2:
-				localctx = NewDesignatorContext(p, _parentctx, _parentState)
-				p.PushNewRecursionContext(localctx, _startState, InformerParserRULE_designator)
-				p.SetState(81)
+				p.SetState(50)
 
 				if !(p.Precpred(p.GetParserRuleContext(), 2)) {
 					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 2)", ""))
 				}
 				{
-					p.SetState(82)
-					p.Match(InformerParserT__12)
+					p.SetState(51)
+					p.Match(InformerParserT__5)
 				}
 				{
-					p.SetState(83)
-					p.Match(InformerParserWORD)
+					p.SetState(52)
+					p.designator(3)
+				}
+
+			case 2:
+				localctx = NewDesignatorContext(p, _parentctx, _parentState)
+				p.PushNewRecursionContext(localctx, _startState, InformerParserRULE_designator)
+				p.SetState(53)
+
+				if !(p.Precpred(p.GetParserRuleContext(), 1)) {
+					panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 1)", ""))
+				}
+				{
+					p.SetState(54)
+					p.designator(2)
 				}
 
 			}
 
 		}
-		p.SetState(88)
+		p.SetState(59)
 		p.GetErrorHandler().Sync(p)
-		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 4, p.GetParserRuleContext())
+		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 6, p.GetParserRuleContext())
 	}
 
 	return localctx
@@ -1444,7 +956,7 @@ func (p *InformerParser) designator(_p int) (localctx IDesignatorContext) {
 
 func (p *InformerParser) Sempred(localctx antlr.RuleContext, ruleIndex, predIndex int) bool {
 	switch ruleIndex {
-	case 7:
+	case 4:
 		var t *DesignatorContext = nil
 		if localctx != nil {
 			t = localctx.(*DesignatorContext)
@@ -1462,10 +974,10 @@ func (p *InformerParser) Designator_Sempred(localctx antlr.RuleContext, predInde
 
 	switch predIndex {
 	case 0:
-		return p.Precpred(p.GetParserRuleContext(), 3)
+		return p.Precpred(p.GetParserRuleContext(), 2)
 
 	case 1:
-		return p.Precpred(p.GetParserRuleContext(), 2)
+		return p.Precpred(p.GetParserRuleContext(), 1)
 
 	default:
 		panic("No predicate with index: " + fmt.Sprint(predIndex))
