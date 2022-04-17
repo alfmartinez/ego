@@ -32,17 +32,23 @@ func (s *BaseInformerListener) EnterStatement(ctx *StatementContext) {}
 // ExitStatement is called when production statement is exited.
 func (s *BaseInformerListener) ExitStatement(ctx *StatementContext) {}
 
-// EnterRulebook is called when production rulebook is entered.
-func (s *BaseInformerListener) EnterRulebook(ctx *RulebookContext) {}
+// EnterDefinition is called when production definition is entered.
+func (s *BaseInformerListener) EnterDefinition(ctx *DefinitionContext) {}
 
-// ExitRulebook is called when production rulebook is exited.
-func (s *BaseInformerListener) ExitRulebook(ctx *RulebookContext) {}
+// ExitDefinition is called when production definition is exited.
+func (s *BaseInformerListener) ExitDefinition(ctx *DefinitionContext) {}
 
-// EnterActivity is called when production activity is entered.
-func (s *BaseInformerListener) EnterActivity(ctx *ActivityContext) {}
+// EnterDefinitionType is called when production definitionType is entered.
+func (s *BaseInformerListener) EnterDefinitionType(ctx *DefinitionTypeContext) {}
 
-// ExitActivity is called when production activity is exited.
-func (s *BaseInformerListener) ExitActivity(ctx *ActivityContext) {}
+// ExitDefinitionType is called when production definitionType is exited.
+func (s *BaseInformerListener) ExitDefinitionType(ctx *DefinitionTypeContext) {}
+
+// EnterCertainty is called when production certainty is entered.
+func (s *BaseInformerListener) EnterCertainty(ctx *CertaintyContext) {}
+
+// ExitCertainty is called when production certainty is exited.
+func (s *BaseInformerListener) ExitCertainty(ctx *CertaintyContext) {}
 
 // EnterDesignator is called when production designator is entered.
 func (s *BaseInformerListener) EnterDesignator(ctx *DesignatorContext) {}

@@ -3,6 +3,7 @@ grammar Informer;
 
 // Tokens
 ARTICLE: ('an'|'a');
+GERUND: [\p{L}]'ing';
 WORD: [\p{L}]+;
 PUNCT: [\\.,:-];
 COMMENT: '[' .*? ']\n' -> skip;
@@ -14,18 +15,25 @@ EOL: [\n]+;
 start : (statement '.'? EOL)+ EOF;
 
 statement: 
-   rulebook
-   | activity;
+   definition;
 
-rulebook:
-   designator 'is' ARTICLE 'rulebook'
-   | designator 'is' ARTICLE designator 'based' 'rulebook';
+definition: 
+   designator 'is' definitionType;
 
-activity:
-   designator 'is' ARTICLE 'activity';
+definitionType: 
+   ARTICLE 'rulebook' 
+   | ARTICLE designator 'based' 'rulebook' 
+   | ARTICLE 'activity'
+   | certainty designator 
+   | ARTICLE 'kind' 'of' designator; 
+
+certainty:
+   'usually' | 'always' | 'never';
 
 designator:
    WORD
    | ARTICLE
+   | GERUND
+   | 'of'
    | designator '-' designator
    | designator designator;

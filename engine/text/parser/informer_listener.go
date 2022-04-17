@@ -13,11 +13,14 @@ type InformerListener interface {
 	// EnterStatement is called when entering the statement production.
 	EnterStatement(c *StatementContext)
 
-	// EnterRulebook is called when entering the rulebook production.
-	EnterRulebook(c *RulebookContext)
+	// EnterDefinition is called when entering the definition production.
+	EnterDefinition(c *DefinitionContext)
 
-	// EnterActivity is called when entering the activity production.
-	EnterActivity(c *ActivityContext)
+	// EnterDefinitionType is called when entering the definitionType production.
+	EnterDefinitionType(c *DefinitionTypeContext)
+
+	// EnterCertainty is called when entering the certainty production.
+	EnterCertainty(c *CertaintyContext)
 
 	// EnterDesignator is called when entering the designator production.
 	EnterDesignator(c *DesignatorContext)
@@ -28,11 +31,14 @@ type InformerListener interface {
 	// ExitStatement is called when exiting the statement production.
 	ExitStatement(c *StatementContext)
 
-	// ExitRulebook is called when exiting the rulebook production.
-	ExitRulebook(c *RulebookContext)
+	// ExitDefinition is called when exiting the definition production.
+	ExitDefinition(c *DefinitionContext)
 
-	// ExitActivity is called when exiting the activity production.
-	ExitActivity(c *ActivityContext)
+	// ExitDefinitionType is called when exiting the definitionType production.
+	ExitDefinitionType(c *DefinitionTypeContext)
+
+	// ExitCertainty is called when exiting the certainty production.
+	ExitCertainty(c *CertaintyContext)
 
 	// ExitDesignator is called when exiting the designator production.
 	ExitDesignator(c *DesignatorContext)
