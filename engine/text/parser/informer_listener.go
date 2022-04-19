@@ -16,14 +16,32 @@ type InformerListener interface {
 	// EnterDefinition is called when entering the definition production.
 	EnterDefinition(c *DefinitionContext)
 
-	// EnterDefinitionType is called when entering the definitionType production.
-	EnterDefinitionType(c *DefinitionTypeContext)
+	// EnterRulebook is called when entering the Rulebook production.
+	EnterRulebook(c *RulebookContext)
+
+	// EnterObjectBasedRulebook is called when entering the ObjectBasedRulebook production.
+	EnterObjectBasedRulebook(c *ObjectBasedRulebookContext)
+
+	// EnterActivity is called when entering the Activity production.
+	EnterActivity(c *ActivityContext)
+
+	// EnterCertaintyOfAttribute is called when entering the CertaintyOfAttribute production.
+	EnterCertaintyOfAttribute(c *CertaintyOfAttributeContext)
+
+	// EnterObjectKind is called when entering the ObjectKind production.
+	EnterObjectKind(c *ObjectKindContext)
+
+	// EnterValueKind is called when entering the ValueKind production.
+	EnterValueKind(c *ValueKindContext)
 
 	// EnterCertainty is called when entering the certainty production.
 	EnterCertainty(c *CertaintyContext)
 
 	// EnterDesignator is called when entering the designator production.
 	EnterDesignator(c *DesignatorContext)
+
+	// EnterValues is called when entering the values production.
+	EnterValues(c *ValuesContext)
 
 	// ExitStart is called when exiting the start production.
 	ExitStart(c *StartContext)
@@ -34,12 +52,30 @@ type InformerListener interface {
 	// ExitDefinition is called when exiting the definition production.
 	ExitDefinition(c *DefinitionContext)
 
-	// ExitDefinitionType is called when exiting the definitionType production.
-	ExitDefinitionType(c *DefinitionTypeContext)
+	// ExitRulebook is called when exiting the Rulebook production.
+	ExitRulebook(c *RulebookContext)
+
+	// ExitObjectBasedRulebook is called when exiting the ObjectBasedRulebook production.
+	ExitObjectBasedRulebook(c *ObjectBasedRulebookContext)
+
+	// ExitActivity is called when exiting the Activity production.
+	ExitActivity(c *ActivityContext)
+
+	// ExitCertaintyOfAttribute is called when exiting the CertaintyOfAttribute production.
+	ExitCertaintyOfAttribute(c *CertaintyOfAttributeContext)
+
+	// ExitObjectKind is called when exiting the ObjectKind production.
+	ExitObjectKind(c *ObjectKindContext)
+
+	// ExitValueKind is called when exiting the ValueKind production.
+	ExitValueKind(c *ValueKindContext)
 
 	// ExitCertainty is called when exiting the certainty production.
 	ExitCertainty(c *CertaintyContext)
 
 	// ExitDesignator is called when exiting the designator production.
 	ExitDesignator(c *DesignatorContext)
+
+	// ExitValues is called when exiting the values production.
+	ExitValues(c *ValuesContext)
 }

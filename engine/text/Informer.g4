@@ -4,7 +4,7 @@ grammar Informer;
 // Tokens
 ARTICLE: ('an'|'a');
 GERUND: [\p{L}]'ing';
-WORD: [\p{L}]+;
+WORD: [\p{L}-]+;
 PUNCT: [\\.,:-];
 COMMENT: '[' .*? ']\n' -> skip;
 WHITESPACE: [ \r\t]+ -> skip;
@@ -21,11 +21,12 @@ definition:
    designator 'is' definitionType;
 
 definitionType: 
-   ARTICLE 'rulebook' 
-   | ARTICLE designator 'based' 'rulebook' 
-   | ARTICLE 'activity'
-   | certainty designator 
-   | ARTICLE 'kind' 'of' designator; 
+   ARTICLE 'rulebook'                                    # Rulebook
+   | ARTICLE designator 'based' 'rulebook'               # ObjectBasedRulebook
+   | ARTICLE 'activity'                                  # Activity
+   | certainty designator                                # CertaintyOfAttribute
+   | ARTICLE 'kind' 'of' designator                      # ObjectKind
+   | ARTICLE 'kind' 'of' 'value' 'with' 'values' values  # ValueKind ;
 
 certainty:
    'usually' | 'always' | 'never';
@@ -35,5 +36,9 @@ designator:
    | ARTICLE
    | GERUND
    | 'of'
-   | designator '-' designator
    | designator designator;
+
+values:
+   WORD 
+   | values ',' values
+   | values 'and' values;
