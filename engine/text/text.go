@@ -13,10 +13,6 @@ import (
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 )
 
-type informerListener struct {
-	parser.BaseInformerListener
-}
-
 type Story interface {
 	Start()
 	SetWriter(io.Writer)
@@ -24,7 +20,7 @@ type Story interface {
 }
 
 func CreateStory(filepaths []string, debug bool, tokens bool) Story {
-	l := &informerListener{}
+	visitor := &informerVisitor{}
 	for _, filepath := range filepaths {
 		is, _ := antlr.NewFileStream(filepath)
 		// Create the Lexer
@@ -34,7 +30,8 @@ func CreateStory(filepaths []string, debug bool, tokens bool) Story {
 		p := parser.NewInformerParser(stream)
 
 		// Finally parse the expression
-		antlr.ParseTreeWalkerDefault.Walk(l, p.Start())
+		ast := p.Start()
+		visitor.Visit(ast)
 
 	}
 

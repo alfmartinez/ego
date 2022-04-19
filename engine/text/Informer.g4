@@ -22,9 +22,10 @@ definition:
 
 definitionType: 
    ARTICLE 'rulebook'                                    # Rulebook
+   | ARTICLE designator                                  # Instanciate
    | ARTICLE designator 'based' 'rulebook'               # ObjectBasedRulebook
    | ARTICLE 'activity'                                  # Activity
-   | certainty designator                                # CertaintyOfAttribute
+   | certainty values                                    # CertaintyOfAttribute
    | ARTICLE 'kind' 'of' designator                      # ObjectKind
    | ARTICLE 'kind' 'of' 'value' 'with' 'values' values  # ValueKind ;
 
