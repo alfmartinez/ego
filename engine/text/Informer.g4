@@ -23,4 +23,4 @@ definition:
 
 identifier:
    WORD
-   | WORD identifier;
+   | identifier WORD;

@@ -42,20 +42,22 @@ func informerParserInit() {
 	}
 	staticData.predictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 9, 36, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 1, 0, 4, 0,
+		4, 1, 9, 41, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 1, 0, 4, 0,
 		10, 8, 0, 11, 0, 12, 0, 11, 1, 1, 1, 1, 3, 1, 16, 8, 1, 1, 1, 1, 1, 1,
 		2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 3, 2, 29, 8, 2, 1, 3,
-		1, 3, 1, 3, 3, 3, 34, 8, 3, 1, 3, 0, 0, 4, 0, 2, 4, 6, 0, 0, 36, 0, 9,
-		1, 0, 0, 0, 2, 13, 1, 0, 0, 0, 4, 28, 1, 0, 0, 0, 6, 33, 1, 0, 0, 0, 8,
-		10, 3, 2, 1, 0, 9, 8, 1, 0, 0, 0, 10, 11, 1, 0, 0, 0, 11, 9, 1, 0, 0, 0,
-		11, 12, 1, 0, 0, 0, 12, 1, 1, 0, 0, 0, 13, 15, 3, 4, 2, 0, 14, 16, 5, 1,
-		0, 0, 15, 14, 1, 0, 0, 0, 15, 16, 1, 0, 0, 0, 16, 17, 1, 0, 0, 0, 17, 18,
-		5, 9, 0, 0, 18, 3, 1, 0, 0, 0, 19, 20, 3, 6, 3, 0, 20, 21, 5, 2, 0, 0,
-		21, 29, 1, 0, 0, 0, 22, 23, 3, 6, 3, 0, 23, 24, 5, 3, 0, 0, 24, 29, 1,
-		0, 0, 0, 25, 26, 3, 6, 3, 0, 26, 27, 5, 4, 0, 0, 27, 29, 1, 0, 0, 0, 28,
-		19, 1, 0, 0, 0, 28, 22, 1, 0, 0, 0, 28, 25, 1, 0, 0, 0, 29, 5, 1, 0, 0,
-		0, 30, 34, 5, 5, 0, 0, 31, 32, 5, 5, 0, 0, 32, 34, 3, 6, 3, 0, 33, 30,
-		1, 0, 0, 0, 33, 31, 1, 0, 0, 0, 34, 7, 1, 0, 0, 0, 4, 11, 15, 28, 33,
+		1, 3, 1, 3, 1, 3, 1, 3, 5, 3, 36, 8, 3, 10, 3, 12, 3, 39, 9, 3, 1, 3, 0,
+		1, 6, 4, 0, 2, 4, 6, 0, 0, 41, 0, 9, 1, 0, 0, 0, 2, 13, 1, 0, 0, 0, 4,
+		28, 1, 0, 0, 0, 6, 30, 1, 0, 0, 0, 8, 10, 3, 2, 1, 0, 9, 8, 1, 0, 0, 0,
+		10, 11, 1, 0, 0, 0, 11, 9, 1, 0, 0, 0, 11, 12, 1, 0, 0, 0, 12, 1, 1, 0,
+		0, 0, 13, 15, 3, 4, 2, 0, 14, 16, 5, 1, 0, 0, 15, 14, 1, 0, 0, 0, 15, 16,
+		1, 0, 0, 0, 16, 17, 1, 0, 0, 0, 17, 18, 5, 9, 0, 0, 18, 3, 1, 0, 0, 0,
+		19, 20, 3, 6, 3, 0, 20, 21, 5, 2, 0, 0, 21, 29, 1, 0, 0, 0, 22, 23, 3,
+		6, 3, 0, 23, 24, 5, 3, 0, 0, 24, 29, 1, 0, 0, 0, 25, 26, 3, 6, 3, 0, 26,
+		27, 5, 4, 0, 0, 27, 29, 1, 0, 0, 0, 28, 19, 1, 0, 0, 0, 28, 22, 1, 0, 0,
+		0, 28, 25, 1, 0, 0, 0, 29, 5, 1, 0, 0, 0, 30, 31, 6, 3, -1, 0, 31, 32,
+		5, 5, 0, 0, 32, 37, 1, 0, 0, 0, 33, 34, 10, 1, 0, 0, 34, 36, 5, 5, 0, 0,
+		35, 33, 1, 0, 0, 0, 36, 39, 1, 0, 0, 0, 37, 35, 1, 0, 0, 0, 37, 38, 1,
+		0, 0, 0, 38, 7, 1, 0, 0, 0, 39, 37, 1, 0, 0, 0, 4, 11, 15, 28, 37,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -546,7 +548,7 @@ func (p *InformerParser) Definition() (localctx IDefinitionContext) {
 		p.EnterOuterAlt(localctx, 1)
 		{
 			p.SetState(19)
-			p.Identifier()
+			p.identifier(0)
 		}
 		{
 			p.SetState(20)
@@ -558,7 +560,7 @@ func (p *InformerParser) Definition() (localctx IDefinitionContext) {
 		p.EnterOuterAlt(localctx, 2)
 		{
 			p.SetState(22)
-			p.Identifier()
+			p.identifier(0)
 		}
 		{
 			p.SetState(23)
@@ -570,7 +572,7 @@ func (p *InformerParser) Definition() (localctx IDefinitionContext) {
 		p.EnterOuterAlt(localctx, 3)
 		{
 			p.SetState(25)
-			p.Identifier()
+			p.identifier(0)
 		}
 		{
 			p.SetState(26)
@@ -659,14 +661,23 @@ func (s *IdentifierContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 }
 
 func (p *InformerParser) Identifier() (localctx IIdentifierContext) {
+	return p.identifier(0)
+}
+
+func (p *InformerParser) identifier(_p int) (localctx IIdentifierContext) {
 	this := p
 	_ = this
 
-	localctx = NewIdentifierContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 6, InformerParserRULE_identifier)
+	var _parentctx antlr.ParserRuleContext = p.GetParserRuleContext()
+	_parentState := p.GetState()
+	localctx = NewIdentifierContext(p, p.GetParserRuleContext(), _parentState)
+	var _prevctx IIdentifierContext = localctx
+	var _ antlr.ParserRuleContext = _prevctx // TODO: To prevent unused variable warning.
+	_startState := 6
+	p.EnterRecursionRule(localctx, 6, InformerParserRULE_identifier, _p)
 
 	defer func() {
-		p.ExitRule()
+		p.UnrollRecursionContexts(_parentctx)
 	}()
 
 	defer func() {
@@ -681,28 +692,69 @@ func (p *InformerParser) Identifier() (localctx IIdentifierContext) {
 		}
 	}()
 
-	p.SetState(33)
+	var _alt int
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(31)
+		p.Match(InformerParserWORD)
+	}
+
+	p.GetParserRuleContext().SetStop(p.GetTokenStream().LT(-1))
+	p.SetState(37)
 	p.GetErrorHandler().Sync(p)
-	switch p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 3, p.GetParserRuleContext()) {
-	case 1:
-		p.EnterOuterAlt(localctx, 1)
-		{
-			p.SetState(30)
-			p.Match(InformerParserWORD)
-		}
+	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 3, p.GetParserRuleContext())
 
-	case 2:
-		p.EnterOuterAlt(localctx, 2)
-		{
-			p.SetState(31)
-			p.Match(InformerParserWORD)
-		}
-		{
-			p.SetState(32)
-			p.Identifier()
-		}
+	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
+		if _alt == 1 {
+			if p.GetParseListeners() != nil {
+				p.TriggerExitRuleEvent()
+			}
+			_prevctx = localctx
+			localctx = NewIdentifierContext(p, _parentctx, _parentState)
+			p.PushNewRecursionContext(localctx, _startState, InformerParserRULE_identifier)
+			p.SetState(33)
 
+			if !(p.Precpred(p.GetParserRuleContext(), 1)) {
+				panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 1)", ""))
+			}
+			{
+				p.SetState(34)
+				p.Match(InformerParserWORD)
+			}
+
+		}
+		p.SetState(39)
+		p.GetErrorHandler().Sync(p)
+		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 3, p.GetParserRuleContext())
 	}
 
 	return localctx
+}
+
+func (p *InformerParser) Sempred(localctx antlr.RuleContext, ruleIndex, predIndex int) bool {
+	switch ruleIndex {
+	case 3:
+		var t *IdentifierContext = nil
+		if localctx != nil {
+			t = localctx.(*IdentifierContext)
+		}
+		return p.Identifier_Sempred(t, predIndex)
+
+	default:
+		panic("No predicate with index: " + fmt.Sprint(ruleIndex))
+	}
+}
+
+func (p *InformerParser) Identifier_Sempred(localctx antlr.RuleContext, predIndex int) bool {
+	this := p
+	_ = this
+
+	switch predIndex {
+	case 0:
+		return p.Precpred(p.GetParserRuleContext(), 1)
+
+	default:
+		panic("No predicate with index: " + fmt.Sprint(predIndex))
+	}
 }
