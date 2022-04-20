@@ -13,36 +13,12 @@ type InformerVisitor interface {
 	// Visit a parse tree produced by InformerParser#statement.
 	VisitStatement(ctx *StatementContext) interface{}
 
-	// Visit a parse tree produced by InformerParser#definition.
-	VisitDefinition(ctx *DefinitionContext) interface{}
-
 	// Visit a parse tree produced by InformerParser#Rulebook.
 	VisitRulebook(ctx *RulebookContext) interface{}
-
-	// Visit a parse tree produced by InformerParser#Instanciate.
-	VisitInstanciate(ctx *InstanciateContext) interface{}
-
-	// Visit a parse tree produced by InformerParser#ObjectBasedRulebook.
-	VisitObjectBasedRulebook(ctx *ObjectBasedRulebookContext) interface{}
 
 	// Visit a parse tree produced by InformerParser#Activity.
 	VisitActivity(ctx *ActivityContext) interface{}
 
-	// Visit a parse tree produced by InformerParser#CertaintyOfAttribute.
-	VisitCertaintyOfAttribute(ctx *CertaintyOfAttributeContext) interface{}
-
-	// Visit a parse tree produced by InformerParser#ObjectKind.
-	VisitObjectKind(ctx *ObjectKindContext) interface{}
-
-	// Visit a parse tree produced by InformerParser#ValueKind.
-	VisitValueKind(ctx *ValueKindContext) interface{}
-
-	// Visit a parse tree produced by InformerParser#certainty.
-	VisitCertainty(ctx *CertaintyContext) interface{}
-
-	// Visit a parse tree produced by InformerParser#designator.
-	VisitDesignator(ctx *DesignatorContext) interface{}
-
-	// Visit a parse tree produced by InformerParser#values.
-	VisitValues(ctx *ValuesContext) interface{}
+	// Visit a parse tree produced by InformerParser#identifier.
+	VisitIdentifier(ctx *IdentifierContext) interface{}
 }

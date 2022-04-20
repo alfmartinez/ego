@@ -2,44 +2,25 @@
 grammar Informer;
 
 // Tokens
-ARTICLE: ('an'|'a');
-GERUND: [\p{L}]'ing';
 WORD: [\p{L}-]+;
-PUNCT: [\\.,:-];
+PUNCT: [\\.];
 COMMENT: '[' .*? ']\n' -> skip;
 WHITESPACE: [ \r\t]+ -> skip;
 EOL: [\n]+;
 
 
+
 // Rules
-start : (statement '.'? EOL)+ EOF;
+start : statement+;
 
 statement: 
-   definition;
+   definition '.'? EOL;
 
 definition: 
-   designator 'is' definitionType;
+   identifier 'is a rulebook' # Rulebook
+   | identifier 'is an object based rulebook' # Rulebook
+   | identifier 'is an activity' # Activity;
 
-definitionType: 
-   ARTICLE 'rulebook'                                    # Rulebook
-   | ARTICLE designator                                  # Instanciate
-   | ARTICLE designator 'based' 'rulebook'               # ObjectBasedRulebook
-   | ARTICLE 'activity'                                  # Activity
-   | certainty values                                    # CertaintyOfAttribute
-   | ARTICLE 'kind' 'of' designator                      # ObjectKind
-   | ARTICLE 'kind' 'of' 'value' 'with' 'values' values  # ValueKind ;
-
-certainty:
-   'usually' | 'always' | 'never';
-
-designator:
+identifier:
    WORD
-   | ARTICLE
-   | GERUND
-   | 'of'
-   | designator designator;
-
-values:
-   WORD 
-   | values ',' values
-   | values 'and' values;
+   | WORD identifier;
