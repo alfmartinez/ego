@@ -1,6 +1,0 @@
-physics:
-  modules:
-    - gravity
-    - collider
-    - simulate
-  

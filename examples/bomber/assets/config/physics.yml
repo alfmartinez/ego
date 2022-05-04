@@ -1,5 +1,0 @@
-physics:
-  modules:
-    - collider
-    - simulate
-  

@@ -1,6 +1,0 @@
-{{ template "header" . }}
-{{ translate "you_are" }} {{ translate "inside_office_building" }}.
-{{ translate "door_behind" }}, {{ translate "leading_outside" }}.
-{{ translate "you_see" }} {{with .Default.Items}}{{range $i, $e := .}}{{if $i}}, {{end}}{{ translate $e }}{{end}}{{else}}{{translate "nothing"}}{{end}}.
-{{ translate "door_seems" }} {{if .Default.DoorOpen}}{{translate "door_open"}}{{else if .Default.DoorUnlocked}}{{translate "door_unlocked"}}{{else}}{{translate "door_locked"}}{{end}}.
-{{ template "footer" . }}
