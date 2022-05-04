@@ -9,7 +9,8 @@ import (
 
 type informerVisitor struct {
 	parser.BaseInformerVisitor
-	rulebooks []string
+	rulebooks  []string
+	activities []string
 }
 
 func (v *informerVisitor) Visit(tree antlr.ParseTree) interface{} {
@@ -44,6 +45,13 @@ func (v *informerVisitor) VisitTerminal(node antlr.TerminalNode) interface{} {
 }
 func (v *informerVisitor) VisitErrorNode(node antlr.ErrorNode) interface{} {
 	panic("implement visit error node")
+}
+
+func (v *informerVisitor) VisitActivity(ctx *parser.ActivityContext) interface{} {
+	key := strings.Join(v.Visit(ctx.Identifier()).([]string), " ")
+	v.activities = append(v.rulebooks, key)
+	fmt.Printf("Activity %s created \n", key)
+	return nil
 }
 
 func (v *informerVisitor) VisitRulebook(ctx *parser.RulebookContext) interface{} {
