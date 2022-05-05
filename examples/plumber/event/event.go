@@ -4,6 +4,7 @@ type Event interface {
 	Type() EventType
 }
 
+//go:generate go run golang.org/x/tools/cmd/stringer -type=EventType
 type EventType int
 
 const (
