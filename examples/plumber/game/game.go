@@ -1,22 +1,32 @@
 package game
 
-import "log"
+import (
+	"log"
+	"time"
+
+	baseScene "github.com/alfmartinez/ego/engine/scene"
+
+	"github.com/alfmartinez/ego/examples/plumber/setup"
+)
 
 type Game interface {
 	Start()
 }
 
 func New() Game {
-	return &game{}
+	return &game{scene: setup.DefaultScene()}
 }
 
-type game struct{}
+type game struct {
+	scene baseScene.Scene
+}
 
 // Start implements Game
 func (g *game) Start() {
 	stop := make(chan bool)
 
 	go func() {
+		time.Sleep(time.Second)
 		stop <- true
 	}()
 
