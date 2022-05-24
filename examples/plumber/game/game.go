@@ -32,6 +32,8 @@ func (g *game) Start() {
 
 	log.Println("Game starting")
 
+	g.scene.Start()
+
 loop:
 	for {
 		select {

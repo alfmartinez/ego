@@ -8,3 +8,9 @@ type Scene struct {
 	Label   string
 	Objects []object.GameObject
 }
+
+func (s Scene) Start() {
+	for _, o := range s.Objects {
+		o.Start()
+	}
+}

@@ -1,0 +1,15 @@
+// DO NOT EDIT
+package object
+
+import (
+	"github.com/alfmartinez/ego/engine/component"
+)
+
+{{range .Types -}}
+type {{ .TypeName }} struct {
+{{range .Components -}}
+    component.{{ . }}
+{{end -}}
+}
+
+{{end -}}
